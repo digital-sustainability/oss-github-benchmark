@@ -1,0 +1,90 @@
+
+{"GitHubRepos":
+	{
+		"IT": [
+			{"name": "4teamwork AG","orgs": ["4teamwork"]},
+			{"name": "56K Cloud","orgs": ["56kcloud"]},
+			{"name": "Adfinis SyGroup","orgs": ["adfinis-sygroup","adfinis-forks"]},
+			{"name": "AdNovum Informatik AG","orgs": ["adnovum"]},
+			{"name": "Abraxas","orgs": ["abraxas-labs"]},
+			{"name": "amazee.io","orgs": ["amazeeio"]},
+			{"name": "Bedag","orgs": ["bedag"]},
+			{"name": "BSI Business Systems Integration AG","orgs": ["BSI-Business-Systems-Integration-AG"]},
+			{"name": "Camptocamp","orgs": ["camptocamp"]},
+			{"name": "cloudscale.ch AG","orgs": ["cloudscale-ch"]},
+			{"name": "cyon GmbH","orgs": ["cyon"]},
+			{"name": "DV Bern","orgs": ["dvbern"]},
+			{"name": "ELCA","orgs": ["ElcaIT"]},
+			{"name": "Exoscale","orgs": ["exoscale"]},
+			{"name": "iSolutions","orgs": ["isolutionsag"]},
+			{"name": "ITIGO AG","orgs": ["itigoag"]},
+			{"name": "Garaio","orgs": ["garaio"]},
+			{"name": "gyselroth","orgs": ["gyselroth"]},
+			{"name": "Liip","orgs": ["liip","liip-forks"]},
+			{"name": "mimacom","orgs": ["mimacom"]},
+			{"name": "Netcetera","orgs": ["netceteragroup"]},
+			{"name": "OPENGIS.ch GmbH","orgs": ["opengisch"]},
+			{"name": "Openstream Internet Solutions","orgs": ["openstream"]},
+			{"name": "Puzzle ITC","orgs": ["puzzle"]},
+			{"name": "Snowflake","orgs": ["snowflakedb"]},
+			{"name": "Sourcepole","orgs": ["sourcepole"]},
+			{"name": "Tegonal","orgs": ["tegonal"]},
+			{"name": "unprofession","orgs": ["unprofession-al"]},
+			{"name": "VSHN AG","orgs": ["vshn"]},
+			{"name": "XWare GmbH","orgs": ["xware-gmbh"]},
+			{"name": "Zühlke","orgs": ["Zuehlke"]}
+		],
+		"Communities, Projekte und Einzelfirmen": [
+			{"name": "APPUiO","orgs": ["axa-ch"]},
+			{"name": "arillso","orgs": ["arillso"]},
+			{"name": "dat.alets.ch","orgs": ["Dataletsch"]},
+			{"name": "Hitobito","orgs": ["hitobito"]},
+			{"name": "OpenOlitor","orgs": ["openolitor"]}
+		],
+		"Versicherungen": [
+			{"name": "AXA Winterthur","orgs": ["axa-ch"]},
+			{"name": "Baloise","orgs": ["baloise"]},
+			{"name": "CSS","orgs": ["css-ch"]},
+			{"name": "Helsana","orgs": ["helsana"]},
+			{"name": "Mobiliar","orgs": ["diemobiliar","mobiliar"]},
+			{"name": "Zürich Versicherung","orgs": ["ZurichInsuranceGroup","zurichversicherung"]},
+			{"name": "Vaudoise","orgs": ["VaudoiseAssurances"]}
+		],
+		"Banken": [
+			{"name": "Postfinance","orgs": ["postfinance"]}
+		],
+		"Diverse": [
+			{"name": "Radio Bern RaBe","orgs": ["radiorabe"]},
+			{"name": "Scout24 Schweiz AG","orgs": ["Scout24-CH"]},
+			{"name": "SWISS TXT AG","orgs": ["swisstxt"]}
+		],
+		"Öffentliche Unternehmen und Anstalten": [
+			{"name": "Post","orgs": ["swisspost-yellowcube"]},
+			{"name": "SBB","orgs": ["SchweizerischeBundesbahnen"]},
+			{"name": "SRG","orgs": ["srfdata","srgssr"]},
+			{"name": "Swisscom","orgs": ["swisscom"]}
+		],
+		"Verwaltung Bund": [
+			{"name": "Arbeitslosenversicherung","orgs": ["alv-ch","alv-ch-ansible-roles"]},
+			{"name": "Bundesamt für Statistik","orgs": ["BFS-SHS-MSAS","ogdch"]},
+			{"name": "Bundeskanzlei","orgs": ["swiss"]},
+			{"name": "swisstopo","orgs": ["geoadmin"]}
+		],
+		"Verwaltung Kantone": [
+			{"name": "Kanton Basel-Stadt","orgs": ["statabs","opendatabs"]},
+			{"name": "Kanton Bern","orgs": ["kanton-bern"]},
+			{"name": "Kanton Neuenburg","orgs": ["sitn"]},
+			{"name": "Kanton Solothurn","orgs": ["sogis"]},
+			{"name": "Kanton Waadt","orgs": ["dsi-vd"]},
+			{"name": "Kanton Zürich","orgs": ["FNSKtZH","StatistikZH","openZH","gisktzh"]}
+		],
+		"Verwaltung Städte": [
+			{"name": "Zürich","orgs": ["StatistikStadtZuerich","opendatazurich"]},
+			{"name": "Bern","orgs": ["StadtBern"]}
+		],
+		"Hochschulen": [
+			{"name": "Berner Fachhochschule","orgs": ["bfh","iam-ictm","bfh-science"]},
+			{"name": "Universität Bern","orgs": ["digital-sustainability","scg-unibe-ch","IAM-CGG","unibe-iap-mw","CMPG","reymond-group","ConsBiol-unibern","kogpsy","ubern-mia","zmk-unibe-ch","unibe-cns","UB-Bern","ub-unibe-ch","hpc-unibe-ch","id-unibe-ch","unibe-ch"]}
+		]
+	}
+}
