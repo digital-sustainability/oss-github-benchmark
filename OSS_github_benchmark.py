@@ -42,7 +42,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
         institution_data["total_num_stars"] = 0
         institution_data["total_num_watchers"] = 0
         institution_data["total_commits_last_year"] = 0
-        institution_data["repo_data"] = []
+        institution_data["repo_names"] = []
 
         # Von einer Institution alle GitHub-Organisationen rausholen
         error_counter = 0
