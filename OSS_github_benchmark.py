@@ -5,7 +5,9 @@ import csv
 from github import Github
 
 # GitHub Login mittels Token
-g = Github("e7b126aedccdd7fe0e01dd4c32a1d6146d46f3e4")
+with open('keys.json', encoding='utf-8') as file:
+    keys = json.load(file)
+g = Github(keys["token"])
 
 # JSON Daten laden, Variablen setzen
 with open('github_repos.json', encoding='utf-8') as file:
@@ -27,6 +29,7 @@ for sector, institutions in githubrepos["GitHubRepos"].items():
         institution_data = {
             "name": institution["name"]
         }
+        print(institution_data["name"])
         # Alle Werte einer Institution auf Null setzen
         institution_data["orgs"] = []
         institution_data["num_orgs"] = 0
@@ -56,6 +59,7 @@ for sector, institutions in githubrepos["GitHubRepos"].items():
             for repo in g.get_organization(org).get_repos():               
                 if repo.archived:
                     continue
+                print("Crawling repo: " + repo.name)
                 commit_activities = repo.get_stats_commit_activity()
                 last_years_commits = 0
                 # Alle Commits der letzten 12 Monate zusammenzählen
@@ -87,8 +91,8 @@ for sector, institutions in githubrepos["GitHubRepos"].items():
                 institution_data["sector"] = sector
                 institution_data["repos"].append(repo_data)
                 repo_counter += 1                
-                # if repo_counter > 3:
-                #    break
+                if repo_counter > 30:
+                    break
         print("Anzahl GitHub Repos von " + institution["name"] + ": " + str(institution_data["num_repos"]))
         institutions_data.append(institution_data)
 
