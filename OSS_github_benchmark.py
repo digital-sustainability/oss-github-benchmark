@@ -2,12 +2,11 @@
 
 import json
 import csv
+import os
 from github import Github
 
 # GitHub Login mittels Token
-with open('keys.json', encoding='utf-8') as file:
-    keys = json.load(file)
-g = Github(keys["token"])
+g = Github(os.environ['GITHUBTOKEN'])
 
 # JSON Daten laden, Variablen setzen
 with open('github_repos.json', encoding='utf-8') as file:
