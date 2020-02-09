@@ -22,8 +22,8 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
     for institution in sector["institutions"]:
         counter += 1
         print(counter)
-        #if counter > 1:
-        #    break
+        if counter > 1:
+            break
         institution_data = {
             "name": institution["name"]
         }
@@ -95,8 +95,8 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                     institution_data["sector"] = sector_key
                     institution_data["repos"].append(repo_data)
                     repo_counter += 1
-                    # if repo_counter > 3:
-                    #   break
+                    if repo_counter > 30:
+                        break
                 except RuntimeError as error:
                     print("Fehler beim Laden der Daten von '" + repo.name + "' :" + error)
                     error_counter += 1
