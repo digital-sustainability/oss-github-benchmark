@@ -71,7 +71,7 @@ for sector, institutions in githubrepos["GitHubRepos"].items():
                     "name": repo.name,
                     "fork": repo.fork,
                     "num_forks": repo.forks_count,
-                    "num_contributors": repo.get_contributors().totalCount,
+                    "num_contributors": 0,#repo.get_contributors().totalCount,
                     "num_commits": repo.size,                # Diese Variable stimmt nicht: es wird teilweise die Anzahl Commits, teilweise auch was ganz anderes zurückgegeben
                     "num_stars": repo.stargazers_count,
                     "num_watchers": repo.watchers_count,     # Diese Variable stimmt nicht: es werden Anzahl Stars zurückgegeben
@@ -91,7 +91,7 @@ for sector, institutions in githubrepos["GitHubRepos"].items():
                 institution_data["sector"] = sector
                 institution_data["repos"].append(repo_data)
                 repo_counter += 1                
-                if repo_counter > 30:
+                if repo_counter > 3:
                     break
         print("Anzahl GitHub Repos von " + institution["name"] + ": " + str(institution_data["num_repos"]))
         institutions_data.append(institution_data)
