@@ -19,6 +19,6 @@ jobs:
         pip install -r requirements.txt
     - name: populate keys.json
       run: echo "{\"token\":\"${GITHUBTOKEN}\"}" > keys.json
-    - name: echo
+    - name: run
       run: |
-        echo "it worked"
+        python3 OSS_github_benchmark.py
