@@ -23,7 +23,9 @@ jobs:
       run: |
         python3 OSS_github_benchmark.py
     - name: build
-      run: mkdir public; cp index.html public/index.html
+      run: |
+        mkdir public
+        cp index.html public/index.html
     - name: deploy
       uses: maxheld83/ghpages@v0.2.1
       env:
