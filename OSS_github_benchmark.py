@@ -23,7 +23,8 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
     for institution in sector["institutions"]:
         counter += 1
         print(counter)
-        #if counter > 1:
+        # Anzahl Institutionen eingrenzen
+        # if counter > 5:
         #    break
         institution_data = {
             "name": institution["name"]
@@ -43,7 +44,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
         institution_data["total_num_stars"] = 0
         institution_data["total_num_watchers"] = 0
         institution_data["total_commits_last_year"] = 0
-        institution_data["repo_data"] = []
+        institution_data["repo_names"] = []
 
         # Von einer Institution alle GitHub-Organisationen rausholen
         error_counter = 0
@@ -68,6 +69,9 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                     if commit_activities != None:
                         for week in commit_activities:
                             last_years_commits += week.total
+                    contributors = repo.get_stats_contributors()
+                    if contributors != None:
+                        num_contributors = len(contributors)
                     # Zahlreiche Attribute eines Repos herausholen: Name, Fork (eines anderen Repos), wie oft geforkt, Contributors, Commits, Stars, Watchers und Commits der letzten 12 Monate
                     # Reference PyGitHub: https://pygithub.readthedocs.io/en/latest/github_objects/Repository.html
                     # GitHub Statistics: https://developer.github.com/v3/repos/statistics/#get-contributors-list-with-additions-deletions-and-commit-counts
@@ -75,7 +79,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                         "name": repo.name,
                         "fork": repo.fork,
                         "num_forks": repo.forks_count,
-                        "num_contributors": repo.get_stats_contributors().count(),
+                        "num_contributors": num_contributors,
                         "num_commits": repo.size,                # Diese Variable stimmt nicht: es wird teilweise die Anzahl Commits, teilweise auch was ganz anderes zurückgegeben
                         "num_stars": repo.stargazers_count,
                         "num_watchers": repo.watchers_count,     # Diese Variable stimmt nicht: es werden Anzahl Stars zurückgegeben
@@ -95,9 +99,10 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                         institution_data["total_num_forks_in_repos"] += 1
                     institution_data["sector"] = sector_key
                     institution_data["repos"].append(repo_data)
-                    repo_counter += 1                
-                    # if repo_counter > 30:
-                    #   break
+                    repo_counter += 1
+                    # Anzahl Repos pro Institution eingrenzen             
+                    if repo_counter > 10:
+                        break
                 except RuntimeError as error:
                     print("Fehler beim Laden der Daten von '" + repo.name + "' :" + error)
                     error_counter += 1
