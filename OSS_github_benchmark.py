@@ -2,12 +2,11 @@
 
 import json
 import csv
+import os
 from github import Github
 
 # GitHub Login mittels Token
-with open('keys.json', encoding='utf-8') as file:
-    keys = json.load(file)
-g = Github(keys["token"])
+g = Github(os.environ['GITHUBTOKEN'])
 
 # JSON Daten laden, Variablen setzen
 with open('github_repos.json', encoding='utf-8') as file:
@@ -23,9 +22,14 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
     for institution in sector["institutions"]:
         counter += 1
         print(counter)
+<<<<<<< HEAD
         # Anzahl Institutionen eingrenzen
         # if counter > 5:
         #    break
+=======
+        if counter > 1:
+            break
+>>>>>>> 66866d3d5e82662605735b4adf315fd9312156e3
         institution_data = {
             "name": institution["name"]
         }
@@ -61,7 +65,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
             for repo in g.get_organization(org).get_repos():               
                 if repo.archived:
                     continue
-                try: 
+                try:
                     print("Crawling repo: " + repo.name)
                     commit_activities = repo.get_stats_commit_activity()
                     last_years_commits = 0
@@ -100,8 +104,12 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                     institution_data["sector"] = sector_key
                     institution_data["repos"].append(repo_data)
                     repo_counter += 1
+<<<<<<< HEAD
                     # Anzahl Repos pro Institution eingrenzen             
                     if repo_counter > 10:
+=======
+                    if repo_counter > 30:
+>>>>>>> 66866d3d5e82662605735b4adf315fd9312156e3
                         break
                 except RuntimeError as error:
                     print("Fehler beim Laden der Daten von '" + repo.name + "' :" + error)
