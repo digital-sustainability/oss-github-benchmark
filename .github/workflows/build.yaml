@@ -27,7 +27,8 @@ jobs:
     - name: build
       run: |
         mkdir public
-        cp index.html public/index.html
+        cp index.html public/
+        cp oss-github-benchmark.* public/
     - name: deploy
       uses: maxheld83/ghpages@v0.2.1
       env:
