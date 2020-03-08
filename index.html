@@ -1,60 +1,206 @@
-<!DOCTYPE html>
 <html>
-
-<head>
-    <title>OSS GitHub Benchmark</title>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://raw.githack.com/jamesleesaunders/d3-ez/master/dist/d3-ez.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://rawgit.com/jamesleesaunders/d3.ez/master/dist/d3-ez.css" />
+  <head>
+    <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+    <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"
+    ></script>
     <style>
-        body, p {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 10px;
-        }
+      div.tooltip {
+        position: absolute;
+        text-align: center;
+        padding: 5px;
+        background: lightskyblue;
+        border-radius: 2px;
+        font: 10px sans-serif;
+      }
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: grey;
+        stroke-width: 1;
+        shape-rendering: crispEdges;
+      }
+      svg circle {
+        stroke: white;
+        opacity: 0.8;
+        stroke-opacity: 0.5;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <div id="chartholder"></div>
-    <br />
-    <div>Anzahl Repositories: <span id="message"></span></div>
+  <body>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+      var padding = 70;
 
-    <script type="text/javascript">
-        d3.csv("oss-github-benchmark.csv").then(function (csv) {
-            var colors = [d3.rgb(31, 119, 180), d3.rgb(255, 127, 14), d3.rgb(44, 160, 44), d3.rgb(214, 39, 40), d3.rgb(148, 103, 189)];
-            var chart = d3.ez.chart.bubbleChart().colors(colors).yAxisLabel("total_num_own_repo_forks");
-            var legend = d3.ez.component.legend().title("Sektor");
-            var title = d3.ez.component.title().mainText("OSS GitHub Benchmark").subText("9. Februar 2020");
+      var institutions = [];
+      d3.csv("oss-github-benchmark.csv", data => {
+        institutions.push(data);
+      }).then(() => {
+        // var data = [10, 20, 30];
+        console.log(institutions);
+        institutions.sort(
+          (a, b) => parseInt(b.num_members) - parseInt(a.num_members)
+        );
+        var colors = ["green", "purple", "yellow"];
 
-            // Convert csv to d3-ez data format
-            // Rename keys
-            var tmp = csv.map(function (d) {
-                return { "key": d.name, "value": d.num_repos, "x": d.num_members, "y": d.total_num_own_repo_forks, "series": d.sector };
-            });
-            // Nest Data
-            var data = d3.nest().key(function (d) {
-                return d.series;
-            }).entries(tmp);
+        var num_repos = institution => parseInt(institution.num_repos);
+        var members = institution => parseInt(institution.num_members);
+        var contributors = i => parseInt(i.total_num_contributors);
+        var sector = i => i.sector;
 
-            // Create chart base
-            var myChart = d3.ez.base()
-                .width(750)
-                .height(400)
-                .chart(chart)
-                .legend(legend)
-                .title(title)
-                .on("customValueMouseOver", function (d) {
-                    d3.select("#message").text(d.value);
-                })
-                .on("customSeriesClick", function (d) {
-                    console.log(d);
-                });
+        var yscale = d3
+          .scaleLinear()
+          .domain([
+            d3.min(institutions.map(num_repos)),
+            d3.max(institutions.map(num_repos))
+          ])
+          .range([height - padding, padding]);
 
-            d3.select('#chartholder')
-                .datum(data)
-                .call(myChart);
-        });
+        var yAxis = d3
+          .axisLeft()
+          .scale(yscale)
+          .ticks(5);
+
+        var xscale = d3
+          .scaleLinear()
+          .domain([
+            d3.min(institutions.map(contributors)),
+            d3.max(institutions.map(contributors))
+          ])
+          .range([padding, width - padding]);
+
+        var xAxis = d3
+          .axisBottom()
+          .scale(xscale)
+          .ticks(5);
+        // var xscale = d3.scaleBand(institutions.map(i => i.name), [20, 270]);
+
+        var colorScale = d3.scaleOrdinal(
+          _.uniq(institutions.map(sector)),
+          d3.schemePaired
+        );
+
+        var sizeScale = d3
+          .scaleLinear()
+          .domain([
+            d3.min(institutions.map(members)),
+            d3.max(institutions.map(members))
+          ])
+          .range([4, 30]);
+
+        var svg = d3
+          .select("body")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height);
+
+        var text = d3
+          .select("body")
+          .append("div")
+          .attr("class", "tooltip")
+          .style("opacity", "0");
+
+        var g = svg
+          .selectAll("g")
+          .data(institutions)
+          .enter()
+          .append("g")
+          .attr("transform", function(d, i) {
+            return "translate(0,0)";
+          });
+
+        g.append("circle")
+
+          .attr("cx", function(inst, i) {
+            return xscale(contributors(inst));
+          })
+
+          .attr("cy", function(inst, i) {
+            return yscale(parseInt(inst.num_repos));
+          })
+
+          .attr("r", function(inst) {
+            return sizeScale(members(inst));
+          })
+
+          .attr("svg:title", inst => inst.name)
+
+          .attr("fill", function(inst, i) {
+            return colorScale(inst.sector);
+          })
+          .on("click", inst => {
+            window.open("https://github.com/" + orgs[0], "_blank");
+          })
+          .on("mouseover", inst => {
+            var img = eval(inst.avatar)[0];
+            text
+              .html(
+                `<img src="${img}" height=25 ><br>
+                ${inst.name}<br>
+                  Repos: ${inst.num_repos}<br>
+                  Contributors: ${inst.total_num_contributors}<br>
+                  Members: ${inst.num_members}`
+              )
+              .style("display", "block")
+
+              .style(
+                "top",
+                yscale(parseInt(inst.num_repos)) - sizeScale(members(inst))
+              )
+              //   .transition()
+              //   .duration(200)
+              .style("opacity", 0.8);
+            if (xscale(contributors(inst)) > width / 2) {
+              text
+                .style(
+                  "right",
+                  width -
+                    (xscale(contributors(inst)) + sizeScale(members(inst)))
+                )
+                .style("left", undefined);
+            } else {
+              text
+                .style(
+                  "left",
+                  xscale(contributors(inst)) + sizeScale(members(inst))
+                )
+                .style("right", undefined);
+            }
+          })
+          .on("mouseout", inst => {
+            text.style("opacity", 0).style("display", "none");
+          });
+
+        svg
+          .append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + (height - padding) + ")")
+          .call(xAxis);
+
+        svg
+          .append("g")
+          .attr("class", "y axis")
+          .attr("transform", "translate(" + padding + ",0)")
+          .call(yAxis);
+        // g.append("text")
+        //   .attr("x", function(inst, i) {
+        //     return xscale(contributors(inst));
+        //   })
+
+        //   .attr("y", function(inst, i) {
+        //     return yscale(parseInt(inst.num_repos));
+        //   })
+
+        //   .attr("stroke", "teal")
+        //   .attr("hidden", true)
+        //   .attr("font-size", "10px")
+        //   .attr("font-family", "sans-serif")
+        //   .text(inst => inst.name);
+      });
     </script>
-</body>
-
+  </body>
 </html>
