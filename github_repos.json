@@ -18,6 +18,7 @@
 				{"name": "ELCA","orgs": ["ElcaIT"]},
 				{"name": "Exoscale","orgs": ["exoscale"]},
 				{"name": "iSolutions","orgs": ["isolutionsag"]},
+				{"name": "Interactive Things","orgs": ["interactivethings"]},
 				{"name": "ITIGO AG","orgs": ["itigoag"]},
 				{"name": "Garaio","orgs": ["garaio"]},
 				{"name": "gyselroth","orgs": ["gyselroth"]},
@@ -87,6 +88,7 @@
 				{"name": "Arbeitslosenversicherung","orgs": ["alv-ch","alv-ch-ansible-roles"]},
 				{"name": "Bundesamt für Statistik","orgs": ["BFS-SHS-MSAS","ogdch"]},
 				{"name": "Bundeskanzlei","orgs": ["swiss"]},
+				{"name": "MeteoSwiss","orgs": ["MeteoSwiss-APN"]},
 				{"name": "swisstopo","orgs": ["geoadmin"]}
 			]
 		},
