@@ -45,6 +45,7 @@
 				{"name": "dat.alets.ch","orgs": ["Dataletsch"]},
 				{"name": "Hitobito","orgs": ["hitobito"]},
 				{"name": "OpenOlitor","orgs": ["openolitor"]}
+				{"name": "School of Data in Switzerland","orgs": ["schoolofdata-ch"]}
 			]
 		},
 		"Insurances": {
@@ -65,6 +66,13 @@
 				{"name": "Postfinance","orgs": ["postfinance"]}
 			]
 		},
+		"Media": {
+			"name": "Medien",
+			"institutions": [
+				{"name": "SRG","orgs": ["srfdata","srgssr"]},
+				{"name": "NZZ","orgs": ["nzzdev"]}
+			]
+		},
 		"Others": {
 			"name": "Andere Unternehmenen",
 			"institutions": [
@@ -78,7 +86,6 @@
 			"institutions": [
 				{"name": "Post","orgs": ["swisspost-yellowcube"]},
 				{"name": "SBB","orgs": ["SchweizerischeBundesbahnen"]},
-				{"name": "SRG","orgs": ["srfdata","srgssr"]},
 				{"name": "Swisscom","orgs": ["swisscom"]}
 			]
 		},
