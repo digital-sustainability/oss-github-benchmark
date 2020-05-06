@@ -7,6 +7,6 @@ help:           ##- Show this help.
 
 run:
 	docker build -t oss-github .
-	docker --name oss-github-runner run --rm oss-github
+	docker run --rm --name oss-github-runner oss-github
 	docker rm oss-github-runner
 	docker rmi oss-github

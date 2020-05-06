@@ -1,0 +1,42 @@
+{
+    "name": "oss-github-benchmark",
+    "version": "1.0.0",
+    "description": "``` docker build -t oss-github . docker --name oss-github-runner run --rm oss-github docker rm oss-github-runner docker rmi oss-github ```",
+    "main": "index.js",
+    "scripts": {
+        "start": "webpack-dev-server",
+        "build": "webpack --config webpack.prod.ts",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "devDependencies": {
+        "@types/node": "^13.13.5",
+        "@types/webpack": "^4.41.12",
+        "@types/webpack-dev-server": "^3.10.1",
+        "copy-webpack-plugin": "^5.1.1",
+        "css-loader": "^3.5.3",
+        "file-loader": "^6.0.0",
+        "html-loader": "^1.1.0",
+        "html-webpack-plugin": "^4.3.0",
+        "style-loader": "^1.2.1",
+        "ts-loader": "^7.0.2",
+        "ts-node": "^8.10.1",
+        "typescript": "^3.8.3",
+        "webpack": "^4.43.0",
+        "webpack-cli": "^3.3.11",
+        "webpack-dev-server": "^3.10.3"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/CodeOneTwo/oss-github-benchmark.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/CodeOneTwo/oss-github-benchmark/issues"
+    },
+    "homepage": "https://github.com/CodeOneTwo/oss-github-benchmark#readme",
+    "dependencies": {
+        "d3": "^5.16.0"
+    }
+}
