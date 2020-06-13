@@ -1,0 +1,58 @@
+
+$color1: #FFA69E;
+$color2: #FAF3DD;
+$color3: #b8f2e6;
+$color4: #aed9e0;
+$color5: #5e6472;
+
+$background: #efefef;
+$background-light: #e1ffff;
+$main: $color4;
+$secondary: $color2;
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #fff;
+}
+
+$navigation-height: 4rem;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: $navigation-height;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.main-nav {
+    height: $navigation-height;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: $background;
+}
+
+nav {
+    height: 100%;
+    display: flex;
+}
+nav>img {
+    max-height: 100%;
+    width: auto;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0.3rem;
+}
+
+main {
+    overflow-y: auto;
+}
+
+aside {
+}
