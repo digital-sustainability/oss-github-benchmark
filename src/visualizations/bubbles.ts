@@ -73,8 +73,21 @@ export class Bubble {
         .attr("class", "y axis")
         .attr("transform", "translate(" + padding + ",0)")
 
-        this.xLabel = this.svg.append("text");
-        this.yLabel = this.svg.append("text");
+        this.xLabel = this.svg
+        .append("text")
+        .attr("transform",
+              "translate(" + (width/2) + " ," + 
+                  (height - 1/4 * padding ) + ")")
+              .style("text-anchor", "middle")
+              .text(state.dimension1);
+
+        this.yLabel = this.svg
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", padding/4)
+        .attr("x",0 - (height / 2))
+        .style("text-anchor", "middle")
+        .text(state.dimension2);
 
         this.update(state);
     }
@@ -195,6 +208,8 @@ export class Bubble {
         this.xAxisGroup.call(this.xAxis);
 
         this.yAxisGroup.call(this.yAxis);
+        this.xLabel.text(state.dimension1);
+        this.yLabel.text(state.dimension2);
         // g.append("text")
         //   .attr("x", function(inst, i) {
         //     return xscale(contributors(inst));
