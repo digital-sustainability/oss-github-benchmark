@@ -6,3 +6,10 @@ docker --name oss-github-runner run --rm oss-github
 docker rm oss-github-runner
 docker rmi oss-github
 ```
+
+# Start Visualization
+
+```
+npm install
+npm start
+```
