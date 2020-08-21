@@ -11,3 +11,7 @@ run:
 	docker run -e GITHUBTOKEN=$(GITHUBTOKEN) -v $(pwd):/app --name oss-github-runner oss-github
 	#docker rm oss-github-runner
 	#docker rmi oss-github
+
+explore:
+	docker build -t oss-github-jupyter .
+	docker run -p 8888:8888 -v $(pwd)/docs/notebooks/:/home/jovyan/work --name oss-github-jupyter-runner oss-github-jupyter
