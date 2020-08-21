@@ -8,6 +8,6 @@ help:           ##- Show this help.
 run:
 	docker build -t oss-github .
 	# docker run --rm -e GITHUBTOKEN=${GITHUBTOKEN} -v $(pwd):/app --name oss-github-runner oss-github
-	docker run -e GITHUBTOKEN=${GITHUBTOKEN} -v $(pwd):/app --name oss-github-runner oss-github
+	docker run -e GITHUBTOKEN=$(GITHUBTOKEN) -v $(pwd):/app --name oss-github-runner oss-github
 	#docker rm oss-github-runner
 	#docker rmi oss-github
