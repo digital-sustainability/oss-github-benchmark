@@ -13,5 +13,5 @@ run:
 	#docker rmi oss-github
 
 explore:
-	docker build -t oss-github-jupyter .
+	docker build -t oss-github-jupyter -f docker/Dockerfile.jupyter .
 	docker run -p 8888:8888 -v $(pwd)/docs/notebooks/:/home/jovyan/work --name oss-github-jupyter-runner oss-github-jupyter
