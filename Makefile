@@ -10,10 +10,10 @@ help:
 run: 		## Run this to create the json data
 		docker build -t oss-github .
 		# docker run --rm -e GITHUBTOKEN=${GITHUBTOKEN} -v $(pwd):/app --name oss-github-runner oss-github
-		docker run -e GITHUBTOKEN=$(GITHUBTOKEN) -v $(pwd):/app --name oss-github-runner oss-github
+		docker run --rm -e GITHUBTOKEN=$(GITHUBTOKEN) -v $(shell pwd):/app --name oss-github-runner oss-github
 		#docker rm oss-github-runner
 		#docker rmi oss-github
 
 explore: 	## This is used to start the jupyter notebook
 		docker build -t oss-github-jupyter -f docker/Dockerfile.jupyter .
-		docker run -p 8888:8888 -v $(pwd)/docs/notebooks/:/home/jovyan/work --name oss-github-jupyter-runner oss-github-jupyter
+		docker run --rm -e GITHUBTOKEN=$(GITHUBTOKEN) -p 8888:8888 -v $(shell pwd)/docs/notebooks/:/home/jovyan/work --name oss-github-jupyter-runner oss-github-jupyter
