@@ -58,7 +58,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                 
                 # Alle Repos einer GitHub-Organisation durch-loopen
                 repo_counter = 0
-                for repo in g.get_organization(org).get_repos():               
+                for repo in g.get_organization(org).get_repos():
                     if repo.archived:
                         continue
                     try:
@@ -72,6 +72,12 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                         contributors = repo.get_stats_contributors()
                         if contributors != None:
                             num_contributors = len(contributors)
+
+                        # Überprüfen ob commits schon im parent repo existieren (ein Fork ohne eigene Commits)
+                        is_origin = 0
+                        if repo.parent:
+                            is_origin = repo.compare(repo.parent.owner.login + ":master", "master").ahead_by
+
                         # Zahlreiche Attribute eines Repos herausholen: Name, Fork (eines anderen Repos), wie oft geforkt, Contributors, Commits, Stars, Watchers und Commits der letzten 12 Monate
                         # Reference PyGitHub: https://pygithub.readthedocs.io/en/latest/github_objects/Repository.html
                         # GitHub Statistics: https://developer.github.com/v3/repos/statistics/#get-contributors-list-with-additions-deletions-and-commit-counts
@@ -84,6 +90,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                             "num_stars": repo.stargazers_count,
                             "num_watchers": repo.watchers_count,     # Diese Variable stimmt nicht: es werden Anzahl Stars zurückgegeben
                             "last_years_commits": last_years_commits
+                            "is_origin": is_origin
                         }
                         # Stars, Contributors, Commits, Forks, Watchers und Last Year's Commits nur zählen wenn das Repo nicht geforkt ist
                         if not repo_data["fork"]:
