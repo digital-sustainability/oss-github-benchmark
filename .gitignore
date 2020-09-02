@@ -4,6 +4,7 @@ Diverses
 .vscode
 .venv
 .history
+.ipynb_checkpoints
 
 d3-country-bubble-chart-master
 oss-github-benchmark.json
