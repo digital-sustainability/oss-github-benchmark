@@ -27,42 +27,45 @@
   </head>
 
   <body>
-      <div class="container">
+      <div class="main-container">
           <div class="main-nav">
               <nav>
-                <img src="assets/GitHub-Mark/PNG/GitHub-Mark-120px-plus.png">
-                <img src="assets/osi_symbol_0.png">
-                <div class="dropdown">
+                  <img src="assets/GitHub-Mark/PNG/GitHub-Mark-120px-plus.png">
+                  <img src="assets/osi_symbol_0.png">
+                  <div class="dropdown"></div>
               </nav>
           </div>
-          <aside>
-              <div class="dimensions">
-                  <div class="form-g">
-                  <label for="dimension1">Dimension 1</label>
-                  <select name="dimension1" id="dimension1"></select>
+          <div class="main-content">
+              <aside>
+                  <button id="addVisualization">add Visualization</button>
+                  <div class="dimensions">
+                      <div class="form-g">
+                          <label for="dimension1">Dimension 1</label>
+                          <select name="dimension1" id="dimension1"></select>
+                      </div>
+                      <div class="form-g">
+                          <label for="dimension2">Dimension 2</label>
+                          <select name="dimension2" id="dimension2"></select>
+                      </div>
+                      <div class="form-g">
+                          <label for="dimension3">Dimension 3</label>
+                          <select name="dimension3" id="dimension3"></select>
+                      </div>
                   </div>
-                  <div class="form-g">
-                  <label for="dimension2">Dimension 2</label>
-                  <select name="dimension2" id="dimension2"></select>
-                  </div>
-                  <div class="form-g">
-                  <label for="dimension3">Dimension 3</label>
-                  <select name="dimension3" id="dimension3"></select>
-                  </div>
-              </div>
-          </aside>
-          <main></main>
-          <section>
-          </section>
-      </div>
+              </aside>
+              <section id="panel">
+              </section>
+              <main></main>
+          </div>
 
-      <div id="myModal" class="modal">
-          <!-- Modal content -->
-          <div class="modal-content">
-              <span class="close">&times;</span>
-              <h1>Repositories</h1>
-              <ul id="repoList">
-              </ul>
+          <div id="myModal" class="modal">
+              <!-- Modal content -->
+              <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <h1>Repositories</h1>
+                  <ul id="repoList">
+                  </ul>
+              </div>
           </div>
       </div>
   </body>

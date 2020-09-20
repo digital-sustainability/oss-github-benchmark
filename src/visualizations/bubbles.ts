@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import * as _ from "lodash";
+import {VisualizationType} from "../interfaces/VisualizationType";
 
 const width = window.innerWidth;
 const height = window.innerHeight-64-40;
@@ -7,7 +8,7 @@ const padding = 70;
 
 
 
-export class Bubble {
+export class Bubble implements VisualizationType {
     private svg: any;
     private text: any;
     private g: any;
@@ -21,11 +22,13 @@ export class Bubble {
     yLabel: any;
     onselect: (action:any)  => void;
 
-    constructor() {
+    private options;
+
+    constructor(private elementSelection = "main") {
     }
 
-    setup(state) {
-        const data = state.data;
+    setup(rawData) {
+        const data = rawData.data;
         // var data = [10, 20, 30];
         const orgs = [];
         console.log(data);
@@ -35,7 +38,7 @@ export class Bubble {
         const colors = ["green", "purple", "yellow"];
 
         this.svg = d3
-        .select("main")
+        .select(this.elementSelection)
         .append("svg")
         .attr("width", width)
         .attr("height", height);
@@ -79,7 +82,7 @@ export class Bubble {
               "translate(" + (width/2) + " ," + 
                   (height - 1/4 * padding ) + ")")
               .style("text-anchor", "middle")
-              .text(state.dimension1);
+              .text(this.options.dimension1);
 
         this.yLabel = this.svg
         .append("text")
@@ -87,16 +90,16 @@ export class Bubble {
         .attr("y", padding/4)
         .attr("x",0 - (height / 2))
         .style("text-anchor", "middle")
-        .text(state.dimension2);
+        .text(this.options.dimension2);
 
-        this.update(state);
+        this.update(rawData);
     }
-    update(state) {
+    update(rawData) {
         const orgs = [];
-        const xDimension = (institution: any) => parseInt(institution[state.dimension1]);
-        const yDimension = (institution: any) => parseInt(institution[state.dimension2]);
-        const rDimension = (institution: any) => parseInt(institution[state.dimension3]);
-        const data = state.data;
+        const xDimension = (institution: any) => parseInt(institution[this.options.dimension1]);
+        const yDimension = (institution: any) => parseInt(institution[this.options.dimension2]);
+        const rDimension = (institution: any) => parseInt(institution[this.options.dimension3]);
+        const data = rawData.data;
 
         var sector = i => i.sector;
 
@@ -208,8 +211,8 @@ export class Bubble {
         this.xAxisGroup.call(this.xAxis);
 
         this.yAxisGroup.call(this.yAxis);
-        this.xLabel.text(state.dimension1);
-        this.yLabel.text(state.dimension2);
+        this.xLabel.text(this.options.dimension1);
+        this.yLabel.text(this.options.dimension2);
         // g.append("text")
         //   .attr("x", function(inst, i) {
         //     return xscale(contributors(inst));
@@ -227,6 +230,10 @@ export class Bubble {
         
 
 
+    }
+
+    mapState(state) {
+        this.options = state;
     }
 
 }
