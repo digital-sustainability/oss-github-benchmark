@@ -10,6 +10,7 @@ d3-country-bubble-chart-master
 oss-github-benchmark.json
 oss-github-benchmark.csv
 /assets/oss-github-benchmark.csv
+/assets/oss-github-benchmark.json
 
 dist
 node_modules
