@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import * as _ from "lodash";
-import {VisualizationType, IState} from "../interfaces/VisualizationType";
+import {VisualizationType} from "../interfaces/VisualizationType";
 
 
 
