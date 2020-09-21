@@ -13,10 +13,13 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
       - name: Push to GitHub Packages
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v2
         with:
+          push: true
+          tags: CodwOneTwo/oss-github-benchmark:latest
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+          secrets: |
+            GITHUB_TOKEN=${{ github.token }}
           registry: docker.pkg.github.com
-          repository: CodwOneTwo/oss-github-benchmark/app
           tag_with_ref: true
