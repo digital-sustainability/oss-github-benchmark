@@ -1,13 +1,11 @@
 import * as d3 from "d3";
 import * as _ from "lodash";
-
-const width = window.innerWidth;
-const height = window.innerHeight-64-40;
-const padding = 70;
+import {VisualizationType, IState} from "../interfaces/VisualizationType";
 
 
 
-export class Bubble {
+
+export class Bubble implements VisualizationType {
     private svg: any;
     private text: any;
     private g: any;
@@ -19,13 +17,25 @@ export class Bubble {
     yAxisGroup: any;
     xLabel: any;
     yLabel: any;
-    onselect: (action:any)  => void;
 
-    constructor() {
+    private options;
+
+    constructor(private element, private onselect) {
     }
 
     setup(state) {
-        const data = state.data;
+        this.options = {
+            dimension1: state.dimension1,
+            dimension2: state.dimension2,
+            dimension3: state.dimension3
+        };
+
+        const bound = this.element.getBoundingClientRect();
+        const width = bound.width;
+        const height = bound.height-64-40;
+        const padding = 70;
+
+        const data = state.csvData;
         // var data = [10, 20, 30];
         const orgs = [];
         console.log(data);
@@ -35,7 +45,7 @@ export class Bubble {
         const colors = ["green", "purple", "yellow"];
 
         this.svg = d3
-        .select("main")
+        .select(this.element)
         .append("svg")
         .attr("width", width)
         .attr("height", height);
@@ -73,17 +83,42 @@ export class Bubble {
         .attr("class", "y axis")
         .attr("transform", "translate(" + padding + ",0)")
 
-        this.xLabel = this.svg.append("text");
-        this.yLabel = this.svg.append("text");
+        this.xLabel = this.svg
+        .append("text")
+        .attr("transform",
+              "translate(" + (width/2) + " ," + 
+                  (height - 1/4 * padding ) + ")")
+              .style("text-anchor", "middle")
+              .text(this.options.dimension1);
+
+        this.yLabel = this.svg
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", padding/4)
+        .attr("x",0 - (height / 2))
+        .style("text-anchor", "middle")
+        .text(this.options.dimension2);
 
         this.update(state);
     }
+
     update(state) {
+        this.options = {
+            dimension1: state.dimension1,
+            dimension2: state.dimension2,
+            dimension3: state.dimension3
+        };
+
+        const bound = this.element.getBoundingClientRect();
+        const width = bound.width;
+        const height = bound.height-64-40;
+        const padding = 70;
+
         const orgs = [];
-        const xDimension = (institution: any) => parseInt(institution[state.dimension1]);
-        const yDimension = (institution: any) => parseInt(institution[state.dimension2]);
-        const rDimension = (institution: any) => parseInt(institution[state.dimension3]);
-        const data = state.data;
+        const xDimension = (institution: any) => parseInt(institution[this.options.dimension1]);
+        const yDimension = (institution: any) => parseInt(institution[this.options.dimension2]);
+        const rDimension = (institution: any) => parseInt(institution[this.options.dimension3]);
+        const data = state.csvData;
 
         var sector = i => i.sector;
 
@@ -195,6 +230,8 @@ export class Bubble {
         this.xAxisGroup.call(this.xAxis);
 
         this.yAxisGroup.call(this.yAxis);
+        this.xLabel.text(this.options.dimension1);
+        this.yLabel.text(this.options.dimension2);
         // g.append("text")
         //   .attr("x", function(inst, i) {
         //     return xscale(contributors(inst));
@@ -214,5 +251,28 @@ export class Bubble {
 
     }
 
+}
+
+
+function repoList(institution) {
+  const el = document.getElementById("repoList");
+  while (el.firstChild) {
+    el.removeChild(el.lastChild);
+  }
+  const repos = JSON.parse(institution.repo_names.replace(/'/g, '"'));
+  const orgs = JSON.parse(institution.orgs.replace(/'/g, '"'));
+  repos.forEach((repo) => {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = "https://github.com/" + orgs[0] + "/" + repo;
+    a.target = "_blank";
+    const content = document.createTextNode(repo);
+    a.appendChild(content);
+    li.appendChild(a);
+    el.append(li);
+  });
+
+  const modal = document.getElementById("myModal");
+  modal.style.display = "block";
 }
 
