@@ -1,7 +1,8 @@
 import * as d3 from "d3";
 import "../styles/main.scss";
-import {registerManager} from "./visualizationManager";
+// import {registerManager} from "./visualizationManager";
 import { Bubble } from "./visualizations/bubbles";
+import {SunBurst} from "./visualizations/sunburst";
 
 console.log("started");
 
@@ -12,26 +13,31 @@ const dataInfo = {
     dimensions: [],
 };
 
+// const visualizations = [
+//     {
+//         id: "viz1",
+//         width: 90, // in %
+//         height: 600, // in px
+//         visualization: Bubble,
+//         vOptions: {
+//             onClick: repoList
+//         }
+//     },
+//     {
+//         id: "viz2",
+//         width: 70, // in %
+//         height: 600, // in px
+//         visualization: Bubble,
+//         vOptions: {
+//             onClick: repoList
+//         }
+//     }
+// ];
+
 const visualizations = [
-    {
-        id: "viz1",
-        width: 90, // in %
-        height: 600, // in px
-        visualization: Bubble,
-        vOptions: {
-            onClick: repoList
-        }
-    },
-    {
-        id: "viz2",
-        width: 70, // in %
-        height: 600, // in px
-        visualization: Bubble,
-        vOptions: {
-            onClick: repoList
-        }
-    }
-];
+    new Bubble(document.getElementById("viz1"), repoList),
+    new SunBurst(document.getElementById("viz2"))
+]
 
 
 let state = {
@@ -43,22 +49,22 @@ let state = {
 
 registerModal();
 
-const panelEl = document.getElementById("panel");
-const vizButtonEl = document.getElementById("addVisualization");
-const visualizationManager = registerManager(panelEl, vizButtonEl)
+// const panelEl = document.getElementById("panel");
+// const vizButtonEl = document.getElementById("addVisualization");
+// const visualizationManager = registerManager(panelEl, vizButtonEl)
 
 function selectDimension() {
     const dimensions = Object.keys(state.jsonData[0]);
     dimensionSelectElements.forEach((el, i) => {
         state["dimension" + (i + 1)] = dimensions[el.selectedIndex];
     });
-    visualizationManager.update(state);
+    state.visualizations.forEach(v => v.update(state));
 }
 
 loadData().then( data => {
     state.csvData = data.csvData;
     state.jsonData = data.jsonData;
-    visualizationManager.update(state);
+    state.visualizations.forEach(v => v.setup(state));
     createDimensionSelection(state);
 });
 
@@ -76,6 +82,7 @@ const dimensionSelectElements = [
   document.getElementById("dimension2") as HTMLSelectElement,
   document.getElementById("dimension3") as HTMLSelectElement,
 ];
+
 function createDimensionSelection(state) {
     dimensionSelectElements.forEach((el, i) => {
         while (el.firstChild) {

@@ -17,27 +17,23 @@ export class Bubble implements VisualizationType {
     yAxisGroup: any;
     xLabel: any;
     yLabel: any;
-    onselect: (action:any)  => void;
 
     private options;
 
-    constructor(private element) {
+    constructor(private element, private onselect) {
     }
 
-    setup(state, vOptions) {
+    setup(state) {
         this.options = {
             dimension1: state.dimension1,
             dimension2: state.dimension2,
             dimension3: state.dimension3
         };
-        this.onselect = vOptions.onClick
 
         const bound = this.element.getBoundingClientRect();
         const width = bound.width;
         const height = bound.height-64-40;
         const padding = 70;
-
-        debugger;
 
         const data = state.csvData;
         // var data = [10, 20, 30];
@@ -103,16 +99,15 @@ export class Bubble implements VisualizationType {
         .style("text-anchor", "middle")
         .text(this.options.dimension2);
 
-        this.update(state, vOptions);
+        this.update(state);
     }
 
-    update(state, vOptions) {
+    update(state) {
         this.options = {
             dimension1: state.dimension1,
             dimension2: state.dimension2,
             dimension3: state.dimension3
         };
-        this.onselect = vOptions.onClick
 
         const bound = this.element.getBoundingClientRect();
         const width = bound.width;
