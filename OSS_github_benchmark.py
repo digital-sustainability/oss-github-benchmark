@@ -3,6 +3,7 @@
 import json
 import csv
 import os
+import traceback
 from github import Github
 
 # GitHub Login mittels Token
@@ -40,6 +41,8 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
         institution_data["total_num_own_repo_forks"] = 0
         institution_data["total_num_forks_in_repos"] = 0
         institution_data["total_num_commits"] = 0
+        institution_data["total_pull_requests"] = 0
+        institution_data["total_issues"] = 0
         institution_data["total_num_stars"] = 0
         institution_data["total_num_watchers"] = 0
         institution_data["total_commits_last_year"] = 0
@@ -49,6 +52,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
         error_counter = 0
         for org in institution["orgs"]:
             try:
+                print(org)
                 # Die Anzahl GitHub-Organisationen, Members, Repos, Avatars (Link zu Icons) und die Organisations-Namen zu einer Institution hinzufügen
                 institution_data["num_orgs"] += 1
                 institution_data["num_members"] += g.get_organization(org).get_members().totalCount
@@ -76,7 +80,12 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                         # Überprüfen ob commits schon im parent repo existieren (ein Fork ohne eigene Commits)
                         has_own_commits = 0
                         if repo.parent:
-                            has_own_commits = repo.compare(repo.parent.owner.login + ":master", "master").ahead_by
+                            try:
+                                has_own_commits = repo.compare(repo.parent.owner.login + ":master", "master").ahead_by
+                            except:
+                                print(org)
+                                print(repo.parent.owner)
+                                traceback.print_exc()
 
                         # Zahlreiche Attribute eines Repos herausholen: Name, Fork (eines anderen Repos), wie oft geforkt, Contributors, Commits, Stars, Watchers und Commits der letzten 12 Monate
                         # Reference PyGitHub: https://pygithub.readthedocs.io/en/latest/github_objects/Repository.html
@@ -111,6 +120,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                         else:
                             institution_data["total_num_forks_in_repos"] += 1
                             institution_data["total_num_commits"] += repo_data["has_own_commits"]
+
                         institution_data["sector"] = sector_key
                         institution_data["repos"].append(repo_data)
                         repo_counter += 1
@@ -126,7 +136,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                 if error_counter > 100:
                     break
             except:
-                pass
+                traceback.print_exc()
         print("Anzahl GitHub Repos von " + institution["name"] + ": " + str(institution_data["num_repos"]))
         institutions_data.append(institution_data)
 

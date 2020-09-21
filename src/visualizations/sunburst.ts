@@ -12,13 +12,14 @@ export interface ISunburstConfig {
 
 export class SunBurst {
   private svg: any;
-  constructor(private elementSelection = "main") {}
+  constructor(private element: HTMLElement) {}
 
   setup(state) {
-    const data = state.hierarchicalData;
+    const data = state.jsonData;
     debugger;
-    const root = this.partition(data);
-    this.svg = d3.select(this.elementSelection).append("svg");
+    const preparedData = this.prepareData(data, state);
+    const root = this.partition(preparedData);
+    this.svg = d3.select(this.element).append("svg");
     // Make this into a view, so that the currently hovered sequence is available to the breadcrumb
     const element = this.svg.node();
     element.value = { sequence: [], percentage: 0.0 };
@@ -132,13 +133,56 @@ export class SunBurst {
         "#bbbbbb",
       ]);
   }
+  update(state) { }
 
   partition(data) {
-      return d3.partition().size([2 * Math.PI, radius * radius])(
-        d3
-          .hierarchy(data)
-          .sum((d) => d.value)
-          .sort((a, b) => b.value - a.value)
-      )
+    return d3.partition().size([2 * Math.PI, radius * radius])(
+      d3
+        .hierarchy(data)
+        .sum((d) => d.value)
+        .sort((a, b) => b.value - a.value)
+    );
   }
+
+  prepareData(data, state) {
+      const categorized = {
+          other: []
+      }
+      data.forEach( inst => {
+          if (inst.sector) {
+              if (categorized.hasOwnProperty(inst.sector)) {
+                  categorized[inst.sector].push(inst);
+              } else {
+                  categorized[inst.sector] = [inst];
+              }
+          } else {
+              categorized.other.push(inst);
+          }
+      });
+      const data1 = Object.keys(categorized).map( sector => {
+          return {
+              name: sector,
+              value: 100,
+              children: categorized[sector].map(inst => {
+                  return {
+                      name: inst.name,
+                      value: inst["total_num_commits"],
+                      children: inst.repos.map(repo => {
+                          return {
+                              name: repo.name,
+                              value: repo["num_commits"]
+                          }
+                      })
+                  }
+              })
+          }
+      })
+      return data1;
+  }
+}
+
+interface ISunburstData {
+    name: string;
+    value: number;
+    children: ISunburstData[]
 }
