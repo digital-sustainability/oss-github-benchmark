@@ -1,7 +1,7 @@
 import {VisualizationType} from "./interfaces/VisualizationType";
 
 export class VisualizationPanel {
-    private element: HTMLElement;
+    public element: HTMLElement;
     visualization: VisualizationType
 
     constructor(
@@ -14,15 +14,15 @@ export class VisualizationPanel {
         this.element.setAttribute("class", "viz-panel");
     }
 
-    mapState(state) {
-        this.width = state.width;
-        this.height = state.height;
-        this.visualization = state.visualization;
-        this.visualization.mapState(state.vOptions);
+    update(state, vState) {
+        this.width = vState.width;
+        this.height = vState.height;
+        this.render();
+        this.visualization.update(state, vState.vOptions);
     }
 
     render() {
-        this.element.setAttribute("style", `width: ${this.width}%; height: ${this.height}%;`);
+        this.element.setAttribute("style", `width: ${this.width}%; height: ${this.height}px;`);
     }
 
     destroy() {
