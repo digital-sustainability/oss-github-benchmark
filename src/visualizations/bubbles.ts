@@ -1,10 +1,7 @@
 import * as d3 from "d3";
 import * as _ from "lodash";
-import {VisualizationType} from "../interfaces/VisualizationType";
+import {VisualizationType, IState} from "../interfaces/VisualizationType";
 
-const width = window.innerWidth;
-const height = window.innerHeight-64-40;
-const padding = 70;
 
 
 
@@ -24,11 +21,25 @@ export class Bubble implements VisualizationType {
 
     private options;
 
-    constructor(private elementSelection = "main") {
+    constructor(private element) {
     }
 
-    setup(rawData) {
-        const data = rawData.data;
+    setup(state, vOptions) {
+        this.options = {
+            dimension1: state.dimension1,
+            dimension2: state.dimension2,
+            dimension3: state.dimension3
+        };
+        this.onselect = vOptions.onClick
+
+        const bound = this.element.getBoundingClientRect();
+        const width = bound.width;
+        const height = bound.height-64-40;
+        const padding = 70;
+
+        debugger;
+
+        const data = state.csvData;
         // var data = [10, 20, 30];
         const orgs = [];
         console.log(data);
@@ -38,7 +49,7 @@ export class Bubble implements VisualizationType {
         const colors = ["green", "purple", "yellow"];
 
         this.svg = d3
-        .select(this.elementSelection)
+        .select(this.element)
         .append("svg")
         .attr("width", width)
         .attr("height", height);
@@ -92,14 +103,27 @@ export class Bubble implements VisualizationType {
         .style("text-anchor", "middle")
         .text(this.options.dimension2);
 
-        this.update(rawData);
+        this.update(state, vOptions);
     }
-    update(rawData) {
+
+    update(state, vOptions) {
+        this.options = {
+            dimension1: state.dimension1,
+            dimension2: state.dimension2,
+            dimension3: state.dimension3
+        };
+        this.onselect = vOptions.onClick
+
+        const bound = this.element.getBoundingClientRect();
+        const width = bound.width;
+        const height = bound.height-64-40;
+        const padding = 70;
+
         const orgs = [];
         const xDimension = (institution: any) => parseInt(institution[this.options.dimension1]);
         const yDimension = (institution: any) => parseInt(institution[this.options.dimension2]);
         const rDimension = (institution: any) => parseInt(institution[this.options.dimension3]);
-        const data = rawData.data;
+        const data = state.csvData;
 
         var sector = i => i.sector;
 
@@ -232,9 +256,28 @@ export class Bubble implements VisualizationType {
 
     }
 
-    mapState(state) {
-        this.options = state;
-    }
+}
 
+
+function repoList(institution) {
+  const el = document.getElementById("repoList");
+  while (el.firstChild) {
+    el.removeChild(el.lastChild);
+  }
+  const repos = JSON.parse(institution.repo_names.replace(/'/g, '"'));
+  const orgs = JSON.parse(institution.orgs.replace(/'/g, '"'));
+  repos.forEach((repo) => {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.href = "https://github.com/" + orgs[0] + "/" + repo;
+    a.target = "_blank";
+    const content = document.createTextNode(repo);
+    a.appendChild(content);
+    li.appendChild(a);
+    el.append(li);
+  });
+
+  const modal = document.getElementById("myModal");
+  modal.style.display = "block";
 }
 
