@@ -1,36 +1,22 @@
-name: Compile Github Data from Institutions
-
+name: Publish Docker image
 on:
   push:
     branches:
       - master
-
+      - development
 
 jobs:
-  build:
+  push_to_registry:
+    name: Push Docker image to GitHub Packages
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: run
-      env:
-        GITHUBTOKEN: ${{ secrets.GITHUBTOKEN }}
-      run: |
-        python3 OSS_github_benchmark.py
-    - name: build
-      run: |
-        mkdir public
-        cp index.html public/
-        cp oss-github-benchmark.* public/
-    - name: deploy
-      uses: maxheld83/ghpages@v0.2.1
-      env:
-        BUILD_DIR: "public/"
-        GH_PAT: ${{ secrets.GH_PAT }}
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: CodwOneTwo/oss-github-benchmark/app
+          tag_with_ref: true
