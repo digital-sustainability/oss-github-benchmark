@@ -11,8 +11,9 @@ RUN --mount=type=secret,id=GITHUBTOKEN GITHUBTOKEN=$(cat /run/secrets/GITHUBTOKE
 FROM node:lts as frontend
 WORKDIR /app
 COPY package*.json ./
-RUN npm install && \
-    npm run build
+RUN npm install
+COPY . .
+RUN npm run build
 
 FROM nginx:alpine
 COPY --from=frontend /app/dist/* /usr/share/nginx/html
