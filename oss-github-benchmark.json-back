@@ -1,0 +1,2152 @@
+[
+    {
+        "name": "4teamwork AG",
+        "orgs": [
+            "4teamwork"
+        ],
+        "num_orgs": 1,
+        "num_repos": 255,
+        "num_members": 31,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/681821?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 3,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 453,
+        "total_num_stars": 3,
+        "total_num_watchers": 16,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "56K Cloud",
+        "orgs": [
+            "56kcloud"
+        ],
+        "num_orgs": 1,
+        "num_repos": 6,
+        "num_members": 2,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/22938212?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 6,
+        "total_num_own_repo_forks": 72,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 277452,
+        "total_num_stars": 118,
+        "total_num_watchers": 8,
+        "total_commits_last_year": 18,
+        "repo_names": []
+    },
+    {
+        "name": "Adfinis SyGroup",
+        "orgs": [
+            "adfinis-sygroup",
+            "adfinis-forks"
+        ],
+        "num_orgs": 2,
+        "num_repos": 250,
+        "num_members": 22,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/1175860?v=4",
+            "https://avatars0.githubusercontent.com/u/17927116?v=4"
+        ],
+        "repos": [
+            {
+                "name": "fakeldap",
+                "fork": true,
+                "num_forks": 1,
+                "num_contributors": 1,
+                "num_commits": 142,
+                "num_stars": 1,
+                "num_watchers": 9,
+                "last_years_commits": 0,
+                "has_own_commits": 5,
+                "closed_issues": 1,
+                "all_issues": 1,
+                "closed_pull_requests": 1,
+                "all_pull_requests": 1
+            },
+            {
+                "name": "poweradmin",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 27,
+                "num_commits": 2858,
+                "num_stars": 0,
+                "num_watchers": 4,
+                "last_years_commits": 0,
+                "has_own_commits": 2,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            }
+        ],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 1,
+        "total_num_forks_in_repos": 2,
+        "total_num_commits": 320,
+        "total_num_stars": 7,
+        "total_num_watchers": 17,
+        "total_commits_last_year": 4,
+        "repo_names": [],
+        "sector": "IT"
+    },
+    {
+        "name": "AdNovum Informatik AG",
+        "orgs": [
+            "adnovum"
+        ],
+        "num_orgs": 1,
+        "num_repos": 31,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/18482708?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 16,
+        "total_num_own_repo_forks": 52,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 171,
+        "total_num_stars": 81,
+        "total_num_watchers": 45,
+        "total_commits_last_year": 32,
+        "repo_names": []
+    },
+    {
+        "name": "Abraxas",
+        "orgs": [
+            "abraxas-labs"
+        ],
+        "num_orgs": 1,
+        "num_repos": 0,
+        "num_members": 1,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/59100330?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 0,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 0,
+        "total_num_stars": 0,
+        "total_num_watchers": 0,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "amazee.io",
+        "orgs": [
+            "amazeeio"
+        ],
+        "num_orgs": 1,
+        "num_repos": 79,
+        "num_members": 6,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/14974468?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 21,
+        "total_num_own_repo_forks": 1,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 349,
+        "total_num_stars": 3,
+        "total_num_watchers": 13,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Bedag",
+        "orgs": [
+            "bedag"
+        ],
+        "num_orgs": 1,
+        "num_repos": 11,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/11767306?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 4,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 117,
+        "total_num_stars": 0,
+        "total_num_watchers": 2,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "BSI Business Systems Integration AG",
+        "orgs": [
+            "BSI-Business-Systems-Integration-AG"
+        ],
+        "num_orgs": 1,
+        "num_repos": 41,
+        "num_members": 4,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/893651?v=4"
+        ],
+        "repos": [
+            {
+                "name": "rap",
+                "fork": true,
+                "num_forks": 1,
+                "num_contributors": 9,
+                "num_commits": 61980,
+                "num_stars": 1,
+                "num_watchers": 15,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 1,
+                "all_issues": 1,
+                "closed_pull_requests": 1,
+                "all_pull_requests": 1
+            }
+        ],
+        "total_num_contributors": 5,
+        "total_num_own_repo_forks": 13,
+        "total_num_forks_in_repos": 1,
+        "total_num_commits": 24205,
+        "total_num_stars": 5,
+        "total_num_watchers": 6,
+        "total_commits_last_year": 0,
+        "repo_names": [],
+        "sector": "IT"
+    },
+    {
+        "name": "Camptocamp",
+        "orgs": [
+            "camptocamp"
+        ],
+        "num_orgs": 1,
+        "num_repos": 702,
+        "num_members": 30,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/28109?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 23,
+        "total_num_own_repo_forks": 115,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 682,
+        "total_num_stars": 90,
+        "total_num_watchers": 21,
+        "total_commits_last_year": 8,
+        "repo_names": []
+    },
+    {
+        "name": "cloudscale.ch AG",
+        "orgs": [
+            "cloudscale-ch"
+        ],
+        "num_orgs": 1,
+        "num_repos": 52,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/23522857?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 0,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 0,
+        "total_num_stars": 0,
+        "total_num_watchers": 0,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "cyon GmbH",
+        "orgs": [
+            "cyon"
+        ],
+        "num_orgs": 1,
+        "num_repos": 28,
+        "num_members": 1,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/956240?v=4"
+        ],
+        "repos": [
+            {
+                "name": "Routing",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 40,
+                "num_commits": 640,
+                "num_stars": 1,
+                "num_watchers": 2,
+                "last_years_commits": 0,
+                "has_own_commits": 9,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "toc",
+                "fork": true,
+                "num_forks": 1,
+                "num_contributors": 2,
+                "num_commits": 221,
+                "num_stars": 0,
+                "num_watchers": 4,
+                "last_years_commits": 0,
+                "has_own_commits": 13,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "OnApp-PHP-Wrapper-External",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 4,
+                "num_commits": 4968,
+                "num_stars": 0,
+                "num_watchers": 5,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "helpscout-docs-api-php",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 2,
+                "num_commits": 75,
+                "num_stars": 0,
+                "num_watchers": 4,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "puppet-nginx",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 100,
+                "num_commits": 1729,
+                "num_stars": 0,
+                "num_watchers": 6,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "asana-api-php-class",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 21,
+                "num_commits": 167,
+                "num_stars": 0,
+                "num_watchers": 4,
+                "last_years_commits": 0,
+                "has_own_commits": 1,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "coreos-opennebula-image",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 1,
+                "num_commits": 30,
+                "num_stars": 1,
+                "num_watchers": 5,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            }
+        ],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 7,
+        "total_num_commits": 32,
+        "total_num_stars": 1,
+        "total_num_watchers": 5,
+        "total_commits_last_year": 0,
+        "repo_names": [],
+        "sector": "IT"
+    },
+    {
+        "name": "DV Bern",
+        "orgs": [
+            "dvbern"
+        ],
+        "num_orgs": 1,
+        "num_repos": 26,
+        "num_members": 3,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/26630759?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 79,
+        "total_num_stars": 0,
+        "total_num_watchers": 1,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "ELCA",
+        "orgs": [
+            "ElcaIT"
+        ],
+        "num_orgs": 1,
+        "num_repos": 12,
+        "num_members": 2,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/15812618?v=4"
+        ],
+        "repos": [
+            {
+                "name": "sudokuBattleRoyal2",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 2,
+                "num_commits": 1020,
+                "num_stars": 0,
+                "num_watchers": 2,
+                "last_years_commits": 0,
+                "has_own_commits": 3,
+                "closed_issues": 1,
+                "all_issues": 1,
+                "closed_pull_requests": 1,
+                "all_pull_requests": 1
+            }
+        ],
+        "total_num_contributors": 2,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 1,
+        "total_num_commits": 3,
+        "total_num_stars": 0,
+        "total_num_watchers": 5,
+        "total_commits_last_year": 0,
+        "repo_names": [],
+        "sector": "IT"
+    },
+    {
+        "name": "Exoscale",
+        "orgs": [
+            "exoscale"
+        ],
+        "num_orgs": 1,
+        "num_repos": 244,
+        "num_members": 14,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/2023286?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 3,
+        "total_num_own_repo_forks": 4,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 49,
+        "total_num_stars": 8,
+        "total_num_watchers": 27,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "iSolutions",
+        "orgs": [
+            "isolutionsag"
+        ],
+        "num_orgs": 1,
+        "num_repos": 3,
+        "num_members": 2,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/26957814?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 3,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 1018,
+        "total_num_stars": 0,
+        "total_num_watchers": 4,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Interactive Things",
+        "orgs": [
+            "interactivethings"
+        ],
+        "num_orgs": 1,
+        "num_repos": 42,
+        "num_members": 9,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/316761?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 2,
+        "total_num_own_repo_forks": 1,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 1046,
+        "total_num_stars": 4,
+        "total_num_watchers": 0,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "ITIGO AG",
+        "orgs": [
+            "itigoag"
+        ],
+        "num_orgs": 1,
+        "num_repos": 29,
+        "num_members": 3,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/42246468?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 6,
+        "total_num_own_repo_forks": 7,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 129,
+        "total_num_stars": 1,
+        "total_num_watchers": 4,
+        "total_commits_last_year": 18,
+        "repo_names": []
+    },
+    {
+        "name": "Garaio",
+        "orgs": [
+            "garaio"
+        ],
+        "num_orgs": 1,
+        "num_repos": 53,
+        "num_members": 10,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/507938?v=4"
+        ],
+        "repos": [
+            {
+                "name": "backyard",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 2,
+                "num_commits": 203,
+                "num_stars": 2,
+                "num_watchers": 14,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "activerecord-sqlserver-adapter",
+                "fork": true,
+                "num_forks": 1,
+                "num_contributors": 18,
+                "num_commits": 1639,
+                "num_stars": 2,
+                "num_watchers": 13,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            }
+        ],
+        "total_num_contributors": 18,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 2,
+        "total_num_commits": 48,
+        "total_num_stars": 1,
+        "total_num_watchers": 10,
+        "total_commits_last_year": 0,
+        "repo_names": [],
+        "sector": "IT"
+    },
+    {
+        "name": "gyselroth",
+        "orgs": [
+            "gyselroth"
+        ],
+        "num_orgs": 1,
+        "num_repos": 62,
+        "num_members": 8,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/24584788?v=4"
+        ],
+        "repos": [
+            {
+                "name": "DocxFactory",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 2,
+                "num_commits": 3172,
+                "num_stars": 0,
+                "num_watchers": 1,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            }
+        ],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 1,
+        "total_num_forks_in_repos": 1,
+        "total_num_commits": 8,
+        "total_num_stars": 1,
+        "total_num_watchers": 0,
+        "total_commits_last_year": 0,
+        "repo_names": [],
+        "sector": "IT"
+    },
+    {
+        "name": "Liip",
+        "orgs": [
+            "liip",
+            "liip-forks"
+        ],
+        "num_orgs": 2,
+        "num_repos": 240,
+        "num_members": 20,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/166102?v=4",
+            "https://avatars0.githubusercontent.com/u/1839941?v=4"
+        ],
+        "repos": [
+            {
+                "name": "SaferpayBusiness",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 4,
+                "num_commits": 557,
+                "num_stars": 2,
+                "num_watchers": 15,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "jQuery-Tags-Input",
+                "fork": true,
+                "num_forks": 1,
+                "num_contributors": 12,
+                "num_commits": 122,
+                "num_stars": 2,
+                "num_watchers": 0,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "GitHubDiff",
+                "fork": true,
+                "num_forks": 2,
+                "num_contributors": 2,
+                "num_commits": 174,
+                "num_stars": 1,
+                "num_watchers": 0,
+                "last_years_commits": 0,
+                "has_own_commits": 11,
+                "closed_issues": 1,
+                "all_issues": 1,
+                "closed_pull_requests": 1,
+                "all_pull_requests": 1
+            },
+            {
+                "name": "SaferpayEcommerce",
+                "fork": true,
+                "num_forks": 1,
+                "num_contributors": 4,
+                "num_commits": 189,
+                "num_stars": 1,
+                "num_watchers": 14,
+                "last_years_commits": 0,
+                "has_own_commits": 2,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "SonataAdminBundle",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 77,
+                "num_commits": 5051,
+                "num_stars": 1,
+                "num_watchers": 1,
+                "last_years_commits": 0,
+                "has_own_commits": 1,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "SwipeView",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 4,
+                "num_commits": 319,
+                "num_stars": 0,
+                "num_watchers": 4,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            }
+        ],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 1,
+        "total_num_forks_in_repos": 6,
+        "total_num_commits": 616,
+        "total_num_stars": 2,
+        "total_num_watchers": 52,
+        "total_commits_last_year": 0,
+        "repo_names": [],
+        "sector": "IT"
+    },
+    {
+        "name": "mimacom",
+        "orgs": [
+            "mimacom"
+        ],
+        "num_orgs": 1,
+        "num_repos": 62,
+        "num_members": 4,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/682213?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 1,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 1573,
+        "total_num_stars": 2,
+        "total_num_watchers": 24,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Netcetera",
+        "orgs": [
+            "netceteragroup"
+        ],
+        "num_orgs": 1,
+        "num_repos": 32,
+        "num_members": 10,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/1321788?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 2,
+        "total_num_own_repo_forks": 3,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 51346,
+        "total_num_stars": 1,
+        "total_num_watchers": 14,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "OPENGIS.ch GmbH",
+        "orgs": [
+            "opengisch"
+        ],
+        "num_orgs": 1,
+        "num_repos": 95,
+        "num_members": 7,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/8892251?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 3,
+        "total_num_own_repo_forks": 7,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 842,
+        "total_num_stars": 9,
+        "total_num_watchers": 3,
+        "total_commits_last_year": 18,
+        "repo_names": []
+    },
+    {
+        "name": "Openstream Internet Solutions",
+        "orgs": [
+            "openstream"
+        ],
+        "num_orgs": 1,
+        "num_repos": 50,
+        "num_members": 1,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/549018?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 1,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 408,
+        "total_num_stars": 3,
+        "total_num_watchers": 7,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Puzzle ITC",
+        "orgs": [
+            "puzzle"
+        ],
+        "num_orgs": 1,
+        "num_repos": 228,
+        "num_members": 33,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/10757?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 4,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 185,
+        "total_num_stars": 4,
+        "total_num_watchers": 2,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Snowflake",
+        "orgs": [
+            "snowflakech"
+        ],
+        "num_orgs": 1,
+        "num_repos": 4,
+        "num_members": 1,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/4830594?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 3,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 126,
+        "total_num_stars": 3,
+        "total_num_watchers": 2,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Sourcepole",
+        "orgs": [
+            "sourcepole"
+        ],
+        "num_orgs": 1,
+        "num_repos": 46,
+        "num_members": 7,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/326758?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 14,
+        "total_num_own_repo_forks": 102,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 1034,
+        "total_num_stars": 135,
+        "total_num_watchers": 30,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Tegonal",
+        "orgs": [
+            "tegonal"
+        ],
+        "num_orgs": 1,
+        "num_repos": 48,
+        "num_members": 5,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/3404785?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 108,
+        "total_num_stars": 1,
+        "total_num_watchers": 4,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "unprofession",
+        "orgs": [
+            "unprofession-al"
+        ],
+        "num_orgs": 1,
+        "num_repos": 33,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/13847446?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 58,
+        "total_num_stars": 0,
+        "total_num_watchers": 0,
+        "total_commits_last_year": 8,
+        "repo_names": []
+    },
+    {
+        "name": "VSHN AG",
+        "orgs": [
+            "vshn"
+        ],
+        "num_orgs": 1,
+        "num_repos": 162,
+        "num_members": 14,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/9532446?v=4"
+        ],
+        "repos": [
+            {
+                "name": "puppet-keepalived",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 18,
+                "num_commits": 247,
+                "num_stars": 0,
+                "num_watchers": 4,
+                "last_years_commits": 0,
+                "has_own_commits": 2,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "puppet-bind",
+                "fork": true,
+                "num_forks": 1,
+                "num_contributors": 6,
+                "num_commits": 89,
+                "num_stars": 0,
+                "num_watchers": 6,
+                "last_years_commits": 0,
+                "has_own_commits": 11,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "puppet-ssh",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 50,
+                "num_commits": 208,
+                "num_stars": 0,
+                "num_watchers": 6,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "puppetlabs-drbd",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 4,
+                "num_commits": 214,
+                "num_stars": 0,
+                "num_watchers": 6,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            }
+        ],
+        "total_num_contributors": 7,
+        "total_num_own_repo_forks": 3,
+        "total_num_forks_in_repos": 4,
+        "total_num_commits": 86,
+        "total_num_stars": 3,
+        "total_num_watchers": 7,
+        "total_commits_last_year": 0,
+        "repo_names": [],
+        "sector": "IT"
+    },
+    {
+        "name": "XWare GmbH",
+        "orgs": [
+            "xware-gmbh"
+        ],
+        "num_orgs": 1,
+        "num_repos": 6,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/51134451?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 15,
+        "total_num_stars": 0,
+        "total_num_watchers": 2,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Z\u00fchlke",
+        "orgs": [
+            "Zuehlke"
+        ],
+        "num_orgs": 1,
+        "num_repos": 68,
+        "num_members": 53,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/10219568?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 3,
+        "total_num_own_repo_forks": 1,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 3484,
+        "total_num_stars": 1,
+        "total_num_watchers": 94,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "APPUiO",
+        "orgs": [
+            "axa-ch"
+        ],
+        "num_orgs": 1,
+        "num_repos": 57,
+        "num_members": 2,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/9319056?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 13,
+        "total_num_own_repo_forks": 5,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 26227,
+        "total_num_stars": 32,
+        "total_num_watchers": 16,
+        "total_commits_last_year": 2,
+        "repo_names": []
+    },
+    {
+        "name": "arillso",
+        "orgs": [
+            "arillso"
+        ],
+        "num_orgs": 1,
+        "num_repos": 34,
+        "num_members": 3,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/33247913?v=4"
+        ],
+        "repos": [
+            {
+                "name": "ansible.ntp",
+                "fork": true,
+                "num_forks": 4,
+                "num_contributors": 10,
+                "num_commits": 76,
+                "num_stars": 1,
+                "num_watchers": 1,
+                "last_years_commits": 3,
+                "has_own_commits": 45,
+                "closed_issues": 8,
+                "all_issues": 8,
+                "closed_pull_requests": 8,
+                "all_pull_requests": 8
+            }
+        ],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 1,
+        "total_num_forks_in_repos": 1,
+        "total_num_commits": 62,
+        "total_num_stars": 1,
+        "total_num_watchers": 1,
+        "total_commits_last_year": 0,
+        "repo_names": [],
+        "sector": "Communities"
+    },
+    {
+        "name": "dat.alets.ch",
+        "orgs": [],
+        "num_orgs": 1,
+        "num_repos": 0,
+        "num_members": 0,
+        "avatar": [],
+        "repos": [],
+        "total_num_contributors": 0,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 0,
+        "total_num_stars": 0,
+        "total_num_watchers": 0,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Hitobito",
+        "orgs": [
+            "hitobito"
+        ],
+        "num_orgs": 1,
+        "num_repos": 28,
+        "num_members": 4,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/5011328?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 34,
+        "total_num_own_repo_forks": 61,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 153777,
+        "total_num_stars": 190,
+        "total_num_watchers": 22,
+        "total_commits_last_year": 611,
+        "repo_names": []
+    },
+    {
+        "name": "OpenOlitor",
+        "orgs": [
+            "openolitor"
+        ],
+        "num_orgs": 1,
+        "num_repos": 14,
+        "num_members": 5,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/15780650?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 3,
+        "total_num_own_repo_forks": 2,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 12681,
+        "total_num_stars": 29,
+        "total_num_watchers": 21,
+        "total_commits_last_year": 6,
+        "repo_names": []
+    },
+    {
+        "name": "School of Data in Switzerland",
+        "orgs": [
+            "schoolofdata-ch"
+        ],
+        "num_orgs": 1,
+        "num_repos": 29,
+        "num_members": 2,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/12089565?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 8768,
+        "total_num_stars": 1,
+        "total_num_watchers": 2,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "AXA Winterthur",
+        "orgs": [
+            "axa-ch"
+        ],
+        "num_orgs": 1,
+        "num_repos": 57,
+        "num_members": 2,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/9319056?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 13,
+        "total_num_own_repo_forks": 5,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 26227,
+        "total_num_stars": 32,
+        "total_num_watchers": 16,
+        "total_commits_last_year": 2,
+        "repo_names": []
+    },
+    {
+        "name": "Baloise",
+        "orgs": [
+            "baloise"
+        ],
+        "num_orgs": 1,
+        "num_repos": 85,
+        "num_members": 22,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/4548858?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 3,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 86,
+        "total_num_stars": 2,
+        "total_num_watchers": 36,
+        "total_commits_last_year": 1,
+        "repo_names": []
+    },
+    {
+        "name": "CSS",
+        "orgs": [
+            "css-ch"
+        ],
+        "num_orgs": 1,
+        "num_repos": 16,
+        "num_members": 5,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/13538066?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 2,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 5146,
+        "total_num_stars": 0,
+        "total_num_watchers": 3,
+        "total_commits_last_year": 1,
+        "repo_names": []
+    },
+    {
+        "name": "Helsana",
+        "orgs": [
+            "helsana"
+        ],
+        "num_orgs": 1,
+        "num_repos": 6,
+        "num_members": 1,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/4638385?v=4"
+        ],
+        "repos": [
+            {
+                "name": "maven-semantic-release",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 4,
+                "num_commits": 643,
+                "num_stars": 0,
+                "num_watchers": 4,
+                "last_years_commits": 0,
+                "has_own_commits": 1,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "wiremock",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 84,
+                "num_commits": 12235,
+                "num_stars": 1,
+                "num_watchers": 4,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            }
+        ],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 2,
+        "total_num_commits": 113,
+        "total_num_stars": 0,
+        "total_num_watchers": 4,
+        "total_commits_last_year": 0,
+        "repo_names": [],
+        "sector": "Insurances"
+    },
+    {
+        "name": "Mobiliar",
+        "orgs": [
+            "diemobiliar",
+            "mobiliar"
+        ],
+        "num_orgs": 2,
+        "num_repos": 1,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/51792018?v=4",
+            "https://avatars0.githubusercontent.com/u/24718047?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 0,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 0,
+        "total_num_stars": 0,
+        "total_num_watchers": 0,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Z\u00fcrich Versicherung",
+        "orgs": [
+            "ZurichInsuranceGroup",
+            "zurichversicherung"
+        ],
+        "num_orgs": 2,
+        "num_repos": 13,
+        "num_members": 1,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/39189995?v=4",
+            "https://avatars2.githubusercontent.com/u/35839582?v=4"
+        ],
+        "repos": [
+            {
+                "name": "couchrest_model",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 62,
+                "num_commits": 4750,
+                "num_stars": 0,
+                "num_watchers": 2,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "dots-schema",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 1,
+                "num_commits": 261,
+                "num_stars": 0,
+                "num_watchers": 2,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "css",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 7,
+                "num_commits": 46,
+                "num_stars": 0,
+                "num_watchers": 0,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "lightGallery",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 30,
+                "num_commits": 80381,
+                "num_stars": 2,
+                "num_watchers": 1,
+                "last_years_commits": 0,
+                "has_own_commits": 4,
+                "closed_issues": 2,
+                "all_issues": 2,
+                "closed_pull_requests": 2,
+                "all_pull_requests": 2
+            },
+            {
+                "name": "lg-zoom",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 1,
+                "num_commits": 29,
+                "num_stars": 0,
+                "num_watchers": 1,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "lg-share",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 1,
+                "num_commits": 24,
+                "num_stars": 2,
+                "num_watchers": 1,
+                "last_years_commits": 0,
+                "has_own_commits": 4,
+                "closed_issues": 2,
+                "all_issues": 2,
+                "closed_pull_requests": 2,
+                "all_pull_requests": 2
+            },
+            {
+                "name": "lg-hash",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 1,
+                "num_commits": 23,
+                "num_stars": 0,
+                "num_watchers": 0,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "grunt-karma",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 34,
+                "num_commits": 118,
+                "num_stars": 0,
+                "num_watchers": 0,
+                "last_years_commits": 0,
+                "has_own_commits": 1,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            }
+        ],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 8,
+        "total_num_commits": 13,
+        "total_num_stars": 0,
+        "total_num_watchers": 1,
+        "total_commits_last_year": 0,
+        "repo_names": [],
+        "sector": "Insurances"
+    },
+    {
+        "name": "Vaudoise",
+        "orgs": [
+            "VaudoiseAssurances"
+        ],
+        "num_orgs": 1,
+        "num_repos": 8,
+        "num_members": 5,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/36679814?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 5,
+        "total_num_own_repo_forks": 2,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 10978,
+        "total_num_stars": 3,
+        "total_num_watchers": 12,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Postfinance",
+        "orgs": [
+            "postfinance"
+        ],
+        "num_orgs": 1,
+        "num_repos": 19,
+        "num_members": 7,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/34368733?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 4,
+        "total_num_own_repo_forks": 2,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 30,
+        "total_num_stars": 15,
+        "total_num_watchers": 1,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "SRG",
+        "orgs": [
+            "srfdata",
+            "srgssr"
+        ],
+        "num_orgs": 2,
+        "num_repos": 106,
+        "num_members": 7,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/10497821?v=4",
+            "https://avatars0.githubusercontent.com/u/14160115?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 6,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 8145,
+        "total_num_stars": 33,
+        "total_num_watchers": 21,
+        "total_commits_last_year": 7,
+        "repo_names": []
+    },
+    {
+        "name": "NZZ",
+        "orgs": [
+            "nzzdev"
+        ],
+        "num_orgs": 1,
+        "num_repos": 47,
+        "num_members": 6,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/1212529?v=4"
+        ],
+        "repos": [
+            {
+                "name": "Buzz",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 6,
+                "num_commits": 518,
+                "num_stars": 1,
+                "num_watchers": 52,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            }
+        ],
+        "total_num_contributors": 0,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 1,
+        "total_num_commits": 0,
+        "total_num_stars": 0,
+        "total_num_watchers": 0,
+        "total_commits_last_year": 0,
+        "repo_names": [],
+        "sector": "Media"
+    },
+    {
+        "name": "Radio Bern RaBe",
+        "orgs": [
+            "radiorabe"
+        ],
+        "num_orgs": 1,
+        "num_repos": 120,
+        "num_members": 10,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/3940873?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 224,
+        "total_num_stars": 0,
+        "total_num_watchers": 2,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Scout24 Schweiz AG",
+        "orgs": [
+            "Scout24-CH"
+        ],
+        "num_orgs": 1,
+        "num_repos": 3,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/29887421?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 8,
+        "total_num_own_repo_forks": 11,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 889,
+        "total_num_stars": 35,
+        "total_num_watchers": 4,
+        "total_commits_last_year": 1,
+        "repo_names": []
+    },
+    {
+        "name": "SWISS TXT AG",
+        "orgs": [
+            "swisstxt"
+        ],
+        "num_orgs": 1,
+        "num_repos": 120,
+        "num_members": 5,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/3379777?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 3,
+        "total_num_own_repo_forks": 7,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 144,
+        "total_num_stars": 6,
+        "total_num_watchers": 7,
+        "total_commits_last_year": 1,
+        "repo_names": []
+    },
+    {
+        "name": "Post",
+        "orgs": [
+            "swisspost-yellowcube"
+        ],
+        "num_orgs": 1,
+        "num_repos": 7,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/11190443?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 7,
+        "total_num_own_repo_forks": 2,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 1641,
+        "total_num_stars": 8,
+        "total_num_watchers": 23,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "SBB",
+        "orgs": [
+            "SchweizerischeBundesbahnen"
+        ],
+        "num_orgs": 1,
+        "num_repos": 66,
+        "num_members": 4,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/6974750?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 3,
+        "total_num_own_repo_forks": 16,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 350,
+        "total_num_stars": 8,
+        "total_num_watchers": 9,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Swisscom",
+        "orgs": [
+            "swisscom"
+        ],
+        "num_orgs": 1,
+        "num_repos": 122,
+        "num_members": 19,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/5754111?v=4"
+        ],
+        "repos": [
+            {
+                "name": "rabbitmq-cloudfoundry-samples",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 4,
+                "num_commits": 286,
+                "num_stars": 0,
+                "num_watchers": 9,
+                "last_years_commits": 0,
+                "has_own_commits": 11,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            },
+            {
+                "name": "cloudfoundry-sticky-session",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 2,
+                "num_commits": 10,
+                "num_stars": 0,
+                "num_watchers": 9,
+                "last_years_commits": 0,
+                "has_own_commits": 4,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            }
+        ],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 1,
+        "total_num_forks_in_repos": 2,
+        "total_num_commits": 2191,
+        "total_num_stars": 29,
+        "total_num_watchers": 15,
+        "total_commits_last_year": 0,
+        "repo_names": [],
+        "sector": "Gov_Companies"
+    },
+    {
+        "name": "Arbeitslosenversicherung",
+        "orgs": [
+            "alv-ch",
+            "alv-ch-ansible-roles"
+        ],
+        "num_orgs": 2,
+        "num_repos": 26,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/7008756?v=4",
+            "https://avatars0.githubusercontent.com/u/9976480?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 24,
+        "total_num_own_repo_forks": 2,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 11026,
+        "total_num_stars": 5,
+        "total_num_watchers": 11,
+        "total_commits_last_year": 31,
+        "repo_names": []
+    },
+    {
+        "name": "Bundesamt f\u00fcr Statistik",
+        "orgs": [
+            "BFS-SHS-MSAS",
+            "ogdch"
+        ],
+        "num_orgs": 2,
+        "num_repos": 24,
+        "num_members": 4,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/8956477?v=4",
+            "https://avatars1.githubusercontent.com/u/5366043?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 5,
+        "total_num_own_repo_forks": 2,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 1360,
+        "total_num_stars": 4,
+        "total_num_watchers": 9,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Bundeskanzlei",
+        "orgs": [
+            "swiss"
+        ],
+        "num_orgs": 1,
+        "num_repos": 1,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/7151325?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 17,
+        "total_num_own_repo_forks": 35,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 15033,
+        "total_num_stars": 105,
+        "total_num_watchers": 25,
+        "total_commits_last_year": 1,
+        "repo_names": []
+    },
+    {
+        "name": "MeteoSwiss",
+        "orgs": [
+            "MeteoSwiss-APN"
+        ],
+        "num_orgs": 1,
+        "num_repos": 42,
+        "num_members": 1,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/15251199?v=4"
+        ],
+        "repos": [
+            {
+                "name": "serialbox",
+                "fork": true,
+                "num_forks": 6,
+                "num_contributors": 6,
+                "num_commits": 1360,
+                "num_stars": 2,
+                "num_watchers": 3,
+                "last_years_commits": 0,
+                "has_own_commits": 16,
+                "closed_issues": 74,
+                "all_issues": 83,
+                "closed_pull_requests": 46,
+                "all_pull_requests": 49
+            }
+        ],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 4,
+        "total_num_forks_in_repos": 1,
+        "total_num_commits": 337,
+        "total_num_stars": 0,
+        "total_num_watchers": 5,
+        "total_commits_last_year": 0,
+        "repo_names": [],
+        "sector": "Gov_Federal"
+    },
+    {
+        "name": "swisstopo",
+        "orgs": [
+            "geoadmin"
+        ],
+        "num_orgs": 1,
+        "num_repos": 66,
+        "num_members": 6,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/3369793?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 61,
+        "total_num_own_repo_forks": 11,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 328631,
+        "total_num_stars": 10,
+        "total_num_watchers": 15,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Kanton Basel-Stadt",
+        "orgs": [
+            "statabs",
+            "opendatabs"
+        ],
+        "num_orgs": 2,
+        "num_repos": 25,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/16593783?v=4",
+            "https://avatars1.githubusercontent.com/u/46960540?v=4"
+        ],
+        "repos": [
+            {
+                "name": "baselmigration",
+                "fork": true,
+                "num_forks": 2,
+                "num_contributors": 4,
+                "num_commits": 23160,
+                "num_stars": 1,
+                "num_watchers": 1,
+                "last_years_commits": 3,
+                "has_own_commits": 46,
+                "closed_issues": 2,
+                "all_issues": 2,
+                "closed_pull_requests": 2,
+                "all_pull_requests": 2
+            }
+        ],
+        "total_num_contributors": 16,
+        "total_num_own_repo_forks": 10,
+        "total_num_forks_in_repos": 1,
+        "total_num_commits": 133231,
+        "total_num_stars": 3,
+        "total_num_watchers": 3,
+        "total_commits_last_year": 215,
+        "repo_names": [],
+        "sector": "Gov_Cantons"
+    },
+    {
+        "name": "Kanton Bern",
+        "orgs": [
+            "kanton-bern"
+        ],
+        "num_orgs": 1,
+        "num_repos": 2,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars3.githubusercontent.com/u/39902370?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 2,
+        "total_num_own_repo_forks": 1,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 5884,
+        "total_num_stars": 17,
+        "total_num_watchers": 4,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Kanton Neuenburg",
+        "orgs": [
+            "sitn"
+        ],
+        "num_orgs": 1,
+        "num_repos": 27,
+        "num_members": 8,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/4532493?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 3,
+        "total_num_own_repo_forks": 5,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 95099,
+        "total_num_stars": 3,
+        "total_num_watchers": 5,
+        "total_commits_last_year": 38,
+        "repo_names": []
+    },
+    {
+        "name": "Kanton Solothurn",
+        "orgs": [
+            "sogis"
+        ],
+        "num_orgs": 1,
+        "num_repos": 65,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/2777050?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 1,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 100,
+        "total_num_stars": 0,
+        "total_num_watchers": 0,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Kanton Waadt",
+        "orgs": [
+            "dsi-vd"
+        ],
+        "num_orgs": 1,
+        "num_repos": 7,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/15033507?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 3,
+        "total_num_own_repo_forks": 1,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 10,
+        "total_num_stars": 0,
+        "total_num_watchers": 3,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Kanton Z\u00fcrich",
+        "orgs": [
+            "FNSKtZH",
+            "StatistikZH",
+            "openZH",
+            "gisktzh"
+        ],
+        "num_orgs": 4,
+        "num_repos": 72,
+        "num_members": 7,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/6028478?v=4",
+            "https://avatars0.githubusercontent.com/u/17900815?v=4",
+            "https://avatars1.githubusercontent.com/u/37435832?v=4",
+            "https://avatars0.githubusercontent.com/u/10807980?v=4"
+        ],
+        "repos": [
+            {
+                "name": "2017_MM_alterspyramide",
+                "fork": true,
+                "num_forks": 0,
+                "num_contributors": 2,
+                "num_commits": 6955,
+                "num_stars": 0,
+                "num_watchers": 1,
+                "last_years_commits": 0,
+                "has_own_commits": 0,
+                "closed_issues": 0,
+                "all_issues": 0,
+                "closed_pull_requests": 0,
+                "all_pull_requests": 0
+            }
+        ],
+        "total_num_contributors": 4,
+        "total_num_own_repo_forks": 3,
+        "total_num_forks_in_repos": 1,
+        "total_num_commits": 74656,
+        "total_num_stars": 7,
+        "total_num_watchers": 8,
+        "total_commits_last_year": 327,
+        "repo_names": [],
+        "sector": "Gov_Cantons"
+    },
+    {
+        "name": "Z\u00fcrich",
+        "orgs": [
+            "StatistikStadtZuerich",
+            "opendatazurich"
+        ],
+        "num_orgs": 2,
+        "num_repos": 27,
+        "num_members": 3,
+        "avatar": [
+            "https://avatars2.githubusercontent.com/u/30286520?v=4",
+            "https://avatars0.githubusercontent.com/u/8577513?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 8,
+        "total_num_own_repo_forks": 0,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 11208,
+        "total_num_stars": 0,
+        "total_num_watchers": 7,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Bern",
+        "orgs": [
+            "StadtBern"
+        ],
+        "num_orgs": 1,
+        "num_repos": 2,
+        "num_members": 0,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/25296447?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 5,
+        "total_num_own_repo_forks": 6,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 112429,
+        "total_num_stars": 12,
+        "total_num_watchers": 4,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Berner Fachhochschule",
+        "orgs": [
+            "bfh",
+            "iam-ictm",
+            "bfh-science"
+        ],
+        "num_orgs": 3,
+        "num_repos": 25,
+        "num_members": 3,
+        "avatar": [
+            "https://avatars0.githubusercontent.com/u/8811120?v=4",
+            "https://avatars1.githubusercontent.com/u/8155567?v=4",
+            "https://avatars0.githubusercontent.com/u/41160975?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 9,
+        "total_num_own_repo_forks": 1,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 4857,
+        "total_num_stars": 9,
+        "total_num_watchers": 9,
+        "total_commits_last_year": 0,
+        "repo_names": []
+    },
+    {
+        "name": "Universit\u00e4t Bern",
+        "orgs": [
+            "digital-sustainability",
+            "scg-unibe-ch",
+            "IAM-CGG",
+            "unibe-iap-mw",
+            "CMPG",
+            "reymond-group",
+            "ConsBiol-unibern",
+            "kogpsy",
+            "ubern-mia",
+            "zmk-unibe-ch",
+            "unibe-cns",
+            "UB-Bern",
+            "ub-unibe-ch",
+            "hpc-unibe-ch",
+            "id-unibe-ch",
+            "unibe-ch"
+        ],
+        "num_orgs": 16,
+        "num_repos": 128,
+        "num_members": 15,
+        "avatar": [
+            "https://avatars1.githubusercontent.com/u/36673343?v=4",
+            "https://avatars3.githubusercontent.com/u/20665651?v=4",
+            "https://avatars3.githubusercontent.com/u/9378142?v=4",
+            "https://avatars0.githubusercontent.com/u/25477403?v=4",
+            "https://avatars3.githubusercontent.com/u/4169755?v=4",
+            "https://avatars0.githubusercontent.com/u/25609625?v=4",
+            "https://avatars1.githubusercontent.com/u/49443561?v=4",
+            "https://avatars0.githubusercontent.com/u/4180918?v=4",
+            "https://avatars2.githubusercontent.com/u/4797634?v=4",
+            "https://avatars0.githubusercontent.com/u/56120495?v=4",
+            "https://avatars0.githubusercontent.com/u/35337167?v=4",
+            "https://avatars3.githubusercontent.com/u/3306301?v=4",
+            "https://avatars3.githubusercontent.com/u/55747532?v=4",
+            "https://avatars2.githubusercontent.com/u/57220600?v=4",
+            "https://avatars2.githubusercontent.com/u/53422583?v=4",
+            "https://avatars3.githubusercontent.com/u/52149402?v=4"
+        ],
+        "repos": [],
+        "total_num_contributors": 21,
+        "total_num_own_repo_forks": 7,
+        "total_num_forks_in_repos": 0,
+        "total_num_commits": 1776722,
+        "total_num_stars": 17,
+        "total_num_watchers": 37,
+        "total_commits_last_year": 464,
+        "repo_names": []
+    }
+]
