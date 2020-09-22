@@ -1,3 +1,4 @@
+# syntax = docker/dockerfile:1.0-experimental
 FROM python:3 as data
 ENV PYTHONUNBUFFERED 1
 WORKDIR /app

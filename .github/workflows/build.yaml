@@ -8,7 +8,7 @@ on:
 jobs:
   push_to_registry:
     name: Push Docker image to GitHub Packages
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -23,9 +23,9 @@ jobs:
           registry: docker.pkg.github.com
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: docekr version
-        run: docker --version
+      # -
+      #   name: docekr version
+      #   run: docker --version
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v2
         with:
