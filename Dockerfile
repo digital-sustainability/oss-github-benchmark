@@ -2,11 +2,11 @@
 FROM python:3 as data
 ENV PYTHONUNBUFFERED 1
 WORKDIR /app
-COPY requirements*.txt /app/
+COPY requirements*.txt .
 RUN pip install -r requirements.txt
-COPY github_repos.json /app/
-COPY OSS_github_benchmark.py /app/
-RUN --mount=type=secret,id=GITHUBTOKEN GITHUBTOKEN=$(cat /run/secrets/GITHUBTOKEN) python /app/OSS_github_benchmark.py
+COPY github_repos.json .
+COPY OSS_github_benchmark.py .
+RUN --mount=type=secret,id=GITHUBTOKEN GITHUBTOKEN=$(cat /run/secrets/GITHUBTOKEN) python ./OSS_github_benchmark.py
 
 FROM node:lts as frontend
 WORKDIR /app
