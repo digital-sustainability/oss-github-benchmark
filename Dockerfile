@@ -6,6 +6,7 @@ COPY requirements*.txt /app/
 RUN pip install -r requirements.txt
 COPY github_repos.json /app/
 COPY OSS_github_benchmark.py /app/
+RUN env
 RUN GITHUBTOKEN=${GITHUBTOKEN} python /app/OSS_github_benchmark.py
 
 FROM node:lts as frontend
