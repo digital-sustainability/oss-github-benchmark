@@ -30,6 +30,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: CodeOneTwo/oss-github-benchmark:latest
+          tags: codeonetwo/oss-github-benchmark:latest
           secrets: |
             GITHUBTOKEN=${{ secrets.G_API_TOKEN }}
