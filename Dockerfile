@@ -13,6 +13,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+COPY --from=data /app/oss-github-benchmark.* ./assets/
 RUN npm run build
 
 FROM nginx:alpine
