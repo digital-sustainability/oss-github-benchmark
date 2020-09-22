@@ -28,4 +28,4 @@ jobs:
           push: true
           tags: CodeOneTwo/oss-github-benchmark:latest
           secrets: |
-            G_API_TOKEN=${{ secrets.G_API_TOKEN }}
+            GITHUB_TOKEN=${{ secrets.G_API_TOKEN }}
