@@ -7,12 +7,20 @@ help:
 		@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 
+.PHONY: prepare
+prepare: run cp-files
+
 run: 		## Run this to create the json data
-		docker build -t oss-github .
+		docker build -t oss-github -f docker/Dockerfile.github-runner .
 		# docker run --rm -e GITHUBTOKEN=${GITHUBTOKEN} -v $(pwd):/app --name oss-github-runner oss-github
 		docker run --rm -e GITHUBTOKEN=$(GITHUBTOKEN) -v $(shell pwd):/app --name oss-github-runner oss-github
 		docker rmi oss-github
+		cp 
 
 explore: 	## This is used to start the jupyter notebook
 		docker build -t oss-github-jupyter -f docker/Dockerfile.jupyter .
 		docker run --rm -e GITHUBTOKEN=$(GITHUBTOKEN) -p 8888:8888 -v $(shell pwd)/docs/notebooks/:/home/jovyan/work --name oss-github-jupyter-runner oss-github-jupyter
+		
+cp-files:       ## This is to copy files
+		cp ./oss-github-benchmark.csv ./assets/
+		cp ./oss-github-benchmark.json ./assets/
