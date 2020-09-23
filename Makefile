@@ -15,7 +15,6 @@ run: 		## Run this to create the json data
 		# docker run --rm -e GITHUBTOKEN=${GITHUBTOKEN} -v $(pwd):/app --name oss-github-runner oss-github
 		docker run --rm -e GITHUBTOKEN=$(GITHUBTOKEN) -v $(shell pwd):/app --name oss-github-runner oss-github
 		docker rmi oss-github
-		cp 
 
 explore: 	## This is used to start the jupyter notebook
 		docker build -t oss-github-jupyter -f docker/Dockerfile.jupyter .
