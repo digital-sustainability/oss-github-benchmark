@@ -8,7 +8,7 @@ help:
 
 
 .PHONY: prepare
-prepare: run cp-files
+prepare: run cp-files ## run and copy files
 
 run: 		## Run this to create the json data
 		docker build -t oss-github -f docker/Dockerfile.github-runner .
