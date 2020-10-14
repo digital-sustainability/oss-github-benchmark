@@ -29,5 +29,8 @@ cp-files:       ## This is to copy files
 install-deps:   ## npm install in a docker
 		docker-compose -f docker/dev/docker-compose.yml -p $(project_name) run --rm npm install
 
-serve: 		## npm start in docker
+start: 		## npm start in docker
 		docker-compose -f docker/dev/docker-compose.yml -p $(project_name) up -d
+
+stop: 		## stop app in docker
+		docker-compose -f docker/dev/docker-compose.yml -p $(project_name) down
