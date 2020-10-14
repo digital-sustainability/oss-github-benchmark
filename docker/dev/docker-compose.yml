@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  app:
+    image: node:12
+    working_dir: /app
+    volumes:
+      - "../../:/app"
+    command: "npm start"

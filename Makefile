@@ -1,4 +1,6 @@
 
+project_name = $(shell basename $(PWD))
+
 # A help function from https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 .DEFAULT_GOAL := help
 
@@ -23,3 +25,9 @@ explore: 	## This is used to start the jupyter notebook
 cp-files:       ## This is to copy files
 		cp ./oss-github-benchmark.csv ./assets/
 		cp ./oss-github-benchmark.json ./assets/
+
+install-deps:   ## npm install in a docker
+		docker-compose -f docker/dev/docker-compose.yml -p $(project_name) run --rm npm install
+
+serve: 		## npm start in docker
+		docker-compose -f docker/dev/docker-compose.yml -p $(project_name) up -d
