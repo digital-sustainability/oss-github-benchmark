@@ -27,7 +27,7 @@ cp-files:       ## This is to copy files
 		cp ./oss-github-benchmark.json ./assets/
 
 install-deps:   ## npm install in a docker
-		docker-compose -f docker/dev/docker-compose.yml -p $(project_name) run --rm npm install
+		docker-compose -f docker/dev/docker-compose.yml -p $(project_name) run --rm app npm install
 
 start: 		## npm start in docker
 		docker-compose -f docker/dev/docker-compose.yml -p $(project_name) up -d
