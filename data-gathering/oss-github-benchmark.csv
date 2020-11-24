@@ -1,0 +1,70 @@
+sector,name,num_repos,num_members,total_num_contributors,total_num_own_repo_forks,total_num_forks_in_repos,total_num_stars,total_commits_last_year,orgs,avatar,repo_names
+IT,4teamwork AG,259,31,86,12,0,35,135,['4teamwork'],['https://avatars2.githubusercontent.com/u/681821?v=4'],"['ftw.manager', 'ftw.publisher.sender', 'ftw.publisher.receiver', 'ftw.publisher.core', 'ftw.table', 'ftw.publisher.example', 'ftw.publisher-example-buildout', 'collective.tinymceplugins.tooltip', 'collective.hashtags', 'ftw.pdfgenerator', 'ftw.upgrade']"
+IT,56K Cloud,7,3,11,86,1,159,165,['56kcloud'],['https://avatars0.githubusercontent.com/u/22938212?v=4'],"['Training', 'docker-windows-server', 'website', 'traefik-training', 'katacoda-scenarios', 'terraform-grafana']"
+IT,Adfinis SyGroup,251,21,31,46,11,55,92,"['adfinis-sygroup', 'adfinis-forks']","['https://avatars2.githubusercontent.com/u/1175860?v=4', 'https://avatars0.githubusercontent.com/u/17927116?v=4']","['freeze', 'groupmail', '2119', 'vagrant-roundcube-plugins', 'roundcube-plugin-mailforward', 'roundcube-plugin-amavisspamsettings', 'adcssy', 'customer-center', 'ember-adcssy', 'finja', 'virtesk']"
+IT,AdNovum Informatik AG,34,0,16,53,10,83,9,['adnovum'],['https://avatars2.githubusercontent.com/u/18482708?v=4'],['sonar-build-breaker']
+,Abraxas,0,1,0,0,0,0,0,['abraxas-labs'],['https://avatars0.githubusercontent.com/u/59100330?v=4'],[]
+IT,amazee.io,83,6,75,87,2,63,13,['amazeeio'],['https://avatars3.githubusercontent.com/u/14974468?v=4'],"['cachalot', 'docker-haproxy', 'homebrew-cachalot', 'docker', 'docker-ssh-agent', 'docs', 'pygmy', 'drupal-setting-files', 'amazeeio-docker-windows']"
+IT,Bedag,12,0,8,7,4,9,59,['bedag'],['https://avatars0.githubusercontent.com/u/11767306?v=4'],"['git-deploy', 'image-build', 'kubeless-metacontroller-crd', 'kusible', 'vault-secret-broker', 'bedag.github.io', 'helm-charts']"
+IT,BSI Business Systems Integration AG,41,4,6,12,9,6,0,['BSI-Business-Systems-Integration-AG'],['https://avatars2.githubusercontent.com/u/893651?v=4'],"['scoutbook', 'eclipse.org-scout']"
+IT,Camptocamp,719,30,152,447,1,389,32,['camptocamp'],['https://avatars0.githubusercontent.com/u/28109?v=4'],"['puppet-tomcat', 'puppet-nagios', 'puppet-apache_c2c', 'puppet-postfix', 'puppet-iptables', 'puppet-rsyncd', 'puppet-os', 'puppet-haproxy_c2c', 'puppet-rdiff_backup', 'puppet-aws']"
+IT,cloudscale.ch AG,57,0,0,0,11,0,0,['cloudscale-ch'],['https://avatars1.githubusercontent.com/u/23522857?v=4'],[]
+IT,cyon GmbH,29,1,3,2,8,6,0,['cyon'],['https://avatars2.githubusercontent.com/u/956240?v=4'],"['docker-acmetool', 'docker-acmetool-libcloud', 'hakuna-client-js']"
+IT,DV Bern,26,3,46,13,0,22,66,['dvbern'],['https://avatars2.githubusercontent.com/u/26630759?v=4'],"['dvbern.github.io', 'oss-publishing-templates', 'beanvalidation', 'cdi-persistence', 'datatypes', 'date-helper', 'excelmerger', 'iso20022', 'doctemplate', 'codestyles', 'oss-maven-parent-pom']"
+IT,ELCA,12,2,26,0,8,0,0,['ElcaIT'],['https://avatars1.githubusercontent.com/u/15812618?v=4'],"['grinder-toolbox', 'polyhack-2017', 'hacking-utopia-2017']"
+IT,Exoscale,247,14,31,27,5,140,8,['exoscale'],['https://avatars3.githubusercontent.com/u/2023286?v=4'],"['collectd-cloudstack', 'riemann-grid', 'megaraid-collectd', 'riemann-mysql', 'clostack', 'vagrant-exoscale-boxes']"
+IT,iSolutions,3,2,7,3,0,0,0,['isolutionsag'],['https://avatars2.githubusercontent.com/u/26957814?v=4'],"['Vega', 'SOLIDTraining', 'yb-hackathon-2019']"
+IT,Interactive Things,42,9,14,46,6,231,72,['interactivethings'],['https://avatars3.githubusercontent.com/u/316761?v=4'],"['afghan-2010-visualizations', 'SassDoc', 'make.opendata.ch', 'swiss-maps', 'd3-indent']"
+IT,ITIGO AG,29,3,6,7,0,1,17,['itigoag'],['https://avatars3.githubusercontent.com/u/42246468?v=4'],['chocolatey.adobe-acrobat-reader-dc']
+,Garaio,0,0,0,0,0,0,0,[],[],[]
+,gyselroth,0,0,0,0,0,0,0,[],[],[]
+,Liip,0,0,0,0,0,0,0,[],[],[]
+,mimacom,0,0,0,0,0,0,0,[],[],[]
+,Netcetera,0,0,0,0,0,0,0,[],[],[]
+,OPENGIS.ch GmbH,0,0,0,0,0,0,0,[],[],[]
+,Openstream Internet Solutions,0,0,0,0,0,0,0,[],[],[]
+,Puzzle ITC,0,0,0,0,0,0,0,[],[],[]
+,Snowflake,0,0,0,0,0,0,0,[],[],[]
+,Sourcepole,0,0,0,0,0,0,0,[],[],[]
+,Tegonal,0,0,0,0,0,0,0,[],[],[]
+,unprofession,0,0,0,0,0,0,0,[],[],[]
+,VSHN AG,0,0,0,0,0,0,0,[],[],[]
+,XWare GmbH,0,0,0,0,0,0,0,[],[],[]
+,Zühlke,0,0,0,0,0,0,0,[],[],[]
+,APPUiO,0,0,0,0,0,0,0,[],[],[]
+,arillso,0,0,0,0,0,0,0,[],[],[]
+,dat.alets.ch,0,0,0,0,0,0,0,[],[],[]
+,Hitobito,0,0,0,0,0,0,0,[],[],[]
+,OpenOlitor,0,0,0,0,0,0,0,[],[],[]
+,School of Data in Switzerland,0,0,0,0,0,0,0,[],[],[]
+,AXA Winterthur,0,0,0,0,0,0,0,[],[],[]
+,Baloise,0,0,0,0,0,0,0,[],[],[]
+,CSS,0,0,0,0,0,0,0,[],[],[]
+,Helsana,0,0,0,0,0,0,0,[],[],[]
+,Mobiliar,0,0,0,0,0,0,0,[],[],[]
+,Zürich Versicherung,0,0,0,0,0,0,0,[],[],[]
+,Vaudoise,0,0,0,0,0,0,0,[],[],[]
+,Postfinance,0,0,0,0,0,0,0,[],[],[]
+,SRG,0,0,0,0,0,0,0,[],[],[]
+,NZZ,0,0,0,0,0,0,0,[],[],[]
+,Radio Bern RaBe,0,0,0,0,0,0,0,[],[],[]
+,Scout24 Schweiz AG,0,0,0,0,0,0,0,[],[],[]
+,SWISS TXT AG,0,0,0,0,0,0,0,[],[],[]
+,Post,0,0,0,0,0,0,0,[],[],[]
+,SBB,0,0,0,0,0,0,0,[],[],[]
+,Swisscom,0,0,0,0,0,0,0,[],[],[]
+,Arbeitslosenversicherung,0,0,0,0,0,0,0,[],[],[]
+,Bundesamt für Statistik,0,0,0,0,0,0,0,[],[],[]
+,Bundeskanzlei,0,0,0,0,0,0,0,[],[],[]
+,MeteoSwiss,0,0,0,0,0,0,0,[],[],[]
+,swisstopo,0,0,0,0,0,0,0,[],[],[]
+,Kanton Basel-Stadt,0,0,0,0,0,0,0,[],[],[]
+,Kanton Bern,0,0,0,0,0,0,0,[],[],[]
+,Kanton Neuenburg,0,0,0,0,0,0,0,[],[],[]
+,Kanton Solothurn,0,0,0,0,0,0,0,[],[],[]
+,Kanton Waadt,0,0,0,0,0,0,0,[],[],[]
+,Kanton Zürich,0,0,0,0,0,0,0,[],[],[]
+,Zürich,0,0,0,0,0,0,0,[],[],[]
+,Bern,0,0,0,0,0,0,0,[],[],[]
+,Berner Fachhochschule,0,0,0,0,0,0,0,[],[],[]
+,Universität Bern,0,0,0,0,0,0,0,[],[],[]
