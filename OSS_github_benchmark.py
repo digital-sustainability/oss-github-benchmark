@@ -5,6 +5,7 @@ import csv
 import os
 import traceback
 from github import Github
+import pickle
 
 # GitHub Login mittels Token
 g = Github(os.environ['GITHUBTOKEN'])
@@ -15,6 +16,10 @@ with open('github_repos.json', encoding='utf-8') as file:
 institutions_data = []
 counter = 0
 sector = ""
+
+problematic_repos = {
+    'own_commit_problems': []
+}
 
 # Alle Branchen rausholen
 for sector_key, sector in githubrepos["GitHubRepos"].items():
@@ -85,6 +90,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                             except:
                                 print(org)
                                 print(repo.parent.owner)
+                                problematic_repos['own_commit_problems'].append(repo)
                                 traceback.print_exc()
 
                         # Zahlreiche Attribute eines Repos herausholen: Name, Fork (eines anderen Repos), wie oft geforkt, Contributors, Commits, Stars, Watchers und Commits der letzten 12 Monate
@@ -171,3 +177,7 @@ with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvf
 print( json.dumps(institutions_data, indent=4))
 f = open("oss-github-benchmark.json", "w")
 f.write(json.dumps(institutions_data, indent=4))
+
+
+with open('problematic_repos.pickle', encoding='utf-8') as file:
+    pickle.dump(problematic_repos, file)
