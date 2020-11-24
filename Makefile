@@ -13,9 +13,9 @@ help:
 prepare: run cp-files ## run and copy files
 
 run: 		## Run this to create the json data
-		docker build -t oss-github -f docker/Dockerfile.github-runner .
+		docker build -t oss-github data-gathering
 		# docker run --rm -e GITHUBTOKEN=${GITHUBTOKEN} -v $(pwd):/app --name oss-github-runner oss-github
-		docker run --rm -e GITHUBTOKEN=$(GITHUBTOKEN) -v $(shell pwd):/app --name oss-github-runner oss-github
+		docker run --rm -e GITHUBTOKEN=$(GITHUBTOKEN) -v $(shell pwd)/data-gathering:/app --name oss-github-runner oss-github
 		docker rmi oss-github
 
 explore: 	## This is used to start the jupyter notebook
@@ -23,8 +23,8 @@ explore: 	## This is used to start the jupyter notebook
 		docker run --rm -e GITHUBTOKEN=$(GITHUBTOKEN) -p 8888:8888 -v $(shell pwd)/docs/notebooks/:/home/jovyan/work --name oss-github-jupyter-runner oss-github-jupyter
 		
 cp-files:       ## This is to copy files
-		cp ./oss-github-benchmark.csv ./assets/
-		cp ./oss-github-benchmark.json ./assets/
+		cp ./data-gathering/oss-github-benchmark.csv ./assets/
+		cp ./data-gathering/oss-github-benchmark.json ./assets/
 
 install-deps:   ## npm install in a docker
 		docker-compose -f docker/dev/docker-compose.yml -p $(project_name) run --rm app npm install

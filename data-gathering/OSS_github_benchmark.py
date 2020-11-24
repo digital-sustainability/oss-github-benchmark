@@ -4,8 +4,16 @@ import json
 import csv
 import os
 import traceback
+import datetime
 from github import Github
+import github
+import logging
 import pickle
+from time import sleep
+
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger()
 
 # GitHub Login mittels Token
 g = Github(os.environ['GITHUBTOKEN'])
@@ -22,6 +30,14 @@ problematic_repos = {
     'repo_load': [],
     'repo_other': []
 }
+
+
+def handle_rate_limit():
+    reset_time = datetime.datetime.fromtimestamp(g.rate_limiting_resettime)
+    logger.warning(f'rate limit exceeded, continuing on {reset_time}')
+    while datetime.datetime.now() < reset_time:
+        sleep(1)
+
 
 # Alle Branchen rausholen
 for sector_key, sector in githubrepos["GitHubRepos"].items():
@@ -143,6 +159,9 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                         if error_counter > 100:
                             print("Laden der Daten wurde nach 100 fehlerhaften Abrufen abgebrochen")
                             break
+                    except github.RateLimitExceededException:
+                        handle_rate_limit()
+                        traceback.print_exc()
                     except:
                         problematic_repos['repo_other'].append(repo)
                         traceback.print_exc()
@@ -152,6 +171,9 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                             break
                 if error_counter > 100:
                     break
+            except github.RateLimitExceededException:
+                handle_rate_limit()
+                traceback.print_exc()
             except:
                 traceback.print_exc()
         print("Anzahl GitHub Repos von " + institution["name"] + ": " + str(institution_data["num_repos"]))
