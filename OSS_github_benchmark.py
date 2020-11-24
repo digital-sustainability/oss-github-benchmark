@@ -18,7 +18,9 @@ counter = 0
 sector = ""
 
 problematic_repos = {
-    'own_commit_problems': []
+    'repo_own_commit': [],
+    'repo_load': [],
+    'repo_other': []
 }
 
 # Alle Branchen rausholen
@@ -90,7 +92,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                             except:
                                 print(org)
                                 print(repo.parent.owner)
-                                problematic_repos['own_commit_problems'].append(repo)
+                                problematic_repos['repo_own_commit'].append(repo)
                                 traceback.print_exc()
 
                         # Zahlreiche Attribute eines Repos herausholen: Name, Fork (eines anderen Repos), wie oft geforkt, Contributors, Commits, Stars, Watchers und Commits der letzten 12 Monate
@@ -135,6 +137,15 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                             break
                     except RuntimeError as error:
                         print("Fehler beim Laden der Daten von '" + repo.name + "' :" + error)
+                        problematic_repos['repo_load'].append(repo)
+                        traceback.print_exc()
+                        error_counter += 1
+                        if error_counter > 100:
+                            print("Laden der Daten wurde nach 100 fehlerhaften Abrufen abgebrochen")
+                            break
+                    except:
+                        problematic_repos['repo_other'].append(repo)
+                        traceback.print_exc()
                         error_counter += 1
                         if error_counter > 100:
                             print("Laden der Daten wurde nach 100 fehlerhaften Abrufen abgebrochen")
@@ -174,10 +185,10 @@ with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvf
 # institutions_data.sort(key=lambda x: x[2], reverse=True)
 
 #JSON Output auf Konsole und in neues File
-print( json.dumps(institutions_data, indent=4))
+# print( json.dumps(institutions_data, indent=4))
 f = open("oss-github-benchmark.json", "w")
 f.write(json.dumps(institutions_data, indent=4))
 
 
-with open('problematic_repos.pickle', encoding='utf-8') as file:
+with open('problematic_repos.pickle', 'wb') as file:
     pickle.dump(problematic_repos, file)
