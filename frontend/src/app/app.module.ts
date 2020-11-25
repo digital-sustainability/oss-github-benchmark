@@ -13,6 +13,7 @@ import { DimensionSelectorComponent } from './dimension-selector/dimension-selec
 import { FormsModule } from '@angular/forms';
 import { ListComponent } from './metric/list/list.component';
 import { ItemComponent } from './metric/item/item.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ItemComponent } from './metric/item/item.component';
     CommonModule,
     VisualizationsModule,
     FormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
