@@ -1,0 +1,9 @@
+<aside>
+  <app-dimension-selector [data]="data" [(options)]="options">
+  </app-dimension-selector>
+  <!-- <button id="addVisualization">add Visualization</button> -->
+</aside>
+<main>
+  <app-visualizations *ngIf="data" [options]="options" [data]="data">
+  </app-visualizations>
+</main>

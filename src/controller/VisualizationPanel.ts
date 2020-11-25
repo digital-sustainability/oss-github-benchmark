@@ -1,4 +1,4 @@
-import {VisualizationType} from "./interfaces/VisualizationType";
+import {VisualizationType} from "../interfaces/VisualizationType";
 
 export class VisualizationPanel {
     public element: HTMLElement;
@@ -18,7 +18,7 @@ export class VisualizationPanel {
         this.width = vState.width;
         this.height = vState.height;
         this.render();
-        this.visualization.update(state, vState.vOptions);
+        // this.visualization.update(state, vState.vOptions);
     }
 
     render() {
