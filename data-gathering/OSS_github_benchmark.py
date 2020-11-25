@@ -4,7 +4,16 @@ import json
 import csv
 import os
 import traceback
+import datetime
 from github import Github
+import github
+import logging
+import pickle
+from time import sleep
+
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger()
 
 # GitHub Login mittels Token
 g = Github(os.environ['GITHUBTOKEN'])
@@ -15,6 +24,20 @@ with open('github_repos.json', encoding='utf-8') as file:
 institutions_data = []
 counter = 0
 sector = ""
+
+problematic_repos = {
+    'repo_own_commit': [],
+    'repo_load': [],
+    'repo_other': []
+}
+
+
+def handle_rate_limit():
+    reset_time = datetime.datetime.fromtimestamp(g.rate_limiting_resettime)
+    logger.warning(f'rate limit exceeded, continuing on {reset_time}')
+    while datetime.datetime.now() < reset_time:
+        sleep(1)
+
 
 # Alle Branchen rausholen
 for sector_key, sector in githubrepos["GitHubRepos"].items():
@@ -85,6 +108,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                             except:
                                 print(org)
                                 print(repo.parent.owner)
+                                problematic_repos['repo_own_commit'].append(repo)
                                 traceback.print_exc()
 
                         # Zahlreiche Attribute eines Repos herausholen: Name, Fork (eines anderen Repos), wie oft geforkt, Contributors, Commits, Stars, Watchers und Commits der letzten 12 Monate
@@ -129,12 +153,27 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                             break
                     except RuntimeError as error:
                         print("Fehler beim Laden der Daten von '" + repo.name + "' :" + error)
+                        problematic_repos['repo_load'].append(repo)
+                        traceback.print_exc()
+                        error_counter += 1
+                        if error_counter > 100:
+                            print("Laden der Daten wurde nach 100 fehlerhaften Abrufen abgebrochen")
+                            break
+                    except github.RateLimitExceededException:
+                        handle_rate_limit()
+                        traceback.print_exc()
+                    except:
+                        problematic_repos['repo_other'].append(repo)
+                        traceback.print_exc()
                         error_counter += 1
                         if error_counter > 100:
                             print("Laden der Daten wurde nach 100 fehlerhaften Abrufen abgebrochen")
                             break
                 if error_counter > 100:
                     break
+            except github.RateLimitExceededException:
+                handle_rate_limit()
+                traceback.print_exc()
             except:
                 traceback.print_exc()
         print("Anzahl GitHub Repos von " + institution["name"] + ": " + str(institution_data["num_repos"]))
@@ -168,6 +207,10 @@ with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvf
 # institutions_data.sort(key=lambda x: x[2], reverse=True)
 
 #JSON Output auf Konsole und in neues File
-print( json.dumps(institutions_data, indent=4))
+# print( json.dumps(institutions_data, indent=4))
 f = open("oss-github-benchmark.json", "w")
 f.write(json.dumps(institutions_data, indent=4))
+
+
+with open('problematic_repos.pickle', 'wb') as file:
+    pickle.dump(problematic_repos, file)

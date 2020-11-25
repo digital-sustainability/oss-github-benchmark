@@ -3,6 +3,7 @@ import "../styles/main.scss";
 // import {registerManager} from "./visualizationManager";
 import { Bubble } from "./visualizations/bubbles";
 import {SunBurst} from "./visualizations/sunburst";
+import {IState} from "./interfaces/State";
 
 console.log("started");
 
@@ -40,7 +41,7 @@ const visualizations = [
 ]
 
 
-let state = {
+let state: IState = {
     ...dataInfo,
     jsonData: [],
     csvData: [],

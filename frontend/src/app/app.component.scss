@@ -1,0 +1,15 @@
+$navigation-height: 4rem;
+
+.main-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-nav {
+  height: $navigation-height;
+}
+
+.main-content {
+  overflow-y: auto;
+}

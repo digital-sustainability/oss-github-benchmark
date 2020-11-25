@@ -1,0 +1,9 @@
+<!-- <form #dimesionForm="ngForm"> -->
+<form>
+  <select name="dimension1" [(ngModel)]="options.dimension1" [value]="options.dimension1.friendly_name">
+    <option *ngFor="let dimension of dimensionOptions" [value]="dimension.friendly_name" [ngValue]="dimension"></option>
+  </select>
+  <select name="dimension2" [(ngModel)]="options.dimension1" [value]="options.dimension1.friendly_name">
+    <option *ngFor="let dimension of dimensionOptions" [value]="dimension.friendly_name" [ngValue]="dimension"></option>
+  </select>
+</form>

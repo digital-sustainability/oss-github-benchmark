@@ -69,7 +69,7 @@ class VisualizationManager {
         })
         newVisualizationStates.forEach( vState => {
             const v = this.visualizations.filter(v => vState.id === v.id)[0];
-            v.visualization.setup(state, vState)
+            // v.visualization.setup(state, vState)
         })
         visualizationStates.forEach( vState => {
             const v = this.visualizations.filter(v => vState.id === v.id)[0];
