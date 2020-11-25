@@ -1,15 +1,9 @@
-$navigation-height: 4rem;
-
-.main-container {
+:host {
   height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-.main-nav {
-  height: $navigation-height;
-}
-
-.main-content {
+.main-container {
   overflow-y: auto;
 }
