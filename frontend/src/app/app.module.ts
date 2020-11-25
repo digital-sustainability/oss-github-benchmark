@@ -14,6 +14,11 @@ import { FormsModule } from '@angular/forms';
 import { ListComponent } from './metric/list/list.component';
 import { ItemComponent } from './metric/item/item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+
+
 
 @NgModule({
   declarations: [
@@ -32,6 +37,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     VisualizationsModule,
     FormsModule,
     BrowserAnimationsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

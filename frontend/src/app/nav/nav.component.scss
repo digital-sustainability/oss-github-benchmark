@@ -1,37 +1,18 @@
 @import "../../styles/colors.scss";
 
-$navigation-height: 4rem;
-
-.main-nav {
-  display: flex;
-  height: $navigation-height;
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  background-color: $background;
-  z-index: 1;
+// img {
+//   max-height: 100%;
+//   width: auto;
+//   height: 100%;
+//   box-sizing: border-box;
+//   padding: 0.3rem;
+// }
+span.title {
+  margin-right: 12px;
 }
-nav {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  >button {
-    padding: 0.8em 1em;
-    text-transform: uppercase;
-    border: none;
-    background: none;
-    cursor: pointer;
-  }
-  >button:focus {
-    outline: none;
-  }
-
+mat-icon {
+  margin-right: 6px;
 }
-img {
-  max-height: 100%;
-  width: auto;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 0.3rem;
+.spacer {
+  flex: 1 1 auto;
 }
