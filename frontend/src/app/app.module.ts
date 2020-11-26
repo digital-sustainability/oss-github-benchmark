@@ -20,6 +20,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {ExploreModule} from './explore/explore.module';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
+import {MatInputModule} from '@angular/material/input';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 
 
@@ -45,8 +47,10 @@ import {MatCardModule} from '@angular/material/card';
     MatButtonModule,
     MatIconModule,
     MatSelectModule,
+    MatInputModule,
     MatCardModule,
     ExploreModule,
+    Ng2SearchPipeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
