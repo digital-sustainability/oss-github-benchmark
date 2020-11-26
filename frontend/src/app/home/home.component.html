@@ -1,7 +1,9 @@
 <aside>
-  <app-dimension-selector [data]="data" [(options)]="options">
+  <mat-card>
+  <app-dimension-selector (optionsChange)="changeOptions($event)">
   </app-dimension-selector>
   <!-- <button id="addVisualization">add Visualization</button> -->
+  </mat-card>
 </aside>
 <main>
   <app-visualizations *ngIf="data" [options]="options" [data]="data">

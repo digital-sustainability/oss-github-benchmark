@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, ElementRef, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
-import { IData, Metric } from 'src/app/data.service';
+import { IData } from 'src/app/data.service';
 import * as _ from 'lodash';
+import {Options} from '../options';
 
 @Component({
   selector: 'app-visualization-bubble',
@@ -10,11 +11,7 @@ import * as _ from 'lodash';
 })
 export class BubbleComponent implements OnInit, OnChanges {
   @Input() data: IData;
-  @Input() options: {
-    dimension1: Metric;
-    dimension2: Metric;
-    dimension3: Metric;
-  };
+  @Input() options: Options;
   svg: any;
   text: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>;
   yscale: d3.ScaleLinear<number, number, never>;

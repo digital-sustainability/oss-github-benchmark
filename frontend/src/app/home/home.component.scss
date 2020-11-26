@@ -93,3 +93,8 @@ main {
     height: 600px;
     border: 1px solid #bbb;
 }
+aside>mat-card {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto ;
+}

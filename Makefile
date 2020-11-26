@@ -20,7 +20,11 @@ run: 		## Run this to create the json data
 
 explore: 	## This is used to start the jupyter notebook
 		docker build -t oss-github-jupyter -f docker/Dockerfile.jupyter .
-		docker run --rm -e GITHUBTOKEN=$(GITHUBTOKEN) -p 8888:8888 -v $(shell pwd)/docs/notebooks/:/home/jovyan/work --name oss-github-jupyter-runner oss-github-jupyter
+		docker run -d -e GITHUBTOKEN=$(GITHUBTOKEN) -p 8888:8888 -v $(shell pwd)/docs/notebooks/:/home/jovyan/work -v $(shell pwd)/data-gathering/:/home/jovyan/work/data-gathering --name oss-github-jupyter-runner oss-github-jupyter
+
+stop-explore: 	## This is used to start the jupyter notebook
+		docker stop oss-github-jupyter-runner
+		docker rm oss-github-jupyter-runner
 		
 cp-files:       ## This is to copy files
 		cp ./data-gathering/oss-github-benchmark.csv ./assets/

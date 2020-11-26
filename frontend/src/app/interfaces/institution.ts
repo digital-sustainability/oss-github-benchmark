@@ -1,4 +1,5 @@
 export interface IInstitution {
+    name: string;
     orgs: string[];
     num_orgs: number;
     num_repos: number;

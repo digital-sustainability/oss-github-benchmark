@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { ExploreRoutingModule } from './explore-routing.module';
 import { TreeComponent } from './tree/tree.component';
-import {MatTreeModule} from '@angular/material/tree';
-import {MatIconModule} from '@angular/material/icon';
-import {MatCardModule} from '@angular/material/card';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 import { ExploreComponent } from './explore.component';
-
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [TreeComponent, ExploreComponent],
@@ -16,7 +16,8 @@ import { ExploreComponent } from './explore.component';
     ExploreRoutingModule,
     MatTreeModule,
     MatIconModule,
-    MatCardModule
-  ]
+    MatButtonModule,
+    MatCardModule,
+  ],
 })
-export class ExploreModule { }
+export class ExploreModule {}
