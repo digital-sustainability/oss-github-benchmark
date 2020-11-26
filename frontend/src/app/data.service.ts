@@ -9,7 +9,7 @@ import { shareReplay } from 'rxjs/operators';
 })
 export class DataService {
 
-  dimensionOptions = this.http.get<Metric[]>('/assets/options.json').pipe(shareReplay(1));
+  dimensionOptions = this.http.get<Metric[]>('assets/options.json').pipe(shareReplay(1));
 
   constructor(private http: HttpClient) {
   }
