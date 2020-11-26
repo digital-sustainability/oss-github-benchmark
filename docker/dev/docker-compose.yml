@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  app:
+    image: node:12
+    working_dir: /app
+    user: node
+    ports:
+      - 4200:4200
+    volumes:
+      - "../../frontend:/app"
+    command: "npm start"

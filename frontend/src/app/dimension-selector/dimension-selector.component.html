@@ -1,0 +1,27 @@
+<!-- <form #dimesionForm="ngForm"> -->
+<form [formGroup]="dimensionForm">
+  <mat-form-field>
+    <mat-label>Dimension1</mat-label>
+    <mat-select formControlName="dimension1">
+      <mat-option *ngFor="let metric of metrics" [value]="metric.key">
+        {{ metric.friendly_name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Dimension2</mat-label>
+    <mat-select formControlName="dimension2">
+      <mat-option *ngFor="let metric of metrics" [value]="metric.key">
+        {{ metric.friendly_name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Dimension3</mat-label>
+    <mat-select formControlName="dimension3">
+      <mat-option *ngFor="let metric of metrics" [value]="metric.key">
+        {{ metric.friendly_name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>
