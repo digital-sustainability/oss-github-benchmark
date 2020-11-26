@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnChanges, OnInit } from '@angular/core';
 import {IData} from 'src/app/data.service';
 import {Options} from '../options';
 import * as d3 from 'd3';
-import {IInstitution} from 'src/app/interfaces/institution';
+import {ISector} from 'src/app/interfaces/institution';
 
 @Component({
   selector: 'app-visualization-sunburst',
@@ -89,7 +89,7 @@ export class SunburstComponent implements OnInit, OnChanges {
       .append('text')
       .attr('text-anchor', 'middle')
       .attr('fill', '#888')
-      .style('visibility', 'hidden');
+      // .style('visibility', 'hidden');
 
     this.label
       .append('tspan')
@@ -102,10 +102,19 @@ export class SunburstComponent implements OnInit, OnChanges {
 
     this.label
       .append('tspan')
+      .attr('class', 'sectionName')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('dy', '4em')
+      .attr('font-size', '2em')
+      .text('filler')
+
+    this.label
+      .append('tspan')
       .attr('x', 0)
       .attr('y', 0)
       .attr('dy', '1.5em')
-      .text('of visits begin with this sequence');
+      .text('Beinhaltet Anzahl Commits');
 
     if (this.data) {
       this.update();
@@ -155,7 +164,7 @@ export class SunburstComponent implements OnInit, OnChanges {
       )
       .join('path')
       .attr('d', this.mousearc)
-      .on('mouseenter', (d) => {
+      .on('mouseenter', (event, d) => {
         // Get the ancestors of the current segment, minus the root
         const sequence = d.ancestors().reverse().slice(1);
         // Highlight the ancestors
@@ -167,6 +176,10 @@ export class SunburstComponent implements OnInit, OnChanges {
           .style('visibility', null)
           .select('.percentage')
           .text(percentage + '%');
+
+        this.label
+          .select('.sectionName')
+          .text(d.data.name);
         // Update the value of this view with the currently hovered sequence and percentage
         this.element.value = { sequence, percentage };
         this.element.dispatchEvent(new CustomEvent('input'));
@@ -183,33 +196,24 @@ export class SunburstComponent implements OnInit, OnChanges {
     );
   }
 
-  prepareData(data: IInstitution[]) {
-      const categorized = {
-          other: []
-      }
-
-      data.forEach( inst => {
-          if (inst.sector) {
-              if (categorized.hasOwnProperty(inst.sector)) {
-                  categorized[inst.sector].push(inst);
-              } else {
-                  categorized[inst.sector] = [inst];
-              }
-          } else {
-              categorized.other.push(inst);
-          }
-      });
-      const data1 = Object.keys(categorized).map( sector => {
+  prepareData(data: ISector) {
+      const data1 = Object.keys(data).map( sector => {
           return {
               name: sector,
-              children: categorized[sector].map(inst => {
+              children: data[sector].map(inst => {
                   return {
                       name: inst.name,
                       total: inst['total_num_commits'],
-                      children: inst.repos.map(repo => {
+                      children: inst.orgs.map(org => {
                           return {
-                              name: repo.name,
-                              total: repo['num_commits']
+                              name: org.name,
+                              total: org['total_num_commits'],
+                              children: org.repos.map( repo => {
+                                return {
+                                  name: repo.name,
+                                  total: org['num_commits']
+                                }
+                              })
                           };
                       })
                   };

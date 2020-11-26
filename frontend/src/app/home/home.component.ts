@@ -16,7 +16,9 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.dataService.loadData().then( data => this.data = data);
+    this.dataService.loadData().then( data => {
+      this.data = data;
+    });
   }
 
   changeOptions(options): void {

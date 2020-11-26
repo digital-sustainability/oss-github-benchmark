@@ -11,13 +11,68 @@
     },
     {
       "key": "total_num_contributors",
-      "friendly_name": "Anzahl von Repositories",
-      "description": "Anzahl von Repositories"
+      "friendly_name": "Anzahl von Contributors",
+      "description": "Anzahl von Contributors"
     },
     {
       "key": "num_members",
       "friendly_name": "Anzahl Members",
       "description": "Liste aller User welche Member der Github Organisation sind"
+    },
+    {
+      "key": "total_num_own_repo_forks",
+      "friendly_name": "Anzahl eigener Forks",
+      "description": "Totale Anzahl von eigenen Forks"
+    },
+    {
+      "key": "total_num_forks_in_repos",
+      "friendly_name": "Anzahl Forks",
+      "description": "Totale Anzahl Forks"
+    },
+    {
+      "key": "total_num_commits",
+      "friendly_name": "Anzahl Commits",
+      "description": "Totale Anzahl Commits"
+    },
+    {
+      "key": "total_num_stars",
+      "friendly_name": "Anzahl Stars",
+      "description": "Totale Anzahl Stars"
+    },
+    {
+      "key": "total_num_watchers",
+      "friendly_name": "Anzahl Watchers",
+      "description": "Totale Anzahl Watchers"
+    },
+    {
+      "key": "total_commits_last_year",
+      "friendly_name": "Anzahl Commits (Jahr)",
+      "description": "Totale Anzahl Commits im letzten Jahr"
+    },
+    {
+      "key": "total_pull_requests_all",
+      "friendly_name": "Anzahl Pull Requests",
+      "description": "Totale Anzahl Pull Requests"
+    },
+    {
+      "key": "total_pull_requests_closed",
+      "friendly_name": "Anzahl geschlossene Pull Requests",
+      "description": "Totale Anzahl von geschlossenen Pull Requests"
+    },
+    {
+      "key": "total_issues_all",
+      "friendly_name": "Anzahl Issues",
+      "description": "Totale Anzahl Issues"
+    },
+    {
+      "key": "total_issues_closed",
+      "friendly_name": "Anzahl geschlossene Issues",
+      "description": "Totale Anzahl von geschlossenen Issues"
+    },
+    {
+      "key": "total_comments",
+      "friendly_name": "Anzahl Kommentare",
+      "description": "Anzahl Kommentare"
     },
     {
       "key": "commit_activities",
