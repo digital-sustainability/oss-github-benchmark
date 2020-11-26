@@ -1,8 +1,0 @@
-{
-    "compilerOptions": {
-        "target": "es5",
-        "sourceMap": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true
-    }
-}
