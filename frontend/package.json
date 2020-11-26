@@ -23,6 +23,7 @@
     "@angular/router": "~10.1.5",
     "d3": "^6.2.0",
     "lodash-es": "^4.17.15",
+    "ng2-search-filter": "^0.5.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

@@ -9,8 +9,10 @@ import {DataService, Metric} from 'src/app/data.service';
 export class ListComponent implements OnInit {
   metrics: Metric[] = [];
 
+  searchTerm = '';
+
   constructor(
-    private dataService: DataService
+    private dataService: DataService,
   ) { }
 
   ngOnInit(): void {
