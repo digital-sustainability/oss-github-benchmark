@@ -16,9 +16,9 @@ export class DataService {
 
   loadData(): Promise<IData> {
     return Promise.all([
-      d3.csv('/assets/oss-github-benchmark.csv'),
+      d3.csv('assets/oss-github-benchmark.csv'),
       this.http
-        .get<IInstitution[]>('/assets/oss-github-benchmark.json')
+        .get<IInstitution[]>('assets/oss-github-benchmark.json')
         .toPromise(),
     ]).then(([csvData, jsonData]) => ({ csvData, jsonData }));
   }
