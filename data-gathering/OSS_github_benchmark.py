@@ -32,7 +32,6 @@ problematic_repos = {
     'repo_other': []
 }
 
-
 def handle_rate_limit():
     reset_time = datetime.datetime.fromtimestamp(g.rate_limiting_resettime)
     logger.warning(f'rate limit exceeded, continuing on {reset_time}')
@@ -56,8 +55,10 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
         }
         print(institution_data["name"])
         # Alle Werte einer Institution auf Null setzen
+        institution_data["org_names"] = []
         institution_data["orgs"] = []
         institution_data["num_orgs"] = 0
+        # Diese Werte existieren auf institution und organization ebene
         institution_data["num_repos"] = 0
         institution_data["num_members"] = 0
         institution_data["avatar"] = []
@@ -71,23 +72,51 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
         institution_data["total_num_stars"] = 0
         institution_data["total_num_watchers"] = 0
         institution_data["total_commits_last_year"] = 0
+        institution_data["total_pull_requests_all"] = 0
+        institution_data["total_pull_requests_closed"] = 0
+        institution_data["total_issues_all"] = 0
+        institution_data["total_issues_closed"] = 0
+        institution_data["total_comments"] = 0
         institution_data["repo_names"] = []
 
         # Von einer Institution alle GitHub-Organisationen rausholen
         error_counter = 0
-        for org in institution["orgs"]:
+        for org_name in institution["orgs"]:
             try:
-                print(org)
+                print(org_name)
+                org = g.get_organization(org_name)
+                organization_data = {}
+                organization_data["name"] = org_name
+                organization_data["url"] = org.html_url
+                organization_data["num_members"] = org.get_members().totalCount
+                organization_data["num_repos"] = org.public_repos
+                organization_data["avatar"] = org.avatar_url
+                organization_data["repos"] = []
+                organization_data["total_num_contributors"] = 0
+                organization_data["total_num_own_repo_forks"] = 0
+                organization_data["total_num_forks_in_repos"] = 0
+                organization_data["total_num_commits"] = 0
+                organization_data["total_pull_requests"] = 0
+                organization_data["total_issues"] = 0
+                organization_data["total_num_stars"] = 0
+                organization_data["total_num_watchers"] = 0
+                organization_data["total_commits_last_year"] = 0
+                organization_data["total_pull_requests_all"] = 0
+                organization_data["total_pull_requests_closed"] = 0
+                organization_data["total_issues_all"] = 0
+                organization_data["total_issues_closed"] = 0
+                organization_data["total_comments"] = 0
+
                 # Die Anzahl GitHub-Organisationen, Members, Repos, Avatars (Link zu Icons) und die Organisations-Namen zu einer Institution hinzufügen
                 institution_data["num_orgs"] += 1
-                institution_data["num_members"] += g.get_organization(org).get_members().totalCount
-                institution_data["num_repos"] += g.get_organization(org).public_repos
-                institution_data["avatar"].append(g.get_organization(org).avatar_url)
-                institution_data["orgs"].append(org)
+                institution_data["num_members"] += organization_data["num_members"]
+                institution_data["num_repos"] += organization_data["num_repos"]
+                institution_data["avatar"].append(organization_data["avatar"])
+                institution_data["org_names"].append(org_name)
 
                 # Alle Repos einer GitHub-Organisation durch-loopen
                 repo_counter = 0
-                for repo in g.get_organization(org).get_repos():
+                for repo in org.get_repos():
                     if repo.archived:
                         continue
                     try:
@@ -98,9 +127,9 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                         if commit_activities != None:
                             for week in commit_activities:
                                 last_years_commits += week.total
-                        contributors = repo.get_stats_contributors()
-                        if contributors != None:
-                            num_contributors = len(contributors)
+
+                        # TODO: hinzufügen Könnte auch noch interessant sein: https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#get-the-weekly-commit-activity
+                        # code_frequency = get_stats_code_frequency()
 
                         # Überprüfen ob commits schon im parent repo existieren (ein Fork ohne eigene Commits)
                         has_own_commits = 0
@@ -108,7 +137,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                             try:
                                 has_own_commits = repo.compare(repo.parent.owner.login + ":master", "master").ahead_by
                             except:
-                                print(org)
+                                print(org_name)
                                 print(repo.parent.owner)
                                 problematic_repos['repo_own_commit'].append(repo)
                                 traceback.print_exc()
@@ -118,14 +147,15 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                         # GitHub Statistics: https://developer.github.com/v3/repos/statistics/#get-contributors-list-with-additions-deletions-and-commit-counts
                         repo_data = {
                             "name": repo.name,
+                            "url": repo.html_url,
                             "fork": repo.fork,
                             "num_forks": repo.forks_count,
-                            "num_contributors": num_contributors,
-                            "num_commits": repo.size,                # Diese Variable stimmt nicht: es wird teilweise die Anzahl Commits, teilweise auch was ganz anderes zurückgegeben
+                            "num_contributors": repo.get_contributors().totalCount,
+                            "num_commits": repo.get_commits().totalCount,                # Diese Variable stimmt nicht: es wird teilweise die Anzahl Commits, teilweise auch was ganz anderes zurückgegeben
                             "num_stars": repo.stargazers_count,
                             "num_watchers": repo.subscribers_count,     # Diese Variable stimmt nicht: es werden Anzahl Stars zurückgegeben
                             "last_years_commits": last_years_commits,
-                            "commit_activities": commit_activities,
+                            "commit_activities": [ a.raw_data for a in commit_activities ],
                             "has_own_commits": has_own_commits,       # Sagt aus ob eigene Commits gemacht wurden oder nur geforkt
                             "issues_closed": repo.get_issues(state="closed").totalCount,
                             "issues_all": repo.get_issues(state="all").totalCount,
@@ -147,13 +177,28 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                             institution_data["total_issues_closed"] += repo_data["issues_closed"]
                             institution_data["total_comments"] += repo_data["comments"]
                             institution_data["repo_names"].append(repo_data["name"])
+                            # Das gleiche für die organization
+                            organization_data["total_num_stars"] += repo_data["num_stars"]
+                            organization_data["total_num_contributors"] += repo_data["num_contributors"]
+                            organization_data["total_num_commits"] += repo_data["num_commits"]
+                            organization_data["total_num_own_repo_forks"] += repo_data["num_forks"]
+                            organization_data["total_num_watchers"] += repo_data["num_watchers"]
+                            organization_data["total_commits_last_year"] += repo_data["last_years_commits"]
+                            organization_data["total_pull_requests_all"] += repo_data["pull_requests_all"]
+                            organization_data["total_pull_requests_closed"] += repo_data["pull_requests_closed"]
+                            organization_data["total_issues_all"] += repo_data["issues_all"]
+                            organization_data["total_issues_closed"] += repo_data["issues_closed"]
+                            organization_data["total_comments"] += repo_data["comments"]
                         # Ansonsten zählen wie viele der Repos innerhalb der GitHub-Organisation geforkt sind
                         else:
                             institution_data["total_num_forks_in_repos"] += 1
                             institution_data["total_num_commits"] += repo_data["has_own_commits"]
+                            organization_data["total_num_forks_in_repos"] += 1
+                            organization_data["total_num_commits"] += repo_data["has_own_commits"]
 
                         institution_data["sector"] = sector_key
                         institution_data["repos"].append(repo_data)
+                        organization_data["repos"].append(repo_data)
                         repo_counter += 1
                         # Anzahl Repos pro Institution eingrenzen             
                         if repo_counter > 10:
@@ -176,6 +221,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                         if error_counter > 100:
                             print("Laden der Daten wurde nach 100 fehlerhaften Abrufen abgebrochen")
                             break
+                institution_data["orgs"].append(organization_data)
                 if error_counter > 100:
                     break
             except github.RateLimitExceededException:
@@ -187,6 +233,8 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
         institutions_data.append(institution_data)
         sector_data[sector_key].append(institution_data)
 
+with open('github-data.pickle', 'wb') as file:
+    pickle.dump(sector_data, file)
 
 csv_columns=[
     "sector",
@@ -196,10 +244,15 @@ csv_columns=[
     "total_num_contributors",
     "total_num_own_repo_forks",
     "total_num_forks_in_repos",
-    # "total_num_commits",       Werte sind nicht korrekt
+    "total_num_commits",
     "total_num_stars",
-    # "total_num_watchers",      Watchers stimmen nicht, Zahlen sind identisch zu den Stars
+    "total_num_watchers",
     "total_commits_last_year",
+    "total_pull_requests_all",
+    "total_pull_requests_closed",
+    "total_issues_all",
+    "total_issues_closed",
+    "total_comments",
     "orgs",
     "avatar",
     "repo_names"

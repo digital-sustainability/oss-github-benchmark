@@ -1,3 +1,12 @@
-<section *ngIf="data" class="visualizations" >
-  <app-visualization-bubble [data]="data" [options]="options"></app-visualization-bubble>
-</section>
+<mat-card>
+  <section *ngIf="data" class="visualizations">
+    <app-visualization-bubble
+      [data]="data"
+      [options]="options"
+    ></app-visualization-bubble>
+    <app-visualization-sunburst
+      [data]="data"
+      [options]="options"
+    ></app-visualization-sunburst>
+  </section>
+</mat-card>

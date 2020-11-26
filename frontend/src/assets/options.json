@@ -18,5 +18,10 @@
       "key": "num_members",
       "friendly_name": "Anzahl Members",
       "description": "Liste aller User welche Member der Github Organisation sind"
+    },
+    {
+      "key": "commit_activities",
+      "friendly_name": "Commit Aktivitäten",
+      "description": "Returns the last year of commit activity grouped by week. The days array is a group of commits per day, starting on Sunday."
     }
 ]
