@@ -38,3 +38,6 @@ start: 		## npm start in docker
 
 stop: 		## stop app in docker
 		docker-compose -f docker/dev/docker-compose.yml -p $(project_name) down
+
+deploy:   ## deploy to github pages
+		cd frontend && ng deploy --base-href=/oss-github-benchmark/
