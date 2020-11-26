@@ -1,7 +1,7 @@
 import {NestedTreeControl} from '@angular/cdk/tree';
 import { Component, Input, OnInit } from '@angular/core';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
-import {IInstitution} from '../../interfaces/institution';
+import {ISector} from '../../interfaces/institution';
 
 @Component({
   selector: 'app-explore-tree',
@@ -10,7 +10,7 @@ import {IInstitution} from '../../interfaces/institution';
 })
 export class TreeComponent implements OnInit {
 
-  @Input() data: IInstitution[];
+  @Input() data: ISector;
 
   treeControl = new NestedTreeControl<GithubNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<GithubNode>();
@@ -18,14 +18,26 @@ export class TreeComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.data.map( institution => {
+    this.dataSource.data = Object.entries(this.data).map( ([sectorName, institution]) => {
       return {
-        name: institution.name,
-        link: `https://github.com/${institution.name}`,
-          children: institution.repos.map( repo => {
+        name: sectorName,
+        link: null,
+        children: institution.map( inst => {
           return {
-            name: repo.name,
-            link: `https://github.com/${institution.name}/${repo.name}`
+            name: inst.name,
+            link: `/explore/item/${sectorName}`,
+            children: inst.orgs.map( org => {
+              return {
+                name: org.name,
+                link: org.url,
+                children: org.repos.map( repo => {
+                  return {
+                    name: repo.name,
+                    url: repo.url
+                  };
+                })
+              };
+            })
           };
         })
       };
@@ -37,6 +49,6 @@ export class TreeComponent implements OnInit {
 
 interface GithubNode {
   name: string;
-  link: string;
+  link?: string;
   children?: GithubNode[];
 }
