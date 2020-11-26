@@ -1,0 +1,12 @@
+<mat-card>
+  <form>
+    <mat-form-field>
+      <mat-label>Suchbegriff</mat-label>
+      <input matInput [(ngModel)]="searchTerm" name="searchTerm" placeholder="suchbegriff" />
+    </mat-form-field>
+  </form>
+  <app-metric-item
+    *ngFor="let metric of metrics | filter:searchTerm"
+    [metric]="metric"
+  ></app-metric-item>
+</mat-card>
