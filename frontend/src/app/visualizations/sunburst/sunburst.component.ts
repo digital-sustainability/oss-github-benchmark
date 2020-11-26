@@ -59,20 +59,19 @@ export class SunburstComponent implements OnInit, OnChanges {
     this.element.value = { sequence: [], percentage: 0.0 };
 
     this.arc = d3.arc()
-      .startAngle((d) => d.x0)
-      .endAngle((d) => d.x1)
+      .startAngle((d: any) => d.x0)
+      .endAngle((d: any) => d.x1)
       .padAngle(1 / this.radius)
       .padRadius(this.radius)
-      .innerRadius((d) => Math.sqrt(d.y0))
-      .outerRadius((d) => Math.sqrt(d.y1) - 1);
+      .innerRadius((d: any) => Math.sqrt(d.y0))
+      .outerRadius((d: any) => Math.sqrt(d.y1) - 1);
 
     this.mousearc = d3.arc()
-      .startAngle((d) => d.x0)
-      .endAngle((d) => d.x1)
-      .innerRadius((d) => Math.sqrt(d.y0))
+      .startAngle((d: any) => d.x0)
+      .endAngle((d: any) => d.x1)
+      .innerRadius((d: any) => Math.sqrt(d.y0))
       .outerRadius(this.radius);
 
-      debugger;
     // Just setup
     this.color = d3
       .scaleOrdinal()
@@ -133,8 +132,7 @@ export class SunburstComponent implements OnInit, OnChanges {
         })
       )
       .join('path')
-      .attr('fill', (d) => {
-        this.color(d.data.name)})
+      .attr('fill', (d) => this.color(d.data.name))
       .attr('d', this.arc);
 
     this.svg
