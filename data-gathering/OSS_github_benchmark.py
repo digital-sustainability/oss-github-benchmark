@@ -22,6 +22,7 @@ g = Github(os.environ['GITHUBTOKEN'])
 with open('github_repos.json', encoding='utf-8') as file:
     githubrepos = json.load(file)
 institutions_data = []
+sector_data = {}
 counter = 0
 sector = ""
 
@@ -42,6 +43,7 @@ def handle_rate_limit():
 # Alle Branchen rausholen
 for sector_key, sector in githubrepos["GitHubRepos"].items():
     print("Sector: " + sector_key)
+    sector_data[sector_key] = []
     # Von allen Branchen die Institutionen (Firmen, Behörden, Communities...) rausholen
     for institution in sector["institutions"]:
         counter += 1
@@ -123,11 +125,13 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                             "num_stars": repo.stargazers_count,
                             "num_watchers": repo.subscribers_count,     # Diese Variable stimmt nicht: es werden Anzahl Stars zurückgegeben
                             "last_years_commits": last_years_commits,
+                            "commit_activities": commit_activities,
                             "has_own_commits": has_own_commits,       # Sagt aus ob eigene Commits gemacht wurden oder nur geforkt
-                            "closed_issues": repo.get_issues(state="closed").totalCount,
-                            "all_issues": repo.get_issues(state="all").totalCount,
-                            "closed_pull_requests": repo.get_pulls(state="closed").totalCount,
-                            "all_pull_requests": repo.get_pulls(state="all").totalCount
+                            "issues_closed": repo.get_issues(state="closed").totalCount,
+                            "issues_all": repo.get_issues(state="all").totalCount,
+                            "pull_requests_closed": repo.get_pulls(state="closed").totalCount,
+                            "pull_requests_all": repo.get_pulls(state="all").totalCount,
+                            "comments": repo.get_comments().totalCount
                         }
                         # Stars, Contributors, Commits, Forks, Watchers und Last Year's Commits nur zählen wenn das Repo nicht geforkt ist
                         if not repo_data["fork"]:
@@ -137,8 +141,11 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                             institution_data["total_num_own_repo_forks"] += repo_data["num_forks"]
                             institution_data["total_num_watchers"] += repo_data["num_watchers"]
                             institution_data["total_commits_last_year"] += repo_data["last_years_commits"]
-                            institution_data["total_pull_requests"] += repo_data["all_pull_requests"]
-                            institution_data["total_issues"] += repo_data["all_issues"]
+                            institution_data["total_pull_requests_all"] += repo_data["pull_requests_all"]
+                            institution_data["total_pull_requests_closed"] += repo_data["pull_requests_closed"]
+                            institution_data["total_issues_all"] += repo_data["issues_all"]
+                            institution_data["total_issues_closed"] += repo_data["issues_closed"]
+                            institution_data["total_comments"] += repo_data["comments"]
                             institution_data["repo_names"].append(repo_data["name"])
                         # Ansonsten zählen wie viele der Repos innerhalb der GitHub-Organisation geforkt sind
                         else:
@@ -178,6 +185,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                 traceback.print_exc()
         print("Anzahl GitHub Repos von " + institution["name"] + ": " + str(institution_data["num_repos"]))
         institutions_data.append(institution_data)
+        sector_data[sector_key].append(institution_data)
 
 
 csv_columns=[
@@ -209,7 +217,7 @@ with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvf
 #JSON Output auf Konsole und in neues File
 # print( json.dumps(institutions_data, indent=4))
 f = open("oss-github-benchmark.json", "w")
-f.write(json.dumps(institutions_data, indent=4))
+f.write(json.dumps(sector_data, indent=4))
 
 
 with open('problematic_repos.pickle', 'wb') as file:
