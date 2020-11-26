@@ -1,7 +1,9 @@
 
 # Generate data
 
-__dependencies: `docker`__
+## using `docker`
+
+__dependencies: `docker` or `python`__
 
 ```
 docker build -t oss-github .
@@ -10,26 +12,28 @@ docker rm oss-github-runner
 docker rmi oss-github
 ```
 
+## using `python`
+
+```
+cd ./data-gathering
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python OSS_github_benchmark.py
+```
+
 # Start Visualization
 
 __dependencies: `node`__
 
 ```
+cd frontend
 npm install
 npm start
 ```
 
-# Roadmap
+# Explore the data with jupyter notebook
 
-- [x] show repository list
-- [x] add selection of dimensions
-- [x] Achsenbeschriftung
-- [x] add sunburst visualization
-- [x] improved data gathering
-    - [x] when fork collect number of commits different from fork
-- [x] fix problems when collecting data (sometimes sector and others are missing)
-- [ ] fix hover being misplaced
-    
-
-# new data
+There is a jupyter notebook that loads a [pickle](https://docs.python.org/3/library/pickle.html)-file of the data.
+It's located at `./data-gathering/github-data.pickle`
 
