@@ -33,6 +33,7 @@ export class TreeComponent implements OnInit {
                 children: org.repos.map( repo => {
                   return {
                     name: repo.name,
+                    link: repo.url,
                     url: repo.url
                   };
                 })
