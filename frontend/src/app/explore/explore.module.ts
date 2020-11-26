@@ -8,9 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { ExploreComponent } from './explore.component';
 import {MatButtonModule} from '@angular/material/button';
+import { ItemComponent } from './item/item.component';
 
 @NgModule({
-  declarations: [TreeComponent, ExploreComponent],
+  declarations: [TreeComponent, ExploreComponent, ItemComponent],
   imports: [
     CommonModule,
     ExploreRoutingModule,

@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import { IData } from 'src/app/data.service';
 import * as _ from 'lodash';
 import {Options} from '../options';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-visualization-bubble',
@@ -25,7 +26,10 @@ export class BubbleComponent implements OnInit, OnChanges {
   g: any;
   colorScale: d3.ScaleOrdinal<unknown, string, never>;
 
-  constructor(private hostElement: ElementRef) {}
+  constructor(
+    private hostElement: ElementRef,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     const bound = this.hostElement.nativeElement.getBoundingClientRect();
@@ -48,9 +52,10 @@ export class BubbleComponent implements OnInit, OnChanges {
       .attr('height', height);
 
     this.text = d3
-      .select('body')
+      .select(this.hostElement.nativeElement)
       .append('div')
-      .attr('class', 'tooltip')
+      .style('visibility', 'hidden')
+      .style('position', 'absolute')
       .style('opacity', '0');
 
     this.yscale = d3.scaleLinear().range([height - padding, padding]);
@@ -163,48 +168,34 @@ export class BubbleComponent implements OnInit, OnChanges {
       .attr('fill', (inst, i) => {
         return this.colorScale(inst.sector);
       })
-      .on('click', (inst) => {
-        debugger;
+      .on('click', (event, inst) => {
+        this.navigateTo(inst);
         // this.onselect(inst);
       })
-      .on('mouseover', (inst) => {
-        const img = eval(inst.avatar)[0];
+      .on('mouseenter', (event, inst) => {
+        const img = JSON.parse(inst.avatar.replace(/'/g, '"'))[0];
         this.text
           .html(
             `<img src='${img}' height=25 ><br>
                     ${inst.name}<br>
-                    Repos: ${yDimension(inst)}<br>
-                    Contributors: ${inst.total_num_contributors}<br>
-                    Members: ${rDimension(inst)}`
+                    ${this.options.dimension1.friendly_name}: ${yDimension(inst)}<br>
+                    ${this.options.dimension2.friendly_name}: ${inst.total_num_contributors}<br>
+                    ${this.options.dimension3.friendly_name}: ${rDimension(inst)}`
           )
-          .style('display', 'block')
-
+          // .style('display', 'block')
+          .style('opacity', 0.8)
+          .style('visibility', null)
           .style(
             'top',
-            this.yscale(yDimension(inst)) - sizeScale(rDimension(inst))
+            `${this.yscale(yDimension(inst)) + 20}px`
           )
-          //   .transition()
-          //   .duration(200)
-          .style('opacity', 0.8);
-        if (this.xscale(xDimension(inst)) > width / 2) {
-          this.text
-            .style(
-              'right',
-              width -
-                (this.xscale(xDimension(inst)) + sizeScale(rDimension(inst)))
-            )
-            .style('left', undefined);
-        } else {
-          this.text
-            .style(
-              'left',
-              this.xscale(xDimension(inst)) + sizeScale(rDimension(inst))
-            )
-            .style('right', undefined);
-        }
+          .style(
+            'left',
+            `${this.xscale(xDimension(inst)) + 20}px`
+          )
       })
-      .on('mouseout', () => {
-        this.text.style('opacity', 0).style('display', 'none');
+      .on('mouseleave', () => {
+        this.text.style('opacity', 0).style('visibility', 'hidden');
       });
 
     this.xAxisGroup.call(this.xAxis);
@@ -212,5 +203,9 @@ export class BubbleComponent implements OnInit, OnChanges {
     this.yAxisGroup.call(this.yAxis);
     this.xLabel.text(this.options.dimension1.friendly_name);
     this.yLabel.text(this.options.dimension2.friendly_name);
+  }
+
+  navigateTo(inst): void {
+    this.router.navigate(['explore', 'item', inst.name]);
   }
 }
