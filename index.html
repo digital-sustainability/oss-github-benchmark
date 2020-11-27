@@ -1,60 +1,16 @@
-<!DOCTYPE html>
-<html>
-
+<!doctype html>
+<html lang="en">
 <head>
-    <title>OSS GitHub Benchmark</title>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://raw.githack.com/jamesleesaunders/d3-ez/master/dist/d3-ez.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://rawgit.com/jamesleesaunders/d3.ez/master/dist/d3-ez.css" />
-    <style>
-        body, p {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 10px;
-        }
-    </style>
-</head>
-
-<body>
-    <div id="chartholder"></div>
-    <br />
-    <div>Anzahl Repositories: <span id="message"></span></div>
-
-    <script type="text/javascript">
-        d3.csv("oss-github-benchmark.csv").then(function (csv) {
-            var colors = [d3.rgb(31, 119, 180), d3.rgb(255, 127, 14), d3.rgb(44, 160, 44), d3.rgb(214, 39, 40), d3.rgb(148, 103, 189)];
-            var chart = d3.ez.chart.bubbleChart().colors(colors).yAxisLabel("total_num_own_repo_forks");
-            var legend = d3.ez.component.legend().title("Sektor");
-            var title = d3.ez.component.title().mainText("OSS GitHub Benchmark").subText("9. Februar 2020");
-
-            // Convert csv to d3-ez data format
-            // Rename keys
-            var tmp = csv.map(function (d) {
-                return { "key": d.name, "value": d.num_repos, "x": d.num_members, "y": d.total_num_own_repo_forks, "series": d.sector };
-            });
-            // Nest Data
-            var data = d3.nest().key(function (d) {
-                return d.series;
-            }).entries(tmp);
-
-            // Create chart base
-            var myChart = d3.ez.base()
-                .width(750)
-                .height(400)
-                .chart(chart)
-                .legend(legend)
-                .title(title)
-                .on("customValueMouseOver", function (d) {
-                    d3.select("#message").text(d.value);
-                })
-                .on("customSeriesClick", function (d) {
-                    console.log(d);
-                });
-
-            d3.select('#chartholder')
-                .datum(data)
-                .call(myChart);
-        });
-    </script>
-</body>
-
+  <meta charset="utf-8">
+  <title>OssGithubBenchmark</title>
+  <base href="/oss-github-benchmark/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="styles.1d13ae62784af2f550bc.css"></head>
+<body class="mat-typography">
+  <app-root></app-root>
+<script src="runtime.acf0dec4155e77772545.js" defer></script><script src="polyfills.35a5ca1855eb057f016a.js" defer></script><script src="main.a06c81e3fe34a04f7d92.js" defer></script></body>
 </html>
