@@ -20,7 +20,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: run data gathering
-      run: python OSS_github_benchmark.py
+      run: |
+        cd data-gathering
+        python OSS_github_benchmark.py
       env:
         GITHUBTOKEN: ${{ secrets.GITHUBTOKEN }}
     - uses: actions/upload-artifact@v2
