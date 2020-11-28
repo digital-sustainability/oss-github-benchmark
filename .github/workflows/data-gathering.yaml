@@ -22,7 +22,7 @@ jobs:
     - name: run data gathering
       run: python OSS_github_benchmark.py
       env:
-        GITHUBTOKEN: {{ secret.GITHUBTOKEN }}
+        GITHUBTOKEN: ${{ secret.GITHUBTOKEN }}
     - uses: actions/upload-artifact@v2
       with:
         name: oss-gathered-data
