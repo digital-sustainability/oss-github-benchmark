@@ -1,0 +1,31 @@
+name: Python package
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+    - name: Install dependencies 
+      run: |
+        cd data-gathering
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: run data gathering
+      run: |
+        cd data-gathering
+        python OSS_github_benchmark.py
+      env:
+        GITHUBTOKEN: ${{ secrets.GITHUBTOKEN }}
+    - uses: actions/upload-artifact@v2
+      with:
+        name: oss-gathered-data
+        path: data-gathering/oss-github-benchmark.*
