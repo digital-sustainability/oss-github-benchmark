@@ -40,4 +40,5 @@ stop: 		## stop app in docker
 		docker-compose -f docker/dev/docker-compose.yml -p $(project_name) down
 
 deploy:   ## deploy to github pages
-		cd frontend && ng deploy --base-href=/oss-github-benchmark/
+		# cd frontend && ng deploy --base-href=/oss-github-benchmark/
+		cd frontend && ng deploy --cname=ossbenchmark.com --repo=git@github.com:digital-sustainability/oss-github-benchmark.git
