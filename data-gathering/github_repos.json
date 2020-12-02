@@ -5,7 +5,7 @@
 			"institutions": [
 				{"name": "4teamwork AG","orgs": ["4teamwork"]},
 				{"name": "56K Cloud","orgs": ["56kcloud"]},
-				{"name": "Adfinis SyGroup","orgs": ["adfinis-sygroup","adfinis-forks"]},
+				{"name": "Adfinis","orgs": ["adfinis-sygroup","adfinis-forks"]},
 				{"name": "AdNovum Informatik AG","orgs": ["adnovum"]},
 				{"name": "Abraxas","orgs": ["abraxas-labs"]},
 				{"name": "amazee.io","orgs": ["amazeeio"]},
