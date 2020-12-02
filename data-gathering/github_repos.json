@@ -42,6 +42,7 @@
 			"institutions":	[
 				{"name": "APPUiO","orgs": ["axa-ch"]},
 				{"name": "arillso","orgs": ["arillso"]},
+				{"name": "Caluma","orgs": ["projectcaluma"]},
 				{"name": "dat.alets.ch","orgs": ["Dataletsch"]},
 				{"name": "Hitobito","orgs": ["hitobito"]},
 				{"name": "OpenOlitor","orgs": ["openolitor"]},
