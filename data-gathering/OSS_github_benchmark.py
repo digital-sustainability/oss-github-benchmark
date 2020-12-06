@@ -161,7 +161,8 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                             "issues_all": repo.get_issues(state="all").totalCount,
                             "pull_requests_closed": repo.get_pulls(state="closed").totalCount,
                             "pull_requests_all": repo.get_pulls(state="all").totalCount,
-                            "comments": repo.get_comments().totalCount
+                            "comments": repo.get_comments().totalCount,
+                            "languages": repo.get_languages()
                         }
                         # Stars, Contributors, Commits, Forks, Watchers und Last Year's Commits nur zählen wenn das Repo nicht geforkt ist
                         if not repo_data["fork"]:

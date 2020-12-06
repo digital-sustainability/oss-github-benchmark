@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ElementRef, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 import { IData } from 'src/app/data.service';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import {Options} from '../options';
 import {Router} from '@angular/router';
 
@@ -178,8 +178,8 @@ export class BubbleComponent implements OnInit, OnChanges {
           .html(
             `<img src='${img}' height=25 ><br>
                     ${inst.name}<br>
-                    ${this.options.dimension1.friendly_name}: ${yDimension(inst)}<br>
-                    ${this.options.dimension2.friendly_name}: ${inst.total_num_contributors}<br>
+                    ${this.options.dimension1.friendly_name}: ${xDimension(inst)}<br>
+                    ${this.options.dimension2.friendly_name}: ${yDimension(inst)}<br>
                     ${this.options.dimension3.friendly_name}: ${rDimension(inst)}`
           )
           // .style('display', 'block')
@@ -192,7 +192,7 @@ export class BubbleComponent implements OnInit, OnChanges {
           .style(
             'left',
             `${this.xscale(xDimension(inst)) + 20}px`
-          )
+          );
       })
       .on('mouseleave', () => {
         this.text.style('opacity', 0).style('visibility', 'hidden');
