@@ -21,6 +21,7 @@ import {ExploreModule} from './explore/explore.module';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
+import {MatMenuModule} from '@angular/material/menu';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 
@@ -46,6 +47,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
+    MatMenuModule,
     MatSelectModule,
     MatInputModule,
     MatCardModule,

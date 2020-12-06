@@ -15,6 +15,14 @@
     <span>Metrics</span>
   </button>
   <span class="spacer"></span>
+  <button mat-button [matMenuTriggerFor]="downloadMenu">
+    <mat-icon>get_app</mat-icon>
+    <span>JSON / CSV</span>
+  </button>
+  <mat-menu #downloadMenu="matMenu">
+    <a href="assets/oss-github-benchmark.json" download mat-menu-item>Download JSON</a>
+    <a href="assets/oss-github-benchmark.csv" download mat-menu-item>Download CSV</a>
+  </mat-menu>
   <a mat-button href="https://github.com/digital-sustainability/oss-github-benchmark" target="_blank">
     <mat-icon>format_align_left</mat-icon>
     <span>Source Code</span>
