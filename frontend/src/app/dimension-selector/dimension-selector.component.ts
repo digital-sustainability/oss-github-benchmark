@@ -37,7 +37,7 @@ export class DimensionSelectorComponent implements OnInit {
   updateOptions(): void {
     const options = {
       dimension1: this.metrics.filter( m => m.key === this.dimensionForm.get('dimension1').value)[0],
-      dimension2: this.metrics.filter( m => m.key === this.dimensionForm.get('dimension3').value)[0],
+      dimension2: this.metrics.filter( m => m.key === this.dimensionForm.get('dimension2').value)[0],
       dimension3: this.metrics.filter( m => m.key === this.dimensionForm.get('dimension3').value)[0],
     };
     this.optionsChange.emit(options);
