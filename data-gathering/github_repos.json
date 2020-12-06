@@ -16,6 +16,7 @@
 				{"name": "cyon GmbH","orgs": ["cyon"]},
 				{"name": "DV Bern","orgs": ["dvbern"]},
 				{"name": "ELCA","orgs": ["ElcaIT"]},
+				{"name": "ERNI","orgs": ["ERNICommunity"]},
 				{"name": "Exoscale","orgs": ["exoscale"]},
 				{"name": "iSolutions","orgs": ["isolutionsag"]},
 				{"name": "Interactive Things","orgs": ["interactivethings"]},
@@ -42,6 +43,7 @@
 			"institutions":	[
 				{"name": "APPUiO","orgs": ["appuio"]},
 				{"name": "arillso","orgs": ["arillso"]},
+				{"name": "Caluma","orgs": ["projectcaluma"]},
 				{"name": "dat.alets.ch","orgs": ["Dataletsch"]},
 				{"name": "Hitobito","orgs": ["hitobito"]},
 				{"name": "OpenOlitor","orgs": ["openolitor"]},
@@ -113,8 +115,8 @@
 		"Gov_Cities": {
 			"name": "Verwaltung Städte",
 			"institutions": [
-				{"name": "Zürich","orgs": ["StatistikStadtZuerich","opendatazurich"]},
-				{"name": "Bern","orgs": ["StadtBern"]}
+				{"name": "Stadt Zürich","orgs": ["StatistikStadtZuerich","opendatazurich"]},
+				{"name": "Stadt Bern","orgs": ["StadtBern"]}
 			]
 		},
 		"Universities": {
