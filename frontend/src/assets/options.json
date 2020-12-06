@@ -6,8 +6,8 @@
     },
     {
       "key": "num_repos",
-      "friendly_name": "Number of repos",
-      "description": "This is the number of repository for the selectb"
+      "friendly_name": "Anzahl von Repositories",
+      "description": "Anzahl von Repositories"
     },
     {
       "key": "total_num_contributors",
@@ -77,6 +77,6 @@
     {
       "key": "commit_activities",
       "friendly_name": "Commit Aktivitäten",
-      "description": "Returns the last year of commit activity grouped by week. The days array is a group of commits per day, starting on Sunday."
+      "description": "Beinhaltet alle Commit Aktivitäten des letzten Jahres, gruppiert nach Woche. Der days Array ist eine Gruppe von Commits pro Tag, beginnend am Sonntag."
     }
 ]
