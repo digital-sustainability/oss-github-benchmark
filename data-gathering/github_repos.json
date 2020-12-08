@@ -54,7 +54,7 @@
 			"name": "Versicherungen",
 			"institutions": [
 				{"name": "AXA Winterthur","orgs": ["axa-ch"]},
-				{"name": "Baloise","orgs": ["baloise"]},
+				{"name": "Baloise","orgs": ["baloise","baloise-incubator"]},
 				{"name": "CSS","orgs": ["css-ch"]},
 				{"name": "Helsana","orgs": ["helsana"]},
 				{"name": "Mobiliar","orgs": ["diemobiliar","mobiliar"]},
