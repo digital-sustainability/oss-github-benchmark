@@ -105,6 +105,7 @@
 			"name": "Verwaltung Bund",
 			"institutions": [
 				{"name": "Arbeitslosenversicherung","orgs": ["alv-ch","alv-ch-ansible-roles"]},
+				{"name": "Bundesamt für Informatik und Telekommunikation","orgs": ["admin-ch"]},
 				{"name": "Bundesamt für Statistik","orgs": ["BFS-SHS-MSAS","ogdch"]},
 				{"name": "Bundeskanzlei","orgs": ["swiss"]},
 				{"name": "MeteoSwiss","orgs": ["MeteoSwiss-APN"]},
