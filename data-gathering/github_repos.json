@@ -83,9 +83,10 @@
 		"Others": {
 			"name": "Andere Unternehmenen",
 			"institutions": [
+				{"name": "Digitec Galaxus AG", "orgs": ["DigitecGalaxus"]},
+				{"name": "digris AG", "orgs": ["digris"]},
 				{"name": "Scout24 Schweiz AG","orgs": ["Scout24-CH"]},
-				{"name": "SWISS TXT AG","orgs": ["swisstxt"]},
-				{"name": "digris AG", "orgs": ["digris"]}
+				{"name": "SWISS TXT AG","orgs": ["swisstxt"]}
 			]
 		},
 		"Gov_Companies": {
