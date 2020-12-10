@@ -125,6 +125,7 @@
 			"name": "Hochschulen und Forschung",
 			"institutions": [
 				{"name": "Berner Fachhochschule","orgs": ["bfh","iam-ictm","bfh-science"]},
+				{"name": "Fondation Campus Biotech Geneva","orgs": ["fcbg-hnp"]},
 				{"name": "Universität Bern","orgs": ["digital-sustainability","scg-unibe-ch","IAM-CGG","unibe-iap-mw","CMPG","reymond-group","ConsBiol-unibern","kogpsy","ubern-mia","zmk-unibe-ch","unibe-cns","UB-Bern","ub-unibe-ch","hpc-unibe-ch","id-unibe-ch","unibe-ch"]}
 			]
 		}
