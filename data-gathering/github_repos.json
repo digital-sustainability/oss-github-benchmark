@@ -51,7 +51,8 @@
 				{"name": "dat.alets.ch","orgs": ["Dataletsch"]},
 				{"name": "Hitobito","orgs": ["hitobito"]},
 				{"name": "OpenOlitor","orgs": ["openolitor"]},
-				{"name": "School of Data in Switzerland","orgs": ["schoolofdata-ch"]}
+				{"name": "School of Data in Switzerland","orgs": ["schoolofdata-ch"]},
+				{"name": "Open Source Challenge","orgs": ["opensource-challenge"]}
 			]
 		},
 		"Insurances": {
