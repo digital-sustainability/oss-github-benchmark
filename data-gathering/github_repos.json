@@ -63,7 +63,8 @@
 				{"name": "Opendigitalradio","orgs": ["Opendigitalradio"]},
 				{"name": "OpenOlitor","orgs": ["openolitor"]},
 				{"name": "School of Data in Switzerland","orgs": ["schoolofdata-ch"]},
-				{"name": "Open Source Challenge","orgs": ["opensource-challenge"]}
+				{"name": "Open Source Challenge","orgs": ["opensource-challenge"]},
+				{"name": "VeriSO","orgs": ["veriso"]}
 			]
 		},
 		"Insurances": {
