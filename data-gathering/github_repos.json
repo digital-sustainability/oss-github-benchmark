@@ -91,6 +91,7 @@
 		"Gov_Companies": {
 			"name": "Öffentliche Unternehmen und Anstalten",
 			"institutions": [
+				{"name": "BERNMOBIL","orgs": ["BERNMOBIL"]},
 				{"name": "Post","orgs": ["swisspost-yellowcube"]},
 				{"name": "SBB","orgs": ["SchweizerischeBundesbahnen"]},
 				{"name": "Swisscom","orgs": ["swisscom"]}
