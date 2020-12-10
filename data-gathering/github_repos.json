@@ -86,7 +86,8 @@
 			"institutions": [
 				{"name": "SRG","orgs": ["srfdata","srgssr"]},
 				{"name": "NZZ","orgs": ["nzzdev"]},
-				{"name": "Radio Bern RaBe","orgs": ["radiorabe"]}
+				{"name": "Radio Bern RaBe","orgs": ["radiorabe"]},
+				{"name": "TX Group","orgs": ["GitHubTamediaEis", "DND-IT", "tamediadigital", "tamedia-ddj"]}
 			]
 		},
 		"Others": {
