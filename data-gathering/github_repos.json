@@ -73,13 +73,13 @@
 			"name": "Medien",
 			"institutions": [
 				{"name": "SRG","orgs": ["srfdata","srgssr"]},
-				{"name": "NZZ","orgs": ["nzzdev"]}
+				{"name": "NZZ","orgs": ["nzzdev"]},
+				{"name": "Radio Bern RaBe","orgs": ["radiorabe"]},
 			]
 		},
 		"Others": {
 			"name": "Andere Unternehmenen",
 			"institutions": [
-				{"name": "Radio Bern RaBe","orgs": ["radiorabe"]},
 				{"name": "Scout24 Schweiz AG","orgs": ["Scout24-CH"]},
 				{"name": "SWISS TXT AG","orgs": ["swisstxt"]}
 			]
