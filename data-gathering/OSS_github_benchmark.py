@@ -115,7 +115,6 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                 institution_data["org_names"].append(org_name)
 
                 # Alle Repos einer GitHub-Organisation durch-loopen
-                repo_counter = 0
                 for repo in org.get_repos():
                     if repo.archived:
                         continue
@@ -200,10 +199,6 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                         institution_data["sector"] = sector_key
                         institution_data["repos"].append(repo_data)
                         organization_data["repos"].append(repo_data)
-                        repo_counter += 1
-                        # Anzahl Repos pro Institution eingrenzen             
-                        if repo_counter > 10:
-                            break
                     except RuntimeError as error:
                         print("Fehler beim Laden der Daten von '" + repo.name + "' :" + error)
                         problematic_repos['repo_load'].append(repo)
