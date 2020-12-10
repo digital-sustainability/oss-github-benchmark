@@ -138,6 +138,7 @@
 			"name": "Hochschulen und Forschung",
 			"institutions": [
 				{"name": "Berner Fachhochschule","orgs": ["bfh","iam-ictm","bfh-science"]},
+				{"name": "swissbib","orgs": ["swissbib", "linked-swissbib"]},
 				{"name": "Swiss National Supercomputing Center","orgs": ["eth-csc"]},
 				{"name": "Fondation Campus Biotech Geneva","orgs": ["fcbg-hnp"]},
 				{"name": "Paul Scherrer Institut","orgs": ["paulscherrerinstitute"]},
