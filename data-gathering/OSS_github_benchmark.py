@@ -249,7 +249,7 @@ csv_columns=[
     "total_issues_all",
     "total_issues_closed",
     "total_comments",
-    "orgs",
+    "org_names",
     "avatar",
     "repo_names"
 ]
