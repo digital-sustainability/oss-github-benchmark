@@ -111,7 +111,8 @@
 				{"name": "Kanton Neuenburg","orgs": ["sitn"]},
 				{"name": "Kanton Solothurn","orgs": ["sogis"]},
 				{"name": "Kanton Waadt","orgs": ["dsi-vd"]},
-				{"name": "Kanton Zürich","orgs": ["FNSKtZH","StatistikZH","openZH","gisktzh"]}
+				{"name": "Kanton Zürich","orgs": ["FNSKtZH","StatistikZH","openZH","gisktzh"]},
+				{"name": "République et canton de Genève","orgs": ["republique-et-canton-de-geneve"]}
 			]
 		},
 		"Gov_Cities": {
