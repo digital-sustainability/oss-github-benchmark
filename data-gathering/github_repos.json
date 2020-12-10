@@ -143,7 +143,8 @@
 				{"name": "Paul Scherrer Institut","orgs": ["paulscherrerinstitute"]},
 				{"name": "swissbib","orgs": ["swissbib", "linked-swissbib"]},
 				{"name": "Swiss National Supercomputing Center","orgs": ["eth-csc"]},
-				{"name": "Universität Bern","orgs": ["digital-sustainability","scg-unibe-ch","IAM-CGG","unibe-iap-mw","CMPG","reymond-group","ConsBiol-unibern","kogpsy","ubern-mia","zmk-unibe-ch","unibe-cns","UB-Bern","ub-unibe-ch","hpc-unibe-ch","id-unibe-ch","unibe-ch"]}
+				{"name": "Universität Bern","orgs": ["digital-sustainability","scg-unibe-ch","IAM-CGG","unibe-iap-mw","CMPG","reymond-group","ConsBiol-unibern","kogpsy","ubern-mia","zmk-unibe-ch","unibe-cns","UB-Bern","ub-unibe-ch","hpc-unibe-ch","id-unibe-ch","unibe-ch"]},
+				{"name": "Université de Neuchâtel","orgs": ["UniNE-CHYN"]}
 			]
 		},
 		"NGOs": {
