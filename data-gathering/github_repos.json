@@ -9,6 +9,7 @@
 				{"name": "AdNovum Informatik AG","orgs": ["adnovum"]},
 				{"name": "Abraxas","orgs": ["abraxas-labs"]},
 				{"name": "amazee.io","orgs": ["amazeeio"]},
+				{"name": "bbv Software Services AG","orgs": ["bbvch"]},
 				{"name": "Bedag","orgs": ["bedag"]},
 				{"name": "BSI Business Systems Integration AG","orgs": ["BSI-Business-Systems-Integration-AG"]},
 				{"name": "Camptocamp","orgs": ["camptocamp"]},
@@ -23,6 +24,7 @@
 				{"name": "ITIGO AG","orgs": ["itigoag"]},
 				{"name": "Garaio","orgs": ["garaio"]},
 				{"name": "gyselroth","orgs": ["gyselroth"]},
+				{"name": "hazelfire GmbH","orgs": ["hazelfire"]},
 				{"name": "Liip","orgs": ["liip","liip-forks"]},
 				{"name": "mimacom","orgs": ["mimacom"]},
 				{"name": "Netcetera","orgs": ["netceteragroup"]},
@@ -73,15 +75,16 @@
 			"name": "Medien",
 			"institutions": [
 				{"name": "SRG","orgs": ["srfdata","srgssr"]},
-				{"name": "NZZ","orgs": ["nzzdev"]}
+				{"name": "NZZ","orgs": ["nzzdev"]},
+				{"name": "Radio Bern RaBe","orgs": ["radiorabe"]},
 			]
 		},
 		"Others": {
 			"name": "Andere Unternehmenen",
 			"institutions": [
-				{"name": "Radio Bern RaBe","orgs": ["radiorabe"]},
 				{"name": "Scout24 Schweiz AG","orgs": ["Scout24-CH"]},
-				{"name": "SWISS TXT AG","orgs": ["swisstxt"]}
+				{"name": "SWISS TXT AG","orgs": ["swisstxt"]},
+				{"name": "digris AG", "orgs": ["digris"]}
 			]
 		},
 		"Gov_Companies": {
