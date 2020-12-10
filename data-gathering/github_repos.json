@@ -110,6 +110,7 @@
 				{"name": "Bundesamt für Statistik","orgs": ["BFS-SHS-MSAS","ogdch"]},
 				{"name": "Bundeskanzlei","orgs": ["swiss"]},
 				{"name": "MeteoSwiss","orgs": ["MeteoSwiss-APN"]},
+				{"name": "Schweizerisches Bundesarchiv","orgs": ["sfa-siard"]},
 				{"name": "swisstopo","orgs": ["geoadmin"]}
 			]
 		},
