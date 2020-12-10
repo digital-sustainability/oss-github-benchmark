@@ -81,7 +81,8 @@
 			"name": "Andere Unternehmenen",
 			"institutions": [
 				{"name": "Scout24 Schweiz AG","orgs": ["Scout24-CH"]},
-				{"name": "SWISS TXT AG","orgs": ["swisstxt"]}
+				{"name": "SWISS TXT AG","orgs": ["swisstxt"]},
+				{"name": "digris AG", "orgs": ["digris"]}
 			]
 		},
 		"Gov_Companies": {
