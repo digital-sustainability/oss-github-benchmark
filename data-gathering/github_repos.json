@@ -61,7 +61,8 @@
 				{"name": "lobbywatch.ch","orgs": ["lobbywatch"]},
 				{"name": "Opendigitalradio","orgs": ["Opendigitalradio"]},
 				{"name": "OpenOlitor","orgs": ["openolitor"]},
-				{"name": "School of Data in Switzerland","orgs": ["schoolofdata-ch"]}
+				{"name": "School of Data in Switzerland","orgs": ["schoolofdata-ch"]},
+				{"name": "Open Source Challenge","orgs": ["opensource-challenge"]}
 			]
 		},
 		"Insurances": {
