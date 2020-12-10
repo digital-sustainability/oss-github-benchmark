@@ -138,10 +138,11 @@
 			"name": "Hochschulen und Forschung",
 			"institutions": [
 				{"name": "Berner Fachhochschule","orgs": ["bfh","iam-ictm","bfh-science"]},
-				{"name": "swissbib","orgs": ["swissbib", "linked-swissbib"]},
-				{"name": "Swiss National Supercomputing Center","orgs": ["eth-csc"]},
+				{"name": "European Organization for Nuclear Research (CERN)","orgs": ["CERN", "cernopendata", "cern-fts", "cerndb", "cernops", "AliceO2Group", "cms-opendata-analyses", "cvmfs", "CERN-E-Ternity"]},
 				{"name": "Fondation Campus Biotech Geneva","orgs": ["fcbg-hnp"]},
 				{"name": "Paul Scherrer Institut","orgs": ["paulscherrerinstitute"]},
+				{"name": "swissbib","orgs": ["swissbib", "linked-swissbib"]},
+				{"name": "Swiss National Supercomputing Center","orgs": ["eth-csc"]},
 				{"name": "Universität Bern","orgs": ["digital-sustainability","scg-unibe-ch","IAM-CGG","unibe-iap-mw","CMPG","reymond-group","ConsBiol-unibern","kogpsy","ubern-mia","zmk-unibe-ch","unibe-cns","UB-Bern","ub-unibe-ch","hpc-unibe-ch","id-unibe-ch","unibe-ch"]}
 			]
 		},
