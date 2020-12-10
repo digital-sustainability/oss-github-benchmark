@@ -105,6 +105,7 @@
 		"Gov_Cantons": {
 			"name": "Verwaltung Kantone",
 			"institutions": [
+				{"name": "Kanton Aargau","orgs": ["kanton-aargau"]},
 				{"name": "Kanton Basel-Stadt","orgs": ["statabs","opendatabs"]},
 				{"name": "Kanton Bern","orgs": ["kanton-bern"]},
 				{"name": "Kanton Neuenburg","orgs": ["sitn"]},
