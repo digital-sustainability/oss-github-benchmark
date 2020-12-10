@@ -71,6 +71,7 @@
 		"Banking": {
 			"name": "Banken",
 			"institutions": [
+				{"name": "Datatrans AG","orgs": ["datatrans"]},
 				{"name": "Postfinance","orgs": ["postfinance"]}
 			]
 		},
