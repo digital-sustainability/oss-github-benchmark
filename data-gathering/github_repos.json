@@ -162,7 +162,8 @@
 		"NGOs": {
 			"name": "Nichtregierungsorganisationen",
 			"institutions": [
-				{"name": "European Broadcasting Union","orgs": ["ebu"]}
+				{"name": "European Broadcasting Union","orgs": ["ebu"]},
+				{"name": "International Telecommunication Union","orgs": ["openitu"]}
 			]
 		}
 	}
