@@ -164,7 +164,8 @@
 			"name": "Nichtregierungsorganisationen",
 			"institutions": [
 				{"name": "European Broadcasting Union","orgs": ["ebu"]},
-				{"name": "International Telecommunication Union","orgs": ["openitu"]}
+				{"name": "International Telecommunication Union","orgs": ["openitu"]},
+				{"name": "World Health Organization","orgs": ["WorldHealthOrganization"]}
 			]
 		}
 	}
