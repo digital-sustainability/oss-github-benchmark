@@ -25,6 +25,7 @@ jobs:
       run: |
         cd data-gathering
         python OSS_github_benchmark.py
+      timeout-minutes: 1200
       env:
         GITHUBTOKEN: ${{ secrets.GITHUBTOKEN }}
     - uses: actions/upload-artifact@v2
