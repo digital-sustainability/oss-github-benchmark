@@ -266,7 +266,7 @@ with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvf
 #JSON Output auf Konsole und in neues File
 # print( json.dumps(institutions_data, indent=4))
 f = open("oss-github-benchmark.json", "w")
-f.write(json.dumps(sector_data, indent=4))
+f.write(json.dumps(sector_data))
 
 
 with open('problematic_repos.pickle', 'wb') as file:
