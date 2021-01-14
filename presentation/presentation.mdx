@@ -6,6 +6,7 @@ import twitterIcon from './assets/twitter.png'
 import unibeLogo from './assets/logo-unibe.svg'
 import titleImage from './assets/titel.png'
 import lineChart from './assets/line-chart.png'
+import githubAction from './assets/github-action.png'
 
 import PageNumber from './page-number'
 
@@ -22,7 +23,7 @@ export const theme = {
     },
     Slide: {
       ...themes.swiss.styles.Slide,
-      fontSize: '1.8rem'
+      fontSize: '2rem'
     },
     Footer: {
         fontSize: '1rem',
@@ -89,17 +90,18 @@ OSS Github Benchmark
 
 Jan Dietrich
 
-# OSS Github Benchmark
+# Open Source Software Github Benchmark 
+OSS Benchmark
 
 [Github Source Code](https://github.com/digital-sustainability/oss-github-benchmark) <img src={githubIcon} style={{height: '2rem', width: 'auto'}}/> 
 
-[ossbenchmark.com](https://ossbenchmark.com) 
+[Visualisierung](https://ossbenchmark.com) 
 
 <img src={ titleImage } style={{ display: 'block', height: '50vh'}}/>
 
 ---
 
-# Ziel
+# OSS Benchmark Ziele
 
 Informationen zu den Schweizer Open Source Beiträgen auf Github
 
@@ -110,6 +112,9 @@ Informationen zu den Schweizer Open Source Beiträgen auf Github
 - Download der Daten
 
 <Notes>
+
+- Informationen zum Open Source Markt Schweiz
+
 </Notes>
 
 ---
@@ -207,7 +212,7 @@ g.get_organization('digital-sustainability').get_repo('oss_directory').language
 
 # Daten von Github
 
-#### Organisation, welche Kenngrössen?
+#### Organisation, welche Kennzahlen?
 
 - Anzahl Repositories
 
@@ -277,12 +282,28 @@ def handle_rate_limit():
 
 ---
 
+# Visualisierung
+
+[OSS Benchmark](https://ossbenchmark.com)
+
+---
+
+# Visualisierung bereitstellen
+
+Github Actions
+
+<img src={ githubAction} />
+
+---
+
 # Summary
 
 - Datensammlung
     - PyGithub, Jupyter Notebook, Automatisiertes Script
+
 - Visualisierung
     - D3.js, Angular für den Rest
+
 - Bereitstellung
     - GitHub Actions, GitHub Pages
 
@@ -290,7 +311,9 @@ def handle_rate_limit():
 
 # Ausblick
 
-- Tabelle mit Top 20 für eine Kenngrösse
+- Fix von automatischem Skript
+
+- Tabelle mit Top 20 für eine Kennzahl
 
 - Line Chart mit Commits
 
@@ -309,21 +332,19 @@ def handle_rate_limit():
 [CodeOneTwo](https://www.linkedin.com/in/codeonetwo/)
 
 
-
 ---
 
 # Tools und mehr
 
 - `mdx-deck` - for the presentation ([GitHub](https://github.com/jxnblk/mdx-deck) <img src={githubIcon} style={{height: '2rem', width: 'auto'}}/> )
 
-- `jupyter notebook` - for the documentation ([Jupyter Notebook](https://jupyter.org/)
+- `jupyter notebook` - for the documentation ([Jupyter Notebook](https://jupyter.org/))
 
-- `PyGithub` - library to query GitHub API ([Jupyter Notebook](https://jupyter.org/)
+- `PyGithub` - library to query GitHub API ([Jupyter Notebook](https://jupyter.org/))
 
 → Alles auf Github
 
-- [Link]() to the presentation
+- [Link](https://github.com/digital-sustainability/oss-github-benchmark/tree/master/presentation) zu der Präsentation
 
-- [Link](https://github.com/CodeOneTwo/software-composition-seminar/blob/main/Documentation.ipynb) to Jupyter Notebook Documentation
+- [Link](https://github.com/digital-sustainability/oss-github-benchmark/tree/master/docs/notebooks) zu den Jupyter Notebooks
 
----
