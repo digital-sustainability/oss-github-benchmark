@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "mdx-deck presentation.mdx",
-    "build": "mdx-deck build presentation.mdx"
+    "build": "mdx-deck build presentation.mdx",
+    "export": "npx website-pdf http://localhost:8000/print -o deck.pdf"
   },
   "author": "",
   "license": "ISC",
