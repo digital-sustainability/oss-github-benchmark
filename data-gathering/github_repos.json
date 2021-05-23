@@ -3,10 +3,12 @@
 		"IT": {
 			"name": "Informatikbranche",
 			"institutions": [
+				{"name": "3ap AG","orgs": ["3AP-AG"]},
 				{"name": "4teamwork AG","orgs": ["4teamwork"]},
 				{"name": "56K Cloud","orgs": ["56kcloud"]},
-				{"name": "Adfinis","orgs": ["adfinis-sygroup","adfinis-forks"]},
+				{"name": "Adfinis AG","orgs": ["adfinis-sygroup","adfinis-forks"]},
 				{"name": "AdNovum Informatik AG","orgs": ["adnovum"]},
+				{"name": "Advanced Concepts AG","orgs": ["advancedconcepts"]},
 				{"name": "Abraxas","orgs": ["abraxas-labs"]},
 				{"name": "amazee.io","orgs": ["amazeeio"]},
 				{"name": "antistatique","orgs": ["antistatique"]},
