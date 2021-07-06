@@ -1,0 +1,25 @@
+<table mat-table [dataSource]="organisations" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="num_members">
+    <th mat-header-cell *matHeaderCellDef> Number of members </th>
+    <td mat-cell *matCellDef="let element"> {{element.num_members}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="num_repos">
+    <th mat-header-cell *matHeaderCellDef> Number of repositories </th>
+    <td mat-cell *matCellDef="let element"> {{element.num_repos}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="sector">
+    <th mat-header-cell *matHeaderCellDef> Sector </th>
+    <td mat-cell *matCellDef="let element"> {{element.sector}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
