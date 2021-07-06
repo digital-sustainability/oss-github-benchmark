@@ -22,7 +22,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatTableModule} from '@angular/material/table'  
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { RankingComponent } from './ranking/ranking.component';
 
 
 
@@ -34,6 +36,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     DimensionSelectorComponent,
     ListComponent,
     ItemComponent,
+    RankingComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +54,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     MatSelectModule,
     MatInputModule,
     MatCardModule,
+    MatTableModule,
     ExploreModule,
     Ng2SearchPipeModule,
   ],
