@@ -6,7 +6,10 @@ td.mat-cell {
   padding-right: 20px;
 }
 
-tr:hover {background-color: #f5f5f5;}
+tr:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
 
 mat-form-field {
   margin: 20px;
