@@ -25,7 +25,9 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatTableModule} from '@angular/material/table'  
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { RankingComponent } from './ranking/ranking.component';
-
+import {MatSortModule} from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 
 @NgModule({
@@ -54,9 +56,12 @@ import { RankingComponent } from './ranking/ranking.component';
     MatSelectModule,
     MatInputModule,
     MatCardModule,
-    MatTableModule,
     ExploreModule,
     Ng2SearchPipeModule,
+    MatTableModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
