@@ -17,17 +17,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import {ExploreModule} from './explore/explore.module';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
-import {MatTableModule} from '@angular/material/table'  
+import {MatTableModule} from '@angular/material/table'
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { RankingComponent } from './ranking/ranking.component';
 import {MatSortModule} from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {TreeComponent} from "./explore/tree/tree.component";
+import {ExploreComponent} from "./explore/explore.component";
 
 
 @NgModule({
@@ -38,7 +39,10 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     DimensionSelectorComponent,
     ListComponent,
     ItemComponent,
-    RankingComponent
+    RankingComponent,
+    TreeComponent,
+    ExploreComponent,
+    ItemComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +60,6 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatSelectModule,
     MatInputModule,
     MatCardModule,
-    ExploreModule,
     Ng2SearchPipeModule,
     MatTableModule,
     MatSortModule,
