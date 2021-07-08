@@ -2,9 +2,13 @@
   <span class="title">OSS Benchmark Schweiz</span>
   <!-- <img src="assets/GitHub&#45;Mark/PNG/GitHub&#45;Mark&#45;120px&#45;plus.png" /> -->
   <!-- <img src="assets/osi_symbol_0.png" /> -->
+  <button mat-button routerLink="/ranking">
+    <mat-icon>table_rows</mat-icon>
+    <span>Ranking</span>
+  </button>
   <button mat-button routerLink="/">
     <mat-icon>pie_chart</mat-icon>
-    <span>Visualisierungen</span>
+    <span>Visualizations</span>
   </button>
   <button mat-button routerLink="/explore">
     <mat-icon>explore</mat-icon>
@@ -13,10 +17,6 @@
   <button mat-button routerLink="/metrics">
     <mat-icon>text_fields</mat-icon>
     <span>Metrics</span>
-  </button>
-  <button mat-button routerLink="/ranking">
-    <mat-icon>table_rows</mat-icon>
-    <span>Ranking</span>
   </button>
   <span class="spacer"></span>
   <button mat-button [matMenuTriggerFor]="downloadMenu">

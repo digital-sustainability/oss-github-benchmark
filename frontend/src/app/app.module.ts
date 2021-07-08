@@ -38,7 +38,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     DimensionSelectorComponent,
     ListComponent,
     ItemComponent,
-    RankingComponent,
+    RankingComponent
   ],
   imports: [
     BrowserModule,
