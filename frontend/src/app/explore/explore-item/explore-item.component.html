@@ -1,4 +1,4 @@
-<mat-card *ngIf="item" class="inst-card">
+<mat-card class="inst-card">
   <mat-card-header>
     <mat-card-title><img [src]="item.avatar[0]" alt="">{{ item.name }}</mat-card-title>
   </mat-card-header>
@@ -19,7 +19,7 @@
       ><span>{{ item.total_commits_last_year }}</span></section
     >
     <h2>Repos:</h2>
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" matSortActive="num_commits" matSortDirection="desc">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" matSortActive="num_commits" matSortDirection="asc">  
       
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
@@ -44,6 +44,8 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns" class="clickable"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="clickable"></tr>
     </table>
+    
+    <mat-paginator [pageSizeOptions]="[30, 50, 100]" showFirstLastButtons></mat-paginator>
 
   </mat-card-content>
 </mat-card>
