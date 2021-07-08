@@ -27,7 +27,6 @@ import { RankingComponent } from './ranking/ranking.component';
 import {MatSortModule} from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { TestTableComponent } from './test-table/test-table.component';
 import {TreeComponent} from "./explore/tree/tree.component";
 import {ExploreComponent} from "./explore/explore.component";
 
@@ -41,7 +40,6 @@ import {ExploreComponent} from "./explore/explore.component";
     ListComponent,
     ItemComponent,
     RankingComponent,
-    TestTableComponent,
     TreeComponent,
     ExploreComponent,
     ItemComponent
