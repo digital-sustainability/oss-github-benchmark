@@ -13,6 +13,7 @@ import { DimensionSelectorComponent } from './dimension-selector/dimension-selec
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from './metric/list/list.component';
 import { ItemComponent } from './metric/item/item.component';
+import { ExploreItemComponent } from './explore/explore-item/explore-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -29,6 +30,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {TreeComponent} from "./explore/tree/tree.component";
 import {ExploreComponent} from "./explore/explore.component";
+import {MatTreeModule} from '@angular/material/tree';
 
 
 @NgModule({
@@ -39,10 +41,10 @@ import {ExploreComponent} from "./explore/explore.component";
     DimensionSelectorComponent,
     ListComponent,
     ItemComponent,
+    ExploreItemComponent,
     RankingComponent,
     TreeComponent,
     ExploreComponent,
-    ItemComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +66,8 @@ import {ExploreComponent} from "./explore/explore.component";
     MatTableModule,
     MatSortModule,
     MatFormFieldModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTreeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
