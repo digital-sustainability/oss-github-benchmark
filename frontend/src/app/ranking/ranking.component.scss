@@ -1,9 +1,10 @@
-table {
+table.mat-table {
   width: 100%;
 }
 
 td.mat-cell {
   padding-right: 20px;
+  text-align: left;
 }
 
 tr:hover {
@@ -11,6 +12,17 @@ tr:hover {
   cursor: pointer;
 }
 
+td.mat-cell.number {
+  text-align: center;
+}
+
 mat-form-field {
   margin: 20px;
+}
+
+img {
+  width: 2rem;
+  height: 2rem;
+  display: inline;
+  vertical-align: middle;
 }
