@@ -10,3 +10,25 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.clickable:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+  }
+
+td.mat-cell.number {
+    text-align: center;
+}
+
+th.mat-header-cell.number {
+    text-align: center;
+}
+
+td.mat-cell {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+}
+
+th.mat-header-cell {
+    padding-left: 10px !important;  
+}
