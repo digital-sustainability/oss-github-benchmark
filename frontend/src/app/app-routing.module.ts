@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {HomeComponent} from './home/home.component';
 import {ListComponent} from './metric/list/list.component';
-import {ItemComponent} from './explore/item/item.component';
+import {ExploreItemComponent} from './explore/explore-item/explore-item.component';
 import {ExploreComponent} from './explore/explore.component';
 import {RankingComponent} from './ranking/ranking.component';
 
@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'explore/item/:itemName',
-    component: ItemComponent
+    component: ExploreItemComponent
   }
 ];
 

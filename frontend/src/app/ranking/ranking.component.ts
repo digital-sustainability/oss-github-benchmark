@@ -42,14 +42,13 @@ export class RankingComponent implements OnInit {
         return previousValue.concat(value);
       }, []);
       this.item = institutions.filter( inst => inst.name === itemName)[0];
-      console.log(institutions);
 
       let i = 0;
       institutions.forEach(element => {
         let len = element.repo_names.length;
         institutions[i].repo_names = element.repo_names.slice(0, this.reposToDisplay).join(", ");
         if (len >= this.reposToDisplay) {
-          institutions[i].repo_names += "..."
+          institutions[i].repo_names += "...";
         }
         i++;
       });
