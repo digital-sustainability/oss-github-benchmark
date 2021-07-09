@@ -1,23 +1,22 @@
-<mat-card class="inst-card">
-  <mat-card-header>
-    <mat-card-title><img [src]="item.avatar[0]" alt="">{{ item.name }}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <section class="metric-item"
-      ><strong>Sektor:</strong><span>{{ item.sector }}</span></section
-    >
-    <section class="metric-item"
-      ><strong>Members:</strong
-      ><span>{{ item.num_members }}</span></section
-    >
-    <section class="metric-item"
-      ><strong>Stars:</strong
-      ><span>{{ item.total_num_stars }}</span></section
-    >
-    <section class="metric-item"
-      ><strong>Commits im letzten Jahr:</strong
-      ><span>{{ item.total_commits_last_year }}</span></section
-    >
+<div class="wrapper">
+  <h1><img [src]="data.avatar[0]" alt="">{{ data.name }}</h1>
+
+  <section class="metric-item"
+    ><strong>Sektor:</strong><span>{{ data.sector }}</span></section
+  >
+  <section class="metric-item"
+    ><strong>Members:</strong
+    ><span>{{ data.num_members }}</span></section
+  >
+  <section class="metric-item"
+    ><strong>Stars:</strong
+    ><span>{{ data.total_num_stars }}</span></section
+  >
+  <section class="metric-item"
+    ><strong>Commits im letzten Jahr:</strong
+    ><span>{{ data.total_commits_last_year }}</span></section
+  >
+  <div *ngIf="dataSource">
     <h2>Repos:</h2>
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" matSortActive="num_commits" matSortDirection="asc">  
       
@@ -40,12 +39,11 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">Watchers</th>
         <td mat-cell *matCellDef="let repo" (click)="navigateTo(repo.url)" class="number">{{repo.num_watchers}} </td>
       </ng-container>
-    
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns" class="clickable"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="clickable"></tr>
     </table>
-    
-    <mat-paginator [pageSizeOptions]="[30, 50, 100]" showFirstLastButtons></mat-paginator>
 
-  </mat-card-content>
-</mat-card>
+    <mat-paginator [pageSizeOptions]="[30, 50, 100]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

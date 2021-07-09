@@ -1,11 +1,11 @@
-import { Component, OnInit, AfterViewInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject, ViewChild } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {DataService, IData} from 'src/app/data.service';
 import {IInstitution} from 'src/app/interfaces/institution';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort, Sort} from '@angular/material/sort';
 import { lowerCase } from 'lodash-es';
 import {MatPaginator} from '@angular/material/paginator';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 const sortState: Sort = {active: 'name', direction: 'asc'};
 
@@ -18,40 +18,38 @@ const sortState: Sort = {active: 'name', direction: 'asc'};
 export class ExploreItemComponent implements OnInit, AfterViewInit {
   item: IInstitution;
   displayedColumns: string[] = ['name', 'num_commits', 'num_contributors', 'num_watchers'];
-  dataSource = new MatTableDataSource();
+  dataSource: any = 0;
 
   constructor(
-    private route: ActivatedRoute,
-    private dataService: DataService
+    private dialogRef: MatDialogRef<ExploreItemComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.sort = new MatSort;
   }
-
+ 
   ngOnInit(): void {
-    this.dataService.loadData().then( data => {
-      const itemName = this.route.snapshot.params.itemName;
-      const institutions = Object.entries(data.jsonData).reduce( (previousValue, currentValue) => {
-        const [key, value] = currentValue;
-        return previousValue.concat(value);
-      }, []);
-      this.item = institutions.filter( inst => inst.name === itemName)[0];
-      this.item.repos.forEach(repo => {
+    if (this.data.repos) {
+      this.data.repos.forEach(repo => {
         repo.name = lowerCase(repo.name);
       });
-      this.dataSource = new MatTableDataSource(this.item.repos);
-    });
-  }
+    }
+    if (typeof(this.data.avatar) == "string") {
+      this.data.avatar = JSON.parse(this.data.avatar.replace(/\'/g, "\""));
+    };
+    if (this.data.repos.length > 0) {
+      this.dataSource = new MatTableDataSource(this.data.repos);
+    };
+  };
 
   navigateTo(url: string): void {
     window.open(url, "_blank");
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
-
     this.sort.active = sortState.active;
     this.sort.direction = sortState.direction;
     this.sort.sortChange.emit(sortState);
