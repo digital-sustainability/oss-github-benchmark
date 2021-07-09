@@ -78,6 +78,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
         institution_data["total_issues_closed"] = 0
         institution_data["total_comments"] = 0
         institution_data["repo_names"] = []
+        institution_data["total_licenses"] = {}
 
         # Von einer Institution alle GitHub-Organisationen rausholen
         error_counter = 0
@@ -163,6 +164,12 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                             "comments": repo.get_comments().totalCount,
                             "languages": repo.get_languages()
                         }
+
+                        try:
+                            repo_data["license"] = repo.get_license().license.key
+                        except:
+                            repo_data["license"] = "none"
+
                         # Stars, Contributors, Commits, Forks, Watchers und Last Year's Commits nur zählen wenn das Repo nicht geforkt ist
                         if not repo_data["fork"]:
                             institution_data["total_num_stars"] += repo_data["num_stars"]
@@ -189,6 +196,12 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                             organization_data["total_issues_all"] += repo_data["issues_all"]
                             organization_data["total_issues_closed"] += repo_data["issues_closed"]
                             organization_data["total_comments"] += repo_data["comments"]
+
+                            if repo_data["license"] in institution_data["total_licenses"]:
+                                institution_data["total_licenses"][repo_data["license"]] += 1
+                            else:
+                                institution_data["total_licenses"].update({repo_data["license"]: 1})
+
                         # Ansonsten zählen wie viele der Repos innerhalb der GitHub-Organisation geforkt sind
                         else:
                             institution_data["total_num_forks_in_repos"] += 1
@@ -251,7 +264,8 @@ csv_columns=[
     "total_comments",
     "org_names",
     "avatar",
-    "repo_names"
+    "repo_names",
+    "total_licenses"
 ]
 with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames=csv_columns, extrasaction='ignore')
