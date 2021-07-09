@@ -1,34 +1,60 @@
 /* You can add global styles to this file, and also import other style files */
 
 body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background-color: #fff;
-    font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #fff;
+  font-family: "Roboto", sans-serif;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .clickable:hover {
-    background-color: #f5f5f5;
-    cursor: pointer;
-  }
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
 
 td.mat-cell.number {
-    text-align: center;
+  text-align: center;
 }
 
 th.mat-header-cell.number {
-    text-align: center;
+  text-align: center;
 }
 
 td.mat-cell {
-    padding-right: 10px !important;
-    padding-left: 10px !important;
+  padding-right: 10px !important;
+  padding-left: 10px !important;
 }
 
 th.mat-header-cell {
-    padding-left: 10px !important;  
+  padding-left: 10px !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
