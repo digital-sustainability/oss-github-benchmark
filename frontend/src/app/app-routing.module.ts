@@ -21,7 +21,17 @@ const routes: Routes = [
   },
   {
     path: 'ranking',
-    component: RankingComponent
+    component: RankingComponent,
+  },
+  {
+    path: 'ranking/:institution',
+    component: RankingComponent,
+    children: [
+      {
+        path: '**',
+        component: RankingComponent
+      },
+    ]
   },
   {
     path: 'explore/item/:itemName',
