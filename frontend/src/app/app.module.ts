@@ -31,6 +31,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {TreeComponent} from "./explore/tree/tree.component";
 import {ExploreComponent} from "./explore/explore.component";
 import {MatTreeModule} from '@angular/material/tree';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import {MatTreeModule} from '@angular/material/tree';
     MatSortModule,
     MatFormFieldModule,
     MatPaginatorModule,
-    MatTreeModule
+    MatTreeModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

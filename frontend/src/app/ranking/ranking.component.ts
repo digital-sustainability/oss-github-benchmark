@@ -2,10 +2,11 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { DataService, IData } from 'src/app/data.service';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {Router} from '@angular/router';
 import {MatPaginator} from '@angular/material/paginator';
 import {IInstitution} from 'src/app/interfaces/institution';
 import {ActivatedRoute} from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
+import { ExploreItemComponent } from '../explore/explore-item/explore-item.component';
 
 const sortState: Sort = {active: 'num_repos', direction: 'desc'};
 
@@ -28,8 +29,8 @@ export class RankingComponent implements OnInit {
   
   constructor(
     private dataService: DataService,
-    private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog
   ) {
     this.sort = new MatSort;
   };
@@ -62,11 +63,12 @@ export class RankingComponent implements OnInit {
     });
   }
 
-  navigateTo(name: string): void {
-    this.router.navigate(['explore', 'item', name]);
-  }
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-}
 
+  openDialog(institution: any) {
+    this.dialog.open(ExploreItemComponent, {
+      data: institution,
+    });
+  }
+}
