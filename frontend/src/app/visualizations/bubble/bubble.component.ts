@@ -3,7 +3,8 @@ import * as d3 from 'd3';
 import { IData } from 'src/app/data.service';
 import * as _ from 'lodash-es';
 import {Options} from '../options';
-import {Router} from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
+import { ExploreItemComponent } from '../../explore/explore-item/explore-item.component';
 
 @Component({
   selector: 'app-visualization-bubble',
@@ -28,7 +29,7 @@ export class BubbleComponent implements OnInit, OnChanges {
 
   constructor(
     private hostElement: ElementRef,
-    private router: Router
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -169,7 +170,7 @@ export class BubbleComponent implements OnInit, OnChanges {
         return this.colorScale(inst.sector);
       })
       .on('click', (event, inst) => {
-        this.navigateTo(inst);
+        this.openDialog(inst);
         // this.onselect(inst);
       })
       .on('mouseenter', (event, inst) => {
@@ -205,7 +206,9 @@ export class BubbleComponent implements OnInit, OnChanges {
     this.yLabel.text(this.options.dimension2.friendly_name);
   }
 
-  navigateTo(inst): void {
-    this.router.navigate(['explore', 'item', inst.name]);
+  openDialog(institution: any): void {
+    this.dialog.open(ExploreItemComponent, {
+      data: institution,
+    });
   }
 }

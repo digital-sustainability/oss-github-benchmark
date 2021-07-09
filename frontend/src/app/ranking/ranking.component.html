@@ -7,37 +7,37 @@
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" matSortActive="num_repos" matSortDirection="desc">
 
   <ng-container matColumnDef="logo">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-    <td mat-cell *matCellDef="let institution" (click)="navigateTo(institution.name)"> <img [src]="institution.avatar[0]" alt="logo"></td>
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let institution"> <img [src]="institution.avatar[0]" alt="logo"></td>
   </ng-container>
 
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-    <td mat-cell *matCellDef="let institution" (click)="navigateTo(institution.name)">{{institution.name}} </td>
+    <td mat-cell *matCellDef="let institution">{{institution.name}} </td>
   </ng-container>
 
   <ng-container matColumnDef="num_members">
     <th mat-header-cell *matHeaderCellDef mat-sort-header class="number"> Number of members </th>
-    <td mat-cell *matCellDef="let institution" (click)="navigateTo(institution.name)" class="number">{{institution.num_members}} </td>
+    <td mat-cell *matCellDef="let institution" class="number">{{institution.num_members}} </td>
   </ng-container>
 
   <ng-container matColumnDef="num_repos">
     <th mat-header-cell *matHeaderCellDef mat-sort-header class="number"> Number of repositories </th>
-    <td mat-cell *matCellDef="let institution" (click)="navigateTo(institution.name)" class="number"> {{institution.num_repos}} </td>
+    <td mat-cell *matCellDef="let institution" class="number"> {{institution.num_repos}} </td>
   </ng-container>
 
   <ng-container matColumnDef="sector">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Sector </th>
-    <td mat-cell *matCellDef="let institution" (click)="navigateTo(institution.name)"> {{institution.sector}} </td>
+    <td mat-cell *matCellDef="let institution"> {{institution.sector}} </td>
   </ng-container>
 
   <ng-container matColumnDef="repo_names">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Repositories </th>
-    <td mat-cell *matCellDef="let institution" (click)="navigateTo(institution.name)"> {{institution.repo_names}} </td>
+    <td mat-cell *matCellDef="let institution"> {{institution.repo_names}} </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns" class="clickable"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="clickable"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="clickable" (click)="openDialog(row)"></tr>
 </table>
 
 <mat-paginator [pageSizeOptions]="[30, 50, 100]" showFirstLastButtons></mat-paginator>
