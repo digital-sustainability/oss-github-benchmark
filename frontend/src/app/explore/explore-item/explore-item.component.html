@@ -1,47 +1,49 @@
 <div class="wrapper">
-<h1><img [src]="data.avatar[0]" alt="">{{ data.name }}</h1>
+  <h1><img [src]="data.avatar[0]" alt="">{{ data.name }}</h1>
 
-<section class="metric-item"
-  ><strong>Sektor:</strong><span>{{ data.sector }}</span></section
->
-<section class="metric-item"
-  ><strong>Members:</strong
-  ><span>{{ data.num_members }}</span></section
->
-<section class="metric-item"
-  ><strong>Stars:</strong
-  ><span>{{ data.total_num_stars }}</span></section
->
-<section class="metric-item"
-  ><strong>Commits im letzten Jahr:</strong
-  ><span>{{ data.total_commits_last_year }}</span></section
->
-<h2>Repos:</h2>
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" matSortActive="num_commits" matSortDirection="asc">  
-  
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-    <td mat-cell *matCellDef="let repo" (click)="navigateTo(repo.url)">{{repo.name}} </td>
-  </ng-container>
+  <section class="metric-item"
+    ><strong>Sektor:</strong><span>{{ data.sector }}</span></section
+  >
+  <section class="metric-item"
+    ><strong>Members:</strong
+    ><span>{{ data.num_members }}</span></section
+  >
+  <section class="metric-item"
+    ><strong>Stars:</strong
+    ><span>{{ data.total_num_stars }}</span></section
+  >
+  <section class="metric-item"
+    ><strong>Commits im letzten Jahr:</strong
+    ><span>{{ data.total_commits_last_year }}</span></section
+  >
+  <div *ngIf="dataSource">
+    <h2>Repos:</h2>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" matSortActive="num_commits" matSortDirection="asc">  
+      
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let repo" (click)="navigateTo(repo.url)">{{repo.name}} </td>
+      </ng-container>
 
-  <ng-container matColumnDef="num_commits">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">Commits</th>
-    <td mat-cell *matCellDef="let repo" (click)="navigateTo(repo.url)" class="number">{{repo.num_commits}} </td>
-  </ng-container>
+      <ng-container matColumnDef="num_commits">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">Commits</th>
+        <td mat-cell *matCellDef="let repo" (click)="navigateTo(repo.url)" class="number">{{repo.num_commits}} </td>
+      </ng-container>
 
-  <ng-container matColumnDef="num_contributors">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">Contributors</th>
-    <td mat-cell *matCellDef="let repo" (click)="navigateTo(repo.url)" class="number">{{repo.num_contributors}} </td>
-  </ng-container>
+      <ng-container matColumnDef="num_contributors">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">Contributors</th>
+        <td mat-cell *matCellDef="let repo" (click)="navigateTo(repo.url)" class="number">{{repo.num_contributors}} </td>
+      </ng-container>
 
-  <ng-container matColumnDef="num_watchers">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">Watchers</th>
-    <td mat-cell *matCellDef="let repo" (click)="navigateTo(repo.url)" class="number">{{repo.num_watchers}} </td>
-  </ng-container>
+      <ng-container matColumnDef="num_watchers">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">Watchers</th>
+        <td mat-cell *matCellDef="let repo" (click)="navigateTo(repo.url)" class="number">{{repo.num_watchers}} </td>
+      </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns" class="clickable"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="clickable"></tr>
-</table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="clickable"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="clickable"></tr>
+    </table>
 
-<mat-paginator [pageSizeOptions]="[30, 50, 100]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[30, 50, 100]" showFirstLastButtons></mat-paginator>
+  </div>
 </div>

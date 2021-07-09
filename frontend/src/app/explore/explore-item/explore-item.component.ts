@@ -18,7 +18,7 @@ const sortState: Sort = {active: 'name', direction: 'asc'};
 export class ExploreItemComponent implements OnInit, AfterViewInit {
   item: IInstitution;
   displayedColumns: string[] = ['name', 'num_commits', 'num_contributors', 'num_watchers'];
-  dataSource = new MatTableDataSource();
+  dataSource: any = 0;
 
   constructor(
     private dialogRef: MatDialogRef<ExploreItemComponent>,
@@ -28,11 +28,17 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
   }
  
   ngOnInit(): void {
-    console.log(this.data);
-    this.data.repos.forEach(repo => {
-      repo.name = lowerCase(repo.name);
-    });
-    this.dataSource = new MatTableDataSource(this.data.repos)
+    if (this.data.repos) {
+      this.data.repos.forEach(repo => {
+        repo.name = lowerCase(repo.name);
+      });
+    }
+    if (typeof(this.data.avatar) == "string") {
+      this.data.avatar = JSON.parse(this.data.avatar.replace(/\'/g, "\""));
+    };
+    if (this.data.repos.length > 0) {
+      this.dataSource = new MatTableDataSource(this.data.repos);
+    };
   };
 
   navigateTo(url: string): void {
@@ -40,7 +46,7 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;

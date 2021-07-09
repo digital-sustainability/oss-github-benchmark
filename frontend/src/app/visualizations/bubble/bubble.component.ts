@@ -115,7 +115,7 @@ export class BubbleComponent implements OnInit, OnChanges {
     const rDimension = (institution: any) =>
       parseInt(institution[this.options.dimension3.key], 10);
     const data = this.data.csvData;
-
+    
     const sector = (i) => i.sector;
 
     this.yscale.domain([
