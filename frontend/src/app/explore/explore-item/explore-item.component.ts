@@ -1,11 +1,11 @@
-import { Component, OnInit, AfterViewInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject, ViewChild } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {DataService, IData} from 'src/app/data.service';
 import {IInstitution} from 'src/app/interfaces/institution';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort, Sort} from '@angular/material/sort';
 import { lowerCase } from 'lodash-es';
 import {MatPaginator} from '@angular/material/paginator';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 const sortState: Sort = {active: 'name', direction: 'asc'};
 
@@ -21,26 +21,19 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource();
 
   constructor(
-    private route: ActivatedRoute,
-    private dataService: DataService
+    private dialogRef: MatDialogRef<ExploreItemComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.sort = new MatSort;
   }
-
+ 
   ngOnInit(): void {
-    this.dataService.loadData().then( data => {
-      const itemName = this.route.snapshot.params.itemName;
-      const institutions = Object.entries(data.jsonData).reduce( (previousValue, currentValue) => {
-        const [key, value] = currentValue;
-        return previousValue.concat(value);
-      }, []);
-      this.item = institutions.filter( inst => inst.name === itemName)[0];
-      this.item.repos.forEach(repo => {
-        repo.name = lowerCase(repo.name);
-      });
-      this.dataSource = new MatTableDataSource(this.item.repos);
+    console.log(this.data);
+    this.data.repos.forEach(repo => {
+      repo.name = lowerCase(repo.name);
     });
-  }
+    this.dataSource = new MatTableDataSource(this.data.repos)
+  };
 
   navigateTo(url: string): void {
     window.open(url, "_blank");
@@ -51,7 +44,6 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
-
     this.sort.active = sortState.active;
     this.sort.direction = sortState.direction;
     this.sort.sortChange.emit(sortState);
