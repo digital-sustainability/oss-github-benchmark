@@ -36,6 +36,7 @@ export class RankingComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    
     this.dataService.loadData().then( data => {
       const itemName = this.route.snapshot.params.itemName;
       const institutions = Object.entries(data.jsonData).reduce( (previousValue, currentValue) => {
@@ -53,6 +54,16 @@ export class RankingComponent implements OnInit {
         }
         i++;
       });
+      this.route.paramMap.subscribe((map) => {
+        console.log('Changed')
+        console.log(map)
+        const institutionName = map.get('institution')
+        console.log(institutionName)
+        if (institutionName) {
+          this.openDialog(institutions.find(institution => institution.name.toLowerCase() === institutionName.toLowerCase() ));
+        }
+      })
+   
       this.dataSource = new MatTableDataSource(institutions);
       this.dataSource.sort = this.sort;
 
