@@ -1,33 +1,28 @@
 <mat-card class="container">
   <mat-card *ngIf="item" class="inst-card">
     <mat-card-header>
-      <div
-        *ngFor="let av of item.avatar"
-        mat-card-avatar
-        [ngStyle]="{ background: 'url(' + av + ')' }"
-      ></div>
-      <mat-card-title>{{ item.name }}</mat-card-title>
+      <mat-card-title><img [src]="item.avatar[0]" alt=""> {{ item.name }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <section class="metric-item"
-          ><strong>Sektor:</strong><span>{{ item.sector }}</span></section
-        >
-        <section class="metric-item"
-          ><strong>Members:</strong
-          ><span>{{ item.num_members }}</span></section
-        >
-        <section class="metric-item"
-          ><strong>Stars:</strong
-          ><span>{{ item.total_num_stars }}</span></section
-        >
-        <section class="metric-item"
-          ><strong>Commits im letzten Jahr:</strong
-          ><span>{{ item.total_commits_last_year }}</span></section
-        >
-        <h2>Repos</h2>
-        <section class="metric-item" *ngFor="let repo of item.repos">
-          <a [href]="repo.url">{{repo.name}}</a>
-        </section>
+      <section class="metric-item"
+        ><strong>Sektor:</strong><span>{{ item.sector }}</span></section
+      >
+      <section class="metric-item"
+        ><strong>Members:</strong
+        ><span>{{ item.num_members }}</span></section
+      >
+      <section class="metric-item"
+        ><strong>Stars:</strong
+        ><span>{{ item.total_num_stars }}</span></section
+      >
+      <section class="metric-item"
+        ><strong>Commits im letzten Jahr:</strong
+        ><span>{{ item.total_commits_last_year }}</span></section
+      >
+      <h2>Repos:</h2>
+      <section class="metric-item" *ngFor="let repo of item.repos">
+        <mat-card (click)="navigateTo(repo.url)" class="clickable">{{repo.name}}</mat-card>
+      </section>
     </mat-card-content>
   </mat-card>
 </mat-card>

@@ -27,4 +27,7 @@ export class ItemComponent implements OnInit {
     });
   }
 
+  navigateTo(url: string): void {
+    window.open(url, "_blank")
+  }
 }
