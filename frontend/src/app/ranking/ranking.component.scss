@@ -1,14 +1,22 @@
-table.mat-table {
-  width: 100%;
-}
-
-mat-form-field {
-  margin: 20px;
-}
-
 img {
   width: 2rem;
   height: 2rem;
   display: inline;
   vertical-align: middle;
+}
+
+h1,
+.mat-form-field,
+table.mat-table {
+  margin: 2%;
+  width: 96%;
+}
+
+.mat-checkbox {
+  margin: 2%;
+}
+
+.mat-form-field {
+  margin: 2%;
+  width: auto;
 }

@@ -1,12 +1,14 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { DataService, IData } from 'src/app/data.service';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { IInstitution } from 'src/app/interfaces/institution';
-import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../explore/explore-item/explore-item.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 
@@ -28,17 +30,55 @@ export class RankingComponent implements OnInit {
   @Input() data: IData;
   reposToDisplay = 6;
   dataSource = new MatTableDataSource();
+  numInstitutions: number;
+  checkboxes: string[] = [];
+  sectorFilter: object[] = [
+    { sector: 'ResearchAndEducation', activated: true },
+    { sector: 'NGOs', activated: true },
+    { sector: 'Media', activated: true },
+    { sector: 'Insurances', activated: true },
+    { sector: 'IT', activated: true },
+    { sector: 'Gov_Federal', activated: true },
+    { sector: 'Gov_Companies', activated: true },
+    { sector: 'Gov_Cities', activated: true },
+    { sector: 'Gov_Cantons', activated: true },
+    { sector: 'Communities', activated: true },
+    { sector: 'Banking', activated: true },
+    { sector: 'Others', activated: true },
+  ];
+  recordFilter = '';
 
   public doFilter = (value: string) => {
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
+    if (value) {
+      this.recordFilter = value.trim().toLocaleLowerCase();
+    }
+    setTimeout(this.triggerFilter, 100);
   };
+
+  public triggerFilter = () => {
+    this.dataSource.filter = 'trigger filter';
+  };
+
+  selectionChange(event) {
+    this.checkboxes = event.value;
+    this.doFilter('');
+  }
 
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private location: Location,
+    fb: FormBuilder
   ) {
     this.sort = new MatSort();
+    this.sectorFilter.forEach(
+      (sector: { sector: string; activated: boolean }) => {
+        if (sector.activated) {
+          this.checkboxes.push(sector.sector);
+        }
+      }
+    );
   }
 
   ngOnInit(): void {
@@ -77,12 +117,24 @@ export class RankingComponent implements OnInit {
       });
 
       this.dataSource = new MatTableDataSource(institutions);
+      this.numInstitutions = institutions.length;
       this.dataSource.sort = this.sort;
 
       this.sort.active = sortState.active;
       this.sort.direction = sortState.direction;
       this.sort.sortChange.emit(sortState);
       this.dataSource.paginator = this.paginator;
+      this.dataSource.filterPredicate = (data: any, filter: string) => {
+        let datastring: string = '';
+        let property: string;
+        for (property in data) {
+          datastring += data[property];
+        }
+        return (
+          datastring.includes(this.recordFilter) &&
+          this.checkboxes.indexOf(data.sector) != -1
+        );
+      };
     });
   }
 
@@ -90,8 +142,17 @@ export class RankingComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   openDialog(institution: any) {
-    this.dialog.open(ExploreItemComponent, {
+    this.changeURL('/ranking/' + institution.name);
+    const dialogRef = this.dialog.open(ExploreItemComponent, {
       data: institution,
     });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.changeURL('/ranking');
+    });
+  }
+
+  changeURL(relativeUrl: string): void {
+    this.location.replaceState(relativeUrl);
   }
 }

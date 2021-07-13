@@ -5,6 +5,7 @@ import * as _ from 'lodash-es';
 import { Options } from '../options';
 import { MatDialog } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../../explore/explore-item/explore-item.component';
+import { Location } from '@angular/common';
 
 // interface csvDatapoint {
 //   avatar: string
@@ -55,7 +56,11 @@ export class BubbleComponent implements OnInit, OnChanges {
   colorScale: d3.ScaleOrdinal<unknown, string, never>;
   institutionsComplete: any;
 
-  constructor(private hostElement: ElementRef, public dialog: MatDialog) {}
+  constructor(
+    private hostElement: ElementRef,
+    public dialog: MatDialog,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
     const bound = this.hostElement.nativeElement.getBoundingClientRect();
@@ -131,13 +136,11 @@ export class BubbleComponent implements OnInit, OnChanges {
       parseInt(institution[this.options.dimension2.key], 10);
     const rDimension = (institution: any) =>
       parseInt(institution[this.options.dimension3.key], 10);
-    console.log(this.data);
 
     const dataJson: any = this.data.jsonData;
     const data = this.data.csvData;
 
     let tmp: any[] = [];
-    console.log(tmp);
     Object.keys(dataJson).forEach((branch) => {
       dataJson[branch].forEach((inst) => {
         tmp.push(inst);
@@ -231,11 +234,21 @@ export class BubbleComponent implements OnInit, OnChanges {
     this.yLabel.text(this.options.dimension2.friendly_name);
   }
 
-  openDialog(institution: any): void {
-    this.dialog.open(ExploreItemComponent, {
-      data: this.institutionsComplete.find(
-        (institutionC) => institutionC.name === institution.name
-      ),
+  openDialog(institution: any) {
+    let institutionData = this.institutionsComplete.find(
+      (institutionC) => institutionC.name === institution.name
+    );
+    this.changeURL('/visualization/' + institution.name);
+    const dialogRef = this.dialog.open(ExploreItemComponent, {
+      data: institutionData,
     });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.changeURL('/visualization');
+    });
+  }
+
+  changeURL(relativeUrl: string): void {
+    this.location.replaceState(relativeUrl);
   }
 }
