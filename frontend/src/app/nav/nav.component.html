@@ -1,42 +1,114 @@
 <mat-toolbar>
+  <button mat-button class="only-mobile" (click)="sidenav.toggle()">
+    <mat-icon>{{ isMenuOpen ? "menu_open" : "menu" }}</mat-icon>
+  </button>
   <span class="title">Swiss OSS Benchmark</span>
   <!-- <img src="assets/GitHub&#45;Mark/PNG/GitHub&#45;Mark&#45;120px&#45;plus.png" /> -->
   <!-- <img src="assets/osi_symbol_0.png" /> -->
-  <button mat-button routerLink="/ranking">
-    <mat-icon>table_rows</mat-icon>
-    <span>Ranking</span>
-  </button>
-  <button mat-button routerLink="/visualization">
-    <mat-icon>pie_chart</mat-icon>
-    <span>Visualizations</span>
-  </button>
-  <button mat-button routerLink="/explore">
-    <mat-icon>explore</mat-icon>
-    <span>Explore</span>
-  </button>
-  <button mat-button routerLink="/metrics">
-    <mat-icon>text_fields</mat-icon>
-    <span>Metrics</span>
-  </button>
+  <span class="only-pc">
+    <button mat-button routerLink="/ranking">
+      <mat-icon>table_rows</mat-icon>
+      <span>Ranking</span>
+    </button>
+    <button mat-button routerLink="/visualization">
+      <mat-icon>pie_chart</mat-icon>
+      <span>Visualizations</span>
+    </button>
+    <button mat-button routerLink="/explore">
+      <mat-icon>explore</mat-icon>
+      <span>Explore</span>
+    </button>
+    <button mat-button routerLink="/metrics">
+      <mat-icon>text_fields</mat-icon>
+      <span>Metrics</span>
+    </button>
+  </span>
   <span class="spacer"></span>
-  <button mat-button [matMenuTriggerFor]="downloadMenu">
-    <mat-icon>get_app</mat-icon>
-    <span>JSON / CSV</span>
-  </button>
-  <mat-menu #downloadMenu="matMenu">
-    <a href="assets/oss-github-benchmark.json" download mat-menu-item
-      >Download JSON</a
+  <span class="only-pc">
+    <button mat-button [matMenuTriggerFor]="downloadMenu">
+      <mat-icon>get_app</mat-icon>
+      <span>JSON / CSV</span>
+    </button>
+    <mat-menu #downloadMenu="matMenu">
+      <a href="assets/oss-github-benchmark.json" download mat-menu-item
+        >Download JSON</a
+      >
+      <a href="assets/oss-github-benchmark.csv" download mat-menu-item
+        >Download CSV</a
+      >
+    </mat-menu>
+    <a
+      mat-button
+      href="https://github.com/digital-sustainability/oss-github-benchmark"
+      target="_blank"
     >
-    <a href="assets/oss-github-benchmark.csv" download mat-menu-item
-      >Download CSV</a
-    >
-  </mat-menu>
-  <a
-    mat-button
-    href="https://github.com/digital-sustainability/oss-github-benchmark"
-    target="_blank"
-  >
-    <mat-icon>format_align_left</mat-icon>
-    <span>Source Code</span>
-  </a>
+      <mat-icon>format_align_left</mat-icon>
+      <span>Source Code</span>
+    </a>
+  </span>
 </mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #sidenav
+    autoFocus="false"
+    mode="over"
+    [(opened)]="isMenuOpen"
+    class="sidenav"
+  >
+    <button mat-button routerLink="/ranking" (click)="onSidenavClick()">
+      <mat-icon>table_rows</mat-icon>
+      <span>Ranking</span>
+    </button>
+    <br />
+    <button mat-button routerLink="/visualization" (click)="onSidenavClick()">
+      <mat-icon>pie_chart</mat-icon>
+      <span>Visualizations</span>
+    </button>
+    <br />
+    <button mat-button routerLink="/explore" (click)="onSidenavClick()">
+      <mat-icon>explore</mat-icon>
+      <span>Explore</span>
+    </button>
+    <br />
+    <button mat-button routerLink="/metrics" (click)="onSidenavClick()">
+      <mat-icon>text_fields</mat-icon>
+      <span>Metrics</span>
+    </button>
+    <br />
+    <button mat-button [matMenuTriggerFor]="downloadMenu">
+      <mat-icon>get_app</mat-icon>
+      <span>JSON / CSV</span>
+    </button>
+    <br />
+    <mat-menu #downloadMenu="matMenu">
+      <a
+        href="assets/oss-github-benchmark.json"
+        download
+        mat-menu-item
+        (click)="onSidenavClick()"
+        >Download JSON</a
+      >
+      <a
+        href="assets/oss-github-benchmark.csv"
+        download
+        mat-menu-item
+        (click)="onSidenavClick()"
+        >Download CSV</a
+      >
+    </mat-menu>
+    <button
+      mat-button
+      href="https://github.com/digital-sustainability/oss-github-benchmark"
+      target="_blank"
+    >
+      <mat-icon>format_align_left</mat-icon>
+      <span>Source Code</span>
+    </button>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
