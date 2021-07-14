@@ -39,6 +39,7 @@ th.mat-header-cell {
   padding-left: 10px !important;
 }
 
+// Custom Scrollbar
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -57,4 +58,16 @@ th.mat-header-cell {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+@media only screen and (min-width: 1000px) {
+  .only-mobile {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 999px) {
+  .only-pc {
+    display: none !important;
+  }
 }

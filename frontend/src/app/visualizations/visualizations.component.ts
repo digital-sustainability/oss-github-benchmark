@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {IData, Metric} from '../data.service';
+import { IData, Metric } from '../data.service';
 
 @Component({
   selector: 'app-visualizations',
   templateUrl: './visualizations.component.html',
-  styleUrls: ['./visualizations.component.scss']
+  styleUrls: ['./visualizations.component.scss'],
 })
 export class VisualizationsComponent implements OnInit {
   @Input() data: IData;
@@ -14,10 +14,7 @@ export class VisualizationsComponent implements OnInit {
     dimension3: Metric;
   };
 
-  constructor(
-  ) { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
