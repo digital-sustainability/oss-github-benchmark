@@ -1,16 +1,15 @@
 import { Component, ElementRef, Input, OnChanges, OnInit } from '@angular/core';
-import {IData} from 'src/app/data.service';
-import {Options} from '../options';
+import { IData } from 'src/app/data.service';
+import { Options } from '../options';
 import * as d3 from 'd3';
-import {ISector} from 'src/app/interfaces/institution';
+import { ISector } from 'src/app/interfaces/institution';
 
 @Component({
   selector: 'app-visualization-sunburst',
   templateUrl: './sunburst.component.html',
-  styleUrls: ['./sunburst.component.scss']
+  styleUrls: ['./sunburst.component.scss'],
 })
 export class SunburstComponent implements OnInit, OnChanges {
-
   @Input() data: IData;
   @Input() options: Options;
   svg: any;
@@ -27,7 +26,7 @@ export class SunburstComponent implements OnInit, OnChanges {
     const breadcrumbHeight = 30;
     const tipWidth = 10;
     const points = [];
-    points.push("0,0");
+    points.push('0,0');
     points.push(`${breadcrumbWidth},0`);
     points.push(`${breadcrumbWidth + tipWidth},${breadcrumbHeight / 2}`);
     points.push(`${breadcrumbWidth},${breadcrumbHeight}`);
@@ -36,10 +35,10 @@ export class SunburstComponent implements OnInit, OnChanges {
       // Leftmost breadcrumb; don't include 6th vertex.
       points.push(`${tipWidth},${breadcrumbHeight / 2}`);
     }
-    return points.join(" ");
+    return points.join(' ');
   }
 
-  constructor(private hostElement: ElementRef) { }
+  constructor(private hostElement: ElementRef) {}
 
   ngOnInit(): void {
     const bound = this.hostElement.nativeElement.getBoundingClientRect();
@@ -58,7 +57,8 @@ export class SunburstComponent implements OnInit, OnChanges {
     this.element = this.svg.node();
     this.element.value = { sequence: [], percentage: 0.0 };
 
-    this.arc = d3.arc()
+    this.arc = d3
+      .arc()
       .startAngle((d: any) => d.x0)
       .endAngle((d: any) => d.x1)
       .padAngle(1 / this.radius)
@@ -66,7 +66,8 @@ export class SunburstComponent implements OnInit, OnChanges {
       .innerRadius((d: any) => Math.sqrt(d.y0))
       .outerRadius((d: any) => Math.sqrt(d.y1) - 1);
 
-    this.mousearc = d3.arc()
+    this.mousearc = d3
+      .arc()
       .startAngle((d: any) => d.x0)
       .endAngle((d: any) => d.x1)
       .innerRadius((d: any) => Math.sqrt(d.y0))
@@ -88,8 +89,8 @@ export class SunburstComponent implements OnInit, OnChanges {
     this.label = this.svg
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr('fill', '#888')
-      // .style('visibility', 'hidden');
+      .attr('fill', '#888');
+    // .style('visibility', 'hidden');
 
     this.label
       .append('tspan')
@@ -107,7 +108,7 @@ export class SunburstComponent implements OnInit, OnChanges {
       .attr('y', 0)
       .attr('dy', '4em')
       .attr('font-size', '2em')
-      .text('filler')
+      .text('filler');
 
     this.label
       .append('tspan')
@@ -177,53 +178,49 @@ export class SunburstComponent implements OnInit, OnChanges {
           .select('.percentage')
           .text(percentage + '%');
 
-        this.label
-          .select('.sectionName')
-          .text(d.data.name);
+        this.label.select('.sectionName').text(d.data.name);
         // Update the value of this view with the currently hovered sequence and percentage
         this.element.value = { sequence, percentage };
         this.element.dispatchEvent(new CustomEvent('input'));
       });
-
   }
 
   partition(data) {
     return d3.partition().size([2 * Math.PI, this.radius * this.radius])(
       d3
         .hierarchy(data)
-        .sum((d) => d.total ? d.total : d.value)
+        .sum((d) => (d.total ? d.total : d.value))
         .sort((a, b) => b.value - a.value)
     );
   }
 
   prepareData(data: ISector) {
-      const data1 = Object.keys(data).map( sector => {
-          return {
-              name: sector,
-              children: data[sector].map(inst => {
-                  return {
-                      name: inst.name,
-                      total: inst['total_num_commits'],
-                      children: inst.orgs.map(org => {
-                          return {
-                              name: org.name,
-                              total: org['total_num_commits'],
-                              children: org.repos.map( repo => {
-                                return {
-                                  name: repo.name,
-                                  total: org['num_commits']
-                                }
-                              })
-                          };
-                      })
-                  };
-              })
-          };
-      });
+    const data1 = Object.keys(data).map((sector) => {
       return {
-        name: 'root',
-        children: data1
+        name: sector,
+        children: data[sector].map((inst) => {
+          return {
+            name: inst.name,
+            total: inst['total_num_commits'],
+            children: inst.orgs.map((org) => {
+              return {
+                name: org.name,
+                total: org['total_num_commits'],
+                children: org.repos.map((repo) => {
+                  return {
+                    name: repo.name,
+                    total: org['num_commits'],
+                  };
+                }),
+              };
+            }),
+          };
+        }),
       };
+    });
+    return {
+      name: 'root',
+      children: data1,
+    };
   }
-
 }
