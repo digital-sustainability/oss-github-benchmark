@@ -2,7 +2,7 @@
   <h1><img [src]="data.avatar[0]" alt="" />{{ data.name }}</h1>
 
   <section class="metric-item">
-    <strong>Sektor:</strong><span>{{ data.sector }}</span>
+    <strong>Sektor:</strong><span>{{ data.sector | toNiceName }}</span>
   </section>
   <section class="metric-item">
     <strong>Members:</strong><span>{{ data.num_members }}</span>

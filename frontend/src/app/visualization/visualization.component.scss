@@ -1,35 +1,36 @@
-@import '../../styles/_colors.scss';
-
+@import "../../styles/_colors.scss";
 
 $navigation-height: 4rem;
 
 .main-container {
   height: 100vh;
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-content {
-    overflow-y: auto;
+  overflow-y: auto;
 }
 
-
 aside {
-    margin-top: 40px;
-    margin-left: auto;
-    margin-right: auto;
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .dimensions {
-    display: flex;
-    vertical-align: center;
-    &>div {
-	margin: 1rem;
-    }
+  display: flex;
+  vertical-align: center;
+  & > div {
+    margin: 1rem;
+  }
 }
 
 main {
-    overflow-y: auto;
+  overflow-y: auto;
+  margin-right: auto;
+  margin-left: auto;
+  width: 80%;
 }
 
 /* The Modal (background) */
@@ -42,8 +43,8 @@ main {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 /* Modal Content/Box */
@@ -71,30 +72,31 @@ main {
 }
 
 #repoList {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 #panel {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 
-    margin: 0 auto;
-    min-height: 100vh;
-    width: 100vw;
-    max-width: 1200px;
-    box-sizing: border-box;
-    padding: 12px;
-    border: 1px solid #eee;
+  margin: 0 auto;
+  min-height: 100vh;
+  width: 100vw;
+  max-width: 1200px;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #eee;
 }
 
 .viz-panel {
-    width: 90%;
-    height: 600px;
-    border: 1px solid #bbb;
+  width: 90%;
+  height: 600px;
+  border: 1px solid #bbb;
 }
-aside>mat-card {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto ;
+aside > mat-card {
+  margin-right: auto;
+  margin-left: auto;
+  width: 80%;
+  max-width: 1200px;
 }
