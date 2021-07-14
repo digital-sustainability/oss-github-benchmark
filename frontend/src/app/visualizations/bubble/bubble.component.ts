@@ -2,9 +2,37 @@ import { Component, OnInit, Input, ElementRef, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 import { IData } from 'src/app/data.service';
 import * as _ from 'lodash-es';
-import {Options} from '../options';
-import {MatDialog} from '@angular/material/dialog';
+import { Options } from '../options';
+import { MatDialog } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../../explore/explore-item/explore-item.component';
+import { Location } from '@angular/common';
+
+// interface csvDatapoint {
+//   avatar: string
+//   name: string
+//   num_members: string
+//   num_repos: string
+//   org_names: string
+//   repo_names: string
+//   sector: string
+//   total_comments: string
+//   total_commits_last_year: string
+//   total_issues_all: string
+//   total_issues_closed: string
+//   total_num_commits: string
+//   total_num_contributors: string
+//   total_num_forks_in_repos: string
+//   total_num_own_repo_forks: string
+//   total_num_stars: string
+//   total_num_watchers: string
+//   total_pull_requests_all: string
+//   total_pull_requests_closed: string
+// }
+
+// interface jsonDatapoint extends csvDatapoint {
+//   orgs: unknown[]
+//   repos: unknown[]
+// }
 
 @Component({
   selector: 'app-visualization-bubble',
@@ -26,10 +54,12 @@ export class BubbleComponent implements OnInit, OnChanges {
   yLabel: any;
   g: any;
   colorScale: d3.ScaleOrdinal<unknown, string, never>;
+  institutionsComplete: any;
 
   constructor(
     private hostElement: ElementRef,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -37,14 +67,6 @@ export class BubbleComponent implements OnInit, OnChanges {
     const width = bound.width;
     const height = bound.height - 64 - 40;
     const padding = 70;
-
-    // const data = this.data.csvData;
-    // var data = [10, 20, 30];
-    // console.log(data);
-    // data.sort(
-    //     (a, b) => parseInt(b.num_members) - parseInt(a.num_members)
-    // );
-    // const colors = ['green', 'purple', 'yellow'];
 
     this.svg = d3
       .select(this.hostElement.nativeElement)
@@ -85,14 +107,14 @@ export class BubbleComponent implements OnInit, OnChanges {
         'transform',
         'translate(' + width / 2 + ' ,' + (height - (1 / 4) * padding) + ')'
       )
-      .style('text-anchor', 'middle')
+      .style('text-anchor', 'middle');
 
     this.yLabel = this.svg
       .append('text')
       .attr('transform', 'rotate(-90)')
       .attr('y', padding / 4)
       .attr('x', 0 - height / 2)
-      .style('text-anchor', 'middle')
+      .style('text-anchor', 'middle');
 
     if (this.data) {
       this.update();
@@ -114,25 +136,31 @@ export class BubbleComponent implements OnInit, OnChanges {
       parseInt(institution[this.options.dimension2.key], 10);
     const rDimension = (institution: any) =>
       parseInt(institution[this.options.dimension3.key], 10);
+
+    const dataJson: any = this.data.jsonData;
     const data = this.data.csvData;
-    
+
+    let tmp: any[] = [];
+    Object.keys(dataJson).forEach((branch) => {
+      dataJson[branch].forEach((inst) => {
+        tmp.push(inst);
+      });
+    });
+
+    this.institutionsComplete = tmp;
+
     const sector = (i) => i.sector;
 
     this.yscale.domain([
       d3.min(data.map(yDimension)),
       d3.max(data.map(yDimension)),
     ]);
-    //
-    // this.yAxis.scale(this.yscale);
-    //
+
     this.xscale.domain([
       d3.min(data.map(xDimension)),
       d3.max(data.map(xDimension)),
     ]);
-    //
-    // this.xAxis.scale(this.xscale);
-    // var xscale = d3.scaleBand(data.map(i => i.name), [20, 270]);
-    //
+
     this.colorScale.domain(_.uniq(data.map(sector))).range(d3.schemePaired);
 
     const sizeScale = d3
@@ -179,21 +207,21 @@ export class BubbleComponent implements OnInit, OnChanges {
           .html(
             `<img src='${img}' height=25 ><br>
                     ${inst.name}<br>
-                    ${this.options.dimension1.friendly_name}: ${xDimension(inst)}<br>
-                    ${this.options.dimension2.friendly_name}: ${yDimension(inst)}<br>
-                    ${this.options.dimension3.friendly_name}: ${rDimension(inst)}`
+                    ${this.options.dimension1.friendly_name}: ${xDimension(
+              inst
+            )}<br>
+                    ${this.options.dimension2.friendly_name}: ${yDimension(
+              inst
+            )}<br>
+                    ${this.options.dimension3.friendly_name}: ${rDimension(
+              inst
+            )}`
           )
           // .style('display', 'block')
           .style('opacity', 0.8)
           .style('visibility', null)
-          .style(
-            'top',
-            `${this.yscale(yDimension(inst)) + 20}px`
-          )
-          .style(
-            'left',
-            `${this.xscale(xDimension(inst)) + 20}px`
-          );
+          .style('top', `${this.yscale(yDimension(inst)) + 20}px`)
+          .style('left', `${this.xscale(xDimension(inst)) + 20}px`);
       })
       .on('mouseleave', () => {
         this.text.style('opacity', 0).style('visibility', 'hidden');
@@ -206,9 +234,21 @@ export class BubbleComponent implements OnInit, OnChanges {
     this.yLabel.text(this.options.dimension2.friendly_name);
   }
 
-  openDialog(institution: any): void {
-    this.dialog.open(ExploreItemComponent, {
-      data: institution,
+  openDialog(institution: any) {
+    let institutionData = this.institutionsComplete.find(
+      (institutionC) => institutionC.name === institution.name
+    );
+    this.changeURL('/visualization/' + institution.name);
+    const dialogRef = this.dialog.open(ExploreItemComponent, {
+      data: institutionData,
     });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.changeURL('/visualization');
+    });
+  }
+
+  changeURL(relativeUrl: string): void {
+    this.location.replaceState(relativeUrl);
   }
 }
