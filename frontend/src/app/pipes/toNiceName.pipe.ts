@@ -10,7 +10,7 @@ export class ToNiceNamePipe implements PipeTransform {
     { original: 'IT', nice: 'IT' },
     { original: 'Gov_Federal', nice: 'Federal government' },
     { original: 'Gov_Companies', nice: 'Governmental companies' },
-    { original: 'Gov_Cities', nice: 'Governmental Cities' },
+    { original: 'Gov_Cities', nice: 'Cities' },
     { original: 'Gov_Cantons', nice: 'Cantons' },
     { original: 'Communities', nice: 'Communities' },
     { original: 'Banking', nice: 'Banking' },
