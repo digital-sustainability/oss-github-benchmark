@@ -51,6 +51,7 @@ export class RankingComponent implements OnInit {
 
   public triggerFilter = () => {
     this.dataSource.filter = 'trigger filter';
+    this.numInstitutions = this.dataSource.filteredData.length;
   };
 
   selectionChange(event) {
@@ -118,7 +119,6 @@ export class RankingComponent implements OnInit {
       });
 
       this.dataSource = new MatTableDataSource(institutions);
-      this.numInstitutions = institutions.length;
       this.dataSource.sort = this.sort;
 
       this.sort.active = sortState.active;
@@ -136,6 +136,7 @@ export class RankingComponent implements OnInit {
           this.checkboxes.indexOf(data.sector) != -1
         );
       };
+      this.numInstitutions = this.dataSource.filteredData.length;
     });
   }
 
