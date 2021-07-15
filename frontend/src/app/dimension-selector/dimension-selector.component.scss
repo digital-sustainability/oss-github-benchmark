@@ -1,5 +1,14 @@
+@media only screen and (min-width: 1000px) {
+  form {
+    display: flex;
+    justify-content: space-between;
+  }
+}
 
-form {
-  display: flex;
-  justify-content: space-between;
+@media only screen and (max-width: 999px) {
+  form {
+    display: grid;
+    justify-content: center;
+    margin: 0%;
+  }
 }

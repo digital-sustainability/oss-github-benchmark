@@ -8,9 +8,8 @@ describe('DimensionSelectorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DimensionSelectorComponent ]
-    })
-    .compileComponents();
+      declarations: [DimensionSelectorComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

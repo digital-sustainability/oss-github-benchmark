@@ -8,21 +8,18 @@ import { shareReplay } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class DataService {
+  dimensionOptions = this.http
+    .get<Metric[]>('assets/options.json')
+    .pipe(shareReplay(1));
 
-  dimensionOptions = this.http.get<Metric[]>('assets/options.json').pipe(shareReplay(1));
-
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   loadData(): Promise<IData> {
     return Promise.all([
       d3.csv('assets/oss-github-benchmark.csv'),
-      this.http
-        .get<ISector>('assets/oss-github-benchmark.json')
-        .toPromise(),
+      this.http.get<ISector>('assets/oss-github-benchmark.json').toPromise(),
     ]).then(([csvData, jsonData]) => ({ csvData, jsonData }));
   }
-
 }
 
 export interface IData {

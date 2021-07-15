@@ -1,4 +1,4 @@
-import {Metric} from '../data.service';
+import { Metric } from '../data.service';
 
 export interface Options {
   dimension1: Metric;

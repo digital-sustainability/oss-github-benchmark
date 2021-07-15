@@ -33,6 +33,7 @@ import { ExploreComponent } from './explore/explore.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { ToNiceNamePipe } from './pipes/toNiceName.pipe';
 
@@ -74,6 +75,7 @@ import { ToNiceNamePipe } from './pipes/toNiceName.pipe';
     MatTreeModule,
     MatDialogModule,
     MatCheckboxModule,
+    MatSidenavModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
