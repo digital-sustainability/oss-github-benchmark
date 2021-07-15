@@ -8,9 +8,8 @@ describe('SunburstComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SunburstComponent ]
-    })
-    .compileComponents();
+      declarations: [SunburstComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
