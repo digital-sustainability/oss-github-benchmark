@@ -5,10 +5,10 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { IInstitution } from 'src/app/interfaces/institution';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../explore/explore-item/explore-item.component';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 
@@ -19,7 +19,8 @@ const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 })
 export class RankingComponent implements OnInit {
   item: IInstitution;
-  displayedColumns: string[] = ['logo', 'name', 'num_repos', 'sector'];
+  innerWidth: any;
+  displayedColumns: string[] = ['name', 'num_repos'];
   @Input() data: IData;
   reposToDisplay = 6;
   dataSource = new MatTableDataSource();
@@ -75,6 +76,13 @@ export class RankingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.innerWidth = window.innerWidth;
+    if (this.innerWidth > 500) {
+      this.displayedColumns = ['logo', 'name', 'num_repos', 'sector'];
+    }
+    if (this.innerWidth > 1200) {
+      this.displayedColumns.push('num_members', 'repo_names');
+    }
     this.dataService.loadData().then((data) => {
       const itemName = this.route.snapshot.params.itemName;
       const institutions = Object.entries(data.jsonData).reduce(

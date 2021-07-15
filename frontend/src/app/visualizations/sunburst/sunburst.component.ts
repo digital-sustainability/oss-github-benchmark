@@ -19,6 +19,7 @@ export class SunburstComponent implements OnInit, OnChanges {
   label: any;
   color: d3.ScaleOrdinal<string, unknown, never>;
   mousearc: d3.Arc<any, d3.DefaultArcObject>;
+  innerWidth: any;
 
   // Generate a string that describes the points of a breadcrumb SVG polygon.
   static breadcrumbPoints(d, i) {
@@ -41,10 +42,11 @@ export class SunburstComponent implements OnInit, OnChanges {
   constructor(private hostElement: ElementRef) {}
 
   ngOnInit(): void {
+    this.innerWidth = window.innerWidth;
     const bound = this.hostElement.nativeElement.getBoundingClientRect();
     const width = bound.width;
     const height = bound.height - 64 - 40;
-    const padding = 70;
+    const padding = this.innerWidth / 20;
     this.radius = width / 2 - padding;
 
     this.svg = d3.select(this.hostElement.nativeElement).append('svg');
