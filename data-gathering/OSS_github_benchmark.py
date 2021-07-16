@@ -136,6 +136,8 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                         if repo.parent:
                             try:
                                 has_own_commits = repo.compare(repo.parent.owner.login + ":master", "master").ahead_by
+                            except KeyboardInterrupt:
+                                raise
                             except:
                                 print(org_name)
                                 print(repo.parent.owner)
@@ -167,6 +169,8 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
 
                         try:
                             repo_data["license"] = repo.get_license().license.key
+                        except KeyboardInterrupt:
+                            raise
                         except:
                             repo_data["license"] = "none"
 
@@ -223,6 +227,8 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                     except github.RateLimitExceededException:
                         handle_rate_limit()
                         traceback.print_exc()
+                    except KeyboardInterrupt:
+                        raise
                     except:
                         problematic_repos['repo_other'].append(repo)
                         traceback.print_exc()
@@ -236,6 +242,8 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
             except github.RateLimitExceededException:
                 handle_rate_limit()
                 traceback.print_exc()
+            except KeyboardInterrupt:
+                raise
             except:
                 traceback.print_exc()
         print("Anzahl GitHub Repos von " + institution["name"] + ": " + str(institution_data["num_repos"]))
