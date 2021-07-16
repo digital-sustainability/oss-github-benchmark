@@ -54,7 +54,6 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
     this.sort.active = sortState.active;
     this.sort.direction = sortState.direction;
     this.sort.sortChange.emit(sortState);
-    console.log(this.data.repos);
   }
 
   navigateTo(url: string): void {
