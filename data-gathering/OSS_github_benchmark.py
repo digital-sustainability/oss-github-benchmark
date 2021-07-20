@@ -58,8 +58,8 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
         counter += 1
         print(counter)
         # Anzahl Institutionen eingrenzen
-        if counter > 1:
-           break
+        # if counter > 1:
+        #    break
         institution_data = {
             "name": institution["name"]
         }
