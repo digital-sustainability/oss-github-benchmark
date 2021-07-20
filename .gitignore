@@ -2,13 +2,16 @@ keys.json
 Diverses
 .idea
 .vscode
-.venv
+venv/
 .history
 .ipynb_checkpoints
 
 d3-country-bubble-chart-master
-/oss-github-benchmark.json
-/oss-github-benchmark.csv
+oss-github-benchmark.json
+oss-github-benchmark.csv
 
 dist
 node_modules
+data-gathering/github-data.pickle
+data-gathering/problematic_repos.pickle
+data-gathering/github-data.pickle
