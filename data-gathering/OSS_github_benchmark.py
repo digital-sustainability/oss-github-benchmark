@@ -276,9 +276,7 @@ for inst in institutions_data:
         stats["num_members"].append(inst["num_members"])
         inst["stats"] = stats
     collectionInstitutions.replace_one({ "name" : inst["name"] }, inst, upsert=True)
-for repo in repos_data:
-    repo["timestamp"] = currentDateAndTime
-    collectionRepositories.replace_one({ "name" : repo["name"] }, repo, upsert=True)
+collectionRepositories.insert_many(repos_data)
 
 with open('github-data.pickle', 'wb') as file:
     pickle.dump(sector_data, file)
