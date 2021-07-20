@@ -1,1 +1,3 @@
 PyGithub
+pymongo
+pymongo[srv]
