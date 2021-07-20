@@ -266,14 +266,15 @@ currentDateAndTime = datetime.datetime.now(timezone.utc).replace(tzinfo=timezone
 for inst in institutions_data:
     inst["timestamp"] = currentDateAndTime
     inst_old = collectionInstitutions.find_one({ "name" : inst["name"] })
-    inst["stats"] = {
-        "num_repos": [inst["num_repos"]],
-        "num_members": [inst["num_members"]],
+    stat = {
+        "timestamps": currentDateAndTime,
+        "num_repos": inst["num_repos"],
+        "num_members": inst["num_members"],
     }
+    inst["stats"] = [stat]
     if inst_old != None:
         stats = inst_old["stats"]
-        stats["num_repos"].append(inst["num_repos"])
-        stats["num_members"].append(inst["num_members"])
+        stats.append(stat)
         inst["stats"] = stats
     collectionInstitutions.replace_one({ "name" : inst["name"] }, inst, upsert=True)
 collectionRepositories.delete_many({})
