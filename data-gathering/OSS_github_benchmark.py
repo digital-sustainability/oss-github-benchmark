@@ -16,16 +16,16 @@ from pymongo import MongoClient
 from datetime import timezone
 import datetime
 
-cluster = MongoClient(os.environ['DATABASELINK'])
-db = cluster["statistics"]
-collectionInstitutions = db["institutions"]
-collectionRepositories = db["repositories"]
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 # GitHub Login mittels Token
 g = Github(os.environ['GITHUBTOKEN'])
+
+cluster = MongoClient(os.environ['DATABASELINK'])
+db = cluster["statistics"]
+collectionInstitutions = db["institutions"]
+collectionRepositories = db["repositories"]
 
 # JSON Daten laden, Variablen setzen
 with open('github_repos.json', encoding='utf-8') as file:
@@ -276,6 +276,7 @@ for inst in institutions_data:
         stats["num_members"].append(inst["num_members"])
         inst["stats"] = stats
     collectionInstitutions.replace_one({ "name" : inst["name"] }, inst, upsert=True)
+collectionRepositories.delete_many({})
 collectionRepositories.insert_many(repos_data)
 
 with open('github-data.pickle', 'wb') as file:
