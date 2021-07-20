@@ -1,7 +1,8 @@
 # Installation: pip3 install PyGithub
 
 import json
-import csv
+#Wird nur fürs csv gebraucht
+# import csv
 import os
 import traceback
 import datetime
@@ -9,8 +10,11 @@ from github import Github
 import github
 import logging
 import pickle
-from time import sleep
-
+from time import sleep, time
+import pymongo
+from pymongo import MongoClient
+from datetime import timezone
+import datetime
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -18,11 +22,17 @@ logger = logging.getLogger()
 # GitHub Login mittels Token
 g = Github(os.environ['GITHUBTOKEN'])
 
+cluster = MongoClient(os.environ['DATABASELINK'])
+db = cluster["statistics"]
+collectionInstitutions = db["institutions"]
+collectionRepositories = db["repositories"]
+
 # JSON Daten laden, Variablen setzen
 with open('github_repos.json', encoding='utf-8') as file:
     githubrepos = json.load(file)
 institutions_data = []
 sector_data = {}
+repos_data = []
 counter = 0
 sector = ""
 
@@ -48,7 +58,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
         counter += 1
         print(counter)
         # Anzahl Institutionen eingrenzen
-        # if counter > 5:
+        # if counter > 1:
         #    break
         institution_data = {
             "name": institution["name"]
@@ -136,6 +146,8 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                         if repo.parent:
                             try:
                                 has_own_commits = repo.compare(repo.parent.owner.login + ":master", "master").ahead_by
+                            except KeyboardInterrupt:
+                                raise
                             except:
                                 print(org_name)
                                 print(repo.parent.owner)
@@ -167,6 +179,8 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
 
                         try:
                             repo_data["license"] = repo.get_license().license.key
+                        except KeyboardInterrupt:
+                            raise
                         except:
                             repo_data["license"] = "none"
 
@@ -212,6 +226,7 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                         institution_data["sector"] = sector_key
                         institution_data["repos"].append(repo_data)
                         organization_data["repos"].append(repo_data)
+                        repos_data.append(repo_data)
                     except RuntimeError as error:
                         print("Fehler beim Laden der Daten von '" + repo.name + "' :" + error)
                         problematic_repos['repo_load'].append(repo)
@@ -223,6 +238,8 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
                     except github.RateLimitExceededException:
                         handle_rate_limit()
                         traceback.print_exc()
+                    except KeyboardInterrupt:
+                        raise
                     except:
                         problematic_repos['repo_other'].append(repo)
                         traceback.print_exc()
@@ -236,42 +253,63 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
             except github.RateLimitExceededException:
                 handle_rate_limit()
                 traceback.print_exc()
+            except KeyboardInterrupt:
+                raise
             except:
                 traceback.print_exc()
         print("Anzahl GitHub Repos von " + institution["name"] + ": " + str(institution_data["num_repos"]))
         institutions_data.append(institution_data)
         sector_data[sector_key].append(institution_data)
 
+currentDateAndTime = datetime.datetime.now(timezone.utc).replace(tzinfo=timezone.utc)
+
+for inst in institutions_data:
+    inst["timestamp"] = currentDateAndTime
+    inst_old = collectionInstitutions.find_one({ "name" : inst["name"] })
+    inst["stats"] = {
+        "num_repos": [inst["num_repos"]],
+        "num_members": [inst["num_members"]],
+    }
+    if inst_old != None:
+        stats = inst_old["stats"]
+        stats["num_repos"].append(inst["num_repos"])
+        stats["num_members"].append(inst["num_members"])
+        inst["stats"] = stats
+    collectionInstitutions.replace_one({ "name" : inst["name"] }, inst, upsert=True)
+collectionRepositories.delete_many({})
+collectionRepositories.insert_many(repos_data)
+
 with open('github-data.pickle', 'wb') as file:
     pickle.dump(sector_data, file)
 
-csv_columns=[
-    "sector",
-    "name",
-    "num_repos",
-    "num_members",
-    "total_num_contributors",
-    "total_num_own_repo_forks",
-    "total_num_forks_in_repos",
-    "total_num_commits",
-    "total_num_stars",
-    "total_num_watchers",
-    "total_commits_last_year",
-    "total_pull_requests_all",
-    "total_pull_requests_closed",
-    "total_issues_all",
-    "total_issues_closed",
-    "total_comments",
-    "org_names",
-    "avatar",
-    "repo_names",
-    "total_licenses"
-]
-with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=csv_columns, extrasaction='ignore')
-    writer.writeheader()
-    for data in institutions_data:
-        writer.writerow(data)
+#Wird nur fürs csv gebraucht
+# csv_columns=[
+#     "sector",
+#     "name",
+#     "num_repos",
+#     "num_members",
+#     "total_num_contributors",
+#     "total_num_own_repo_forks",
+#     "total_num_forks_in_repos",
+#     "total_num_commits",
+#     "total_num_stars",
+#     "total_num_watchers",
+#     "total_commits_last_year",
+#     "total_pull_requests_all",
+#     "total_pull_requests_closed",
+#     "total_issues_all",
+#     "total_issues_closed",
+#     "total_comments",
+#     "org_names",
+#     "avatar",
+#     "repo_names",
+#     "total_licenses"
+# ]
+# with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvfile:
+#     writer = csv.DictWriter(csvfile, fieldnames=csv_columns, extrasaction='ignore')
+#     writer.writeheader()
+#     for data in institutions_data:
+#         writer.writerow(data)
 
 
 # Sortieren der Organisationen und dem CVS-String anhängen
@@ -279,9 +317,10 @@ with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvf
 
 #JSON Output auf Konsole und in neues File
 # print( json.dumps(institutions_data, indent=4))
-f = open("oss-github-benchmark.json", "w")
-f.write(json.dumps(sector_data))
+#Wird nur fürs JSON-file gebraucht
+# f = open("oss-github-benchmark.json", "w")
+# f.write(json.dumps(sector_data))
 
 
-with open('problematic_repos.pickle', 'wb') as file:
-    pickle.dump(problematic_repos, file)
+# with open('problematic_repos.pickle', 'wb') as file:
+#     pickle.dump(problematic_repos, file)
