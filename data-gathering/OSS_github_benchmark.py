@@ -86,9 +86,6 @@ while i < len(githubrepos["GitHubRepos"].items()):
         j += 1
         counter += 1
         print(counter)
-        # Anzahl Institutionen eingrenzen
-        # if counter > 2:
-        #    break
         institution_data = {
             "name": institution["name"]
         }
