@@ -26,6 +26,7 @@ cluster = MongoClient(os.environ['DATABASELINK'])
 db = cluster["statistics"]
 collectionInstitutions = db["institutions"]
 collectionRepositories = db["repositories"]
+collectionProgress = db["progress"]
 
 # JSON Daten laden, Variablen setzen
 with open('github_repos.json', encoding='utf-8') as file:
@@ -50,23 +51,16 @@ def handle_rate_limit():
 
 def saveProgress():
     global i, j, currentDateAndTime
-    f = open("progress.txt", "w")
-    f.write(str(i))
-    f.close()
-    f = open("progress.txt", "a")
-    f.write("\n" + str(j))
-    f.write("\n" + str(currentDateAndTime))
-    f.close()
+    collectionProgress.replace_one({}, {"i": i, "j": j, "currentDateAndTime": currentDateAndTime}, upsert=True)
 
 def getProgress():
     global i, j, currentDateAndTime
-    try:
-        with open("progress.txt", "r") as f:
-            f = f.readlines()
-            i = int(f[0])
-            j = int(f[1])
-            currentDateAndTime = f[2]
-    except:
+    progress = collectionProgress.find_one({})
+    if progress != None:
+        i = progress["i"]
+        j = progress["j"]
+        currentDateAndTime = progress["currentDateAndTime"]
+    else:
         currentDateAndTime = datetime.datetime.now(timezone.utc).replace(tzinfo=timezone.utc)
         collectionRepositories.delete_many({})
 
@@ -304,7 +298,7 @@ while i < len(githubrepos["GitHubRepos"].items()):
     i += 1
     j = 0
 
-os.remove("progress.txt")
+collectionProgress.delete_many({})
 
 with open('github-data.pickle', 'wb') as file:
     pickle.dump(sector_data, file)
