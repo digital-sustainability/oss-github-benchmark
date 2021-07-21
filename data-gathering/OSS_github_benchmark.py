@@ -75,7 +75,6 @@ i = 0
 j = 0
 currentDateAndTime = 0
 getProgress()
-print(i, j)
 while i < len(githubrepos["GitHubRepos"].items()):
     sector_key, sector = list(githubrepos["GitHubRepos"].items())[i]
     print("Sector: " + sector_key)
