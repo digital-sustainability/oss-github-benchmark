@@ -48,18 +48,47 @@ def handle_rate_limit():
     while datetime.datetime.now() < reset_time:
         sleep(1)
 
+def saveProgress():
+    global i, j, currentDateAndTime
+    f = open("progress.txt", "w")
+    f.write(str(i))
+    f.close()
+    f = open("progress.txt", "a")
+    f.write("\n" + str(j))
+    f.write("\n" + str(currentDateAndTime))
+    f.close()
+
+def getProgress():
+    global i, j, currentDateAndTime
+    try:
+        with open("progress.txt", "r") as f:
+            f = f.readlines()
+            i = int(f[0])
+            j = int(f[1])
+            currentDateAndTime = f[2]
+    except:
+        currentDateAndTime = datetime.datetime.now(timezone.utc).replace(tzinfo=timezone.utc)
+        collectionRepositories.delete_many({})
 
 # Alle Branchen rausholen
-for sector_key, sector in githubrepos["GitHubRepos"].items():
+i = 0
+j = 0
+currentDateAndTime = 0
+getProgress()
+print(i, j)
+while i < len(githubrepos["GitHubRepos"].items()):
+    sector_key, sector = list(githubrepos["GitHubRepos"].items())[i]
     print("Sector: " + sector_key)
     sector_data[sector_key] = []
     # Von allen Branchen die Institutionen (Firmen, Behörden, Communities...) rausholen
-    for institution in sector["institutions"]:
+    while j < len(sector["institutions"]):
+        institution = sector["institutions"][j]
+        j += 1
         counter += 1
         print(counter)
         # Anzahl Institutionen eingrenzen
-        # if counter > 1:
-        #    break
+        if counter > 2:
+           break
         institution_data = {
             "name": institution["name"]
         }
@@ -261,24 +290,25 @@ for sector_key, sector in githubrepos["GitHubRepos"].items():
         institutions_data.append(institution_data)
         sector_data[sector_key].append(institution_data)
 
-currentDateAndTime = datetime.datetime.now(timezone.utc).replace(tzinfo=timezone.utc)
+        institution_data["timestamp"] = currentDateAndTime
+        inst_old = collectionInstitutions.find_one({ "name" : institution_data["name"] })
+        stat = {
+            "timestamps": currentDateAndTime,
+            "num_repos": institution_data["num_repos"],
+            "num_members": institution_data["num_members"],
+        }
+        institution_data["stats"] = [stat]
+        if inst_old != None:
+            stats = inst_old["stats"]
+            stats.append(stat)
+            institution_data["stats"] = stats
+        collectionInstitutions.replace_one({ "name" : institution_data["name"] }, institution_data, upsert=True)
+        collectionRepositories.insert_many(institution_data["repos"])
+        saveProgress()
+    i += 1
+    j = 0
 
-for inst in institutions_data:
-    inst["timestamp"] = currentDateAndTime
-    inst_old = collectionInstitutions.find_one({ "name" : inst["name"] })
-    stat = {
-        "timestamps": currentDateAndTime,
-        "num_repos": inst["num_repos"],
-        "num_members": inst["num_members"],
-    }
-    inst["stats"] = [stat]
-    if inst_old != None:
-        stats = inst_old["stats"]
-        stats.append(stat)
-        inst["stats"] = stats
-    collectionInstitutions.replace_one({ "name" : inst["name"] }, inst, upsert=True)
-collectionRepositories.delete_many({})
-collectionRepositories.insert_many(repos_data)
+os.remove("progress.txt")
 
 with open('github-data.pickle', 'wb') as file:
     pickle.dump(sector_data, file)
