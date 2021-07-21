@@ -293,7 +293,10 @@ while i < len(githubrepos["GitHubRepos"].items()):
             stats.append(stat)
             institution_data["stats"] = stats
         collectionInstitutions.replace_one({ "name" : institution_data["name"] }, institution_data, upsert=True)
-        collectionRepositories.insert_many(institution_data["repos"])
+        try:
+            collectionRepositories.insert_many(institution_data["repos"])
+        except TypeError:
+            pass
         saveProgress()
     i += 1
     j = 0
