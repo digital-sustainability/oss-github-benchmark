@@ -288,6 +288,20 @@ while i < len(githubrepos["GitHubRepos"].items()):
             "timestamps": currentDateAndTime,
             "num_repos": institution_data["num_repos"],
             "num_members": institution_data["num_members"],
+            "total_num_contributors": institution_data["total_num_contributors"],
+            "total_num_own_repo_forks": institution_data["total_num_own_repo_forks"],
+            "total_num_forks_in_repos": institution_data["total_num_forks_in_repos"],
+            "total_num_commits": institution_data["total_num_commits"],
+            "total_pull_requests": institution_data["total_pull_requests"],
+            "total_issues": institution_data["total_issues"],
+            "total_num_stars": institution_data["total_num_stars"],
+            "total_num_watchers": institution_data["total_num_watchers"],
+            "total_commits_last_year": institution_data["total_commits_last_year"],
+            "total_pull_requests_all": institution_data["total_pull_requests_all"],
+            "total_pull_requests_closed": institution_data["total_pull_requests_closed"],
+            "total_issues_all": institution_data["total_issues_all"],
+            "total_issues_closed": institution_data["total_issues_closed"],
+            "total_comments": institution_data["total_comments"],
         }
         institution_data["stats"] = [stat]
         if inst_old != None:
