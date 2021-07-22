@@ -25,8 +25,9 @@ g = Github(os.environ['GITHUBTOKEN'])
 cluster = MongoClient(os.environ['DATABASELINK'])
 db = cluster["statistics"]
 collectionInstitutions = db["institutions"]
-collectionRepositories = db["repositories"]
+collectionRepositoriesNew = db["repositoriesNew"]
 collectionProgress = db["progress"]
+collectionRepositories = db["repositories"]
 
 # JSON Daten laden, Variablen setzen
 with open('github_repos.json', encoding='utf-8') as file:
@@ -62,7 +63,7 @@ def getProgress():
         currentDateAndTime = progress["currentDateAndTime"]
     else:
         currentDateAndTime = datetime.datetime.now(timezone.utc).replace(tzinfo=timezone.utc)
-        collectionRepositories.delete_many({})
+        collectionRepositoriesNew.delete_many({})
 
 # Alle Branchen rausholen
 i = 0
@@ -193,7 +194,8 @@ while i < len(githubrepos["GitHubRepos"].items()):
                             "pull_requests_closed": repo.get_pulls(state="closed").totalCount,
                             "pull_requests_all": repo.get_pulls(state="all").totalCount,
                             "comments": repo.get_comments().totalCount,
-                            "languages": repo.get_languages()
+                            "languages": repo.get_languages(),
+                            "timestamp": currentDateAndTime,
                         }
 
                         try:
@@ -294,7 +296,7 @@ while i < len(githubrepos["GitHubRepos"].items()):
             institution_data["stats"] = stats
         collectionInstitutions.replace_one({ "name" : institution_data["name"] }, institution_data, upsert=True)
         try:
-            collectionRepositories.insert_many(institution_data["repos"])
+            collectionRepositoriesNew.insert_many(institution_data["repos"])
         except TypeError:
             pass
         saveProgress()
@@ -302,6 +304,9 @@ while i < len(githubrepos["GitHubRepos"].items()):
     j = 0
 
 collectionProgress.delete_many({})
+
+collectionRepositories.delete_many({})
+collectionRepositoriesNew.aggregate([{ "$match": {} }, { "$out": "repositories" }])
 
 with open('github-data.pickle', 'wb') as file:
     pickle.dump(sector_data, file)
