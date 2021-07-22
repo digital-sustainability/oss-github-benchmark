@@ -28,6 +28,7 @@ collectionInstitutions = db["institutions"]
 collectionRepositoriesNew = db["repositoriesNew"]
 collectionProgress = db["progress"]
 collectionRepositories = db["repositories"]
+collectionRunning = db["running"]
 
 # JSON Daten laden, Variablen setzen
 with open('github_repos.json', encoding='utf-8') as file:
@@ -48,7 +49,9 @@ def handle_rate_limit():
     reset_time = datetime.datetime.fromtimestamp(g.rate_limiting_resettime)
     logger.warning(f'rate limit exceeded, continuing on {reset_time}')
     while datetime.datetime.now() < reset_time:
-        sleep(1)
+        sleep(5)
+        if collectionRunning.find_one({}) == None:
+            collectionRunning.insert_one({"Status":"running"})
 
 def saveProgress():
     global i, j, currentDateAndTime
@@ -64,6 +67,14 @@ def getProgress():
     else:
         currentDateAndTime = datetime.datetime.now(timezone.utc).replace(tzinfo=timezone.utc)
         collectionRepositoriesNew.delete_many({})
+
+# Warte bis die vorherige Action fertig ist.
+actionRunning = collectionRunning.find_one({}) != None
+while actionRunning:
+    collectionRunning.delete_one({})
+    logger.warning("Action is already running. Trying again in one minute.")
+    sleep(60)
+    actionRunning = collectionRunning.find_one({}) != None
 
 # Alle Branchen rausholen
 i = 0
@@ -147,6 +158,8 @@ while i < len(githubrepos["GitHubRepos"].items()):
 
                 # Alle Repos einer GitHub-Organisation durch-loopen
                 for repo in org.get_repos():
+                    if collectionRunning.find_one({}) == None:
+                        collectionRunning.insert_one({"Status":"running"})
                     if repo.archived:
                         continue
                     try:
@@ -325,6 +338,8 @@ collectionRepositoriesNew.aggregate([{ "$match": {} }, { "$out": "repositories" 
 
 with open('github-data.pickle', 'wb') as file:
     pickle.dump(sector_data, file)
+
+collectionRunning.delete_one({})
 
 #Wird nur fürs csv gebraucht
 # csv_columns=[
