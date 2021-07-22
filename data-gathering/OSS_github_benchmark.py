@@ -286,6 +286,7 @@ while i < len(githubrepos["GitHubRepos"].items()):
         inst_old = collectionInstitutions.find_one({ "name" : institution_data["name"] })
         stat = {
             "timestamps": currentDateAndTime,
+            "num_orgs": institution_data["num_orgs"],
             "num_repos": institution_data["num_repos"],
             "num_members": institution_data["num_members"],
             "total_num_contributors": institution_data["total_num_contributors"],
