@@ -41,6 +41,7 @@ export class RankingComponent implements OnInit {
     { sector: 'Others', activated: true },
   ];
   recordFilter = '';
+  state: Date;
 
   public doFilter = (value: string) => {
     if (value) {
@@ -137,6 +138,7 @@ export class RankingComponent implements OnInit {
         );
       };
       this.numInstitutions = this.dataSource.filteredData.length;
+      this.state = institutions[0].timestamp;
     });
   }
 
