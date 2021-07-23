@@ -20,7 +20,7 @@ const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 export class RankingComponent implements OnInit {
   item: IInstitution;
   innerWidth: any;
-  displayedColumns: string[] = ['name', 'num_repos'];
+  displayedColumns: string[] = ['logo', 'name', 'num_repos'];
   @Input() data: IData;
   reposToDisplay = 6;
   dataSource = new MatTableDataSource();
