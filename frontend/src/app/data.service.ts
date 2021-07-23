@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { IInstitution, ISector } from './interfaces/institution';
 import * as d3 from 'd3';
 import { shareReplay } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -14,14 +15,17 @@ export class DataService {
 
   constructor(private http: HttpClient) {}
 
-  loadData(): Promise<IData> {
-    return Promise.all([
-      d3.csv('assets/oss-github-benchmark.csv'),
-      this.http.get<ISector>('assets/oss-github-benchmark.json').toPromise(),
-    ]).then(([csvData, jsonData]) => ({ csvData, jsonData }));
+  async loadData(): Promise<IData> {
+    const data = await this.http
+      .get<ISector>(`${environment.api}institutions`)
+      .toPromise();
+    return { csvData: this.parseJSON2CSV(data), jsonData: data };
+  }
+
+  private parseJSON2CSV(data: any) {
+    return data as d3.DSVRowArray;
   }
 }
-
 export interface IData {
   jsonData: ISector;
   csvData: any[];
