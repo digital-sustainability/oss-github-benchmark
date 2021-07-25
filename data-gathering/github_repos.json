@@ -17,7 +17,7 @@
 				{"name": "bbv Software Services AG","orgs": ["bbvch"]},
 				{"name": "Bedag","orgs": ["bedag"]},
 				{"name": "Blackpoints AG","orgs": ["blackpoints"]},
-				{"name": "BSI Business Systems Integration AG","orgs": ["BSI-Business-Systems-Integration-AG"]},
+				{"name": "BSI Business Systems Integration AG","orgs": ["bsi-software"]},
 				{"name": "Camptocamp","orgs": ["camptocamp"]},
 				{"name": "cividi","orgs": ["cividi", "smartuse"]},
 				{"name": "cloudscale.ch AG","orgs": ["cloudscale-ch"]},
@@ -63,7 +63,7 @@
 				{"name": "APPUiO","orgs": ["appuio"]},
 				{"name": "arillso","orgs": ["arillso"]},
 				{"name": "Caluma","orgs": ["projectcaluma"]},
-				{"name": "dat.alets.ch","orgs": ["Dataletsch"]},
+				{"name": "Datalets","orgs": ["datalets"]},
 				{"name": "Genossenschaft POSMO Schweiz","orgs": ["posmocoop"]},
 				{"name": "Hitobito","orgs": ["hitobito"]},
 				{"name": "HL7 Benutzergruppe Schweiz","orgs": ["hl7ch"]},
@@ -116,20 +116,22 @@
 			"name": "Öffentliche Unternehmen und Anstalten",
 			"institutions": [
 				{"name": "BERNMOBIL","orgs": ["BERNMOBIL"]},
-				{"name": "Post","orgs": ["swisspost-yellowcube"]},
+				{"name": "Post","orgs": ["swisspost-yellowcube, swisspush, spsvn, tntswisspostag"]},
 				{"name": "SBB","orgs": ["SchweizerischeBundesbahnen"]},
-				{"name": "Swisscom","orgs": ["swisscom"]}
+				{"name": "Swisscom","orgs": ["swisscom, ScsApiTribe, SwisscomTrustServices, swisscom-developer, sinso, Swisscom-BigD"]},
+				{"name": "Verkehrsbetriebe Zürich (VBZ)","orgs": ["VerkehrsbetriebeZuerich"]}
 			]
 		},
 		"Gov_Federal": {
 			"name": "Verwaltung Bund",
 			"institutions": [
 				{"name": "Arbeitslosenversicherung","orgs": ["alv-ch","alv-ch-ansible-roles"]},
+				{"name": "Bundesamt für Energie","orgs": ["SFOE"]},
 				{"name": "Bundesamt für Informatik und Telekommunikation","orgs": ["admin-ch"]},
 				{"name": "Bundesamt für Statistik","orgs": ["BFS-SHS-MSAS","ogdch"]},
 				{"name": "Bundeskanzlei","orgs": ["swiss"]},
 				{"name": "MeteoSwiss","orgs": ["MeteoSwiss-APN"]},
-				{"name": "Schweizerisches Bundesarchiv","orgs": ["sfa-siard"]},
+				{"name": "Schweizerisches Bundesarchiv","orgs": ["SwissFederalArchives"]},
 				{"name": "swisstopo","orgs": ["geoadmin"]}
 			]
 		},
@@ -161,7 +163,7 @@
 				{"name": "Fondation Campus Biotech Geneva","orgs": ["fcbg-hnp"]},
 				{"name": "Paul Scherrer Institut","orgs": ["paulscherrerinstitute"]},
 				{"name": "swissbib","orgs": ["swissbib", "linked-swissbib"]},
-				{"name": "Swiss National Supercomputing Center","orgs": ["eth-csc"]},
+				{"name": "Swiss National Supercomputing Center","orgs": ["eth-cscs"]},
 				{"name": "Swiss Tropical and Public Health Institute","orgs": ["SwissTPH"]},
 				{"name": "Universität Bern","orgs": ["digital-sustainability","scg-unibe-ch","IAM-CGG","unibe-iap-mw","CMPG","reymond-group","ConsBiol-unibern","kogpsy","ubern-mia","zmk-unibe-ch","unibe-cns","UB-Bern","ub-unibe-ch","hpc-unibe-ch","id-unibe-ch","unibe-ch", "artorg-unibe-ch"]},
 				{"name": "Université de Neuchâtel","orgs": ["UniNE-CHYN"]}
