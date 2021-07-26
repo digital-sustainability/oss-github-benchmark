@@ -1,8 +1,7 @@
 # Installation: pip3 install PyGithub
 
 import json
-#Wird nur fürs csv gebraucht
-# import csv
+import csv
 import os
 import traceback
 import datetime
@@ -342,45 +341,41 @@ with open('github-data.pickle', 'wb') as file:
 
 collectionRunning.delete_one({})
 
-#Wird nur fürs csv gebraucht
-# csv_columns=[
-#     "sector",
-#     "name",
-#     "num_repos",
-#     "num_members",
-#     "total_num_contributors",
-#     "total_num_own_repo_forks",
-#     "total_num_forks_in_repos",
-#     "total_num_commits",
-#     "total_num_stars",
-#     "total_num_watchers",
-#     "total_commits_last_year",
-#     "total_pull_requests_all",
-#     "total_pull_requests_closed",
-#     "total_issues_all",
-#     "total_issues_closed",
-#     "total_comments",
-#     "org_names",
-#     "avatar",
-#     "repo_names",
-#     "total_licenses"
-# ]
-# with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvfile:
-#     writer = csv.DictWriter(csvfile, fieldnames=csv_columns, extrasaction='ignore')
-#     writer.writeheader()
-#     for data in institutions_data:
-#         writer.writerow(data)
+csv_columns=[
+    "sector",
+    "name",
+    "num_repos",
+    "num_members",
+    "total_num_contributors",
+    "total_num_own_repo_forks",
+    "total_num_forks_in_repos",
+    "total_num_commits",
+    "total_num_stars",
+    "total_num_watchers",
+    "total_commits_last_year",
+    "total_pull_requests_all",
+    "total_pull_requests_closed",
+    "total_issues_all",
+    "total_issues_closed",
+    "total_comments",
+    "org_names",
+    "avatar",
+    "repo_names",
+    "total_licenses"
+]
+with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvfile:
+    writer = csv.DictWriter(csvfile, fieldnames=csv_columns, extrasaction='ignore')
+    writer.writeheader()
+    for data in institutions_data:
+        writer.writerow(data)
 
 
-# Sortieren der Organisationen und dem CVS-String anhängen
-# institutions_data.sort(key=lambda x: x[2], reverse=True)
+institutions_data.sort(key=lambda x: x[2], reverse=True)
 
-#JSON Output auf Konsole und in neues File
-# print( json.dumps(institutions_data, indent=4))
-#Wird nur fürs JSON-file gebraucht
-# f = open("oss-github-benchmark.json", "w")
-# f.write(json.dumps(sector_data))
+print( json.dumps(institutions_data, indent=4))
+f = open("oss-github-benchmark.json", "w")
+f.write(json.dumps(sector_data))
 
 
-# with open('problematic_repos.pickle', 'wb') as file:
-#     pickle.dump(problematic_repos, file)
+with open('problematic_repos.pickle', 'wb') as file:
+    pickle.dump(problematic_repos, file)
