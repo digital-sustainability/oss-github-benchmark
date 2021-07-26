@@ -79,187 +79,187 @@
           "orgs": ["bsi-software"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "c19271bf-caf0-47af-9140-3c429026fabd",
           "name": "Camptocamp",
           "orgs": ["camptocamp"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "86db9e5d-943f-45ca-b2d8-80624e73216b",
           "name": "cividi",
           "orgs": ["cividi", "smartuse"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "6d1367ad-5a40-4b35-8644-97329e2a2eb8",
           "name": "cloudscale.ch AG",
           "orgs": ["cloudscale-ch"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "e1e3e077-0362-412b-a9d3-5d02f8cf01f3",
           "name": "cyon GmbH",
           "orgs": ["cyon"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "6eba34ec-e4b8-451f-bf05-b7fea4e9a101",
           "name": "DV Bern",
           "orgs": ["dvbern"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "122a3c2f-ea5f-4b12-81e3-d33213ebefcf",
           "name": "ELCA",
           "orgs": ["ElcaIT"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "bead444a-0f0c-491e-a893-7d89d21d8a51",
           "name": "ERNI",
           "orgs": ["ERNICommunity"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "13c7f0b1-de21-4ea9-a8e0-a3f0e7283161",
           "name": "Exoscale",
           "orgs": ["exoscale"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "d0505f23-7585-4b3d-be75-a8847290a66b",
           "name": "iSolutions",
           "orgs": ["isolutionsag"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "457eea78-c696-4496-86a9-46e5f293fa9a",
           "name": "Init7",
           "orgs": ["Init7"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "60029b54-e998-4234-9986-90eda2d948ee",
           "name": "Infomaniak",
           "orgs": ["Infomaniak"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "0df80287-0662-4f30-8d8c-2bc1468d8587",
           "name": "Interactive Things",
           "orgs": ["interactivethings"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "66e054eb-a175-441c-91cd-1bb17217fda3",
           "name": "ITIGO AG",
           "orgs": ["itigoag"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "4ff319a7-6187-4b77-848a-43b8559b8b6c",
           "name": "Garaio",
           "orgs": ["garaio"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "5ed01b04-a8bc-4475-b2fc-0e012bfae405",
           "name": "gyselroth",
           "orgs": ["gyselroth"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "d6687487-318a-4862-bd51-4ea8a4d2a3e7",
           "name": "hazelfire GmbH",
           "orgs": ["hzlf"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "2000714a-ccc2-46d3-a476-a6eeb2a7caef",
           "name": "Liip",
           "orgs": ["liip", "liip-forks"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "4014cdde-1900-4360-bb53-6c2976344d8f",
           "name": "mimacom",
           "orgs": ["mimacom"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "b123799c-858b-4b51-98ad-0956e410f947",
           "name": "Netcetera",
           "orgs": ["netceteragroup"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "633e906b-da12-49f1-8de7-6d52aec20646",
           "name": "novu",
           "orgs": ["teamnovu"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "1938533d-1168-4209-908a-0f2e7210ef2d",
           "name": "OFFLINE GmbH",
           "orgs": ["OFFLINE-GmbH"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "cdde5d08-ce6a-403b-b56b-5212419d75aa",
           "name": "OPENGIS.ch GmbH",
           "orgs": ["opengisch"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "71a72db6-8b13-405f-a3d4-d36db246940e",
           "name": "Openstream Internet Solutions",
           "orgs": ["openstream"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "a2144803-aa4a-4e02-8991-70889c096c47",
           "name": "OPTEN AG",
           "orgs": ["OPTEN"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "2a0e43a1-5d69-4841-a48a-2e40eae4d3cd",
           "name": "Puzzle ITC",
           "orgs": ["puzzle"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "c4943619-1cea-44ac-909b-39fae5705239",
           "name": "seantis gmbh",
           "orgs": ["seantis"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "9db1ba26-7cc3-43fd-913a-84b2a185949a",
           "name": "secanis",
           "orgs": ["secanis"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "12d86361-e13e-4ee5-8e39-65e37bf36bee",
           "name": "Snowflake",
           "orgs": ["snowflakech"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "f1f1868b-b6a6-4c7f-bbd2-dc086dd14b5f",
           "name": "Sourcepole",
           "orgs": ["sourcepole"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "cccc179e-12ab-44e6-9c37-ff5b4c13f699",
           "name": "Tegonal",
           "orgs": ["tegonal"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "9597962d-1801-4583-bc7c-5191beb5c412",
           "name": "Threema",
           "orgs": ["threema-ch"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "e0e61369-9577-4aee-b729-09ddda4bbd78",
           "name": "Ticketpark GmbH",
           "orgs": ["TicketPark"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "a9bce5be-1175-4faf-9589-298fea4cb7b6",
           "name": "unprofession",
           "orgs": ["unprofession-al"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "c654ac6f-0698-4d70-8a95-ef1b559bd6d9",
           "name": "VSHN AG",
           "orgs": ["vshn", "projectsyn"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "d3f61370-c3bf-46a8-81fc-13fbafbb578b",
           "name": "XWare GmbH",
           "orgs": ["xware-gmbh"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "03954cfa-40a5-4a78-9e40-c40573adb357",
           "name": "Zazuko",
           "orgs": ["zazuko"]
         },
         {
-          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "uuid": "14c22145-fe1d-408d-9b79-6ed1841f8a2e",
           "name": "Zühlke",
           "orgs": ["Zuehlke"]
         }
@@ -268,53 +268,148 @@
     "Communities": {
       "name": "Communities, Projekte und Einzelfirmen",
       "institutions": [
-        { "name": "APPUiO", "orgs": ["appuio"] },
-        { "name": "arillso", "orgs": ["arillso"] },
-        { "name": "Caluma", "orgs": ["projectcaluma"] },
-        { "name": "Datalets", "orgs": ["datalets"] },
-        { "name": "Genossenschaft POSMO Schweiz", "orgs": ["posmocoop"] },
-        { "name": "Hitobito", "orgs": ["hitobito"] },
-        { "name": "HL7 Benutzergruppe Schweiz", "orgs": ["hl7ch"] },
-        { "name": "lobbywatch.ch", "orgs": ["lobbywatch"] },
-        { "name": "Opendigitalradio", "orgs": ["Opendigitalradio"] },
-        { "name": "OpenOlitor", "orgs": ["openolitor"] },
         {
+          "uuid": "ee9b432e-df71-4cca-abd9-7db4235655c1",
+          "name": "APPUiO",
+          "orgs": ["appuio"]
+        },
+        {
+          "uuid": "8b875871-d38a-426d-99dc-8615530c8c07",
+          "name": "arillso",
+          "orgs": ["arillso"]
+        },
+        {
+          "uuid": "123964c9-f364-4e53-ad1c-103c301127dd",
+          "name": "Caluma",
+          "orgs": ["projectcaluma"]
+        },
+        {
+          "uuid": "cd9d690f-e13f-4bda-b33c-04adb3b04407",
+          "name": "Datalets",
+          "orgs": ["datalets"]
+        },
+        {
+          "uuid": "4095da07-8708-4df0-9a8a-90a8812847bb",
+          "name": "Genossenschaft POSMO Schweiz",
+          "orgs": ["posmocoop"]
+        },
+        {
+          "uuid": "3f27bcfd-35d4-483e-b77a-1d9b9387dc2b",
+          "name": "Hitobito",
+          "orgs": ["hitobito"]
+        },
+        {
+          "uuid": "be4d25af-26b7-4404-9229-2b36b48afb38",
+          "name": "HL7 Benutzergruppe Schweiz",
+          "orgs": ["hl7ch"]
+        },
+        {
+          "uuid": "d6e8ccd4-294e-4af2-81e5-b7e6e2ff90b8",
+          "name": "lobbywatch.ch",
+          "orgs": ["lobbywatch"]
+        },
+        {
+          "uuid": "3f21cdab-d0ad-43cb-880a-7373ab6a6598",
+          "name": "Opendigitalradio",
+          "orgs": ["Opendigitalradio"]
+        },
+        {
+          "uuid": "9342dedb-a5d2-48d4-8cf8-7679e780d628",
+          "name": "OpenOlitor",
+          "orgs": ["openolitor"]
+        },
+        {
+          "uuid": "c2027fb9-ea40-426c-a147-972abe4c4035",
           "name": "School of Data in Switzerland",
           "orgs": ["schoolofdata-ch"]
         },
-        { "name": "Open Source Challenge", "orgs": ["opensource-challenge"] },
-        { "name": "VeriSO", "orgs": ["veriso"] }
+        {
+          "uuid": "7d8344e7-2f4d-4506-a5ab-db362105b485",
+          "name": "Open Source Challenge",
+          "orgs": ["opensource-challenge"]
+        },
+        {
+          "uuid": "febbd667-edd9-46d1-afce-e8e3f647a098",
+          "name": "VeriSO",
+          "orgs": ["veriso"]
+        }
       ]
     },
     "Insurances": {
       "name": "Versicherungen",
       "institutions": [
-        { "name": "AXA Winterthur", "orgs": ["axa-ch"] },
-        { "name": "Baloise", "orgs": ["baloise", "baloise-incubator"] },
-        { "name": "CSS", "orgs": ["css-ch"] },
-        { "name": "Helsana", "orgs": ["helsana"] },
-        { "name": "Mobiliar", "orgs": ["diemobiliar", "mobiliar"] },
         {
+          "uuid": "85a99e02-2c95-45ea-afc7-0d7e37ebb6a9",
+          "name": "AXA Winterthur",
+          "orgs": ["axa-ch"]
+        },
+        {
+          "uuid": "a0042db8-cfb6-4f5f-b4ee-d43d37dd06b9",
+          "name": "Baloise",
+          "orgs": ["baloise", "baloise-incubator"]
+        },
+        {
+          "uuid": "6c6d9994-e1f3-492d-81f2-af8e48d91fa6",
+          "name": "CSS",
+          "orgs": ["css-ch"]
+        },
+        {
+          "uuid": "e681ab62-d056-427a-acb6-b08dcfd83ac0",
+          "name": "Helsana",
+          "orgs": ["helsana"]
+        },
+        {
+          "uuid": "1e34201c-306e-4fbe-b055-80644f9fca9d",
+          "name": "Mobiliar",
+          "orgs": ["diemobiliar", "mobiliar"]
+        },
+        {
+          "uuid": "5a0fc0f0-3bba-4a1d-8d88-5a0819a255a9",
           "name": "Zürich Versicherung",
           "orgs": ["ZurichInsuranceGroup", "zurichversicherung"]
         },
-        { "name": "Vaudoise", "orgs": ["VaudoiseAssurances"] }
+        {
+          "uuid": "2981dadf-68e2-4a01-bd64-09f3140e4f0d",
+          "name": "Vaudoise",
+          "orgs": ["VaudoiseAssurances"]
+        }
       ]
     },
     "Banking": {
       "name": "Banken",
       "institutions": [
-        { "name": "Datatrans AG", "orgs": ["datatrans"] },
-        { "name": "Postfinance", "orgs": ["postfinance"] }
+        {
+          "uuid": "0c7c7c8b-e33a-4634-a5cc-569d8bdd3351",
+          "name": "Datatrans AG",
+          "orgs": ["datatrans"]
+        },
+        {
+          "uuid": "1f6e4125-2d12-46cb-868c-0512d80d40d8",
+          "name": "Postfinance",
+          "orgs": ["postfinance"]
+        }
       ]
     },
     "Media": {
       "name": "Medien",
       "institutions": [
-        { "name": "SRG", "orgs": ["srfdata", "srgssr"] },
-        { "name": "NZZ", "orgs": ["nzzdev"] },
-        { "name": "Radio Bern RaBe", "orgs": ["radiorabe"] },
         {
+          "uuid": "d41fe5c9-3ce6-46c5-9310-2b9242491345",
+          "name": "SRG",
+          "orgs": ["srfdata", "srgssr"]
+        },
+        {
+          "uuid": "ca9d1276-397a-4fd0-a336-f4b04f58ed57",
+          "name": "NZZ",
+          "orgs": ["nzzdev"]
+        },
+        {
+          "uuid": "b174698a-755a-4794-9bf4-8f6ada809066",
+          "name": "Radio Bern RaBe",
+          "orgs": ["radiorabe"]
+        },
+        {
+          "uuid": "1f8dbf5d-937b-41a1-9d45-fdddda5eab95",
           "name": "TX Group",
           "orgs": [
             "GitHubTamediaEis",
@@ -328,28 +423,55 @@
     "Others": {
       "name": "Andere Unternehmenen",
       "institutions": [
-        { "name": "Digitec Galaxus AG", "orgs": ["DigitecGalaxus"] },
-        { "name": "digris AG", "orgs": ["digris"] },
-        { "name": "Scout24 Schweiz AG", "orgs": ["Scout24-CH"] },
-        { "name": "SWISS TXT AG", "orgs": ["swisstxt"] }
+        {
+          "uuid": "71b0832b-9d21-49a4-8514-ae709fd80700",
+          "name": "Digitec Galaxus AG",
+          "orgs": ["DigitecGalaxus"]
+        },
+        {
+          "uuid": "60af673e-9097-474e-ba51-d382407bca51",
+          "name": "digris AG",
+          "orgs": ["digris"]
+        },
+        {
+          "uuid": "f3510c27-f593-404c-863e-1b04c973c655",
+          "name": "Scout24 Schweiz AG",
+          "orgs": ["Scout24-CH"]
+        },
+        {
+          "uuid": "8485c700-3efa-4bf1-a4af-180c578ab070",
+          "name": "SWISS TXT AG",
+          "orgs": ["swisstxt"]
+        }
       ]
     },
     "Gov_Companies": {
       "name": "Öffentliche Unternehmen und Anstalten",
       "institutions": [
-        { "name": "BERNMOBIL", "orgs": ["BERNMOBIL"] },
         {
+          "uuid": "bebdf973-da12-478b-8203-3aa363155117",
+          "name": "BERNMOBIL",
+          "orgs": ["BERNMOBIL"]
+        },
+        {
+          "uuid": "09fcec49-0914-4aec-ad7d-c39bda34a871",
           "name": "Post",
           "orgs": ["swisspost-yellowcube, swisspush, spsvn, tntswisspostag"]
         },
-        { "name": "SBB", "orgs": ["SchweizerischeBundesbahnen"] },
         {
+          "uuid": "b13b03cc-1d26-412f-802f-5849e4c58152",
+          "name": "SBB",
+          "orgs": ["SchweizerischeBundesbahnen"]
+        },
+        {
+          "uuid": "260b058a-9fcf-47ca-bd35-8bcfedce6301",
           "name": "Swisscom",
           "orgs": [
             "swisscom, ScsApiTribe, SwisscomTrustServices, swisscom-developer, sinso, Swisscom-BigD"
           ]
         },
         {
+          "uuid": "04d3ec72-6517-48e4-974d-5e19c45d5afd",
           "name": "Verkehrsbetriebe Zürich (VBZ)",
           "orgs": ["VerkehrsbetriebeZuerich"]
         }
@@ -359,41 +481,87 @@
       "name": "Verwaltung Bund",
       "institutions": [
         {
+          "uuid": "137478fc-ee92-43a4-94f7-c3df17c42a4c",
           "name": "Arbeitslosenversicherung",
           "orgs": ["alv-ch", "alv-ch-ansible-roles"]
         },
-        { "name": "Bundesamt für Energie", "orgs": ["SFOE"] },
         {
+          "uuid": "584ac72e-bcf1-4ce7-ab56-8bc3b659a63f",
+          "name": "Bundesamt für Energie",
+          "orgs": ["SFOE"]
+        },
+        {
+          "uuid": "53795f08-ac6e-4aa4-a780-9283b20f958f",
           "name": "Bundesamt für Informatik und Telekommunikation",
           "orgs": ["admin-ch"]
         },
         {
+          "uuid": "3f213801-3496-4351-9a9c-2fb1b4aa6946",
           "name": "Bundesamt für Statistik",
           "orgs": ["BFS-SHS-MSAS", "ogdch"]
         },
-        { "name": "Bundeskanzlei", "orgs": ["swiss"] },
-        { "name": "MeteoSwiss", "orgs": ["MeteoSwiss-APN"] },
         {
+          "uuid": "5b460324-28c0-4613-ad1e-b00031f0ee41",
+          "name": "Bundeskanzlei",
+          "orgs": ["swiss"]
+        },
+        {
+          "uuid": "1a092c16-67bb-4b7a-972e-bbd5d838903b",
+          "name": "MeteoSwiss",
+          "orgs": ["MeteoSwiss-APN"]
+        },
+        {
+          "uuid": "5c902f1f-a811-404b-9a51-e74545bbdded",
           "name": "Schweizerisches Bundesarchiv",
           "orgs": ["SwissFederalArchives"]
         },
-        { "name": "swisstopo", "orgs": ["geoadmin"] }
+        {
+          "uuid": "37d97eb4-d0b3-40e9-8e2c-65f97a518700",
+          "name": "swisstopo",
+          "orgs": ["geoadmin"]
+        }
       ]
     },
     "Gov_Cantons": {
       "name": "Verwaltung Kantone",
       "institutions": [
-        { "name": "Kanton Aargau", "orgs": ["kanton-aargau"] },
-        { "name": "Kanton Basel-Stadt", "orgs": ["statabs", "opendatabs"] },
-        { "name": "Kanton Bern", "orgs": ["kanton-bern", "AGIBE"] },
-        { "name": "Kanton Neuenburg", "orgs": ["sitn"] },
-        { "name": "Kanton Solothurn", "orgs": ["sogis"] },
-        { "name": "Kanton Waadt", "orgs": ["dsi-vd"] },
         {
+          "uuid": "2144d6bf-9dd7-47cb-a1cb-d0e35d957c89",
+          "name": "Kanton Aargau",
+          "orgs": ["kanton-aargau"]
+        },
+        {
+          "uuid": "4b39e548-a2df-49b2-8cb7-fdf9f624220f",
+          "name": "Kanton Basel-Stadt",
+          "orgs": ["statabs", "opendatabs"]
+        },
+        {
+          "uuid": "6957de8e-01f7-4780-92e5-23a4076ed4ed",
+          "name": "Kanton Bern",
+          "orgs": ["kanton-bern", "AGIBE"]
+        },
+        {
+          "uuid": "ad17ab38-23b2-48af-b060-1f6359f21512",
+          "name": "Kanton Neuenburg",
+          "orgs": ["sitn"]
+        },
+        {
+          "uuid": "fffad615-8bc3-4f36-8f13-ac8416fedc78",
+          "name": "Kanton Solothurn",
+          "orgs": ["sogis"]
+        },
+        {
+          "uuid": "50de5180-6124-4375-902f-88850a9871af",
+          "name": "Kanton Waadt",
+          "orgs": ["dsi-vd"]
+        },
+        {
+          "uuid": "f3879203-f5e5-4bd8-b9e0-38d25b9a4391",
           "name": "Kanton Zürich",
           "orgs": ["FNSKtZH", "StatistikZH", "openZH", "gisktzh"]
         },
         {
+          "uuid": "090eb1ff-8ce4-4a0a-9100-2dfa2214656a",
           "name": "République et canton de Genève",
           "orgs": ["republique-et-canton-de-geneve"]
         }
@@ -403,20 +571,27 @@
       "name": "Verwaltung Städte",
       "institutions": [
         {
+          "uuid": "c9f03e8f-fa33-4b53-b92e-e5b6be3a75df",
           "name": "Stadt Zürich",
           "orgs": ["StatistikStadtZuerich", "opendatazurich"]
         },
-        { "name": "Stadt Bern", "orgs": ["StadtBern"] }
+        {
+          "uuid": "0738ec44-9769-4774-914e-44f1c7365603",
+          "name": "Stadt Bern",
+          "orgs": ["StadtBern"]
+        }
       ]
     },
     "ResearchAndEducation": {
       "name": "Hochschulen und Forschung",
       "institutions": [
         {
+          "uuid": "95daefea-056e-4fd2-a381-5bd7ea6c8d3a",
           "name": "Berner Fachhochschule",
           "orgs": ["bfh", "iam-ictm", "bfh-science"]
         },
         {
+          "uuid": "299d2c35-d60f-46cf-ba84-abe534fab204",
           "name": "European Organization for Nuclear Research (CERN)",
           "orgs": [
             "CERN",
@@ -430,18 +605,33 @@
             "CERN-E-Ternity"
           ]
         },
-        { "name": "Fondation Campus Biotech Geneva", "orgs": ["fcbg-hnp"] },
-        { "name": "Paul Scherrer Institut", "orgs": ["paulscherrerinstitute"] },
-        { "name": "swissbib", "orgs": ["swissbib", "linked-swissbib"] },
         {
+          "uuid": "6b5a2caa-2eaf-4cea-bbda-b58cf61a0266",
+          "name": "Fondation Campus Biotech Geneva",
+          "orgs": ["fcbg-hnp"]
+        },
+        {
+          "uuid": "b4ef6a7d-f7e3-4512-bce7-525acc758658",
+          "name": "Paul Scherrer Institut",
+          "orgs": ["paulscherrerinstitute"]
+        },
+        {
+          "uuid": "d2ad4064-3ea4-4ce4-8780-90c3e23098f7",
+          "name": "swissbib",
+          "orgs": ["swissbib", "linked-swissbib"]
+        },
+        {
+          "uuid": "6ededd44-29a6-4627-8380-0ad26de52898",
           "name": "Swiss National Supercomputing Center",
           "orgs": ["eth-cscs"]
         },
         {
+          "uuid": "112e3114-39f5-4d8d-9811-caf824c69954",
           "name": "Swiss Tropical and Public Health Institute",
           "orgs": ["SwissTPH"]
         },
         {
+          "uuid": "90ee70b6-070a-45e4-831e-b56935398361",
           "name": "Universität Bern",
           "orgs": [
             "digital-sustainability",
@@ -463,18 +653,28 @@
             "artorg-unibe-ch"
           ]
         },
-        { "name": "Université de Neuchâtel", "orgs": ["UniNE-CHYN"] }
+        {
+          "uuid": "8502075b-2e86-4cda-948a-275ba7523bc2",
+          "name": "Université de Neuchâtel",
+          "orgs": ["UniNE-CHYN"]
+        }
       ]
     },
     "NGOs": {
       "name": "Nichtregierungsorganisationen",
       "institutions": [
-        { "name": "European Broadcasting Union", "orgs": ["ebu"] },
         {
+          "uuid": "d1d628b8-028b-45a2-8589-24c50e73b73a",
+          "name": "European Broadcasting Union",
+          "orgs": ["ebu"]
+        },
+        {
+          "uuid": "241b1aab-7ffc-40fb-941f-7af16db9745b",
           "name": "International Telecommunication Union",
           "orgs": ["openitu"]
         },
         {
+          "uuid": "73d8b2d5-5731-4c54-9a40-29f82513b4f3",
           "name": "World Health Organization",
           "orgs": ["WorldHealthOrganization"]
         }
