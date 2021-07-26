@@ -20,7 +20,9 @@
     >
   </mat-select>
 </mat-form-field>
-
+<p style="color: gray">
+  Last updated: {{ state | date: "MMMM, d, yyyy 'at' H:mm" }}
+</p>
 <table
   mat-table
   [dataSource]="dataSource"
