@@ -92,7 +92,8 @@ while i < len(githubrepos["GitHubRepos"].items()):
         counter += 1
         print(counter)
         institution_data = {
-            "name": institution["name"]
+            "name": institution["name"],
+            "uuid": institution["uuid"],
         }
         print(institution_data["name"])
         # Alle Werte einer Institution auf Null setzen
@@ -296,7 +297,7 @@ while i < len(githubrepos["GitHubRepos"].items()):
         sector_data[sector_key].append(institution_data)
 
         institution_data["timestamp"] = currentDateAndTime
-        inst_old = collectionInstitutions.find_one({ "name" : institution_data["name"] })
+        inst_old = collectionInstitutions.find_one({ "uuid" : institution_data["uuid"] })
         stat = {
             "timestamps": currentDateAndTime,
             "num_orgs": institution_data["num_orgs"],
@@ -322,7 +323,7 @@ while i < len(githubrepos["GitHubRepos"].items()):
             stats = inst_old["stats"]
             stats.append(stat)
             institution_data["stats"] = stats
-        collectionInstitutions.replace_one({ "name" : institution_data["name"] }, institution_data, upsert=True)
+        collectionInstitutions.replace_one({ "uuid" : institution_data["uuid"] }, institution_data, upsert=True)
         try:
             collectionRepositoriesNew.insert_many(institution_data["repos"])
         except TypeError:
