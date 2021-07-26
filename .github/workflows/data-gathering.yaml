@@ -2,7 +2,7 @@ name: Python package
 
 on:
   schedule:
-    - cron:  '12 2 * * *'
+    - cron:  '20 0/8 * * *'
   workflow_dispatch:
 
 jobs:
@@ -29,6 +29,7 @@ jobs:
       timeout-minutes: 1200
       env:
         GITHUBTOKEN: ${{ secrets.GITHUBTOKEN }}
+        DATABASELINK: ${{ secrets.DATABASELINK }}
     - uses: actions/upload-artifact@v2
       with:
         name: oss-gathered-data
