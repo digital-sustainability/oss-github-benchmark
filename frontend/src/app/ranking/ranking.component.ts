@@ -9,8 +9,6 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../explore/explore-item/explore-item.component';
 import { FormBuilder } from '@angular/forms';
-import { forEach } from 'lodash-es';
-import { findIndex } from 'rxjs/operators';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 
