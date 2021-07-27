@@ -1,11 +1,15 @@
 <h1>Ranking of {{ numRepositories }} Repositories.</h1>
-<!-- <mat-checkbox
+<mat-form-field appearance="fill">
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="doFilter($event.target.value)" />
+</mat-form-field>
+<mat-checkbox
   color="primary"
   style="vertical-align: super"
-  checked="true"
+  [checked]="includeForks"
   (change)="includeForksChange($event.checked)"
-  >Include forks</mat-checkbox
-> -->
+  >Include forks
+</mat-checkbox>
 
 <p style="color: gray">
   Last updated: {{ state | date: "MMMM, d, yyyy 'at' H:mm" }}

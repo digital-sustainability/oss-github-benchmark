@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../explore/explore-item/explore-item.component';
 import { FormBuilder } from '@angular/forms';
+import { timeout } from 'd3';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 
@@ -194,5 +195,6 @@ export class RankingComponent implements OnInit {
     };
     this.numInstitutions = this.dataSource.filteredData.length;
     this.state = institutions[0].timestamp;
+    timeout(() => this.includeForksChange(false), 100);
   }
 }
