@@ -157,6 +157,7 @@ while i < len(githubrepos):
                 institution_data["num_repos"] += organization_data["num_repos"]
                 institution_data["avatar"].append(organization_data["avatar"])
                 institution_data["org_names"].append(org_name)
+                institution_data["sector"] = sector_key
                 # Alle Repos einer GitHub-Organisation durch-loopen
                 for repo in org.get_repos():
                     if collectionRunning.find_one({}) == None:
@@ -256,7 +257,6 @@ while i < len(githubrepos):
                             organization_data["total_num_forks_in_repos"] += 1
                             organization_data["total_num_commits"] += repo_data["has_own_commits"]
 
-                        institution_data["sector"] = sector_key
                         institution_data["repos"].append(repo_data)
                         organization_data["repos"].append(repo_data)
                         repos_data.append(repo_data)
