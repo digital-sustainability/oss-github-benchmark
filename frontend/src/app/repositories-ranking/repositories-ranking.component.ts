@@ -22,16 +22,34 @@ export class RepositoriesRankingComponent implements OnInit {
     ['num_contributors', 'Contributors', false, 'number'],
     ['num_forks', 'Forks', false, 'number'],
     ['num_stars', 'Stars', false, 'number'],
-    ['has_own_commits', 'Has own commits?', true, 'string'],
+    ['has_own_commits', 'Own commits', false, 'number'],
     ['fork', 'Is fork?', true, 'string'],
   ];
   displayedColumnsOnlyNames = this.displayedColumns.map((column) => column[0]);
-
+  recordFilter = '';
   @Input() data: IData;
   dataSource: any = new MatTableDataSource();
   numRepositories: number;
   state: Date;
   repositories: any[] = [];
+  includeForks: boolean = false;
+
+  public doFilter = (value: string) => {
+    if (value) {
+      this.recordFilter = value.trim().toLocaleLowerCase();
+    }
+    setTimeout(this.triggerFilter, 100);
+  };
+
+  public triggerFilter = () => {
+    this.dataSource.filter = 'trigger filter';
+    this.numRepositories = this.dataSource.filteredData.length;
+  };
+
+  includeForksChange(checked) {
+    this.includeForks = checked;
+    this.triggerFilter();
+  }
 
   constructor(private dataService: DataService) {}
 
@@ -55,6 +73,19 @@ export class RepositoriesRankingComponent implements OnInit {
       console.log(this.displayedColumnsOnlyNames);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+      setTimeout(this.triggerFilter, 100);
+
+      this.dataSource.filterPredicate = (data: any, filter: string) => {
+        let datastring: string = '';
+        let property: string;
+        for (property in data) {
+          datastring += data[property];
+        }
+        return (
+          datastring.includes(this.recordFilter) &&
+          (!data.fork || this.includeForks)
+        );
+      };
     });
   }
 
