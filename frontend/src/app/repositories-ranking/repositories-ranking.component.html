@@ -1,0 +1,41 @@
+<h1>Ranking of {{ numRepositories }} Repositories.</h1>
+<!-- <mat-checkbox
+  color="primary"
+  style="vertical-align: super"
+  checked="true"
+  (change)="includeForksChange($event.checked)"
+  >Include forks</mat-checkbox
+> -->
+
+<p style="color: gray">
+  Last updated: {{ state | date: "MMMM, d, yyyy 'at' H:mm" }}
+</p>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+  <span *ngFor="let column of displayedColumns">
+    <ng-container [matColumnDef]="column[0]">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column[1] }}</th>
+      <td
+        mat-cell
+        *matCellDef="let repository"
+        [ngClass]="{ number: column[3] == 'number' }"
+      >
+        {{
+          column[2]
+            ? (repository[column[0]] | toNiceName)
+            : repository[column[0]]
+        }}
+      </td>
+    </ng-container>
+  </span>
+  <tr
+    mat-header-row
+    *matHeaderRowDef="displayedColumnsOnlyNames"
+    class="clickable"
+  ></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumnsOnlyNames"></tr>
+</table>
+
+<mat-paginator
+  [pageSizeOptions]="[30, 50, 100]"
+  showFirstLastButtons
+></mat-paginator>
