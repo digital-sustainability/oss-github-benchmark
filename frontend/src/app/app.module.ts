@@ -36,6 +36,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { ToNiceNamePipe } from './pipes/toNiceName.pipe';
+import { RepositoriesRankingComponent } from './repositories-ranking/repositories-ranking.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { ToNiceNamePipe } from './pipes/toNiceName.pipe';
     TreeComponent,
     ExploreComponent,
     ToNiceNamePipe,
+    RepositoriesRankingComponent,
   ],
   imports: [
     BrowserModule,
