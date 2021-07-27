@@ -125,7 +125,7 @@ export class RankingComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   openDialog(institution: any) {
-    this.changeURL('/ranking/' + institution.name_de);
+    this.changeURL('/ranking/' + institution.uuid);
     const dialogRef = this.dialog.open(ExploreItemComponent, {
       data: institution,
     });
@@ -169,8 +169,7 @@ export class RankingComponent implements OnInit {
         this.openDialog(
           institutions.find(
             (institution) =>
-              institution.name_de.toLowerCase() ===
-              institutionName.toLowerCase()
+              institution.uuid.toLowerCase() === institutionName.toLowerCase()
           )
         );
       }
