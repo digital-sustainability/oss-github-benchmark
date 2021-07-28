@@ -14,6 +14,8 @@ export class RepositoriesRankingComponent implements OnInit {
   item: IInstitution;
   displayedColumns: any[] = [
     ['name', 'Name', false, 'string'],
+    ['institution_name_de', 'Institution', false, 'string'],
+    ['organisation_name_de', 'Organisation', false, 'string'],
     ['last_years_commits', 'Commits last year', false, 'number'],
     ['comments', 'Comments', false, 'number'],
     ['issues_all', 'Issues', false, 'number'],
@@ -51,6 +53,10 @@ export class RepositoriesRankingComponent implements OnInit {
     this.triggerFilter();
   }
 
+  goToLink(url: string) {
+    window.open(url, '_blank');
+  }
+
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
@@ -64,13 +70,17 @@ export class RepositoriesRankingComponent implements OnInit {
       );
       this.state = institutions[0].timestamp;
       institutions.forEach((institution) => {
-        institution.repos.forEach((repository) => {
-          this.repositories.push(repository);
+        institution.orgs.forEach((org) => {
+          org.repos.forEach((repository: any) => {
+            let repo = repository;
+            repo.institution_name_de = institution.name_de;
+            repo.organisation_name_de = org.name;
+            this.repositories.push(repo);
+          });
         });
       });
       this.dataSource = new MatTableDataSource(this.repositories);
       this.numRepositories = this.repositories.length;
-      console.log(this.displayedColumnsOnlyNames);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       setTimeout(this.triggerFilter, 100);

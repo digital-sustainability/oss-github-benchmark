@@ -28,7 +28,7 @@
   >Include forks</mat-checkbox
 >
 <p style="color: gray">
-  Last updated: {{ state | date: "MMMM, d, yyyy 'at' H:mm" }}
+  Last updated: {{ state | date: "MMMM d, yyyy 'at' H:mm" }}
 </p>
 <table
   mat-table
@@ -53,16 +53,14 @@
   </ng-container>
 
   <ng-container matColumnDef="num_members">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
-      Number of members
-    </th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Number of members</th>
     <td mat-cell *matCellDef="let institution" class="number">
       {{ institution.num_members }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="num_repos">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       Number of repositories
     </th>
     <td mat-cell *matCellDef="let institution" class="number">
