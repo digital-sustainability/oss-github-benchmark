@@ -213,6 +213,7 @@ export class BubbleComponent implements OnInit, OnChanges {
     this.changeURL('/visualization/' + institution.uuid);
     const dialogRef = this.dialog.open(ExploreItemComponent, {
       data: institutionData,
+      autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe(() => {

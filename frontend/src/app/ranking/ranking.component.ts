@@ -127,6 +127,7 @@ export class RankingComponent implements OnInit {
     this.changeURL('/ranking/' + institution.uuid);
     const dialogRef = this.dialog.open(ExploreItemComponent, {
       data: institution,
+      autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe(() => {
