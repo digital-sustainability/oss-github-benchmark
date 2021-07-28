@@ -6,34 +6,6 @@ import { Options } from '../options';
 import { MatDialog } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../../explore/explore-item/explore-item.component';
 import { Location } from '@angular/common';
-
-// interface csvDatapoint {
-//   avatar: string
-//   name: string
-//   num_members: string
-//   num_repos: string
-//   org_names: string
-//   repo_names: string
-//   sector: string
-//   total_comments: string
-//   total_commits_last_year: string
-//   total_issues_all: string
-//   total_issues_closed: string
-//   total_num_commits: string
-//   total_num_contributors: string
-//   total_num_forks_in_repos: string
-//   total_num_own_repo_forks: string
-//   total_num_stars: string
-//   total_num_watchers: string
-//   total_pull_requests_all: string
-//   total_pull_requests_closed: string
-// }
-
-// interface jsonDatapoint extends csvDatapoint {
-//   orgs: unknown[]
-//   repos: unknown[]
-// }
-
 @Component({
   selector: 'app-visualization-bubble',
   templateUrl: './bubble.component.html',
@@ -192,7 +164,7 @@ export class BubbleComponent implements OnInit, OnChanges {
         return sizeScale(rDimension(inst));
       })
 
-      .attr('svg:title', (inst) => inst.name)
+      .attr('svg:title', (inst) => inst.name_de)
 
       .attr('fill', (inst, i) => {
         return this.colorScale(inst.sector);
@@ -206,7 +178,7 @@ export class BubbleComponent implements OnInit, OnChanges {
         this.text
           .html(
             `<img src='${img}' height=25 ><br>
-                    ${inst.name}<br>
+                    ${inst.name_de}<br>
                     ${this.options.dimension1.friendly_name}: ${xDimension(
               inst
             )}<br>
@@ -236,11 +208,12 @@ export class BubbleComponent implements OnInit, OnChanges {
 
   openDialog(institution: any) {
     let institutionData = this.institutionsComplete.find(
-      (institutionC) => institutionC.name === institution.name
+      (institutionC) => institutionC.uuid === institution.uuid
     );
-    this.changeURL('/visualization/' + institution.name);
+    this.changeURL('/visualization/' + institution.uuid);
     const dialogRef = this.dialog.open(ExploreItemComponent, {
       data: institutionData,
+      autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe(() => {

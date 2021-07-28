@@ -1,19 +1,17 @@
 <div class="wrapper">
   <h1><img [src]="data.avatar[0]" alt="" />{{ data.name }}</h1>
 
-  <section class="metric-item">
-    <strong>Sektor:</strong><span>{{ data.sector | toNiceName }}</span>
+  <section *ngFor="let stat of institutionStats" class="metric-item">
+    <strong>{{ stat.text }}</strong
+    ><span>{{
+      stat.toNiceName
+        ? (data[stat.content] | toNiceName)
+        : stat.content == "timestamp"
+        ? (data[stat.content] | date: "MMMM d, yyyy 'at' H:mm")
+        : data[stat.content]
+    }}</span>
   </section>
-  <section class="metric-item">
-    <strong>Members:</strong><span>{{ data.num_members }}</span>
-  </section>
-  <section class="metric-item">
-    <strong>Stars:</strong><span>{{ data.total_num_stars }}</span>
-  </section>
-  <section class="metric-item">
-    <strong>Commits last year:</strong
-    ><span>{{ data.total_commits_last_year }}</span>
-  </section>
+
   <div *ngIf="dataSource">
     <h2>Repos:</h2>
     <table
