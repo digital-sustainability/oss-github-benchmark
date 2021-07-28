@@ -5,6 +5,7 @@ import { ListComponent } from './metric/list/list.component';
 import { ExploreItemComponent } from './explore/explore-item/explore-item.component';
 import { ExploreComponent } from './explore/explore.component';
 import { RankingComponent } from './ranking/ranking.component';
+import { RepositoriesRankingComponent } from './repositories-ranking/repositories-ranking.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,10 @@ const routes: Routes = [
   {
     path: 'ranking/:institution',
     component: RankingComponent,
+  },
+  {
+    path: 'repositories-ranking',
+    component: RepositoriesRankingComponent,
   },
   {
     path: 'explore/item/:itemName',

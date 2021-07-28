@@ -9,8 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../explore/explore-item/explore-item.component';
 import { FormBuilder } from '@angular/forms';
-import { forEach } from 'lodash-es';
-import { findIndex } from 'rxjs/operators';
+import { timeout } from 'd3';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 
@@ -125,9 +124,10 @@ export class RankingComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   openDialog(institution: any) {
-    this.changeURL('/ranking/' + institution.name_de);
+    this.changeURL('/ranking/' + institution.uuid);
     const dialogRef = this.dialog.open(ExploreItemComponent, {
       data: institution,
+      autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -169,8 +169,7 @@ export class RankingComponent implements OnInit {
         this.openDialog(
           institutions.find(
             (institution) =>
-              institution.name_de.toLowerCase() ===
-              institutionName.toLowerCase()
+              institution.uuid.toLowerCase() === institutionName.toLowerCase()
           )
         );
       }
@@ -197,5 +196,6 @@ export class RankingComponent implements OnInit {
     };
     this.numInstitutions = this.dataSource.filteredData.length;
     this.state = institutions[0].timestamp;
+    timeout(() => this.includeForksChange(false), 100);
   }
 }

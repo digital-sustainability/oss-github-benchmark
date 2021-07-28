@@ -10,7 +10,11 @@
   <span class="only-pc">
     <button mat-button routerLink="/ranking">
       <mat-icon>sort</mat-icon>
-      <span>Ranking</span>
+      <span>Institution Ranking</span>
+    </button>
+    <button mat-button routerLink="/repositories-ranking">
+      <mat-icon>sort</mat-icon>
+      <span>Repository Ranking</span>
     </button>
     <button mat-button routerLink="/visualization">
       <mat-icon>pie_chart</mat-icon>
@@ -59,8 +63,13 @@
     class="sidenav"
   >
     <button mat-button routerLink="/ranking" (click)="onSidenavClick()">
-      <mat-icon>table_rows</mat-icon>
-      <span>Ranking</span>
+      <mat-icon>sort</mat-icon>
+      <span>Institution Ranking</span>
+    </button>
+    <br />
+    <button mat-button routerLink="/repositories-ranking">
+      <mat-icon>sort</mat-icon>
+      <span>Repository Ranking</span>
     </button>
     <br />
     <button mat-button routerLink="/visualization" (click)="onSidenavClick()">

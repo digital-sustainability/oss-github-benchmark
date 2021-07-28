@@ -32,6 +32,61 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
   ];
   dataSource: any = 0;
 
+  institutionStats: object[] = [
+    { text: 'Sektor:', content: 'sector', toNiceName: true },
+    { text: 'UUID:', content: 'uuid', toNiceName: false },
+    { text: 'Repositories:', content: 'num_repos', toNiceName: false },
+    { text: 'Members:', content: 'num_members', toNiceName: false },
+    {
+      text: 'Contributors:',
+      content: 'total_num_contributors',
+      toNiceName: false,
+    },
+    {
+      text: 'Own repositories forks:',
+      content: 'total_num_own_repo_forks',
+      toNiceName: false,
+    },
+    {
+      text: 'Forks in repositories:',
+      content: 'total_num_forks_in_repos',
+      toNiceName: false,
+    },
+    { text: 'Commits:', content: 'total_num_commits', toNiceName: false },
+    {
+      text: 'Pull requests:',
+      content: 'total_pull_requests',
+      toNiceName: false,
+    },
+    { text: 'Issues:', content: 'total_issues', toNiceName: false },
+    { text: 'Stars:', content: 'total_num_stars', toNiceName: false },
+    { text: 'Watchers:', content: 'total_num_watchers', toNiceName: false },
+    {
+      text: 'Commits last year:',
+      content: 'total_commits_last_year',
+      toNiceName: false,
+    },
+    {
+      text: 'Total pull requests:',
+      content: 'total_pull_requests_all',
+      toNiceName: false,
+    },
+    {
+      text: 'Total closed pull requests:',
+      content: 'total_pull_requests_closed',
+      toNiceName: false,
+    },
+    { text: 'Total issues:', content: 'total_issues_all', toNiceName: false },
+    {
+      text: 'Total closed issues:',
+      content: 'total_issues_closed',
+      toNiceName: false,
+    },
+    { text: 'Comments:', content: 'total_comments', toNiceName: false },
+    { text: 'Organisations:', content: 'num_orgs', toNiceName: false },
+    { text: 'Last updated:', content: 'timestamp', toNiceName: false },
+  ];
+
   constructor(
     private dialogRef: MatDialogRef<ExploreItemComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
