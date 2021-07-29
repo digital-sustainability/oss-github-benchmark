@@ -49,14 +49,14 @@ export class RankingComponent implements OnInit {
   recordFilter = '';
   state: Date;
 
-  public doFilter = (value: string) => {
+  doFilter = (value: string) => {
     if (value) {
       this.recordFilter = value.trim().toLocaleLowerCase();
     }
     setTimeout(this.triggerFilter, 100);
   };
 
-  public triggerFilter = () => {
+  triggerFilter = () => {
     this.dataSource.filter = 'trigger filter';
     this.numInstitutions = this.dataSource.filteredData.length;
   };
@@ -115,6 +115,7 @@ export class RankingComponent implements OnInit {
         },
         []
       );
+      this.state = institutions[institutions.length - 1].timestamp;
       this.item = institutions.find((inst) => inst.name_de === itemName);
       this.sortAndFilter(institutions);
     });
@@ -185,17 +186,19 @@ export class RankingComponent implements OnInit {
     this.dataSource.filterPredicate = (data: any, filter: string) => {
       let datastring: string = '';
       let property: string;
+      let filterNew = this.recordFilter;
       for (property in data) {
         datastring += data[property];
       }
+      datastring = datastring.replace(/\s/g, '').toLowerCase();
+      filterNew = filterNew.replace(/\s/g, '').toLowerCase();
       return (
-        datastring.includes(this.recordFilter) &&
+        datastring.includes(filterNew) &&
         (this.checkboxes.indexOf(data.sector) != -1 ||
           this.checkboxes.length == 0)
       );
     };
     this.numInstitutions = this.dataSource.filteredData.length;
-    this.state = institutions[0].timestamp;
     timeout(() => this.includeForksChange(false), 100);
   }
 }
