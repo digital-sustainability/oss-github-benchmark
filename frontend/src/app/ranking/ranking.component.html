@@ -12,11 +12,17 @@
     multiple
     (selectionChange)="selectionChange($event)"
     [value]="checkboxes"
+    #select
   >
+    <mat-select-trigger>
+      <span *ngFor="let sec of select.value; index as i">
+        {{ sec | toNiceName }}<span *ngIf="i < select.value.length - 1">,</span>
+      </span>
+    </mat-select-trigger>
     <mat-option
       *ngFor="let sectorObj of sectorFilters"
       [value]="sectorObj.sector"
-      >{{ sectorObj.sector | toNiceName }}
+      ><span>{{ sectorObj.sector | toNiceName }}</span>
       <span style="float: right">{{ sectorObj.count }}</span></mat-option
     >
   </mat-select>
