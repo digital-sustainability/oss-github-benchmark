@@ -270,7 +270,7 @@ while i < len(githubrepos):
                             continue
                     except KeyboardInterrupt:
                         raise
-                    except NameError:
+                    except:
                         problematic_repos['repo_other'].append(repo)
                         traceback.print_exc()
                         error_counter += 1
