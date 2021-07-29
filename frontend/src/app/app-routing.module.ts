@@ -6,6 +6,7 @@ import { ExploreItemComponent } from './explore/explore-item/explore-item.compon
 import { ExploreComponent } from './explore/explore.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { RepositoriesRankingComponent } from './repositories-ranking/repositories-ranking.component';
+import { RepositoryDetailViewComponent } from './repository-detail-view/repository-detail-view.component';
 
 const routes: Routes = [
   {
@@ -18,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'visualization/:institution',
-    component: RankingComponent,
+    component: VisualizationComponent,
   },
   {
     path: 'metrics',
@@ -37,9 +38,13 @@ const routes: Routes = [
     component: RepositoriesRankingComponent,
   },
   {
-    path: 'explore/item/:itemName',
-    component: ExploreItemComponent,
+    path: 'repositories-ranking:institution',
+    component: RepositoriesRankingComponent,
   },
+  // {
+  //   path: 'explore/item/:itemName',
+  //   component: ExploreItemComponent,
+  // },
   { path: '', redirectTo: '/ranking', pathMatch: 'full' },
 ];
 

@@ -37,6 +37,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { ToNiceNamePipe } from './pipes/toNiceName.pipe';
 import { RepositoriesRankingComponent } from './repositories-ranking/repositories-ranking.component';
+import { RepositoryDetailViewComponent } from './repository-detail-view/repository-detail-view.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { RepositoriesRankingComponent } from './repositories-ranking/repositorie
     ExploreComponent,
     ToNiceNamePipe,
     RepositoriesRankingComponent,
+    RepositoryDetailViewComponent,
   ],
   imports: [
     BrowserModule,
