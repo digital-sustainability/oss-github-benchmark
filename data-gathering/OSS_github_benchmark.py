@@ -28,6 +28,7 @@ collectionProgress = db["progress"]
 collectionRepositories = db["repositories"]
 collectionRunning = db["running"]
 collectionTodoInstitutions = db["todoInstitutions"]
+collectionBadStuff = db["badStuff"]
 
 # JSON Daten laden, Variablen setzen
 with open('github_repos.json', encoding='utf-8') as file:
@@ -86,6 +87,9 @@ def tryUntilNoRateLimitExceeded(cmd):
             handle_rate_limit()
     return(result)
 
+def badStuff(dic):
+    collectionBadStuff.insert_one(dic)
+
 dataToGet = [
     "num_repos",
     "num_members",
@@ -109,7 +113,7 @@ dataToGet = [
 i = 0
 j = 0
 currentDateAndTime = 0
-
+badStuff({"Error":"bad bad"})
 getProgress()
 while i < len(githubrepos):
     sector_key, sector = list(githubrepos)[i]
@@ -139,6 +143,7 @@ while i < len(githubrepos):
         # Von einer Institution alle GitHub-Organisationen rausholen
         error_counter = 0
         for org_name in institution["orgs"]:
+            error_counter = 0
             try:
                 print(org_name)
                 org = tryUntilNoRateLimitExceeded("g.get_organization(org_name)")
@@ -261,28 +266,21 @@ while i < len(githubrepos):
                         organization_data["repos"].append(repo_data)
                         repos_data.append(repo_data)
                     except RuntimeError as error:
-                        print("Fehler beim Laden der Daten von '" + repo.name + "' :" + error)
+                        print("Fehler beim Laden der Daten von '" + repo.name + "' : " + error)
+                        badStuff(repo)
                         problematic_repos['repo_load'].append(repo)
                         traceback.print_exc()
-                        error_counter += 1
-                        if error_counter > 100:
-                            print("Laden der Daten wurde nach 100 fehlerhaften Abrufen abgebrochen")
-                            break
                     except KeyboardInterrupt:
                         raise
-                    except NameError:
+                    except:
+                        badStuff(repo)
                         problematic_repos['repo_other'].append(repo)
                         traceback.print_exc()
-                        error_counter += 1
-                        if error_counter > 100:
-                            print("Laden der Daten wurde nach 100 fehlerhaften Abrufen abgebrochen")
-                            break
                 institution_data["orgs"].append(organization_data)
-                if error_counter > 100:
-                    break
             except KeyboardInterrupt:
                 raise
             except:
+                badStuff(repo)
                 traceback.print_exc()
         print("Anzahl GitHub Repos von " + institution["name_de"] + ": " + str(institution_data["num_repos"]))
         institutions_data.append(institution_data)
@@ -301,10 +299,8 @@ while i < len(githubrepos):
             stats.append(stat)
             institution_data["stats"] = stats
         collectionInstitutions.replace_one({ "uuid" : institution_data["uuid"] }, institution_data, upsert=True)
-        try:
+        if len(institution_data["repos"]) != 0:
             collectionRepositoriesNew.insert_many(institution_data["repos"])
-        except TypeError:
-            pass
         saveProgress()
     i += 1
     j = 0
