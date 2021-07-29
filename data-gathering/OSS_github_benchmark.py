@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 # GitHub Login mittels Token
-g = Github(os.environ['GITHUBTOKEN'])
+g = Github(os.environ['GITHUBTOKEN2'])
 
 cluster = MongoClient(os.environ['DATABASELINK'])
 db = cluster["statistics"]
@@ -78,7 +78,7 @@ while actionRunning:
     sleep(60)
     actionRunning = collectionRunning.find_one({}) != None
 
-def tryUntilNoRateLimitExceeded(cmd):
+def tryUntilRateLimitNotExceeded(cmd):
     while True:
         try:
             result = eval(cmd)
@@ -145,15 +145,15 @@ while i < len(githubrepos):
             error_counter = 0
             try:
                 print(org_name)
-                org = tryUntilNoRateLimitExceeded("g.get_organization(org_name)")
+                org = tryUntilRateLimitNotExceeded("g.get_organization(org_name)")
                 organization_data = {}
                 for dataName in dataToGet:
                     organization_data[dataName] = 0
                 organization_data["name"] = org_name
-                organization_data["url"] = tryUntilNoRateLimitExceeded("org.html_url")
-                organization_data["num_members"] = tryUntilNoRateLimitExceeded("org.get_members().totalCount")
-                organization_data["num_repos"] = tryUntilNoRateLimitExceeded("org.public_repos")
-                organization_data["avatar"] = tryUntilNoRateLimitExceeded("org.avatar_url")
+                organization_data["url"] = tryUntilRateLimitNotExceeded("org.html_url")
+                organization_data["num_members"] = tryUntilRateLimitNotExceeded("org.get_members().totalCount")
+                organization_data["num_repos"] = tryUntilRateLimitNotExceeded("org.public_repos")
+                organization_data["avatar"] = tryUntilRateLimitNotExceeded("org.avatar_url")
                 organization_data["repos"] = []
                 # Die Anzahl GitHub-Organisationen, Members, Repos, Avatars (Link zu Icons) und die Organisations-Namen zu einer Institution hinzufügen
                 institution_data["num_orgs"] += 1
@@ -166,57 +166,57 @@ while i < len(githubrepos):
                 for repo in org.get_repos():
                     if collectionRunning.find_one({}) == None:
                         collectionRunning.insert_one({"Status":"running"})
-                    if tryUntilNoRateLimitExceeded("repo.archived"):
+                    if tryUntilRateLimitNotExceeded("repo.archived"):
                         continue
                     try:
                         print("Crawling repo: " + repo.name)
-                        commit_activities = tryUntilNoRateLimitExceeded("repo.get_stats_commit_activity()")
+                        commit_activities = tryUntilRateLimitNotExceeded("repo.get_stats_commit_activity()")
                         last_years_commits = 0
                         # Alle Commits der letzten 12 Monate zusammenzählen
                         if commit_activities != None:
                             for week in commit_activities:
-                                last_years_commits += tryUntilNoRateLimitExceeded("week.total")
+                                last_years_commits += tryUntilRateLimitNotExceeded("week.total")
                         # TODO: hinzufügen Könnte auch noch interessant sein: https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#get-the-weekly-commit-activity
                         # code_frequency = get_stats_code_frequency()
 
                         # Überprüfen ob commits schon im parent repo existieren (ein Fork ohne eigene Commits)
                         has_own_commits = 0
-                        if tryUntilNoRateLimitExceeded("repo.parent"):
+                        if tryUntilRateLimitNotExceeded("repo.parent"):
                             try:
-                                has_own_commits = tryUntilNoRateLimitExceeded('repo.compare(repo.parent.owner.login + ":master", "master").ahead_by')
+                                has_own_commits = tryUntilRateLimitNotExceeded('repo.compare(repo.parent.owner.login + ":master", "master").ahead_by')
                             except KeyboardInterrupt:
                                 raise
                             except github.GithubException:
                                 print(org_name)
-                                print(tryUntilNoRateLimitExceeded("repo.parent.owner"))
+                                print(tryUntilRateLimitNotExceeded("repo.parent.owner"))
                                 problematic_repos['repo_own_commit'].append(repo)
                                 traceback.print_exc()
                         # Zahlreiche Attribute eines Repos herausholen: Name, Fork (eines anderen Repos), wie oft geforkt, Contributors, Commits, Stars, Watchers und Commits der letzten 12 Monate
                         # Reference PyGitHub: https://pygithub.readthedocs.io/en/latest/github_objects/Repository.html
                         # GitHub Statistics: https://developer.github.com/v3/repos/statistics/#get-contributors-list-with-additions-deletions-and-commit-counts
                         repo_data = {
-                            "name": tryUntilNoRateLimitExceeded("repo.name"),
-                            "url": tryUntilNoRateLimitExceeded("repo.html_url"),
-                            "fork": tryUntilNoRateLimitExceeded("repo.fork"),
-                            "num_forks": tryUntilNoRateLimitExceeded("repo.forks_count"),
-                            "num_contributors": tryUntilNoRateLimitExceeded("repo.get_contributors().totalCount"),
-                            "num_commits": tryUntilNoRateLimitExceeded("repo.get_commits().totalCount"),                # Diese Variable stimmt nicht: es wird teilweise die Anzahl Commits, teilweise auch was ganz anderes zurückgegeben
-                            "num_stars": tryUntilNoRateLimitExceeded("repo.stargazers_count"),
-                            "num_watchers": tryUntilNoRateLimitExceeded("repo.subscribers_count"),     # Diese Variable stimmt nicht: es werden Anzahl Stars zurückgegeben
-                            "last_years_commits": tryUntilNoRateLimitExceeded("last_years_commits"),
-                            "commit_activities": tryUntilNoRateLimitExceeded("[ a.raw_data for a in commit_activities ]"),
-                            "has_own_commits": tryUntilNoRateLimitExceeded("has_own_commits"),       # Sagt aus ob eigene Commits gemacht wurden oder nur geforkt
-                            "issues_closed": tryUntilNoRateLimitExceeded('repo.get_issues(state="closed").totalCount'),
-                            "issues_all": tryUntilNoRateLimitExceeded('repo.get_issues(state="all").totalCount'),
-                            "pull_requests_closed": tryUntilNoRateLimitExceeded('repo.get_pulls(state="closed").totalCount'),
-                            "pull_requests_all": tryUntilNoRateLimitExceeded('repo.get_pulls(state="all").totalCount'),
-                            "comments": tryUntilNoRateLimitExceeded("repo.get_comments().totalCount"),
-                            "languages": tryUntilNoRateLimitExceeded("repo.get_languages()"),
+                            "name": tryUntilRateLimitNotExceeded("repo.name"),
+                            "url": tryUntilRateLimitNotExceeded("repo.html_url"),
+                            "fork": tryUntilRateLimitNotExceeded("repo.fork"),
+                            "num_forks": tryUntilRateLimitNotExceeded("repo.forks_count"),
+                            "num_contributors": tryUntilRateLimitNotExceeded("repo.get_contributors().totalCount"),
+                            "num_commits": tryUntilRateLimitNotExceeded("repo.get_commits().totalCount"),                # Diese Variable stimmt nicht: es wird teilweise die Anzahl Commits, teilweise auch was ganz anderes zurückgegeben
+                            "num_stars": tryUntilRateLimitNotExceeded("repo.stargazers_count"),
+                            "num_watchers": tryUntilRateLimitNotExceeded("repo.subscribers_count"),     # Diese Variable stimmt nicht: es werden Anzahl Stars zurückgegeben
+                            "last_years_commits": tryUntilRateLimitNotExceeded("last_years_commits"),
+                            "commit_activities": tryUntilRateLimitNotExceeded("[ a.raw_data for a in commit_activities ]"),
+                            "has_own_commits": tryUntilRateLimitNotExceeded("has_own_commits"),       # Sagt aus ob eigene Commits gemacht wurden oder nur geforkt
+                            "issues_closed": tryUntilRateLimitNotExceeded('repo.get_issues(state="closed").totalCount'),
+                            "issues_all": tryUntilRateLimitNotExceeded('repo.get_issues(state="all").totalCount'),
+                            "pull_requests_closed": tryUntilRateLimitNotExceeded('repo.get_pulls(state="closed").totalCount'),
+                            "pull_requests_all": tryUntilRateLimitNotExceeded('repo.get_pulls(state="all").totalCount'),
+                            "comments": tryUntilRateLimitNotExceeded("repo.get_comments().totalCount"),
+                            "languages": tryUntilRateLimitNotExceeded("repo.get_languages()"),
                             "timestamp": currentDateAndTime,
                         }
 
                         try:
-                            repo_data["license"] = tryUntilNoRateLimitExceeded(repo.get_license().license.key)
+                            repo_data["license"] = tryUntilRateLimitNotExceeded(repo.get_license().license.key)
                         except KeyboardInterrupt:
                             raise
                         except:
@@ -279,7 +279,13 @@ while i < len(githubrepos):
             except KeyboardInterrupt:
                 raise
             except:
-                badStuff(repo)
+                try:
+                    badStuff(repo)
+                except:
+                    try:
+                        badStuff({"error": f"error in repo {repo.name} of org {org_name}"})
+                    except:
+                        badStuff({"error": f"error in org {org_name}"})
                 traceback.print_exc()
         print("Anzahl GitHub Repos von " + institution["name_de"] + ": " + str(institution_data["num_repos"]))
         institutions_data.append(institution_data)
