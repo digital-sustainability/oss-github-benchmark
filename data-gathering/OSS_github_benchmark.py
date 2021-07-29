@@ -113,7 +113,6 @@ dataToGet = [
 i = 0
 j = 0
 currentDateAndTime = 0
-badStuff({"Error":"bad bad"})
 getProgress()
 while i < len(githubrepos):
     sector_key, sector = list(githubrepos)[i]
