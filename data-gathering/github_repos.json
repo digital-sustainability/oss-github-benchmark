@@ -5,216 +5,259 @@
       "institutions": [
         {
           "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "shortname": "3ap",
           "name_de": "3ap AG",
           "orgs": ["3AP-AG"]
         },
         {
           "uuid": "29a0cd4e-3fc4-4f32-93d4-0b3642ea5ed8",
+          "shortname": "4teamwork",
           "name_de": "4teamwork AG",
           "orgs": ["4teamwork"]
         },
         {
           "uuid": "0e06e7d6-2c9c-4282-b627-76e73aada5aa",
+          "shortname": "56kcloud",
           "name_de": "56K Cloud",
           "orgs": ["56kcloud"]
         },
         {
           "uuid": "523aded3-35e2-4927-b7e9-9c50c6243541",
+          "shortname": "adfinis",
           "name_de": "Adfinis AG",
           "orgs": ["adfinis-sygroup", "adfinis-forks"]
         },
         {
           "uuid": "b8d76bb8-e3c6-44d5-9f50-02359c8ff1c4",
+          "shortname": "adnovum",
           "name_de": "AdNovum Informatik AG",
           "orgs": ["adnovum"]
         },
         {
           "uuid": "2e54a51b-9ad4-47b7-b735-e1a7734a3421",
+          "shortname": "advancedconcepts",
           "name_de": "Advanced Concepts AG",
           "orgs": ["advancedconcepts"]
         },
         {
           "uuid": "b36bfd2a-e6ab-4389-a75d-88a9ac2eed20",
+          "shortname": "abraxas",
           "name_de": "Abraxas",
           "orgs": ["abraxas-labs"]
         },
         {
           "uuid": "39602716-629e-415d-af97-21ae5b9ff705",
+          "shortname": "ahdis",
           "name_de": "ahdis ag",
           "orgs": ["ahdis"]
         },
         {
           "uuid": "6404af0d-b1cf-47e7-a221-7288ffadbe46",
+          "shortname": "amazee",
           "name_de": "amazee.io",
           "orgs": ["amazeeio"]
         },
         {
           "uuid": "6d50945b-3a80-4808-8c87-b5bef7610a71",
+          "shortname": "antistatique",
           "name_de": "antistatique",
           "orgs": ["antistatique"]
         },
         {
           "uuid": "57664644-54b9-4ed3-a0bb-f2ffec4c0c61",
+          "shortname": "appswithlove",
           "name_de": "Apps with love AG",
           "orgs": ["appswithlove"]
         },
         {
           "uuid": "695fe3c5-acaa-4c06-a9b2-362dcbe37d15",
+          "shortname": "bbv",
           "name_de": "bbv Software Services AG",
           "orgs": ["bbvch"]
         },
         {
           "uuid": "34c46af6-a8dc-4eec-83bd-40ecddd913af",
+          "shortname": "bedag",
           "name_de": "Bedag",
           "orgs": ["bedag"]
         },
         {
           "uuid": "80c57605-9088-4e2b-b928-82b9f3b98af3",
+          "shortname": "blackpoints",
           "name_de": "Blackpoints AG",
           "orgs": ["blackpoints"]
         },
         {
           "uuid": "bca4fcee-c04c-4438-ac85-7eec5ea9cb18",
+          "shortname": "bsi",
           "name_de": "BSI Business Systems Integration AG",
           "orgs": ["bsi-software"]
         },
         {
           "uuid": "c19271bf-caf0-47af-9140-3c429026fabd",
+          "shortname": "camptocamp",
           "name_de": "Camptocamp",
           "orgs": ["camptocamp"]
         },
         {
           "uuid": "86db9e5d-943f-45ca-b2d8-80624e73216b",
+          "shortname": "cividi",
           "name_de": "cividi",
           "orgs": ["cividi", "smartuse"]
         },
         {
           "uuid": "6d1367ad-5a40-4b35-8644-97329e2a2eb8",
+          "shortname": "cloudscale",
           "name_de": "cloudscale.ch AG",
           "orgs": ["cloudscale-ch"]
         },
         {
           "uuid": "e1e3e077-0362-412b-a9d3-5d02f8cf01f3",
+          "shortname": "cyon",
           "name_de": "cyon GmbH",
           "orgs": ["cyon"]
         },
         {
           "uuid": "6eba34ec-e4b8-451f-bf05-b7fea4e9a101",
+          "shortname": "dvbern",
           "name_de": "DV Bern",
           "orgs": ["dvbern"]
         },
         {
           "uuid": "122a3c2f-ea5f-4b12-81e3-d33213ebefcf",
+          "shortname": "elca",
           "name_de": "ELCA",
           "orgs": ["ElcaIT"]
         },
         {
           "uuid": "bead444a-0f0c-491e-a893-7d89d21d8a51",
+          "shortname": "erni",
           "name_de": "ERNI",
           "orgs": ["ERNICommunity"]
         },
         {
           "uuid": "13c7f0b1-de21-4ea9-a8e0-a3f0e7283161",
+          "shortname": "exoscale",
           "name_de": "Exoscale",
           "orgs": ["exoscale"]
         },
         {
           "uuid": "d0505f23-7585-4b3d-be75-a8847290a66b",
+          "shortname": "isolutions",
           "name_de": "iSolutions",
           "orgs": ["isolutionsag"]
         },
         {
           "uuid": "457eea78-c696-4496-86a9-46e5f293fa9a",
+          "shortname": "init7",
           "name_de": "Init7",
           "orgs": ["Init7"]
         },
         {
           "uuid": "60029b54-e998-4234-9986-90eda2d948ee",
+          "shortname": "infomaniak",
           "name_de": "Infomaniak",
           "orgs": ["Infomaniak"]
         },
         {
           "uuid": "0df80287-0662-4f30-8d8c-2bc1468d8587",
+          "shortname": "interactivethings",
           "name_de": "Interactive Things",
           "orgs": ["interactivethings"]
         },
         {
           "uuid": "66e054eb-a175-441c-91cd-1bb17217fda3",
+          "shortname": "itigo",
           "name_de": "ITIGO AG",
           "orgs": ["itigoag"]
         },
         {
           "uuid": "4ff319a7-6187-4b77-848a-43b8559b8b6c",
+          "shortname": "garaio",
           "name_de": "Garaio",
           "orgs": ["garaio"]
         },
         {
           "uuid": "5ed01b04-a8bc-4475-b2fc-0e012bfae405",
+          "shortname": "gyselroth",
           "name_de": "gyselroth",
           "orgs": ["gyselroth"]
         },
         {
           "uuid": "d6687487-318a-4862-bd51-4ea8a4d2a3e7",
+          "shortname": "hazelfire",
           "name_de": "hazelfire GmbH",
           "orgs": ["hzlf"]
         },
         {
           "uuid": "2000714a-ccc2-46d3-a476-a6eeb2a7caef",
+          "shortname": "liip",
           "name_de": "Liip",
           "orgs": ["liip", "liip-forks"]
         },
         {
           "uuid": "4014cdde-1900-4360-bb53-6c2976344d8f",
+          "shortname": "mimacom",
           "name_de": "mimacom",
           "orgs": ["mimacom"]
         },
         {
           "uuid": "b123799c-858b-4b51-98ad-0956e410f947",
+          "shortname": "netcetera",
           "name_de": "Netcetera",
           "orgs": ["netceteragroup"]
         },
         {
           "uuid": "633e906b-da12-49f1-8de7-6d52aec20646",
+          "shortname": "novu",
           "name_de": "novu",
           "orgs": ["teamnovu"]
         },
         {
           "uuid": "1938533d-1168-4209-908a-0f2e7210ef2d",
+          "shortname": "offline",
           "name_de": "OFFLINE GmbH",
           "orgs": ["OFFLINE-GmbH"]
         },
         {
           "uuid": "cdde5d08-ce6a-403b-b56b-5212419d75aa",
+          "shortname": "opengis",
           "name_de": "OPENGIS.ch GmbH",
           "orgs": ["opengisch"]
         },
         {
           "uuid": "71a72db6-8b13-405f-a3d4-d36db246940e",
+          "shortname": "openstream",
           "name_de": "Openstream Internet Solutions",
           "orgs": ["openstream"]
         },
         {
           "uuid": "a2144803-aa4a-4e02-8991-70889c096c47",
+          "shortname": "opten",
           "name_de": "OPTEN AG",
           "orgs": ["OPTEN"]
         },
         {
           "uuid": "2a0e43a1-5d69-4841-a48a-2e40eae4d3cd",
+          "shortname": "puzzle",
           "name_de": "Puzzle ITC",
           "orgs": ["puzzle"]
         },
         {
           "uuid": "c4943619-1cea-44ac-909b-39fae5705239",
+          "shortname": "seantis",
           "name_de": "seantis gmbh",
           "orgs": ["seantis"]
         },
         {
           "uuid": "9db1ba26-7cc3-43fd-913a-84b2a185949a",
+          "shortname": "secanis",
           "name_de": "secanis",
           "orgs": ["secanis"]
         },
         {
           "uuid": "12d86361-e13e-4ee5-8e39-65e37bf36bee",
+          "shortname": "snowflake",
           "name_de": "Snowflake",
           "orgs": ["snowflakech"]
         },
