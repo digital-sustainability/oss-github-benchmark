@@ -279,7 +279,7 @@ while i < len(githubrepos):
                             continue
                 institution_data["orgs"].append(organization_data)
                 if error_counter > 100:
-                    break
+                    continue
             except KeyboardInterrupt:
                 raise
             except:
