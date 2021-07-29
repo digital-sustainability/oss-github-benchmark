@@ -355,5 +355,5 @@ f = open("oss-github-benchmark.json", "w")
 f.write(json.dumps(sector_data))
 
 
-with open('problematic_repos.pickle', 'wb') as file:
-    pickle.dump(problematic_repos, file)
+# with open('problematic_repos.pickle', 'wb') as file:
+#     pickle.dump(problematic_repos, file)
