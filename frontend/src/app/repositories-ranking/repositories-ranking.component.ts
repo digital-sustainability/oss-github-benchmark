@@ -68,9 +68,9 @@ export class RepositoriesRankingComponent implements OnInit {
         },
         []
       );
-      this.state = institutions[0].timestamp;
-      institutions.forEach((institution) => {
-        institution.orgs.forEach((org) => {
+      this.state = institutions[institutions.length - 1].timestamp;
+      institutions.forEach((institution: any) => {
+        institution.orgs.forEach((org: any) => {
           org.repos.forEach((repository: any) => {
             let repo = repository;
             repo.institution_name_de = institution.name_de;
@@ -88,12 +88,14 @@ export class RepositoriesRankingComponent implements OnInit {
       this.dataSource.filterPredicate = (data: any, filter: string) => {
         let datastring: string = '';
         let property: string;
+        let filterNew = this.recordFilter;
         for (property in data) {
           datastring += data[property];
         }
+        datastring = datastring.replace(/\s/g, '').toLowerCase();
+        filterNew = filterNew.replace(/\s/g, '').toLowerCase();
         return (
-          datastring.includes(this.recordFilter) &&
-          (!data.fork || this.includeForks)
+          datastring.includes(filterNew) && (!data.fork || this.includeForks)
         );
       };
     });
