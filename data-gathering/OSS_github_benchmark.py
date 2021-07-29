@@ -267,7 +267,7 @@ while i < len(githubrepos):
                         error_counter += 1
                         if error_counter > 100:
                             print("Laden der Daten wurde nach 100 fehlerhaften Abrufen abgebrochen")
-                            break
+                            continue
                     except KeyboardInterrupt:
                         raise
                     except NameError:
@@ -276,7 +276,7 @@ while i < len(githubrepos):
                         error_counter += 1
                         if error_counter > 100:
                             print("Laden der Daten wurde nach 100 fehlerhaften Abrufen abgebrochen")
-                            break
+                            continue
                 institution_data["orgs"].append(organization_data)
                 if error_counter > 100:
                     break
