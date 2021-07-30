@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 # GitHub Login mittels Token
-g = Github(os.environ['GITHUBTOKEN2'])
+g = Github(os.environ['GITHUBTOKEN'])
 
 cluster = MongoClient(os.environ['DATABASELINK'])
 db = cluster["statistics"]
@@ -187,10 +187,7 @@ while i < len(githubrepos):
                             except KeyboardInterrupt:
                                 raise
                             except github.GithubException:
-                                print(org_name)
-                                print(tryUntilRateLimitNotExceeded("repo.parent.owner"))
-                                problematic_repos['repo_own_commit'].append(repo)
-                                traceback.print_exc()
+                                pass
                         # Zahlreiche Attribute eines Repos herausholen: Name, Fork (eines anderen Repos), wie oft geforkt, Contributors, Commits, Stars, Watchers und Commits der letzten 12 Monate
                         # Reference PyGitHub: https://pygithub.readthedocs.io/en/latest/github_objects/Repository.html
                         # GitHub Statistics: https://developer.github.com/v3/repos/statistics/#get-contributors-list-with-additions-deletions-and-commit-counts
@@ -205,7 +202,7 @@ while i < len(githubrepos):
                             "num_watchers": tryUntilRateLimitNotExceeded("repo.subscribers_count"),     # Diese Variable stimmt nicht: es werden Anzahl Stars zurückgegeben
                             "last_years_commits": tryUntilRateLimitNotExceeded("last_years_commits"),
                             "commit_activities": tryUntilRateLimitNotExceeded("[ a.raw_data for a in commit_activities ]"),
-                            "has_own_commits": tryUntilRateLimitNotExceeded("has_own_commits"),       # Sagt aus ob eigene Commits gemacht wurden oder nur geforkt
+                            "has_own_commits": has_own_commits,       # Sagt aus ob eigene Commits gemacht wurden oder nur geforkt
                             "issues_closed": tryUntilRateLimitNotExceeded('repo.get_issues(state="closed").totalCount'),
                             "issues_all": tryUntilRateLimitNotExceeded('repo.get_issues(state="all").totalCount'),
                             "pull_requests_closed": tryUntilRateLimitNotExceeded('repo.get_pulls(state="closed").totalCount'),
