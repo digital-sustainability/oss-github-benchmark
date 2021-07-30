@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 # GitHub Login mittels Token
-g = Github(os.environ['GITHUBTOKEN2'])
+g = Github(os.environ['GITHUBTOKEN'])
 
 cluster = MongoClient(os.environ['DATABASELINK'])
 db = cluster["statistics"]
