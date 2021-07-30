@@ -26,7 +26,7 @@ interface sectorFilter {
 export class RankingComponent implements OnInit {
   item: IInstitution;
   innerWidth: any;
-  displayedColumns: string[] = ['logo', 'name_de', 'num_repos'];
+  displayedColumns: string[] = ['rank', 'logo', 'name_de', 'num_repos'];
   @Input() data: IData;
   reposToDisplay = 6;
   dataSource: any = new MatTableDataSource();
@@ -49,6 +49,16 @@ export class RankingComponent implements OnInit {
   recordFilter = '';
   state: Date;
 
+  resetRanks(): void {
+    this.dataSource._renderData._value = this.dataSource._renderData._value.map(
+      (institution: any, index: number) => {
+        let inst = institution;
+        inst.rank = index + 1;
+        return inst;
+      }
+    );
+  }
+
   doFilter = (value: string) => {
     if (value) {
       this.recordFilter = value.trim().toLocaleLowerCase();
@@ -59,6 +69,7 @@ export class RankingComponent implements OnInit {
   triggerFilter = () => {
     this.dataSource.filter = 'trigger filter';
     this.numInstitutions = this.dataSource.filteredData.length;
+    this.resetRanks();
   };
 
   selectionChange(event) {
@@ -101,7 +112,13 @@ export class RankingComponent implements OnInit {
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
     if (this.innerWidth > 500) {
-      this.displayedColumns = ['logo', 'name_de', 'num_repos', 'sector'];
+      this.displayedColumns = [
+        'rank',
+        'logo',
+        'name_de',
+        'num_repos',
+        'sector',
+      ];
     }
     if (this.innerWidth > 1200) {
       this.displayedColumns.push('num_members', 'repo_names');
@@ -199,6 +216,8 @@ export class RankingComponent implements OnInit {
       );
     };
     this.numInstitutions = this.dataSource.filteredData.length;
-    timeout(() => this.includeForksChange(false), 100);
+    timeout(() => {
+      this.includeForksChange(false);
+    }, 100);
   }
 }
