@@ -50,7 +50,6 @@ export class RankingComponent implements OnInit {
   state: Date;
 
   resetRanks(): void {
-    console.log(this.dataSource);
     this.dataSource._renderData._value = this.dataSource._renderData._value.map(
       (institution: any, index: number) => {
         let inst = institution;

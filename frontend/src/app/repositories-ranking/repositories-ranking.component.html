@@ -35,10 +35,17 @@
         [ngStyle]="{ fontWeight: column[0] == 'name' ? 'bold' : 'normal' }"
       >
         {{
-          column[2]
+          column[3] == "img"
+            ? ""
+            : column[2]
             ? (repository[column[0]] | toNiceName)
             : repository[column[0]]
         }}
+        <img
+          *ngIf="column[3] == 'img'"
+          [src]="repository[column[0]]"
+          alt="column[1]"
+        />
       </td>
     </ng-container>
   </span>
