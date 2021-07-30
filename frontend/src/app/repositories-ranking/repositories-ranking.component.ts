@@ -14,8 +14,9 @@ export class RepositoriesRankingComponent implements OnInit {
   item: IInstitution;
   displayedColumns: any[] = [
     ['name', 'Name', false, 'string'],
+    ['logo', '', false, 'img'],
     ['institution_name_de', 'Institution', false, 'string'],
-    ['organisation_name_de', 'Organisation', false, 'string'],
+    ['organisation_name_de', 'GitHub Organization', false, 'string'],
     ['last_years_commits', 'Commits last year', false, 'number'],
     ['comments', 'Comments', false, 'number'],
     ['issues_all', 'Issues', false, 'number'],
@@ -75,6 +76,7 @@ export class RepositoriesRankingComponent implements OnInit {
             let repo = repository;
             repo.institution_name_de = institution.name_de;
             repo.organisation_name_de = org.name;
+            repo.logo = org.avatar;
             this.repositories.push(repo);
           });
         });

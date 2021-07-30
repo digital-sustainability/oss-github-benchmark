@@ -166,14 +166,13 @@ while i < len(githubrepos):
                 for repoNo, repo in enumerate(org.get_repos()):
                     if collectionRunning.find_one({}) == None:
                         collectionRunning.insert_one({"Status":"running"})
-                    if tryUntilRateLimitNotExceeded("repo.archived"):
-                        continue
                     try:
                         print(f"Crawling repo {repo.name} ({repoNo + 1}/{organization_data['num_repos']}) ")
                         repo_data = {
                             "name": "",
                             "url": "",
                             "fork": False,
+                            "archived": False,
                             "num_forks": 0,
                             "num_contributors": 0,
                             "num_commits": 0,
@@ -190,12 +189,16 @@ while i < len(githubrepos):
                             "languages": [],
                             "timestamp": currentDateAndTime,
                         }
-                        commit_activities = tryUntilRateLimitNotExceeded("repo.get_stats_commit_activity()")
-                        last_years_commits = 0
-                        # Alle Commits der letzten 12 Monate zusammenzählen
-                        if commit_activities != None:
-                            for week in commit_activities:
-                                last_years_commits += tryUntilRateLimitNotExceeded("week.total")
+                        try:
+                            commit_activities = tryUntilRateLimitNotExceeded("repo.get_stats_commit_activity()")
+                            last_years_commits = 0
+                            # Alle Commits der letzten 12 Monate zusammenzählen
+                            if commit_activities != None:
+                                for week in commit_activities:
+                                    last_years_commits += tryUntilRateLimitNotExceeded("week.total")
+                        except:
+                            commit_activities = []
+                            last_years_commits = 0
                         # TODO: hinzufügen Könnte auch noch interessant sein: https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#get-the-weekly-commit-activity
                         # code_frequency = get_stats_code_frequency()
 
@@ -215,6 +218,7 @@ while i < len(githubrepos):
                             "name": tryUntilRateLimitNotExceeded("repo.name"),
                             "url": tryUntilRateLimitNotExceeded("repo.html_url"),
                             "fork": tryUntilRateLimitNotExceeded("repo.fork"),
+                            "archived": tryUntilRateLimitNotExceeded("repo.archived"),
                             "num_forks": tryUntilRateLimitNotExceeded("repo.forks_count"),
                             "num_contributors": tryUntilRateLimitNotExceeded("repo.get_contributors().totalCount"),
                             "num_commits": tryUntilRateLimitNotExceeded("repo.get_commits().totalCount"),                # Diese Variable stimmt nicht: es wird teilweise die Anzahl Commits, teilweise auch was ganz anderes zurückgegeben
