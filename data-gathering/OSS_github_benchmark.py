@@ -141,10 +141,10 @@ while i < len(githubrepos):
         institution_data["total_licenses"] = {}
         # Von einer Institution alle GitHub-Organisationen rausholen
         error_counter = 0
-        for org_name in institution["orgs"]:
+        for orgNo, org_name in enumerate(institution["orgs"]):
             error_counter = 0
             try:
-                print(org_name)
+                print(f"{org_name} ({orgNo + 1}/{len(institution['orgs'])})")
                 org = tryUntilRateLimitNotExceeded("g.get_organization(org_name)")
                 organization_data = {}
                 for dataName in dataToGet:
@@ -163,13 +163,33 @@ while i < len(githubrepos):
                 institution_data["org_names"].append(org_name)
                 institution_data["sector"] = sector_key
                 # Alle Repos einer GitHub-Organisation durch-loopen
-                for repo in org.get_repos():
+                for repoNo, repo in enumerate(org.get_repos()):
                     if collectionRunning.find_one({}) == None:
                         collectionRunning.insert_one({"Status":"running"})
                     if tryUntilRateLimitNotExceeded("repo.archived"):
                         continue
                     try:
-                        print("Crawling repo: " + repo.name)
+                        print(f"Crawling repo {repo.name} ({repoNo + 1}/{organization_data['num_repos']}) ")
+                        repo_data = {
+                            "name": "",
+                            "url": "",
+                            "fork": False,
+                            "num_forks": 0,
+                            "num_contributors": 0,
+                            "num_commits": 0,
+                            "num_stars": 0,
+                            "num_watchers": 0,
+                            "last_years_commits": 0,
+                            "commit_activities": [],
+                            "has_own_commits": 0,
+                            "issues_closed": 0,
+                            "issues_all": 0,
+                            "pull_requests_closed": 0,
+                            "pull_requests_all": 0,
+                            "comments": 0,
+                            "languages": [],
+                            "timestamp": currentDateAndTime,
+                        }
                         commit_activities = tryUntilRateLimitNotExceeded("repo.get_stats_commit_activity()")
                         last_years_commits = 0
                         # Alle Commits der letzten 12 Monate zusammenzählen
@@ -257,21 +277,32 @@ while i < len(githubrepos):
                             institution_data["total_num_commits"] += repo_data["has_own_commits"]
                             organization_data["total_num_forks_in_repos"] += 1
                             organization_data["total_num_commits"] += repo_data["has_own_commits"]
-
-                        institution_data["repos"].append(repo_data)
-                        organization_data["repos"].append(repo_data)
-                        repos_data.append(repo_data)
                     except RuntimeError as error:
                         print("Fehler beim Laden der Daten von '" + repo.name + "' : " + error)
-                        badStuff(repo)
+                        try:
+                            badStuff(repo)
+                        except:
+                            try:
+                                badStuff({"error": f"error in repo {repo.name} of org {org_name}"})
+                            except:
+                                badStuff({"error": f"error in org {org_name}"})
                         problematic_repos['repo_load'].append(repo)
                         traceback.print_exc()
                     except KeyboardInterrupt:
                         raise
                     except:
-                        badStuff(repo)
+                        try:
+                            badStuff(repo)
+                        except:
+                            try:
+                                badStuff({"error": f"error in repo {repo.name} of org {org_name}"})
+                            except:
+                                badStuff({"error": f"error in org {org_name}"})
                         problematic_repos['repo_other'].append(repo)
                         traceback.print_exc()
+                    institution_data["repos"].append(repo_data)
+                    organization_data["repos"].append(repo_data)
+                    repos_data.append(repo_data)
                 institution_data["orgs"].append(organization_data)
             except KeyboardInterrupt:
                 raise
