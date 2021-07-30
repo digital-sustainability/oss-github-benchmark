@@ -13,6 +13,7 @@ from time import sleep
 from pymongo import MongoClient
 from datetime import timezone
 import datetime
+import sys
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -124,8 +125,9 @@ while i < len(githubrepos):
         j += 1
         print(j)
         institution_data = {
-            "name_de": institution["name_de"],
             "uuid": institution["uuid"],
+            "shortname": institution["shortname"],
+            "name_de": institution["name_de"],
         }
         for dataName in dataToGet:
             institution_data[dataName] = 0
@@ -196,6 +198,8 @@ while i < len(githubrepos):
                             if commit_activities != None:
                                 for week in commit_activities:
                                     last_years_commits += tryUntilRateLimitNotExceeded("week.total")
+                        except KeyboardInterrupt:
+                            raise
                         except:
                             commit_activities = []
                             last_years_commits = 0
@@ -214,28 +218,120 @@ while i < len(githubrepos):
                         # Zahlreiche Attribute eines Repos herausholen: Name, Fork (eines anderen Repos), wie oft geforkt, Contributors, Commits, Stars, Watchers und Commits der letzten 12 Monate
                         # Reference PyGitHub: https://pygithub.readthedocs.io/en/latest/github_objects/Repository.html
                         # GitHub Statistics: https://developer.github.com/v3/repos/statistics/#get-contributors-list-with-additions-deletions-and-commit-counts
-                        repo_data = {
-                            "name": tryUntilRateLimitNotExceeded("repo.name"),
-                            "url": tryUntilRateLimitNotExceeded("repo.html_url"),
-                            "fork": tryUntilRateLimitNotExceeded("repo.fork"),
-                            "archived": tryUntilRateLimitNotExceeded("repo.archived"),
-                            "num_forks": tryUntilRateLimitNotExceeded("repo.forks_count"),
-                            "num_contributors": tryUntilRateLimitNotExceeded("repo.get_contributors().totalCount"),
-                            "num_commits": tryUntilRateLimitNotExceeded("repo.get_commits().totalCount"),                # Diese Variable stimmt nicht: es wird teilweise die Anzahl Commits, teilweise auch was ganz anderes zurückgegeben
-                            "num_stars": tryUntilRateLimitNotExceeded("repo.stargazers_count"),
-                            "num_watchers": tryUntilRateLimitNotExceeded("repo.subscribers_count"),     # Diese Variable stimmt nicht: es werden Anzahl Stars zurückgegeben
-                            "last_years_commits": tryUntilRateLimitNotExceeded("last_years_commits"),
-                            "commit_activities": tryUntilRateLimitNotExceeded("[ a.raw_data for a in commit_activities ]"),
-                            "has_own_commits": has_own_commits,       # Sagt aus ob eigene Commits gemacht wurden oder nur geforkt
-                            "issues_closed": tryUntilRateLimitNotExceeded('repo.get_issues(state="closed").totalCount'),
-                            "issues_all": tryUntilRateLimitNotExceeded('repo.get_issues(state="all").totalCount'),
-                            "pull_requests_closed": tryUntilRateLimitNotExceeded('repo.get_pulls(state="closed").totalCount'),
-                            "pull_requests_all": tryUntilRateLimitNotExceeded('repo.get_pulls(state="all").totalCount'),
-                            "comments": tryUntilRateLimitNotExceeded("repo.get_comments().totalCount"),
-                            "languages": tryUntilRateLimitNotExceeded("repo.get_languages()"),
-                            "timestamp": currentDateAndTime,
-                        }
-
+                        try:
+                            repo_data["name"] = tryUntilRateLimitNotExceeded("repo.name")
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["url"] = tryUntilRateLimitNotExceeded("repo.html_url")
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["fork"] = tryUntilRateLimitNotExceeded("repo.fork")
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["archived"] = tryUntilRateLimitNotExceeded("repo.archived")
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["num_forks"] = tryUntilRateLimitNotExceeded("repo.forks_count")
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["num_stars"] = tryUntilRateLimitNotExceeded("repo.stargazers_count")
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["num_watchers"] = tryUntilRateLimitNotExceeded("repo.subscribers_count")     # Diese Variable stimmt nicht: es werden Anzahl Stars zurückgegeben
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["last_years_commits"] = tryUntilRateLimitNotExceeded("last_years_commits")
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["num_contributors"] = tryUntilRateLimitNotExceeded("repo.get_contributors().totalCount")       # Diese Variable stimmt nicht: es wird teilweise die Anzahl Commits, teilweise auch was ganz anderes zurückgegeben
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["commit_activities"] = tryUntilRateLimitNotExceeded("[ a.raw_data for a in commit_activities ]")
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["has_own_commits"] = has_own_commits       # Sagt aus ob eigene Commits gemacht wurden oder nur geforkt
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["issues_closed"] = tryUntilRateLimitNotExceeded('repo.get_issues(state="closed").totalCount')
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["issues_all"] = tryUntilRateLimitNotExceeded('repo.get_issues(state="all").totalCount')
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["pull_requests_closed"] = tryUntilRateLimitNotExceeded('repo.get_pulls(state="closed").totalCount')
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["pull_requests_all"] = tryUntilRateLimitNotExceeded('repo.get_pulls(state="all").totalCount')
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["comments"] = tryUntilRateLimitNotExceeded("repo.get_comments().totalCount")
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["languages"] = tryUntilRateLimitNotExceeded("repo.get_languages()")
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["timestamp"] = currentDateAndTime
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["num_commits"] = tryUntilRateLimitNotExceeded("repo.get_commits().totalCount")
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
                         try:
                             repo_data["license"] = tryUntilRateLimitNotExceeded(repo.get_license().license.key)
                         except KeyboardInterrupt:
