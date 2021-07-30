@@ -21,9 +21,8 @@ mat-icon {
   flex: 1;
   .sidenav {
     min-width: 240px;
-    a {
-      display: block;
-      padding: 6px 24px;
+    a,
+    button {
       width: 100%;
       text-align: left;
     }
