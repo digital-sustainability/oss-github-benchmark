@@ -14,7 +14,7 @@
     </section>
   </div>
 
-  <h2>Organisations:</h2>
+  <h2>GitHub Organizations:</h2>
   <div class="dataContainer">
     <section *ngFor="let org_name of data.org_names">
       <a href="https://github.com/{{ org_name }}" target="_blank">
@@ -44,7 +44,12 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
           Commits
         </th>
-        <td mat-cell *matCellDef="let repo" class="number">
+        <td
+          mat-cell
+          *matCellDef="let repo"
+          class="number"
+          (click)="navigateTo(repo.url)"
+        >
           {{ repo.num_commits }}
         </td>
       </ng-container>
@@ -53,7 +58,12 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
           Contributors
         </th>
-        <td mat-cell *matCellDef="let repo" class="number">
+        <td
+          mat-cell
+          *matCellDef="let repo"
+          class="number"
+          (click)="navigateTo(repo.url)"
+        >
           {{ repo.num_contributors }}
         </td>
       </ng-container>
@@ -62,14 +72,19 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
           Watchers
         </th>
-        <td mat-cell *matCellDef="let repo" class="number">
+        <td
+          mat-cell
+          *matCellDef="let repo"
+          class="number"
+          (click)="navigateTo(repo.url)"
+        >
           {{ repo.num_watchers }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="fork">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Is fork?</th>
-        <td mat-cell *matCellDef="let repo">
+        <td mat-cell *matCellDef="let repo" (click)="navigateTo(repo.url)">
           {{ repo.fork | toNiceName }}
         </td>
       </ng-container>
@@ -78,7 +93,12 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
           Stars
         </th>
-        <td mat-cell *matCellDef="let repo" class="number">
+        <td
+          mat-cell
+          *matCellDef="let repo"
+          class="number"
+          (click)="navigateTo(repo.url)"
+        >
           {{ repo.num_stars }}
         </td>
       </ng-container>
@@ -87,7 +107,12 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
           Forks
         </th>
-        <td mat-cell *matCellDef="let repo" class="number">
+        <td
+          mat-cell
+          *matCellDef="let repo"
+          class="number"
+          (click)="navigateTo(repo.url)"
+        >
           {{ repo.num_forks }}
         </td>
       </ng-container>
@@ -101,12 +126,11 @@
         mat-row
         *matRowDef="let row; columns: displayedColumns"
         class="clickable"
-        (click)="navigateTo(repo.url)"
       ></tr>
     </table>
 
     <mat-paginator
-      [pageSizeOptions]="[30, 50, 100]"
+      [pageSizeOptions]="[30, 50, 100, 200]"
       showFirstLastButtons
     ></mat-paginator>
   </div>
