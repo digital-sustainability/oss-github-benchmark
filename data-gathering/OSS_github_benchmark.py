@@ -383,21 +383,21 @@ while i < len(githubrepos):
                             badStuff(repo)
                         except:
                             try:
-                                badStuff({"error": f"error in repo {repo.name} of org {org_name}"})
+                                badStuff({"error": f"error in repo {repo.name} of org {org_name}: {str(error)}"})
                             except:
-                                badStuff({"error": f"error in org {org_name}"})
+                                badStuff({"error": f"error in org {org_name}: {str(error)}"})
                         problematic_repos['repo_load'].append(repo)
                         traceback.print_exc()
                     except KeyboardInterrupt:
                         raise
-                    except:
+                    except () as e:
                         try:
                             badStuff(repo)
                         except:
                             try:
-                                badStuff({"error": f"error in repo {repo.name} of org {org_name}"})
+                                badStuff({"error": f"error in repo {repo.name} of org {org_name}: {str(e)}"})
                             except:
-                                badStuff({"error": f"error in org {org_name}"})
+                                badStuff({"error": f"error in org {org_name}: {str(e)}"})
                         problematic_repos['repo_other'].append(repo)
                         traceback.print_exc()
                     institution_data["repos"].append(repo_data)
