@@ -546,7 +546,12 @@
           "uuid": "09fcec49-0914-4aec-ad7d-c39bda34a871",
           "shortname": "swisspost",
           "name_de": "Die Schweizerische Post AG",
-          "orgs": ["swisspost-yellowcube, swisspush, spsvn, tntswisspostag"]
+          "orgs": [
+            "swisspost-yellowcube",
+            "swisspush",
+            "spsvn",
+            "tntswisspostag"
+          ]
         },
         {
           "uuid": "b13b03cc-1d26-412f-802f-5849e4c58152",
@@ -559,7 +564,12 @@
           "shortname": "swisscom",
           "name_de": "Swisscom",
           "orgs": [
-            "swisscom, ScsApiTribe, SwisscomTrustServices, swisscom-developer, sinso, Swisscom-BigD"
+            "swisscom",
+            "ScsApiTribe",
+            "SwisscomTrustServices",
+            "swisscom-developer",
+            "sinso",
+            "Swisscom-BigD"
           ]
         },
         {
@@ -578,12 +588,6 @@
           "shortname": "alv",
           "name_de": "Arbeitslosenversicherung",
           "orgs": ["alv-ch", "alv-ch-ansible-roles"]
-        },
-        {
-          "uuid": "584ac72e-bcf1-4ce7-ab56-8bc3b659a63f",
-          "shortname": "bfe",
-          "name_de": "Bundesamt für Energie",
-          "orgs": ["SFOE"]
         },
         {
           "uuid": "53795f08-ac6e-4aa4-a780-9283b20f958f",
@@ -782,7 +786,7 @@
           "uuid": "6932e726-fffb-4996-a6c8-e43d18d6379a",
           "shortname": "unizh",
           "name_de": "Universität Zürich",
-          "orgs": ["uzh","ZurichNLP"]
+          "orgs": ["uzh", "ZurichNLP"]
         }
       ]
     },
