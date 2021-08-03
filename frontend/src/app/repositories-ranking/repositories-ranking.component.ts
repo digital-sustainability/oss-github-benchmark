@@ -126,18 +126,20 @@ export class RepositoriesRankingComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  openDialog(name: string) {
-    let repository = this.repositories.find((repo) => {
-      return repo.name == name;
-    });
-    this.changeURL('/repositories/' + repository.name);
-    const dialogRef = this.dialog.open(RepositoryDetailViewComponent, {
-      data: repository,
-      autoFocus: false,
-    });
+  openDialog(uuid: string) {
+    if (uuid) {
+      let repository = this.repositories.find((repo) => {
+        return repo.uuid == uuid;
+      });
+      this.changeURL('/repositories/' + repository.uuid);
+      const dialogRef = this.dialog.open(RepositoryDetailViewComponent, {
+        data: repository,
+        autoFocus: false,
+      });
 
-    dialogRef.afterClosed().subscribe(() => {
-      this.changeURL('/repositories');
-    });
+      dialogRef.afterClosed().subscribe(() => {
+        this.changeURL('/repositories');
+      });
+    }
   }
 }
