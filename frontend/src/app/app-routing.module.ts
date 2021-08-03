@@ -38,7 +38,7 @@ const routes: Routes = [
     component: RepositoriesRankingComponent,
   },
   {
-    path: 'repositories:institution',
+    path: 'repositories:repository',
     component: RepositoriesRankingComponent,
   },
   // {
