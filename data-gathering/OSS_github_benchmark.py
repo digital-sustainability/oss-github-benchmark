@@ -13,7 +13,7 @@ from time import sleep
 from pymongo import MongoClient
 from datetime import timezone
 import datetime
-import sys
+import uuid
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -172,6 +172,7 @@ while i < len(githubrepos):
                         print(f"Crawling repo {repo.name} ({repoNo + 1}/{organization_data['num_repos']}) ")
                         repo_data = {
                             "name": "",
+                            "uuid": str(uuid.uuid4()),
                             "url": "",
                             "fork": False,
                             "archived": False,
