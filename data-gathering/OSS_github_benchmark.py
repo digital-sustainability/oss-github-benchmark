@@ -334,7 +334,7 @@ while i < len(githubrepos):
                         except:
                             pass
                         try:
-                            repo_data["license"] = tryUntilRateLimitNotExceeded(repo.get_license().license.key)
+                            repo_data["license"] = tryUntilRateLimitNotExceeded(repo.get_license())
                         except KeyboardInterrupt:
                             raise
                         except:

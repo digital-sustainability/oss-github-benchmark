@@ -1,0 +1,38 @@
+.wrapper {
+  max-width: 70rem;
+  margin: auto;
+  height: 40rem;
+}
+
+.dataContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: auto;
+  gap: 5px 20px;
+  grid-auto-flow: row;
+}
+
+@media only screen and (min-width: 1250px) {
+  .dataContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media only screen and (max-width: 1250px) {
+  .dataContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .dataContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+h1,
+h2 {
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
