@@ -48,20 +48,11 @@ export class RankingComponent implements OnInit {
   ];
   recordFilter = '';
   state: Date;
-
-  resetRanks(): void {
-    this.dataSource._renderData._value = this.dataSource._renderData._value.map(
-      (institution: any, index: number) => {
-        let inst = institution;
-        inst.rank = index + 1;
-        return inst;
-      }
-    );
-  }
+  institutions: any[];
 
   doFilter = (value: string) => {
     if (value) {
-      this.recordFilter = value.trim().toLocaleLowerCase();
+      this.recordFilter = value;
     }
     setTimeout(this.triggerFilter, 100);
   };
@@ -69,7 +60,6 @@ export class RankingComponent implements OnInit {
   triggerFilter = () => {
     this.dataSource.filter = 'trigger filter';
     this.numInstitutions = this.dataSource.filteredData.length;
-    this.resetRanks();
   };
 
   selectionChange(event) {
@@ -125,31 +115,55 @@ export class RankingComponent implements OnInit {
     }
     this.dataService.loadData().then((data) => {
       const itemName = this.route.snapshot.params.itemName;
-      let institutions = Object.entries(data.jsonData).reduce(
+      this.institutions = Object.entries(data.jsonData).reduce(
         (previousValue, currentValue) => {
           const [key, value] = currentValue;
           return previousValue.concat(value);
         },
         []
       );
-      this.state = institutions[institutions.length - 1].timestamp;
-      this.item = institutions.find((inst) => inst.name_de === itemName);
-      this.sortAndFilter(institutions);
+      this.state = this.institutions[this.institutions.length - 1].timestamp;
+      this.item = this.institutions.find((inst) => inst.name_de === itemName);
+      this.sortAndFilter(this.institutions);
+      this.dataSource.filterPredicate = (data: any, filter: string) => {
+        let datastring: string = '';
+        let property: string;
+        let filterNew = this.recordFilter;
+        for (property in data) {
+          datastring += data[property];
+        }
+        datastring = datastring.replace(/\s/g, '').toLowerCase();
+        filterNew = filterNew.replace(/\s/g, '').toLowerCase();
+        return (
+          datastring.includes(filterNew) &&
+          (this.checkboxes.indexOf(data.sector) != -1 ||
+            this.checkboxes.length == 0)
+        );
+      };
+      this.route.paramMap.subscribe((map) => {
+        const institutionName = map.get('institution');
+        if (institutionName) {
+          this.openDialog(institutionName);
+        }
+      });
     });
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  openDialog(institution: any) {
-    this.changeURL('/ranking/' + institution.uuid);
+  openDialog(institutionName: string) {
+    let institution = this.institutions.find((inst) => {
+      return inst.shortname == institutionName;
+    });
+    this.changeURL('/institutions/' + institution.shortname);
     const dialogRef = this.dialog.open(ExploreItemComponent, {
       data: institution,
       autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.changeURL('/ranking');
+      this.changeURL('/institutions');
     });
   }
 
@@ -181,17 +195,6 @@ export class RankingComponent implements OnInit {
 
       i++;
     });
-    this.route.paramMap.subscribe((map) => {
-      const institutionName = map.get('institution');
-      if (institutionName) {
-        this.openDialog(
-          institutions.find(
-            (institution) =>
-              institution.uuid.toLowerCase() === institutionName.toLowerCase()
-          )
-        );
-      }
-    });
 
     this.dataSource = new MatTableDataSource(institutions);
     this.dataSource.sort = this.sort;
@@ -200,21 +203,6 @@ export class RankingComponent implements OnInit {
     this.sort.direction = sortState.direction;
     this.sort.sortChange.emit(sortState);
     this.dataSource.paginator = this.paginator;
-    this.dataSource.filterPredicate = (data: any, filter: string) => {
-      let datastring: string = '';
-      let property: string;
-      let filterNew = this.recordFilter;
-      for (property in data) {
-        datastring += data[property];
-      }
-      datastring = datastring.replace(/\s/g, '').toLowerCase();
-      filterNew = filterNew.replace(/\s/g, '').toLowerCase();
-      return (
-        datastring.includes(filterNew) &&
-        (this.checkboxes.indexOf(data.sector) != -1 ||
-          this.checkboxes.length == 0)
-      );
-    };
     this.numInstitutions = this.dataSource.filteredData.length;
     timeout(() => {
       this.includeForksChange(false);
