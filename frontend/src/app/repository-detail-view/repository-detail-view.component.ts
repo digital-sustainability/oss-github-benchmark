@@ -8,6 +8,57 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./repository-detail-view.component.scss'],
 })
 export class RepositoryDetailViewComponent implements OnInit {
+  repositoryStats: object[] = [
+    { text: 'Archived:', content: 'archived', toNiceName: true },
+    { text: 'UUID:', content: 'uuid', toNiceName: false },
+    { text: 'Institution:', content: 'institution_name_de', toNiceName: false },
+    {
+      text: 'Organization:',
+      content: 'organisation_name_de',
+      toNiceName: false,
+    },
+    {
+      text: 'Issues:',
+      content: 'issues_all',
+      toNiceName: false,
+    },
+    {
+      text: 'Closed issues:',
+      content: 'issues_closed',
+      toNiceName: false,
+    },
+    {
+      text: 'Commits last year:',
+      content: 'last_years_commits',
+      toNiceName: false,
+    },
+    // { text: 'License:', content: 'license', toNiceName: false },
+    {
+      text: 'Commits:',
+      content: 'num_commits',
+      toNiceName: false,
+    },
+    { text: 'Contributors:', content: 'num_contributors', toNiceName: false },
+    { text: 'Forks:', content: 'num_forks', toNiceName: false },
+    { text: 'Stars:', content: 'num_stars', toNiceName: false },
+    {
+      text: 'Watchers:',
+      content: 'num_watchers',
+      toNiceName: false,
+    },
+    {
+      text: 'Pull requests:',
+      content: 'pull_requests_all',
+      toNiceName: false,
+    },
+    {
+      text: 'Closed pull requests:',
+      content: 'pull_requests_closed',
+      toNiceName: false,
+    },
+    { text: 'Last updated:', content: 'timestamp', toNiceName: false },
+  ];
+
   constructor(
     private dialogRef: MatDialogRef<RepositoryDetailViewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
