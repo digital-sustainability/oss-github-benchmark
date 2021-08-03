@@ -6,6 +6,7 @@ import { Options } from '../options';
 import { MatDialog } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../../explore/explore-item/explore-item.component';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-visualization-bubble',
   templateUrl: './bubble.component.html',
@@ -31,7 +32,8 @@ export class BubbleComponent implements OnInit, OnChanges {
   constructor(
     private hostElement: ElementRef,
     public dialog: MatDialog,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -121,6 +123,13 @@ export class BubbleComponent implements OnInit, OnChanges {
 
     this.institutionsComplete = tmp;
 
+    this.route.paramMap.subscribe((map) => {
+      const institutionName = map.get('institution');
+      if (institutionName) {
+        this.openDialog(institutionName);
+      }
+    });
+
     const sector = (i) => i.sector;
 
     this.yscale.domain([
@@ -206,13 +215,13 @@ export class BubbleComponent implements OnInit, OnChanges {
     this.yLabel.text(this.options.dimension2.friendly_name);
   }
 
-  openDialog(institution: any) {
-    let institutionData = this.institutionsComplete.find(
-      (institutionC) => institutionC.uuid === institution.uuid
-    );
-    this.changeURL('/visualization/' + institution.uuid);
+  openDialog(institutionName: string) {
+    let institution = this.institutionsComplete.find((inst) => {
+      return inst.shortname == institutionName;
+    });
+    this.changeURL('/visualization/' + institution.shortname);
     const dialogRef = this.dialog.open(ExploreItemComponent, {
-      data: institutionData,
+      data: institution,
       autoFocus: false,
     });
 

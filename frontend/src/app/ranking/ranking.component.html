@@ -4,7 +4,7 @@
 </h1>
 <mat-form-field appearance="fill">
   <mat-label>Search</mat-label>
-  <input matInput ng-keyup="doFilter($event.target.value)" />
+  <input matInput (keyup)="doFilter($event.target.value)" />
 </mat-form-field>
 <mat-form-field appearance="fill">
   <mat-label>Sector</mat-label>
@@ -103,7 +103,7 @@
     mat-row
     *matRowDef="let row; columns: displayedColumns"
     class="clickable"
-    (click)="openDialog(row)"
+    (click)="openDialog(row.shortname)"
   ></tr>
 </table>
 
