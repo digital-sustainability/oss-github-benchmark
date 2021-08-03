@@ -8,11 +8,11 @@
   <!-- <img src="assets/GitHub&#45;Mark/PNG/GitHub&#45;Mark&#45;120px&#45;plus.png" /> -->
   <!-- <img src="assets/osi_symbol_0.png" /> -->
   <span class="only-pc">
-    <button mat-button routerLink="/ranking">
+    <button mat-button routerLink="/institutions">
       <mat-icon>sort</mat-icon>
       <span>Institution Ranking</span>
     </button>
-    <button mat-button routerLink="/repositories-ranking">
+    <button mat-button routerLink="/repositories">
       <mat-icon>sort</mat-icon>
       <span>Repository Ranking</span>
     </button>
@@ -62,12 +62,20 @@
     [(opened)]="isMenuOpen"
     class="sidenav"
   >
-    <button mat-button routerLink="/ranking" (click)="onSidenavClick()">
+    <button
+      mat-button
+      routerLink="/institutions-ranking"
+      (click)="onSidenavClick()"
+    >
       <mat-icon>sort</mat-icon>
       <span>Institution Ranking</span>
     </button>
     <br />
-    <button mat-button routerLink="/repositories-ranking">
+    <button
+      mat-button
+      routerLink="/repositories-ranking"
+      (click)="onSidenavClick()"
+    >
       <mat-icon>sort</mat-icon>
       <span>Repository Ranking</span>
     </button>

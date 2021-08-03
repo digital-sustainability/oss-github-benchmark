@@ -26,26 +26,26 @@ const routes: Routes = [
     component: ListComponent,
   },
   {
-    path: 'ranking',
+    path: 'institutions',
     component: RankingComponent,
   },
   {
-    path: 'ranking/:institution',
+    path: 'institutions/:institution',
     component: RankingComponent,
   },
   {
-    path: 'repositories-ranking',
+    path: 'repositories',
     component: RepositoriesRankingComponent,
   },
   {
-    path: 'repositories-ranking:institution',
+    path: 'repositories:institution',
     component: RepositoriesRankingComponent,
   },
   // {
   //   path: 'explore/item/:itemName',
   //   component: ExploreItemComponent,
   // },
-  { path: '', redirectTo: '/ranking', pathMatch: 'full' },
+  { path: '', redirectTo: '/institutions', pathMatch: 'full' },
 ];
 
 @NgModule({
