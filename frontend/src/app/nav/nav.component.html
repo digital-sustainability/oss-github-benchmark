@@ -62,20 +62,12 @@
     [(opened)]="isMenuOpen"
     class="sidenav"
   >
-    <button
-      mat-button
-      routerLink="/institutions-ranking"
-      (click)="onSidenavClick()"
-    >
+    <button mat-button routerLink="/institutions" (click)="onSidenavClick()">
       <mat-icon>sort</mat-icon>
       <span>Institution Ranking</span>
     </button>
     <br />
-    <button
-      mat-button
-      routerLink="/repositories-ranking"
-      (click)="onSidenavClick()"
-    >
+    <button mat-button routerLink="/repositories" (click)="onSidenavClick()">
       <mat-icon>sort</mat-icon>
       <span>Repository Ranking</span>
     </button>

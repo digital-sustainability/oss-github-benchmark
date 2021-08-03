@@ -1,9 +1,13 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
 import { DataService, IData } from 'src/app/data.service';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { IInstitution } from 'src/app/interfaces/institution';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { RepositoryDetailViewComponent } from '../repository-detail-view/repository-detail-view.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-repositories-ranking',
@@ -58,7 +62,12 @@ export class RepositoriesRankingComponent implements OnInit {
     window.open(url, '_blank');
   }
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    public dialog: MatDialog,
+    private location: Location,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.dataService.loadData().then((data) => {
@@ -100,9 +109,35 @@ export class RepositoriesRankingComponent implements OnInit {
           datastring.includes(filterNew) && (!data.fork || this.includeForks)
         );
       };
+      this.route.paramMap.subscribe((map) => {
+        const repositoryName = map.get('repository');
+        if (repositoryName) {
+          console.log(repositoryName);
+          this.openDialog(repositoryName);
+        }
+      });
     });
+  }
+
+  changeURL(relativeUrl: string): void {
+    this.location.replaceState(relativeUrl);
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
+  openDialog(name: string) {
+    let repository = this.repositories.find((repo) => {
+      return repo.name == name;
+    });
+    this.changeURL('/repositories/' + repository.name);
+    const dialogRef = this.dialog.open(RepositoryDetailViewComponent, {
+      data: repository,
+      autoFocus: false,
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.changeURL('/repositories');
+    });
+  }
 }
