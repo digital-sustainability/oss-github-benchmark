@@ -37,14 +37,14 @@ export class RepositoriesRankingComponent implements OnInit {
   repositories: any[] = [];
   includeForks: boolean = false;
 
-  public doFilter = (value: string) => {
+  doFilter = (value: string) => {
     if (value) {
       this.recordFilter = value.trim().toLocaleLowerCase();
     }
     setTimeout(this.triggerFilter, 100);
   };
 
-  public triggerFilter = () => {
+  triggerFilter = () => {
     this.dataSource.filter = 'trigger filter';
     this.numRepositories = this.dataSource.filteredData.length;
   };
