@@ -565,7 +565,6 @@
           "name_de": "Swisscom",
           "orgs": [
             "swisscom",
-            "ScsApiTribe",
             "SwisscomTrustServices",
             "swisscom-developer",
             "sinso",
@@ -587,7 +586,7 @@
           "uuid": "137478fc-ee92-43a4-94f7-c3df17c42a4c",
           "shortname": "alv",
           "name_de": "Arbeitslosenversicherung",
-          "orgs": ["alv-ch", "alv-ch-ansible-roles"]
+          "orgs": ["alv-ch"]
         },
         {
           "uuid": "53795f08-ac6e-4aa4-a780-9283b20f958f",
