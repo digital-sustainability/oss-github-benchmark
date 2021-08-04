@@ -34,3 +34,7 @@ jobs:
       with:
         name: oss-gathered-data
         path: data-gathering/oss-github-benchmark.*
+    - uses: actions/upload-artifact@v2
+      with:
+        name: oss-gathered-data
+        path: frontend/src/assets/oss-github-benchmark.*
