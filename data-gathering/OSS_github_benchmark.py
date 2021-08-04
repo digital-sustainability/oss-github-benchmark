@@ -117,8 +117,6 @@ while i < len(githubrepos):
     # Von allen Branchen die Institutionen (Firmen, Behörden, Communities...) rausholen
     while j < len(sector["institutions"]):
         institution = sector["institutions"][j]
-        j += 1
-        print(j)
         institution_data = {
             "uuid": institution["uuid"],
             "shortname": institution["shortname"],
@@ -169,6 +167,8 @@ while i < len(githubrepos):
                             "name": "",
                             "uuid": str(uuid.uuid4()),
                             "url": "",
+                            "institution": institution_data["shortname"],
+                            "organization": organization_data["name"],
                             "fork": False,
                             "archived": False,
                             "num_forks": 0,
@@ -374,7 +374,7 @@ while i < len(githubrepos):
                             organization_data["total_num_forks_in_repos"] += 1
                             organization_data["total_num_commits"] += repo_data["has_own_commits"]
                     except RuntimeError as error:
-                        print("Fehler beim Laden der Daten von '" + repo.name + "' : " + error)
+                        print("Fehler beim Laden der Daten von '" + repo.name + "' : " + str(error))
                         try:
                             badStuff(repo)
                         except:
@@ -405,9 +405,9 @@ while i < len(githubrepos):
                     badStuff(repo)
                 except:
                     try:
-                        badStuff({"error": f"error in repo {repo.name} of org {org_name}"})
-                    except:
                         badStuff({"error": f"error in org {org_name}"})
+                    except () as e:
+                        badStuff({"error": f"{str(e)}"})
                 traceback.print_exc()
         print("Anzahl GitHub Repos von " + institution["name_de"] + ": " + str(institution_data["num_repos"]))
         institutions_data.append(institution_data)
@@ -428,6 +428,7 @@ while i < len(githubrepos):
         collectionInstitutions.replace_one({ "uuid" : institution_data["uuid"] }, institution_data, upsert=True)
         if len(institution_data["repos"]) != 0:
             collectionRepositoriesNew.insert_many(institution_data["repos"])
+        j += 1
         saveProgress()
     i += 1
     j = 0

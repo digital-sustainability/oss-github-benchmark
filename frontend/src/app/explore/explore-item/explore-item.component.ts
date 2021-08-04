@@ -23,6 +23,7 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
   item: IInstitution;
   displayedColumns: string[] = [
     'name',
+    'organization',
     'num_commits',
     'num_contributors',
     'num_watchers',
