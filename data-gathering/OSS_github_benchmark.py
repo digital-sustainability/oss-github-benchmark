@@ -14,6 +14,7 @@ from pymongo import MongoClient
 from datetime import timezone
 import datetime
 import uuid
+from bson import json_util
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -38,12 +39,6 @@ institutions_data = []
 sector_data = {}
 repos_data = []
 sector = ""
-
-problematic_repos = {
-    'repo_own_commit': [],
-    'repo_load': [],
-    'repo_other': []
-}
 
 def handle_rate_limit():
     reset_time = datetime.datetime.fromtimestamp(g.rate_limiting_resettime)
@@ -387,7 +382,6 @@ while i < len(githubrepos):
                                 badStuff({"error": f"error in repo {repo.name} of org {org_name}: {str(error)}"})
                             except:
                                 badStuff({"error": f"error in org {org_name}: {str(error)}"})
-                        problematic_repos['repo_load'].append(repo)
                         traceback.print_exc()
                     except KeyboardInterrupt:
                         raise
@@ -399,7 +393,6 @@ while i < len(githubrepos):
                                 badStuff({"error": f"error in repo {repo.name} of org {org_name}: {str(e)}"})
                             except:
                                 badStuff({"error": f"error in org {org_name}: {str(e)}"})
-                        problematic_repos['repo_other'].append(repo)
                         traceback.print_exc()
                     institution_data["repos"].append(repo_data)
                     organization_data["repos"].append(repo_data)
@@ -447,7 +440,29 @@ collectionRepositoriesNew.aggregate([{ "$match": {} }, { "$out": "repositories" 
 with open('github-data.pickle', 'wb') as file:
     pickle.dump(sector_data, file)
 
-collectionRunning.delete_one({})
+print("Laden der bereits gecrawlten Daten...")
+
+institutions_data = collectionInstitutions.find({}, 
+        {
+            "orgs": {"repos": {"commit_activities": 0}},
+            "repos": {"commit_activities": 0},
+            "_id": 0,
+        }
+    )
+sector_data = {}
+institutions = []
+for institution in institutions_data:
+    print(institution["shortname"])
+    try:
+        if len(sector_data[institution["sector"]]) >= 0:
+            sector_data[institution["sector"]].append(institution)
+            institutions.append(institution)
+    except KeyError:
+        sector_data[institution["sector"]] = []
+institutions_data = institutions
+
+print("Daten geladen.")
+print("CSV aktualisieren...")
 
 csv_columns=[
     "sector",
@@ -477,13 +492,15 @@ with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvf
     for data in institutions_data:
         writer.writerow(data)
 
+print("CSV aktualisiert.")
+print("JSON aktualisieren...")
 
-institutions_data.sort(key=lambda x: x[2], reverse=True)
+# institutions_data.sort(key=lambda x: x[2], reverse=True)
 
-print( json.dumps(institutions_data, indent=4))
 f = open("oss-github-benchmark.json", "w")
-f.write(json.dumps(sector_data))
+f.write(json.dumps(sector_data, default=json_util.default))
 
+collectionRunning.delete_one({})
 
-# with open('problematic_repos.pickle', 'wb') as file:
-#     pickle.dump(problematic_repos, file)
+print("JSON aktualisiert.")
+print("Fertig.")
