@@ -1,7 +1,7 @@
 
 # Visit our website!
 
-https://www.ossbenchmark.com
+https://ossbenchmark.com
 
 # Generate data
 
