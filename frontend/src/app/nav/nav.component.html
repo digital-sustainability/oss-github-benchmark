@@ -36,10 +36,18 @@
       <span>JSON / CSV</span>
     </button>
     <mat-menu #downloadMenu="matMenu">
-      <a href="assets/oss-github-benchmark.json" download mat-menu-item
+      <a
+        href="https://raw.githubusercontent.com/digital-sustainability/oss-github-benchmark/master/assets/oss-github-benchmark.json"
+        download="oss-github-benchmark.json"
+        mat-menu-item
+        target="_blank"
         >Download JSON</a
       >
-      <a href="assets/oss-github-benchmark.csv" download mat-menu-item
+      <a
+        href="https://raw.githubusercontent.com/digital-sustainability/oss-github-benchmark/master/assets/oss-github-benchmark.csv"
+        download="oss-github-benchmark.csv"
+        mat-menu-item
+        target="_blank"
         >Download CSV</a
       >
     </mat-menu>
