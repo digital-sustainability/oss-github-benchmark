@@ -40,6 +40,7 @@ import { ToNiceNamePipe } from './pipes/toNiceName.pipe';
 import { RepositoriesRankingComponent } from './repositories-ranking/repositories-ranking.component';
 import { RepositoryDetailViewComponent } from './repository-detail-view/repository-detail-view.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSidenavModule,
     MatTooltipModule,
     MatExpansionModule,
+    MatDividerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

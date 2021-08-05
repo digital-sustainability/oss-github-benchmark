@@ -147,6 +147,7 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
     if (this.includeForks) {
       this.includeForksChange(false);
     }
+    console.log(this.item);
   }
 
   navigateTo(url: string): void {
