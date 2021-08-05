@@ -104,7 +104,14 @@ export class RankingComponent implements OnInit {
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
     if (this.innerWidth > 500) {
-      this.displayedColumns = ['logo', 'name_de', 'num_repos', 'sector'];
+      this.displayedColumns = [
+        'logo',
+        'name_de',
+        'num_repos',
+        'sector',
+        'location',
+        'created_at',
+      ];
     }
     if (this.innerWidth > 1200) {
       this.displayedColumns.push('num_members', 'repo_names');
@@ -118,6 +125,23 @@ export class RankingComponent implements OnInit {
         },
         []
       );
+      this.institutions.forEach((institution, index) => {
+        this.institutions[index].created_at = institution.orgs.sort(function (
+          b: any,
+          a: any
+        ) {
+          return Date.parse(b.created_at) - Date.parse(a.created_at);
+        })[0].created_at;
+        this.institutions[index].location = institution.orgs[0].location;
+        let i = 0;
+        while (
+          !this.institutions[index].location &&
+          i < institution.orgs.length
+        ) {
+          this.institutions[index].location = institution.orgs[i].location;
+          i += 1;
+        }
+      });
       this.state = this.institutions[this.institutions.length - 1].timestamp;
       this.item = this.institutions.find((inst) => inst.name_de === itemName);
       this.sortAndFilter(this.institutions);
