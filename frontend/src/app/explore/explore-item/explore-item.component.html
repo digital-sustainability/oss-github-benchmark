@@ -130,6 +130,20 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Created at</th>
+        <td mat-cell *matCellDef="let repo" (click)="navigateTo(repo.url)">
+          {{ repo.created_at | date: "MMMM d, yyyy 'at' H:mm" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="updated_at">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated at</th>
+        <td mat-cell *matCellDef="let repo" (click)="navigateTo(repo.url)">
+          {{ repo.updated_at | date: "MMMM d, yyyy 'at' H:mm" }}
+        </td>
+      </ng-container>
+
       <tr
         mat-header-row
         *matHeaderRowDef="displayedColumns"

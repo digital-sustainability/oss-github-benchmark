@@ -30,6 +30,8 @@ export class RepositoriesRankingComponent implements OnInit {
     ['num_forks', 'Forks', false, 'number'],
     ['num_stars', 'Stars', false, 'number'],
     ['has_own_commits', 'Own commits', false, 'number'],
+    ['created_at', 'Created at', false, 'date'],
+    ['updated_at', 'Updated at ', false, 'date'],
     ['fork', 'Is fork?', true, 'string'],
   ];
   displayedColumnsOnlyNames = this.displayedColumns.map((column) => column[0]);

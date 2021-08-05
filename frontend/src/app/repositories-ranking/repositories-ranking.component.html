@@ -39,6 +39,8 @@
             ? ""
             : column[2]
             ? (repository[column[0]] | toNiceName)
+            : column[3] == "date"
+            ? (repository[column[0]] | date: "MMMM d, yyyy 'at' H:mm")
             : repository[column[0]]
         }}
         <img
