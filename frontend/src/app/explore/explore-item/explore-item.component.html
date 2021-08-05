@@ -18,13 +18,26 @@
   </div>
 
   <h2>GitHub Organizations:</h2>
-  <div class="dataContainer">
-    <section *ngFor="let org_name of item.org_names">
-      <a href="https://github.com/{{ org_name }}" target="_blank">
-        {{ org_name }}</a
+
+  <mat-expansion-panel *ngFor="let org of item.orgs">
+    <mat-expansion-panel-header>
+      <mat-panel-title> {{ org.name }} </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="dataContainer">
+      <span *ngFor="let stat of institutionStats"
+        ><section *ngIf="org[stat.content]">
+          <strong>{{ stat.text }}</strong>
+          {{
+            stat.toNiceName
+              ? (org[stat.content] | toNiceName)
+              : stat.content == "timestamp"
+              ? (org[stat.content] | date: "MMMM d, yyyy 'at' H:mm")
+              : org[stat.content]
+          }}
+        </section></span
       >
-    </section>
-  </div>
+    </div>
+  </mat-expansion-panel>
 
   <div *ngIf="dataSource">
     <h2>Repos:</h2>
