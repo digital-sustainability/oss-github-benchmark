@@ -111,9 +111,15 @@ export class RepositoriesRankingComponent implements OnInit {
       };
       this.route.paramMap.subscribe((map) => {
         const repositoryName = map.get('repository');
-        if (repositoryName) {
-          console.log(repositoryName);
-          this.openDialog(repositoryName);
+        const organisation_name_de = map.get('institution');
+        if (repositoryName && organisation_name_de) {
+          let repository = this.repositories.find((repo) => {
+            return (
+              repo.organisation_name_de == organisation_name_de &&
+              repo.name == repositoryName
+            );
+          });
+          this.openDialog(repository.uuid);
         }
       });
     });
@@ -131,7 +137,12 @@ export class RepositoriesRankingComponent implements OnInit {
       let repository = this.repositories.find((repo) => {
         return repo.uuid == uuid;
       });
-      this.changeURL('/repositories/' + repository.uuid);
+      this.changeURL(
+        '/repositories/' +
+          repository.organisation_name_de +
+          '/' +
+          repository.name
+      );
       const dialogRef = this.dialog.open(RepositoryDetailViewComponent, {
         data: repository,
         autoFocus: false,
