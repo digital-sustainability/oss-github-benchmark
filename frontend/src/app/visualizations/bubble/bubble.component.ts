@@ -215,22 +215,21 @@ export class BubbleComponent implements OnInit, OnChanges {
     this.yLabel.text(this.options.dimension2.friendly_name);
   }
 
+  changeURL(relativeUrl: string): void {
+    this.location.replaceState(relativeUrl);
+  }
   openDialog(institutionName: string) {
     let institution = this.institutionsComplete.find((inst) => {
       return inst.shortname == institutionName;
     });
     this.changeURL('/visualization/' + institution.shortname);
     const dialogRef = this.dialog.open(ExploreItemComponent, {
-      data: institution,
+      data: { institution: institution, includeForks: false },
       autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe(() => {
       this.changeURL('/visualization');
     });
-  }
-
-  changeURL(relativeUrl: string): void {
-    this.location.replaceState(relativeUrl);
   }
 }

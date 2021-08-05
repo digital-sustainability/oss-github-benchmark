@@ -20,7 +20,7 @@ const sortState: Sort = { active: 'name', direction: 'desc' };
   styleUrls: ['./explore-item.component.scss'],
 })
 export class ExploreItemComponent implements OnInit, AfterViewInit {
-  item: IInstitution;
+  item: any;
   displayedColumns: string[] = [
     'name',
     'organization',
@@ -32,7 +32,6 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
     'num_forks',
   ];
   dataSource: any = 0;
-
   institutionStats: object[] = [
     { text: 'Sector:', content: 'sector', toNiceName: true },
     { text: 'UUID:', content: 'uuid', toNiceName: false },
@@ -87,6 +86,22 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
     { text: 'Organisations:', content: 'num_orgs', toNiceName: false },
     { text: 'Last updated:', content: 'timestamp', toNiceName: false },
   ];
+  includeForks: boolean;
+  recordFilter = '';
+
+  triggerFilter() {
+    this.dataSource.filter = 'trigger filter';
+  }
+
+  includeForksChange(checked: boolean) {
+    this.includeForks = checked;
+    if (checked) {
+      this.item.num_repos += this.item.total_num_forks_in_repos;
+    } else {
+      this.item.num_repos -= this.item.total_num_forks_in_repos;
+    }
+    this.triggerFilter();
+  }
 
   constructor(
     private dialogRef: MatDialogRef<ExploreItemComponent>,
@@ -96,20 +111,34 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    if (this.data.repos) {
-      this.data.repos.forEach((repo) => {
+    this.item = Object.assign({}, this.data.institution);
+    this.includeForks = this.data.includeForks;
+    if (this.item.repos) {
+      this.item.repos.forEach((repo) => {
         repo.name = lowerCase(repo.name);
       });
     }
-    if (typeof this.data.avatar == 'string') {
-      this.data.avatar = JSON.parse(this.data.avatar.replace(/\'/g, '"'));
-    }
-    if (this.data.repos.length > 0) {
-      this.dataSource = new MatTableDataSource(this.data.repos);
+    if (this.item.repos.length > 0) {
+      this.dataSource = new MatTableDataSource(this.item.repos);
     }
     this.sort.active = sortState.active;
     this.sort.direction = sortState.direction;
     this.sort.sortChange.emit(sortState);
+    console.log(this.dataSource);
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      let datastring: string = '';
+      let property: string;
+      let filterNew = this.recordFilter;
+      for (property in data) {
+        datastring += data[property];
+      }
+      datastring = datastring.replace(/\s/g, '').toLowerCase();
+      filterNew = filterNew.replace(/\s/g, '').toLowerCase();
+      return (
+        datastring.includes(filterNew) && (this.includeForks || !data.fork)
+      );
+    };
+    this.triggerFilter();
   }
 
   navigateTo(url: string): void {
