@@ -33,6 +33,7 @@ export class RepositoriesRankingComponent implements OnInit {
     ['created_at', 'Created at', false, 'date'],
     ['updated_at', 'Updated at ', false, 'date'],
     ['fork', 'Is fork?', true, 'string'],
+    ['license', 'License', false, 'string'],
   ];
   displayedColumnsOnlyNames = this.displayedColumns.map((column) => column[0]);
   recordFilter = '';
