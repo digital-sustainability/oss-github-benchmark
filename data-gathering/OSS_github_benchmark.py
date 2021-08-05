@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 # GitHub Login mittels Token
-g = Github(os.environ['GITHUBTOKEN'])
+g = Github(os.environ['GITHUBTOKEN2'])
 
 cluster = MongoClient(os.environ['DATABASELINK'])
 db = cluster["statistics"]
@@ -169,6 +169,7 @@ while i < len(githubrepos):
                             "url": "",
                             "institution": institution_data["shortname"],
                             "organization": organization_data["name"],
+                            "description": "none",
                             "fork": False,
                             "archived": False,
                             "num_forks": 0,
@@ -186,6 +187,8 @@ while i < len(githubrepos):
                             "comments": 0,
                             "languages": [],
                             "timestamp": currentDateAndTime,
+                            "createdTimestamp": 0,
+                            "updatedTimestamp": 0,
                         }
                         try:
                             commit_activities = tryUntilRateLimitNotExceeded("repo.get_stats_commit_activity()")
@@ -222,6 +225,12 @@ while i < len(githubrepos):
                             pass
                         try:
                             repo_data["url"] = tryUntilRateLimitNotExceeded("repo.html_url")
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["description"] = tryUntilRateLimitNotExceeded("repo.description")
                         except KeyboardInterrupt:
                             raise
                         except:
@@ -329,7 +338,20 @@ while i < len(githubrepos):
                         except:
                             pass
                         try:
-                            repo_data["license"] = tryUntilRateLimitNotExceeded(repo.get_license())
+                            repo_data["created_at"] = tryUntilRateLimitNotExceeded("repo.created_at")
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+                        try:
+                            repo_data["updated_at"] = tryUntilRateLimitNotExceeded("repo.updated_at")
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+
+                        try:
+                            repo_data["license"] = tryUntilRateLimitNotExceeded("repo.get_license().license.name")
                         except KeyboardInterrupt:
                             raise
                         except:
@@ -400,13 +422,13 @@ while i < len(githubrepos):
                 institution_data["orgs"].append(organization_data)
             except KeyboardInterrupt:
                 raise
-            except:
+            except () as e:
                 try:
                     badStuff(repo)
                 except:
                     try:
-                        badStuff({"error": f"error in org {org_name}"})
-                    except () as e:
+                        badStuff({"error": f"error in org {org_name}: {str(e)}"})
+                    except:
                         badStuff({"error": f"{str(e)}"})
                 traceback.print_exc()
         print("Anzahl GitHub Repos von " + institution["name_de"] + ": " + str(institution_data["num_repos"]))
