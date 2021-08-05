@@ -1,9 +1,37 @@
 <div class="wrapper">
   <h1><img [src]="item.avatar[0]" alt="" />{{ item.name_de }}</h1>
+
   <p style="color: gray">
     Information on OSS Benchmark updated:
     {{ item.timestamp | date: "MMMM d, yyyy 'at' H:mm" }}
   </p>
+
+  <h2>GitHub Organizations:</h2>
+  <div style="margin-bottom: 20px">
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let org of item.orgs">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <strong>{{ org.name }}</strong>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p *ngIf="org.description">{{ org.description }}</p>
+        <p *ngIf="org.email">Email: {{ org.email }}</p>
+        <p *ngIf="org.created_at">
+          Organization created at:
+          {{ org.created_at | date: "MMMM d, yyyy 'at' H:mm" }}
+        </p>
+        <p *ngIf="org.location">
+          Location:
+          {{ org.location }}
+        </p>
+        <a *ngIf="org.url" [href]="org.url" target="_blank">
+          {{ org.url }}
+        </a>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
   <div class="dataContainer">
     <section *ngFor="let stat of institutionStats">
       <strong>{{ stat.text }}</strong>
@@ -16,28 +44,6 @@
       }}
     </section>
   </div>
-
-  <h2>GitHub Organizations:</h2>
-
-  <mat-expansion-panel *ngFor="let org of item.orgs">
-    <mat-expansion-panel-header>
-      <mat-panel-title> {{ org.name }} </mat-panel-title>
-    </mat-expansion-panel-header>
-    <div class="dataContainer">
-      <span *ngFor="let stat of institutionStats"
-        ><section *ngIf="org[stat.content]">
-          <strong>{{ stat.text }}</strong>
-          {{
-            stat.toNiceName
-              ? (org[stat.content] | toNiceName)
-              : stat.content == "timestamp"
-              ? (org[stat.content] | date: "MMMM d, yyyy 'at' H:mm")
-              : org[stat.content]
-          }}
-        </section></span
-      >
-    </div>
-  </mat-expansion-panel>
 
   <div *ngIf="dataSource">
     <h2>Repos:</h2>
