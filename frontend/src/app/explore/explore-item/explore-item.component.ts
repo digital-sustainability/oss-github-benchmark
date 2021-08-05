@@ -86,7 +86,6 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
     },
     { text: 'Comments:', content: 'total_comments', toNiceName: false },
     { text: 'Organisations:', content: 'num_orgs', toNiceName: false },
-    { text: 'Last updated:', content: 'timestamp', toNiceName: false },
   ];
   includeForks: boolean;
   recordFilter = '';
@@ -126,7 +125,6 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
     this.sort.active = sortState.active;
     this.sort.direction = sortState.direction;
     this.sort.sortChange.emit(sortState);
-    console.log(this.dataSource);
     this.dataSource.filterPredicate = (data: any, filter: string) => {
       let datastring: string = '';
       let property: string;
@@ -141,6 +139,11 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
       );
     };
     this.triggerFilter();
+    if (this.item.org_names.length == 1) {
+      this.displayedColumns = this.displayedColumns.filter(
+        (e) => e !== 'organization'
+      );
+    }
   }
 
   navigateTo(url: string): void {

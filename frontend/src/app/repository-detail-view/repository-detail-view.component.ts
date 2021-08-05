@@ -56,7 +56,17 @@ export class RepositoryDetailViewComponent implements OnInit {
       content: 'pull_requests_closed',
       toNiceName: false,
     },
-    { text: 'Last updated:', content: 'timestamp', toNiceName: false },
+    { text: 'License:', content: 'license', toNiceName: false },
+    {
+      text: 'Repo created on GitHub:',
+      content: 'created_at',
+      toNiceName: false,
+    },
+    {
+      text: 'Repo updated on GitHub:',
+      content: 'updated_at',
+      toNiceName: false,
+    },
   ];
 
   constructor(

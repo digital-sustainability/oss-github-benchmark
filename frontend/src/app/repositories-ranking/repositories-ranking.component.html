@@ -12,7 +12,8 @@
 </mat-checkbox>
 
 <p style="color: gray">
-  Last updated: {{ state | date: "MMMM d, yyyy 'at' H:mm" }}
+  Information on OSS Benchmark updated:
+  {{ state | date: "MMMM d, yyyy 'at' H:mm" }}
 </p>
 <table
   mat-table
@@ -33,6 +34,7 @@
         [ngClass]="{ number: column[3] == 'number' }"
         (click)="openDialog(repository.uuid)"
         [ngStyle]="{ fontWeight: column[0] == 'name' ? 'bold' : 'normal' }"
+        [matTooltip]="repository.description"
       >
         {{
           column[3] == "img"
