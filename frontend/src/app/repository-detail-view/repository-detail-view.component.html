@@ -2,6 +2,11 @@
   <h1>
     <a [href]="data.url" target="_blank">{{ data.name }}</a>
   </h1>
+  <p *ngIf="data.description">{{ data.description }}</p>
+  <p style="color: gray">
+    Information on OSS Benchmark updated:
+    {{ data.timestamp | date: "MMMM d, yyyy 'at' H:mm" }}
+  </p>
 
   <div class="dataContainer">
     <section *ngFor="let stat of repositoryStats">
@@ -9,7 +14,7 @@
       {{
         stat.toNiceName
           ? (data[stat.content] | toNiceName)
-          : stat.content == "timestamp"
+          : stat.content == "created_at" || stat.content == "updated_at"
           ? (data[stat.content] | date: "MMMM d, yyyy 'at' H:mm")
           : data[stat.content]
       }}
