@@ -144,6 +144,9 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
         (e) => e !== 'organization'
       );
     }
+    if (this.includeForks) {
+      this.includeForksChange(false);
+    }
   }
 
   navigateTo(url: string): void {
