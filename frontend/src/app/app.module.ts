@@ -34,6 +34,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { ToNiceNamePipe } from './pipes/toNiceName.pipe';
 import { RepositoriesRankingComponent } from './repositories-ranking/repositories-ranking.component';
@@ -82,6 +83,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatCheckboxModule,
     MatSidenavModule,
     MatTooltipModule,
+    MatExpansionModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
