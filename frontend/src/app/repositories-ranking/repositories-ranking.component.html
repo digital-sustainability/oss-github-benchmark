@@ -33,6 +33,7 @@
         [ngClass]="{ number: column[3] == 'number' }"
         (click)="openDialog(repository.uuid)"
         [ngStyle]="{ fontWeight: column[0] == 'name' ? 'bold' : 'normal' }"
+        [matTooltip]="repository.description"
       >
         {{
           column[3] == "img"

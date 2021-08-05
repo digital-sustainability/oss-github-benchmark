@@ -56,6 +56,9 @@ export class RepositoryDetailViewComponent implements OnInit {
       content: 'pull_requests_closed',
       toNiceName: false,
     },
+    { text: 'License:', content: 'license', toNiceName: false },
+    { text: 'Created at:', content: 'created_at', toNiceName: false },
+    { text: 'Updated at:', content: 'updated_at', toNiceName: false },
     { text: 'Last updated:', content: 'timestamp', toNiceName: false },
   ];
 
