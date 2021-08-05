@@ -146,9 +146,13 @@ while i < len(githubrepos):
                     organization_data[dataName] = 0
                 organization_data["name"] = org_name
                 organization_data["url"] = tryUntilRateLimitNotExceeded("org.html_url")
+                organization_data["description"] = tryUntilRateLimitNotExceeded("org.description")
                 organization_data["num_members"] = tryUntilRateLimitNotExceeded("org.get_members().totalCount")
                 organization_data["num_repos"] = tryUntilRateLimitNotExceeded("org.public_repos")
                 organization_data["avatar"] = tryUntilRateLimitNotExceeded("org.avatar_url")
+                organization_data["created_at"] = tryUntilRateLimitNotExceeded("org.created_at")
+                organization_data["location"] = tryUntilRateLimitNotExceeded("org.location")
+                organization_data["email"] = tryUntilRateLimitNotExceeded("org.email")
                 organization_data["repos"] = []
                 # Die Anzahl GitHub-Organisationen, Members, Repos, Avatars (Link zu Icons) und die Organisations-Namen zu einer Institution hinzufügen
                 institution_data["num_orgs"] += 1
