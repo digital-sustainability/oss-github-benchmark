@@ -1,22 +1,22 @@
 <div class="wrapper">
-  <h1><img [src]="data.avatar[0]" alt="" />{{ data.name_de }}</h1>
+  <h1><img [src]="item.avatar[0]" alt="" />{{ item.name_de }}</h1>
 
   <div class="dataContainer">
     <section *ngFor="let stat of institutionStats">
       <strong>{{ stat.text }}</strong>
       {{
         stat.toNiceName
-          ? (data[stat.content] | toNiceName)
+          ? (item[stat.content] | toNiceName)
           : stat.content == "timestamp"
-          ? (data[stat.content] | date: "MMMM d, yyyy 'at' H:mm")
-          : data[stat.content]
+          ? (item[stat.content] | date: "MMMM d, yyyy 'at' H:mm")
+          : item[stat.content]
       }}
     </section>
   </div>
 
   <h2>GitHub Organizations:</h2>
   <div class="dataContainer">
-    <section *ngFor="let org_name of data.org_names">
+    <section *ngFor="let org_name of item.org_names">
       <a href="https://github.com/{{ org_name }}" target="_blank">
         {{ org_name }}</a
       >
@@ -24,6 +24,13 @@
   </div>
 
   <div *ngIf="dataSource">
+    <mat-checkbox
+      color="primary"
+      style="vertical-align: super"
+      (change)="includeForksChange($event.checked)"
+      >Include forks</mat-checkbox
+    >
+
     <h2>Repos:</h2>
     <table
       mat-table

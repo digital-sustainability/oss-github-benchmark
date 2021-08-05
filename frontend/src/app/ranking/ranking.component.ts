@@ -26,7 +26,7 @@ interface sectorFilter {
 export class RankingComponent implements OnInit {
   item: IInstitution;
   innerWidth: any;
-  displayedColumns: string[] = ['rank', 'logo', 'name_de', 'num_repos'];
+  displayedColumns: string[] = ['logo', 'name_de', 'num_repos'];
   @Input() data: IData;
   reposToDisplay = 6;
   dataSource: any = new MatTableDataSource();
@@ -49,6 +49,7 @@ export class RankingComponent implements OnInit {
   recordFilter = '';
   state: Date;
   institutions: any[];
+  includeForks: boolean = false;
 
   doFilter = (value: string) => {
     if (value) {
@@ -67,7 +68,8 @@ export class RankingComponent implements OnInit {
     this.doFilter('');
   }
 
-  includeForksChange(checked) {
+  includeForksChange(checked: boolean) {
+    this.includeForks = checked;
     if (checked) {
       this.dataSource.filteredData.forEach((element: any, index: number) => {
         this.dataSource.filteredData[index].num_repos =
@@ -102,13 +104,7 @@ export class RankingComponent implements OnInit {
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
     if (this.innerWidth > 500) {
-      this.displayedColumns = [
-        'rank',
-        'logo',
-        'name_de',
-        'num_repos',
-        'sector',
-      ];
+      this.displayedColumns = ['logo', 'name_de', 'num_repos', 'sector'];
     }
     if (this.innerWidth > 1200) {
       this.displayedColumns.push('num_members', 'repo_names');
@@ -158,7 +154,7 @@ export class RankingComponent implements OnInit {
     });
     this.changeURL('/institutions/' + institution.shortname);
     const dialogRef = this.dialog.open(ExploreItemComponent, {
-      data: institution,
+      data: { institution: institution, includeForks: this.includeForks },
       autoFocus: false,
     });
 
