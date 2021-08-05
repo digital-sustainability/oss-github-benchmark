@@ -30,6 +30,8 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
     'fork',
     'num_stars',
     'num_forks',
+    'created_at',
+    'updated_at',
   ];
   dataSource: any = 0;
   institutionStats: object[] = [
