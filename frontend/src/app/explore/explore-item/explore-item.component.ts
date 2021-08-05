@@ -86,7 +86,6 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
     },
     { text: 'Comments:', content: 'total_comments', toNiceName: false },
     { text: 'Organisations:', content: 'num_orgs', toNiceName: false },
-    { text: 'Last updated:', content: 'timestamp', toNiceName: false },
   ];
   includeForks: boolean;
   recordFilter = '';

@@ -1,5 +1,9 @@
 <div class="wrapper">
   <h1><img [src]="item.avatar[0]" alt="" />{{ item.name_de }}</h1>
+  <p style="color: gray">
+    Information on OSS Benchmark updated:
+    {{ item.timestamp | date: "MMMM d, yyyy 'at' H:mm" }}
+  </p>
   <div class="dataContainer">
     <section *ngFor="let stat of institutionStats">
       <strong>{{ stat.text }}</strong>
