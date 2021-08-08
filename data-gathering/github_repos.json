@@ -226,6 +226,12 @@
           "orgs": ["OFFLINE-GmbH"]
         },
         {
+          "uuid": "28e1ff2d-c6c6-4221-bc56-9e799c1279ed",
+          "shortname": "OpenFlowLabs",
+          "name_de": "OpenFlowLabs GmbH",
+          "orgs": ["OpenFlowLabs"]
+        },
+        {
           "uuid": "cdde5d08-ce6a-403b-b56b-5212419d75aa",
           "shortname": "opengis",
           "name_de": "OPENGIS.ch GmbH",
@@ -302,6 +308,12 @@
           "shortname": "vshn",
           "name_de": "VSHN AG",
           "orgs": ["vshn", "projectsyn"]
+        },
+        {
+          "uuid": "bed46d27-050c-4f50-ba9d-0740b27445b5",
+          "shortname": "whatwedo",
+          "name_de": "whatwedo GmbH",
+          "orgs": ["whatwedo"]
         },
         {
           "uuid": "d3f61370-c3bf-46a8-81fc-13fbafbb578b",
@@ -505,7 +517,7 @@
       ]
     },
     "Others": {
-      "name_de": "Andere Unternehmenen",
+      "name_de": "Andere Unternehmen",
       "institutions": [
         {
           "uuid": "71b0832b-9d21-49a4-8514-ae709fd80700",
@@ -518,6 +530,12 @@
           "shortname": "digris",
           "name_de": "digris AG",
           "orgs": ["digris"]
+        },
+        {
+          "uuid": "ca0b8296-531c-4186-b49d-8d3b9e53b95d",
+          "shortname": "EVAplusAPI",
+          "name_de": "EVA+ API",
+          "orgs": ["EVAplusAPI"]
         },
         {
           "uuid": "f3510c27-f593-404c-863e-1b04c973c655",
@@ -557,7 +575,7 @@
           "uuid": "b13b03cc-1d26-412f-802f-5849e4c58152",
           "shortname": "sbb",
           "name_de": "SBB",
-          "orgs": ["SchweizerischeBundesbahnen"]
+          "orgs": ["SchweizerischeBundesbahnen","sbb-api"]
         },
         {
           "uuid": "260b058a-9fcf-47ca-bd35-8bcfedce6301",
@@ -757,21 +775,22 @@
           "name_de": "Universität Bern",
           "orgs": [
             "unibe-ch",
+            "artorg-unibe-ch"
             "digital-sustainability",
-            "scg-unibe-ch",
-            "IAM-CGG",
             "CMPG",
-            "reymond-group",
             "ConsBiol-unibern",
+            "hpc-unibe-ch",
+            "IAM-CGG",
+            "id-unibe-ch",
             "kogpsy",
-            "ubern-mia",
-            "zmk-unibe-ch",
-            "unibe-cns",
+            "reymond-group",
+            "scg-unibe-ch",
+            "TranslationalResearchUnit",
             "UB-Bern",
             "ub-unibe-ch",
-            "hpc-unibe-ch",
-            "id-unibe-ch",
-            "artorg-unibe-ch"
+            "ubern-mia",
+            "unibe-cns",
+            "zmk-unibe-ch"
           ]
         },
         {
