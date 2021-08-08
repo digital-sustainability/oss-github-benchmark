@@ -428,12 +428,9 @@ while i < len(githubrepos):
                 raise
             except () as e:
                 try:
-                    badStuff(repo)
+                    badStuff({"error": f"error in org {org_name}: {str(e)}"})
                 except:
-                    try:
-                        badStuff({"error": f"error in org {org_name}: {str(e)}"})
-                    except:
-                        badStuff({"error": f"{str(e)}"})
+                    badStuff({"error": f"{str(e)}"})
                 traceback.print_exc()
         print("Anzahl GitHub Repos von " + institution["name_de"] + ": " + str(institution_data["num_repos"]))
         institutions_data.append(institution_data)
