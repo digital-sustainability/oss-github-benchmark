@@ -613,6 +613,12 @@
           "orgs": ["alv-ch"]
         },
         {
+          "uuid": "9e0d0911-8a60-4dbd-a49d-9eab6bfa1d89",
+          "shortname": "bfe",
+          "name_de": "Bundesamt für Energie",
+          "orgs": ["SFOE"]
+        },
+        {
           "uuid": "53795f08-ac6e-4aa4-a780-9283b20f958f",
           "shortname": "bit",
           "name_de": "Bundesamt für Informatik und Telekommunikation",
