@@ -36,7 +36,6 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
   dataSource: any = 0;
   institutionStats: object[] = [
     { text: 'Sector:', content: 'sector', toNiceName: true },
-    { text: 'UUID:', content: 'uuid', toNiceName: false },
     { text: 'Repositories:', content: 'num_repos', toNiceName: false },
     { text: 'Members:', content: 'num_members', toNiceName: false },
     {

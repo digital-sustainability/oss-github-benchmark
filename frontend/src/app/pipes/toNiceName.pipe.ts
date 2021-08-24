@@ -20,12 +20,9 @@ export class ToNiceNamePipe implements PipeTransform {
   ];
 
   transform(value: any): string {
-    let niceName: any = this.sectors.find(
-      (sector) => sector.original == value.toString()
+    const name: any = this.sectors.find(
+      (sector) => sector.original === value.toString()
     );
-    if (niceName) {
-      return niceName.nice;
-    }
-    return value;
+    return name ? name.nice : value;
   }
 }
