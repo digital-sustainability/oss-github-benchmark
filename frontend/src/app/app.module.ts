@@ -41,6 +41,7 @@ import { RepositoriesRankingComponent } from './repositories-ranking/repositorie
 import { RepositoryDetailViewComponent } from './repository-detail-view/repository-detail-view.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
+import { ScullyLibModule } from '@scullyio/ng-lib';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,7 @@ import { MatDividerModule } from '@angular/material/divider';
     RepositoryDetailViewComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
     CommonModule,
@@ -86,8 +87,10 @@ import { MatDividerModule } from '@angular/material/divider';
     MatTooltipModule,
     MatExpansionModule,
     MatDividerModule,
+    ScullyLibModule,
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

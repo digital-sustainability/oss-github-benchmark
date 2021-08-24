@@ -1,23 +1,25 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { Location } from '@angular/common';
-import { DataService, IData } from 'src/app/data.service';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { IInstitution } from 'src/app/interfaces/institution';
-import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
-import { ExploreItemComponent } from '../explore/explore-item/explore-item.component';
-import { FormBuilder } from '@angular/forms';
-import { timeout } from 'd3';
+import {Component, OnInit, Input, ViewChild} from '@angular/core';
+import {Location} from '@angular/common';
+import {DataService, IData} from 'src/app/data.service';
+import {MatSort, Sort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {IInstitution} from 'src/app/interfaces/institution';
+import {ActivatedRoute} from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
+import {ExploreItemComponent} from '../explore/explore-item/explore-item.component';
+import {FormBuilder} from '@angular/forms';
+import {timeout} from 'd3';
+import {combineLatest} from "rxjs";
 
-const sortState: Sort = { active: 'num_repos', direction: 'desc' };
+const sortState: Sort = {active: 'num_repos', direction: 'desc'};
 
 interface sectorFilter {
   sector: string;
   activated: boolean;
   count: number;
 }
+
 @Component({
   selector: 'app-ranking',
   templateUrl: './ranking.component.html',
@@ -33,23 +35,24 @@ export class RankingComponent implements OnInit {
   numInstitutions: number;
   checkboxes: string[] = [];
   sectorFilters: sectorFilter[] = [
-    { sector: 'ResearchAndEducation', activated: false, count: 0 },
-    { sector: 'NGOs', activated: false, count: 0 },
-    { sector: 'Media', activated: false, count: 0 },
-    { sector: 'Insurances', activated: false, count: 0 },
-    { sector: 'IT', activated: false, count: 0 },
-    { sector: 'Gov_Federal', activated: false, count: 0 },
-    { sector: 'Gov_Companies', activated: false, count: 0 },
-    { sector: 'Gov_Cities', activated: false, count: 0 },
-    { sector: 'Gov_Cantons', activated: false, count: 0 },
-    { sector: 'Communities', activated: false, count: 0 },
-    { sector: 'Banking', activated: false, count: 0 },
-    { sector: 'Others', activated: false, count: 0 },
+    {sector: 'ResearchAndEducation', activated: false, count: 0},
+    {sector: 'NGOs', activated: false, count: 0},
+    {sector: 'Media', activated: false, count: 0},
+    {sector: 'Insurances', activated: false, count: 0},
+    {sector: 'IT', activated: false, count: 0},
+    {sector: 'Gov_Federal', activated: false, count: 0},
+    {sector: 'Gov_Companies', activated: false, count: 0},
+    {sector: 'Gov_Cities', activated: false, count: 0},
+    {sector: 'Gov_Cantons', activated: false, count: 0},
+    {sector: 'Communities', activated: false, count: 0},
+    {sector: 'Banking', activated: false, count: 0},
+    {sector: 'Others', activated: false, count: 0},
   ];
   recordFilter = '';
   state: Date;
   institutions: any[];
-  includeForks: boolean = false;
+  includeForks = false;
+  window: any = window;
 
   doFilter = (value: string) => {
     if (value) {
@@ -100,8 +103,73 @@ export class RankingComponent implements OnInit {
       }
     );
   }
-
   ngOnInit(): void {
+    this.initDisplayedColumns();
+    combineLatest([
+      this.dataService.loadDataObservable(),
+      this.route.paramMap
+    ])
+    .subscribe(([data, map]) => {
+      if (!this.institutions) {
+        const itemName = this.route.snapshot.params.itemName;
+        this.institutions = this.getInstitutionsFromData(data);
+        this.setInstitutionLocation();
+        this.state = this.institutions[this.institutions.length - 1].timestamp;
+        this.item = this.institutions.find((inst) => inst.name_de === itemName);
+        this.sortAndFilter(this.institutions);
+        this.dataSource.filterPredicate = (dataSourceData: any, filter: string) => {
+          let datastring = '';
+          let property: string;
+          let filterNew = this.recordFilter;
+          for (property in dataSourceData) {
+            if (dataSourceData.hasOwnProperty(property)) {
+              datastring += dataSourceData[property];
+            }
+          }
+          datastring = datastring.replace(/\s/g, '').toLowerCase();
+          filterNew = filterNew.replace(/\s/g, '').toLowerCase();
+          return (
+            datastring.includes(filterNew) &&
+            (this.checkboxes.indexOf(dataSourceData.sector) !== -1 ||
+              this.checkboxes.length === 0)
+          );
+        };
+      }
+      const institutionName = map.get('institution');
+      if (institutionName) {
+        this.openDialog(institutionName);
+      }
+    });
+  }
+
+
+  getInstitutionsFromData(data: IData): any {
+    return Object.entries(data.jsonData).reduce(
+      (previousValue, currentValue) => {
+        const [key, value] = currentValue;
+        return previousValue.concat(value);
+      }, []
+    );
+  }
+
+  private setInstitutionLocation(): void {
+    this.institutions.forEach((institution, index) => {
+      this.institutions[index].created_at = institution.orgs.sort((b: any, a: any) => {
+        return Date.parse(b.created_at) - Date.parse(a.created_at);
+      })[0].created_at;
+      this.institutions[index].location = institution.orgs[0].location;
+      let i = 0;
+      while (
+        !this.institutions[index].location &&
+        i < institution.orgs.length
+        ) {
+        this.institutions[index].location = institution.orgs[i].location;
+        i += 1;
+      }
+    });
+  }
+
+  private initDisplayedColumns(): void {
     this.innerWidth = window.innerWidth;
     if (this.innerWidth > 500) {
       this.displayedColumns = [
@@ -116,69 +184,18 @@ export class RankingComponent implements OnInit {
     if (this.innerWidth > 1200) {
       this.displayedColumns.push('num_members', 'repo_names');
     }
-    this.dataService.loadData().then((data) => {
-      const itemName = this.route.snapshot.params.itemName;
-      this.institutions = Object.entries(data.jsonData).reduce(
-        (previousValue, currentValue) => {
-          const [key, value] = currentValue;
-          return previousValue.concat(value);
-        },
-        []
-      );
-      this.institutions.forEach((institution, index) => {
-        this.institutions[index].created_at = institution.orgs.sort(function (
-          b: any,
-          a: any
-        ) {
-          return Date.parse(b.created_at) - Date.parse(a.created_at);
-        })[0].created_at;
-        this.institutions[index].location = institution.orgs[0].location;
-        let i = 0;
-        while (
-          !this.institutions[index].location &&
-          i < institution.orgs.length
-        ) {
-          this.institutions[index].location = institution.orgs[i].location;
-          i += 1;
-        }
-      });
-      this.state = this.institutions[this.institutions.length - 1].timestamp;
-      this.item = this.institutions.find((inst) => inst.name_de === itemName);
-      this.sortAndFilter(this.institutions);
-      this.dataSource.filterPredicate = (data: any, filter: string) => {
-        let datastring: string = '';
-        let property: string;
-        let filterNew = this.recordFilter;
-        for (property in data) {
-          datastring += data[property];
-        }
-        datastring = datastring.replace(/\s/g, '').toLowerCase();
-        filterNew = filterNew.replace(/\s/g, '').toLowerCase();
-        return (
-          datastring.includes(filterNew) &&
-          (this.checkboxes.indexOf(data.sector) != -1 ||
-            this.checkboxes.length == 0)
-        );
-      };
-      this.route.paramMap.subscribe((map) => {
-        const institutionName = map.get('institution');
-        if (institutionName) {
-          this.openDialog(institutionName);
-        }
-      });
-    });
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  openDialog(institutionName: string) {
-    let institution = this.institutions.find((inst) => {
-      return inst.shortname == institutionName;
+  openDialog(institutionName: string): void {
+    const institution = this.institutions.find((inst) => {
+      return inst.shortname === institutionName;
     });
     this.changeURL('/institutions/' + institution.shortname);
     const dialogRef = this.dialog.open(ExploreItemComponent, {
-      data: { institution: institution, includeForks: this.includeForks },
+      data: {institution, includeForks: this.includeForks},
       autoFocus: false,
     });
 
@@ -191,10 +208,10 @@ export class RankingComponent implements OnInit {
     this.location.replaceState(relativeUrl);
   }
 
-  sortAndFilter(institutions: any) {
+  sortAndFilter(institutions: any): void {
     let i = 0;
     institutions.forEach((institution) => {
-      let len = institution.repo_names.length;
+      const len = institution.repo_names.length;
       institutions[i].repo_names = institution.repo_names
         .slice(0, this.reposToDisplay)
         .join(', ');
@@ -203,14 +220,14 @@ export class RankingComponent implements OnInit {
       }
       if (
         this.sectorFilters.some((value: any) => {
-          return value.sector == institution.sector;
+          return value.sector === institution.sector;
         })
       ) {
         this.sectorFilters[
           this.sectorFilters.findIndex((value: any) => {
-            return value.sector == institution.sector;
+            return value.sector === institution.sector;
           })
-        ].count += 1;
+          ].count += 1;
       }
 
       i++;
