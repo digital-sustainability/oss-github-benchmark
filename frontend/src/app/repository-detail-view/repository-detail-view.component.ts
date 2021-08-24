@@ -10,7 +10,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class RepositoryDetailViewComponent implements OnInit {
   repositoryStats: object[] = [
     { text: 'Archived:', content: 'archived', toNiceName: true },
-    { text: 'UUID:', content: 'uuid', toNiceName: false },
     { text: 'Institution:', content: 'institution_name_de', toNiceName: false },
     {
       text: 'Organization:',

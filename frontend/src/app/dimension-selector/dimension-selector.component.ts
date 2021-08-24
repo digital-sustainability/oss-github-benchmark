@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { DataService, Metric } from '../data.service';
 import { Options } from '../visualizations/options';
+import {combineLatest} from "rxjs";
 
 @Component({
   selector: 'app-dimension-selector',
