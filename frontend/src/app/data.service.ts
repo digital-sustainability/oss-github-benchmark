@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IInstitution, ISector } from './interfaces/institution';
 import * as d3 from 'd3';
-import { shareReplay } from 'rxjs/operators';
+import {shareReplay, switchMap} from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import {Observable, of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,18 @@ export class DataService {
     return { csvData: this.parseJSON2CSV(data), jsonData: data };
   }
 
-  private parseJSON2CSV(data: any) {
+  loadDataObservable(): Observable<any> {
+    return this.http.get(`${environment.api}institutions`).pipe(
+      switchMap(data => {
+        return of({
+          csvData: this.parseJSON2CSV(data),
+          jsonData: data
+        });
+      })
+    );
+  }
+
+  private parseJSON2CSV(data: any): any {
     return data as d3.DSVRowArray;
   }
 }
