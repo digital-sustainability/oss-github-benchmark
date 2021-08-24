@@ -1,0 +1,200 @@
+No configuration for route "/visualization/:institution" found. SkippingNo configuration for route "/institutions/:institution" found. SkippingNo configuration for route "/repositories/:institution/:repository" found. Skipping
+
+
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/visualization/:institution" found. SkippingNo configuration for route "/repositories/:institution/:repository" found. SkippingNo configuration for route "/institutions/:institution" found. Skipping
+
+
+
+Received Kill commandClosed servers
+
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/institutions/:institution" found. SkippingNo configuration for route "/repositories/:institution/:repository" found. SkippingNo configuration for route "/visualization/:institution" found. Skipping
+
+
+
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/visualization/:institution" found. SkippingNo configuration for route "/institutions/:institution" found. SkippingNo configuration for route "/repositories/:institution/:repository" found. Skipping
+
+
+
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/visualization/:institution" found. SkippingNo configuration for route "/repositories/:institution/:repository" found. SkippingNo configuration for route "/institutions/:institution" found. Skipping
+
+
+
+Route "/institutions/4teamwork AG" not provided by angular app
+Route "/institutions/56K Cloud" not provided by angular app
+Route "/institutions/Adfinis AG" not provided by angular app
+Route "/institutions/AdNovum Informatik AG" not provided by angular app
+Route "/institutions/Advanced Concepts AG" not provided by angular app
+Route "/institutions/ahdis ag" not provided by angular app
+Route "/institutions/Apps with love AG" not provided by angular app
+Route "/institutions/bbv Software Services AG" not provided by angular app
+Route "/institutions/Blackpoints AG" not provided by angular app
+Route "/institutions/brain-tec AG" not provided by angular app
+Route "/institutions/BSI Business Systems Integration AG" not provided by angular app
+Route "/institutions/cloudscale.ch AG" not provided by angular app
+Route "/institutions/cyon GmbH" not provided by angular app
+Route "/institutions/DV Bern" not provided by angular app
+Route "/institutions/Interactive Things" not provided by angular app
+Route "/institutions/ITIGO AG" not provided by angular app
+Route "/institutions/hazelfire GmbH" not provided by angular app
+Route "/institutions/OFFLINE GmbH" not provided by angular app
+Route "/institutions/OPENGIS.ch GmbH" not provided by angular app
+Route "/institutions/Openstream Internet Solutions" not provided by angular app
+Route "/institutions/OPTEN AG" not provided by angular app
+Route "/institutions/Puzzle ITC" not provided by angular app
+Route "/institutions/seantis gmbh" not provided by angular app
+Route "/institutions/Ticketpark GmbH" not provided by angular app
+Route "/institutions/VSHN AG" not provided by angular app
+Route "/institutions/XWare GmbH" not provided by angular app
+Route "/institutions/ZÃ¼hlke" not provided by angular app
+Route "/institutions/Genossenschaft POSMO Schweiz" not provided by angular app
+Route "/institutions/HL7 Benutzergruppe Schweiz" not provided by angular app
+Route "/institutions/School of Data in Switzerland" not provided by angular app
+Route "/institutions/Open Source Challenge" not provided by angular app
+Route "/institutions/ZÃ¼rich Versicherung" not provided by angular app
+Route "/institutions/Radio Bern RaBe" not provided by angular app
+Route "/institutions/TX Group" not provided by angular app
+Route "/institutions/digris AG" not provided by angular app
+Route "/institutions/Scout24 Schweiz AG" not provided by angular app
+Route "/institutions/SWISS TXT AG" not provided by angular app
+Route "/institutions/Die Schweizerische Post AG" not provided by angular app
+Route "/institutions/Verkehrsbetriebe ZÃ¼rich (VBZ)" not provided by angular app
+Route "/institutions/Bundesamt fÃ¼r Informatik und Telekommunikation" not provided by angular app
+Route "/institutions/Bundesamt fÃ¼r Statistik" not provided by angular app
+Route "/institutions/Schweizerisches Bundesarchiv" not provided by angular app
+Route "/institutions/Kanton Basel-Stadt" not provided by angular app
+Route "/institutions/Kanton Bern" not provided by angular app
+Route "/institutions/Kanton Neuenburg" not provided by angular appRoute "/institutions/Kanton Solothurn" not provided by angular app
+
+Route "/institutions/Kanton Waadt" not provided by angular app
+Route "/institutions/Kanton ZÃ¼rich" not provided by angular app
+Route "/institutions/RÃ©publique et canton de GenÃ¨ve" not provided by angular app
+Route "/institutions/Stadt Bern" not provided by angular app
+Route "/institutions/European Organization for Nuclear Research (CERN)" not provided by angular app
+Route "/institutions/Fondation Campus Biotech Geneva" not provided by angular app
+Route "/institutions/Paul Scherrer Institut" not provided by angular app
+Route "/institutions/Swiss National Supercomputing Center" not provided by angular app
+Route "/institutions/Swiss Tropical and Public Health Institute" not provided by angular app
+Route "/institutions/UniversitÃ¤t Bern" not provided by angular app
+Route "/institutions/UniversitÃ© de NeuchÃ¢tel" not provided by angular app
+Route "/institutions/UniversitÃ¤t ZÃ¼rich" not provided by angular app
+Route "/institutions/World Health Organization" not provided by angular appRoute "/institutions/International Telecommunication Union" not provided by angular app
+
+Received Kill commandClosed servers
+
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/visualization/:institution" found. SkippingNo configuration for route "/institutions/:institution" found. SkippingNo configuration for route "/repositories/:institution/:repository" found. Skipping
+
+
+
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/visualization/:institution" found. SkippingNo configuration for route "/institutions/:institution" found. SkippingNo configuration for route "/repositories/:institution/:repository" found. Skipping
+
+
+
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/visualization/:institution" found. SkippingNo configuration for route "/institutions/:institution" found. SkippingNo configuration for route "/repositories/:institution/:repository" found. SkippingThe plugin 'json' needs to return handledRoutes with a route that starts with '/'. The route {"route":"institutions/:institution","type":"json"} is invalid.
+
+
+
+
+Puppeteer error while rendering "institutions/:institution"
+Error: Protocol error (Page.navigate): Cannot navigate to invalid URL
+ we will retry rendering this page up to 3 times.
+Puppeteer error while rendering "institutions/:institution"
+Error: Protocol error (Page.navigate): Cannot navigate to invalid URL
+ we will retry rendering this page up to 3 times.
+Puppeteer error while rendering "institutions/:institution"
+Error: Protocol error (Page.navigate): Cannot navigate to invalid URL
+ we will retry rendering this page up to 3 times.
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/visualization/:institution" found. SkippingNo configuration for route "institutions/:institution" found. SkippingNo configuration for route "/repositories/:institution/:repository" found. Skipping
+
+
+
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/visualization/:institution" found. SkippingNo configuration for route "/repositories/:institution/:repository" found. Skipping
+
+
+Error during file write
+Error: ENOENT: no such file or directory, mkdir 'C:\Users\patri\IdeaProjects\oss-github-benchmark\frontend\dist\static\institutions\:institution'
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/visualization/:institution" found. Skipping****************************************************************************************
+This is a development tool for Scully applications.
+You can ignore the warning (TLS) or run scully with --no-warning
+****************************************************************************************
+
+
+Could not fetch data for route "/institutions/:institution"No configuration for route "/repositories/:institution/:repository" found. Skipping
+
+Error during file write
+Error: ENOENT: no such file or directory, mkdir 'C:\Users\patri\IdeaProjects\oss-github-benchmark\frontend\dist\static\institutions\:institution'
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/visualization/:institution" found. Skipping****************************************************************************************
+This is a development tool for Scully applications.
+You can ignore the warning (TLS) or run scully with --no-warning
+****************************************************************************************
+
+
+No configuration for route "/repositories/:institution/:repository" found. SkippingCould not fetch data for route "/institutions/:institution"
+
+Error during file write
+Error: ENOENT: no such file or directory, mkdir 'C:\Users\patri\IdeaProjects\oss-github-benchmark\frontend\dist\static\institutions\:institution'
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/visualization/:institution" found. Skipping****************************************************************************************
+This is a development tool for Scully applications.
+You can ignore the warning (TLS) or run scully with --no-warning
+****************************************************************************************
+
+
+No configuration for route "/repositories/:institution/:repository" found. Skipping
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------No configuration for route "/visualization/:institution" found. Skipping****************************************************************************************
+This is a development tool for Scully applications.
+You can ignore the warning (TLS) or run scully with --no-warning
+****************************************************************************************
+
+
+No configuration for route "/repositories/:institution/:repository" found. Skipping

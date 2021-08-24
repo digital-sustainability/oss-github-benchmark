@@ -48,21 +48,27 @@
   <ng-container matColumnDef="logo">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let institution">
-      <img [src]="institution.avatar[0]" alt="logo" />
+      <a [href]="'/institutions/' + institution.shortname">
+        <img [src]="institution.avatar[0]" alt="logo" />
+      </a>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="name_de">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Institution</th>
     <td mat-cell *matCellDef="let institution">
-      <b>{{ institution.name_de }} </b>
+      <a [href]="'/institutions/' + institution.shortname" tabindex="-1">
+        <b>{{ institution.name_de }} </b>
+      </a>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="num_members">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Number of members</th>
     <td mat-cell *matCellDef="let institution" class="number">
-      {{ institution.num_members }}
+      <a [href]="'/institutions/' + institution.shortname" tabindex="-1">
+        {{ institution.num_members }}
+      </a>
     </td>
   </ng-container>
 
@@ -71,34 +77,46 @@
       Number of repositories
     </th>
     <td mat-cell *matCellDef="let institution" class="number">
-      {{ institution.num_repos }}
+      <a [href]="'/institutions/' + institution.shortname" tabindex="-1">
+        {{ institution.num_repos }}
+      </a>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="sector">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Sector</th>
     <td mat-cell *matCellDef="let institution">
-      {{ institution.sector | toNiceName }}
+      <a [href]="'/institutions/' + institution.shortname" tabindex="-1">
+        {{ institution.sector | toNiceName }}
+      </a>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="location">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
     <td mat-cell *matCellDef="let institution">
+      <a [href]="'/institutions/' + institution.shortname" tabindex="-1">
       {{ institution.location }}
+      </a>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="created_at">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Created at</th>
     <td mat-cell *matCellDef="let institution">
+      <a [href]="'/institutions/' + institution.shortname" tabindex="-1">
       {{ institution.created_at | date: "MMMM d, yyyy 'at' H:mm" }}
+      </a>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="repo_names">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Repositories</th>
-    <td mat-cell *matCellDef="let institution">{{ institution.repo_names }}</td>
+    <td mat-cell *matCellDef="let institution">
+      <a [href]="'/institutions/' + institution.shortname" tabindex="-1">
+        {{ institution.repo_names }}
+      </a>
+    </td>
   </ng-container>
 
   <tr
@@ -111,7 +129,7 @@
     mat-row
     *matRowDef="let row; columns: displayedColumns"
     class="clickable"
-    (click)="openDialog(row.shortname)"
+
   ></tr>
 </table>
 
