@@ -253,7 +253,7 @@
           "uuid": "2a0e43a1-5d69-4841-a48a-2e40eae4d3cd",
           "shortname": "puzzle",
           "name_de": "Puzzle ITC",
-          "orgs": ["puzzle"]
+          "orgs": ["puzzle","hitobito","puzzle-bbt"]
         },
         {
           "uuid": "c4943619-1cea-44ac-909b-39fae5705239",
