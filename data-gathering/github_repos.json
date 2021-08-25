@@ -723,7 +723,14 @@
           "shortname": "bern",
           "name_de": "Stadt Bern",
           "orgs": ["StadtBern"]
+        },
+        {
+          "uuid": "f2871572-d06e-49ca-bcef-0f659f639066",
+          "shortname": "luzern",
+          "name_de": "Stadt Luzern",
+          "orgs": ["stadtluzern"]
         }
+        
       ]
     },
     "ResearchAndEducation": {
