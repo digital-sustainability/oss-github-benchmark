@@ -461,7 +461,7 @@
           "uuid": "5a0fc0f0-3bba-4a1d-8d88-5a0819a255a9",
           "shortname": "zurich",
           "name_de": "Zürich Versicherung",
-          "orgs": ["ZurichInsuranceGroup", "zurichversicherung"]
+          "orgs": ["zurichversicherung"]
         },
         {
           "uuid": "2981dadf-68e2-4a01-bd64-09f3140e4f0d",
@@ -581,7 +581,7 @@
           "uuid": "b13b03cc-1d26-412f-802f-5849e4c58152",
           "shortname": "sbb",
           "name_de": "SBB",
-          "orgs": ["SchweizerischeBundesbahnen","sbb-api","openTdataCH"]
+          "orgs": ["SchweizerischeBundesbahnen", "sbb-api", "openTdataCH"]
         },
         {
           "uuid": "260b058a-9fcf-47ca-bd35-8bcfedce6301",
