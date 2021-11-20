@@ -280,6 +280,12 @@
           "orgs": ["sourcepole"]
         },
         {
+          "uuid": "eaff4633-860b-4e4f-b773-2c40b4cf7121",
+          "shortname": "steppingstone",
+          "name_de": "stepping stone",
+          "orgs": ["stepping-stone"]
+        },
+        {
           "uuid": "cccc179e-12ab-44e6-9c37-ff5b4c13f699",
           "shortname": "tegonal",
           "name_de": "Tegonal",
@@ -405,16 +411,22 @@
           "orgs": ["openolitor"]
         },
         {
+          "uuid": "7d8344e7-2f4d-4506-a5ab-db362105b485",
+          "shortname": "opensourcechallenge",
+          "name_de": "Open Source Challenge",
+          "orgs": ["opensource-challenge"]
+        },
+        {
           "uuid": "c2027fb9-ea40-426c-a147-972abe4c4035",
           "shortname": "schoolofdata",
           "name_de": "School of Data in Switzerland",
           "orgs": ["schoolofdata-ch"]
         },
         {
-          "uuid": "7d8344e7-2f4d-4506-a5ab-db362105b485",
-          "shortname": "opensourcechallenge",
-          "name_de": "Open Source Challenge",
-          "orgs": ["opensource-challenge"]
+          "uuid": "7678acde-150b-47ef-9e2b-8de3e08b738e",
+          "shortname": "swissgeol",
+          "name_de": "swissgeol",
+          "orgs": ["swissgeol"]
         },
         {
           "uuid": "febbd667-edd9-46d1-afce-e8e3f647a098",
@@ -733,7 +745,7 @@
           "uuid": "95daefea-056e-4fd2-a381-5bd7ea6c8d3a",
           "shortname": "bfh",
           "name_de": "Berner Fachhochschule",
-          "orgs": ["bfh", "iam-ictm", "bfh-science"]
+          "orgs": ["bfh", "iam-ictm", "bfh-science", "HAFL-FWI"]
         },
         {
           "uuid": "299d2c35-d60f-46cf-ba84-abe534fab204",
