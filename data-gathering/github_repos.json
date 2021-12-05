@@ -556,12 +556,6 @@
           "orgs": ["EVAplusAPI"]
         },
         {
-          "uuid": "f3510c27-f593-404c-863e-1b04c973c655",
-          "shortname": "scout24",
-          "name_de": "Scout24 Schweiz AG",
-          "orgs": ["Scout24-CH"]
-        },
-        {
           "uuid": "8485c700-3efa-4bf1-a4af-180c578ab070",
           "shortname": "swisstxt",
           "name_de": "SWISS TXT AG",
