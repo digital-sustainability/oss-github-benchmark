@@ -560,6 +560,19 @@
         }
       ]
     },
+    "Pharma": {
+      "name_de": "Pharma",
+      "institutions": [
+        {
+          "uuid": "1a5d4232-22ed-4a09-9067-fbd42eb202db",
+          "shortname": "novartis",
+          "name_de": "Novartis",
+          "orgs": [
+            "Novartis"
+          ]
+        }
+      ]
+    },
     "Others": {
       "name_de": "Andere Unternehmen",
       "institutions": [
