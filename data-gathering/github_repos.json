@@ -473,7 +473,7 @@
           "uuid": "5a0fc0f0-3bba-4a1d-8d88-5a0819a255a9",
           "shortname": "zurich",
           "name_de": "Zürich Versicherung",
-          "orgs": ["zurichversicherung"]
+          "orgs": ["zurichversicherung","Zurich-Insurance","ZurichInsurance"]
         },
         {
           "uuid": "2981dadf-68e2-4a01-bd64-09f3140e4f0d",
@@ -714,7 +714,7 @@
           "uuid": "4b39e548-a2df-49b2-8cb7-fdf9f624220f",
           "shortname": "bs",
           "name_de": "Kanton Basel-Stadt",
-          "orgs": ["statabs", "opendatabs"]
+          "orgs": ["StataBS", "statabs-test", "Staatsarchiv-Basel-Stadt", "opendatabs"]
         },
         {
           "uuid": "6957de8e-01f7-4780-92e5-23a4076ed4ed",
@@ -733,6 +733,12 @@
           "shortname": "so",
           "name_de": "Kanton Solothurn",
           "orgs": ["sogis"]
+        },
+        {
+          "uuid": "5debcb35-f01a-4530-86c0-087498e6fb0f",
+          "shortname": "sg",
+          "name_de": "Kanton St.Gallen",
+          "orgs": ["AREGSG"]
         },
         {
           "uuid": "50de5180-6124-4375-902f-88850a9871af",
@@ -855,6 +861,12 @@
           "shortname": "unine",
           "name_de": "Université de Neuchâtel",
           "orgs": ["UniNE-CHYN"]
+        },
+        {
+          "uuid": "398af282-c7e8-4f03-839a-2442deeb42ac",
+          "shortname": "unine",
+          "name_de": "Universität St.Gallen",
+          "orgs": ["Interactions-HSG","ics-unisg","HSG-Library"]
         },
         {
           "uuid": "6932e726-fffb-4996-a6c8-e43d18d6379a",
