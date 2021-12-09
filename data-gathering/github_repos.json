@@ -546,6 +546,20 @@
         }
       ]
     },
+    "FoodBeverage": {
+      "name_de": "Food & Beverage",
+      "institutions": [
+        {
+          "uuid": "d52c28f9-2dc4-4f2b-94b6-d67d8f8afd0c",
+          "shortname": "nestle",
+          "name_de": "Nestlé",
+          "orgs": [
+            "nestle",
+            "nestle-it"
+          ]
+        }
+      ]
+    },
     "Others": {
       "name_de": "Andere Unternehmen",
       "institutions": [
