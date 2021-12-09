@@ -493,6 +493,12 @@
           "orgs": ["datatrans"]
         },
         {
+          "uuid": "b6c162a7-b7c7-4bbd-adf6-b978f68296a2",
+          "shortname": "migrosbank",
+          "name_de": "Migros Bank AG",
+          "orgs": ["migrosbank"]
+        },
+        {
           "uuid": "1f6e4125-2d12-46cb-868c-0512d80d40d8",
           "shortname": "postfinance",
           "name_de": "Postfinance",
