@@ -487,6 +487,12 @@
       "name_de": "Banken",
       "institutions": [
         {
+          "uuid": "017492df-42b7-47c2-b29a-d13efc346259",
+          "shortname": "creditsuisse",
+          "name_de": "Credit Suisse",
+          "orgs": ["CreditSuisse"]
+        },
+        {
           "uuid": "0c7c7c8b-e33a-4634-a5cc-569d8bdd3351",
           "shortname": "datatrans",
           "name_de": "Datatrans AG",
