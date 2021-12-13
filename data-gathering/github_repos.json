@@ -971,14 +971,6 @@
                ]
             },
             {
-               "uuid":"5debcb35-f01a-4530-86c0-087498e6fb0f",
-               "shortname":"sg",
-               "name_de":"Kanton St.Gallen",
-               "orgs":[
-                  "AREGSG"
-               ]
-            },
-            {
                "uuid":"50de5180-6124-4375-902f-88850a9871af",
                "shortname":"vd",
                "name_de":"Kanton Waadt",
