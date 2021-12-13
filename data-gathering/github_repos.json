@@ -1018,6 +1018,14 @@
                "orgs":[
                   "StadtBern"
                ]
+            },
+            {
+               "uuid":"5042acd1-094e-467c-b0d9-ba3e46172194",
+               "shortname":"bielbienne",
+               "name_de":"Stadt Biel-Bienne",
+               "orgs":[
+                  "biel-bienne"
+               ]
             }
          ]
       },
