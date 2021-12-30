@@ -66,6 +66,8 @@ MIT
 @angular/router
 MIT
 
+@scullyio/ng-lib
+
 css-loader
 MIT
 Copyright JS Foundation and other contributors
