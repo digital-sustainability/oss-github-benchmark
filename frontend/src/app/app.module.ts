@@ -89,8 +89,7 @@ import { ScullyLibModule } from '@scullyio/ng-lib';
     MatDividerModule,
     ScullyLibModule,
   ],
-  providers: [
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
