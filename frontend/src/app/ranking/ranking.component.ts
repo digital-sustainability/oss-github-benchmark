@@ -1,18 +1,18 @@
-import {Component, OnInit, Input, ViewChild} from '@angular/core';
-import {Location} from '@angular/common';
-import {DataService, IData} from 'src/app/data.service';
-import {MatSort, Sort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {IInstitution} from 'src/app/interfaces/institution';
-import {ActivatedRoute} from '@angular/router';
-import {MatDialog} from '@angular/material/dialog';
-import {ExploreItemComponent} from '../explore/explore-item/explore-item.component';
-import {FormBuilder} from '@angular/forms';
-import {timeout} from 'd3';
-import {combineLatest} from "rxjs";
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Location } from '@angular/common';
+import { DataService, IData } from 'src/app/data.service';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { IInstitution } from 'src/app/interfaces/institution';
+import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ExploreItemComponent } from '../explore/explore-item/explore-item.component';
+import { FormBuilder } from '@angular/forms';
+import { timeout } from 'd3';
+import { combineLatest } from 'rxjs';
 
-const sortState: Sort = {active: 'num_repos', direction: 'desc'};
+const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 
 interface sectorFilter {
   sector: string;
@@ -35,18 +35,18 @@ export class RankingComponent implements OnInit {
   numInstitutions: number;
   checkboxes: string[] = [];
   sectorFilters: sectorFilter[] = [
-    {sector: 'ResearchAndEducation', activated: false, count: 0},
-    {sector: 'NGOs', activated: false, count: 0},
-    {sector: 'Media', activated: false, count: 0},
-    {sector: 'Insurances', activated: false, count: 0},
-    {sector: 'IT', activated: false, count: 0},
-    {sector: 'Gov_Federal', activated: false, count: 0},
-    {sector: 'Gov_Companies', activated: false, count: 0},
-    {sector: 'Gov_Cities', activated: false, count: 0},
-    {sector: 'Gov_Cantons', activated: false, count: 0},
-    {sector: 'Communities', activated: false, count: 0},
-    {sector: 'Banking', activated: false, count: 0},
-    {sector: 'Others', activated: false, count: 0},
+    { sector: 'ResearchAndEducation', activated: false, count: 0 },
+    { sector: 'NGOs', activated: false, count: 0 },
+    { sector: 'Media', activated: false, count: 0 },
+    { sector: 'Insurances', activated: false, count: 0 },
+    { sector: 'IT', activated: false, count: 0 },
+    { sector: 'Gov_Federal', activated: false, count: 0 },
+    { sector: 'Gov_Companies', activated: false, count: 0 },
+    { sector: 'Gov_Cities', activated: false, count: 0 },
+    { sector: 'Gov_Cantons', activated: false, count: 0 },
+    { sector: 'Communities', activated: false, count: 0 },
+    { sector: 'Banking', activated: false, count: 0 },
+    { sector: 'Others', activated: false, count: 0 },
   ];
   recordFilter = '';
   state: Date;
@@ -107,9 +107,8 @@ export class RankingComponent implements OnInit {
     this.initDisplayedColumns();
     combineLatest([
       this.dataService.loadDataObservable(),
-      this.route.paramMap
-    ])
-    .subscribe(([data, map]) => {
+      this.route.paramMap,
+    ]).subscribe(([data, map]) => {
       if (!this.institutions) {
         const itemName = this.route.snapshot.params.itemName;
         this.institutions = this.getInstitutionsFromData(data);
@@ -117,7 +116,10 @@ export class RankingComponent implements OnInit {
         this.state = this.institutions[this.institutions.length - 1].timestamp;
         this.item = this.institutions.find((inst) => inst.name_de === itemName);
         this.sortAndFilter(this.institutions);
-        this.dataSource.filterPredicate = (dataSourceData: any, filter: string) => {
+        this.dataSource.filterPredicate = (
+          dataSourceData: any,
+          filter: string
+        ) => {
           let datastring = '';
           let property: string;
           let filterNew = this.recordFilter;
@@ -142,27 +144,30 @@ export class RankingComponent implements OnInit {
     });
   }
 
-
   getInstitutionsFromData(data: IData): any {
-    return Object.entries(data.jsonData).reduce(
+    const institutions = Object.entries(data.jsonData).reduce(
       (previousValue, currentValue) => {
         const [key, value] = currentValue;
         return previousValue.concat(value);
-      }, []
+      },
+      []
     );
+    return institutions.filter((institution) => institution.orgs.length > 0);
   }
 
   private setInstitutionLocation(): void {
     this.institutions.forEach((institution, index) => {
-      this.institutions[index].created_at = institution.orgs.sort((b: any, a: any) => {
-        return Date.parse(b.created_at) - Date.parse(a.created_at);
-      })[0].created_at;
+      this.institutions[index].created_at = institution.orgs.sort(
+        (b: any, a: any) => {
+          return Date.parse(b.created_at) - Date.parse(a.created_at);
+        }
+      )[0].created_at;
       this.institutions[index].location = institution.orgs[0].location;
       let i = 0;
       while (
         !this.institutions[index].location &&
         i < institution.orgs.length
-        ) {
+      ) {
         this.institutions[index].location = institution.orgs[i].location;
         i += 1;
       }
@@ -195,7 +200,7 @@ export class RankingComponent implements OnInit {
     });
     this.changeURL('/institutions/' + institution.shortname);
     const dialogRef = this.dialog.open(ExploreItemComponent, {
-      data: {institution, includeForks: this.includeForks},
+      data: { institution, includeForks: this.includeForks },
       autoFocus: false,
     });
 
@@ -227,7 +232,7 @@ export class RankingComponent implements OnInit {
           this.sectorFilters.findIndex((value: any) => {
             return value.sector === institution.sector;
           })
-          ].count += 1;
+        ].count += 1;
       }
 
       i++;
