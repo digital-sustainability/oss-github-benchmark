@@ -821,6 +821,14 @@
          "name_de":"Öffentliche Unternehmen und Anstalten",
          "institutions":[
             {
+               "uuid":"32d7c645-2ef8-4ce3-8813-c78383e1fd91",
+               "shortname":"asit",
+               "name_de":"ASIT - Association pour le Système d'information du Territoire",
+               "orgs":[
+                  "asit-asso"
+               ]
+            },
+            {
                "uuid":"bebdf973-da12-478b-8203-3aa363155117",
                "shortname":"bernmobil",
                "name_de":"BERNMOBIL",
@@ -847,6 +855,14 @@
                   "SchweizerischeBundesbahnen",
                   "sbb-api",
                   "openTdataCH"
+               ]
+            },
+            {
+               "uuid":"978cf33e-d2c2-41e9-910c-f4966fc066d1",
+               "shortname":"sige",
+               "name_de":"SIGE - Service Intercommunal de Gestion",
+               "orgs":[
+                  "sige-riviera"
                ]
             },
             {
@@ -1024,7 +1040,7 @@
             {
                "uuid":"c9f03e8f-fa33-4b53-b92e-e5b6be3a75df",
                "shortname":"zuerich",
-               "name_de":"Stadt Zürich",
+               "name_de":"Zürich",
                "orgs":[
                   "StatistikStadtZuerich",
                   "opendatazurich"
@@ -1033,7 +1049,7 @@
             {
                "uuid":"0738ec44-9769-4774-914e-44f1c7365603",
                "shortname":"bern",
-               "name_de":"Stadt Bern",
+               "name_de":"Bern",
                "orgs":[
                   "StadtBern"
                ]
@@ -1041,17 +1057,33 @@
             {
                "uuid":"5042acd1-094e-467c-b0d9-ba3e46172194",
                "shortname":"bielbienne",
-               "name_de":"Stadt Biel-Bienne",
+               "name_de":"Biel-Bienne",
                "orgs":[
                   "biel-bienne"
                ]
             },
             {
+               "uuid":"00a0c696-ad89-447b-9205-f269914b4c13",
+               "shortname":"nyon",
+               "name_de":"Nyon",
+               "orgs":[
+                  "sitnyon"
+               ]
+            },
+            {
                "uuid":"837d8c83-25a2-491d-8d61-c512ae5153a4",
                "shortname":"pully",
-               "name_de":"Gemeinde Pully",
+               "name_de":"Pully",
                "orgs":[
                   "VilleDePully"
+               ]
+            },
+            {
+               "uuid":"5261d39b-8821-4f26-9d0d-50f5ce0390a8",
+               "shortname":"yverdon",
+               "name_de":"Yverdon",
+               "orgs":[
+                  "yverdon"
                ]
             }
          ]
