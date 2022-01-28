@@ -1079,6 +1079,14 @@
                ]
             },
             {
+               "uuid":"3dcdcd98-c6af-4f6c-b4d9-7765173ed4b2",
+               "shortname":"uster",
+               "name_de":"Uster",
+               "orgs":[
+                  "GesellschaftStadtUster"
+               ]
+            },
+            {
                "uuid":"5261d39b-8821-4f26-9d0d-50f5ce0390a8",
                "shortname":"yverdon",
                "name_de":"Yverdon",
