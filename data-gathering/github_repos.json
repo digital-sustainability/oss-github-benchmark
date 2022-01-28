@@ -1019,7 +1019,7 @@
          ]
       },
       "Gov_Cities":{
-         "name_de":"Verwaltung Städte",
+         "name_de":"Verwaltung Städte und Gemeinden",
          "institutions":[
             {
                "uuid":"c9f03e8f-fa33-4b53-b92e-e5b6be3a75df",
@@ -1044,6 +1044,14 @@
                "name_de":"Stadt Biel-Bienne",
                "orgs":[
                   "biel-bienne"
+               ]
+            },
+            {
+               "uuid":"837d8c83-25a2-491d-8d61-c512ae5153a4",
+               "shortname":"pully",
+               "name_de":"Gemeinde Pully",
+               "orgs":[
+                  "VilleDePully"
                ]
             }
          ]
