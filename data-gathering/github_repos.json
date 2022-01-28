@@ -527,6 +527,14 @@
                ]
             },
             {
+               "uuid":"fa2dc045-0a75-4ef2-8cee-8f77dad5e360",
+               "shortname":"lib4ri",
+               "name_de":"Lib4RI - Library for the Research Institutes within the ETH Domain: Eawag, Empa, PSI & WSL",
+               "orgs":[
+                  "Lib4RI"
+               ]
+            },
+            {
                "uuid":"d6e8ccd4-294e-4af2-81e5-b7e6e2ff90b8",
                "shortname":"lobbywatch",
                "name_de":"lobbywatch.ch",
@@ -572,6 +580,16 @@
                "name_de":"swissgeol",
                "orgs":[
                   "swissgeol"
+               ]
+            },
+            {
+               "uuid":"8e185d2c-507b-4d6e-b641-cb8af52b03fd",
+               "shortname":"teksi",
+               "name_de":"TEKSI, QGEP, QWAT",
+               "orgs":[
+                  "teksi",
+                  "qgep",
+                  "qwat"
                ]
             },
             {
@@ -986,7 +1004,8 @@
                   "FNSKtZH",
                   "StatistikZH",
                   "openZH",
-                  "gisktzh"
+                  "gisktzh",
+                  "bildungsmonitoringZH"
                ]
             },
             {
