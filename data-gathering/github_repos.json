@@ -915,6 +915,14 @@
                ]
             },
             {
+               "uuid":"869731b0-24f1-461c-8a12-17ac143581b5",
+               "shortname":"bj",
+               "name_de":"Bundesamt für Justiz",
+               "orgs":[
+                  "e-id-admin"
+               ]
+            },
+            {
                "uuid":"3f213801-3496-4351-9a9c-2fb1b4aa6946",
                "shortname":"bfs",
                "name_de":"Bundesamt für Statistik",
