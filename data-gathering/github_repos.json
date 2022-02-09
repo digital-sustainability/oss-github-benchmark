@@ -345,6 +345,14 @@
                ]
             },
             {
+               "uuid":"6517018e-e5e4-4d4b-96ff-020c84b1e3e0",
+               "shortname":"opsone",
+               "name_de":"Ops One AG",
+               "orgs":[
+                  "opsone-ch"
+               ]
+            },
+            {
                "uuid":"a2144803-aa4a-4e02-8991-70889c096c47",
                "shortname":"opten",
                "name_de":"OPTEN AG",
