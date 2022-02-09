@@ -281,6 +281,14 @@
                ]
             },
             {
+               "uuid":"b27523b9-c605-4eff-9e03-1c031a7ee222",
+               "shortname":"microsystems",
+               "name_de":"micro systems",
+               "orgs":[
+                  "arcapos"
+               ]
+            },
+            {
                "uuid":"4014cdde-1900-4360-bb53-6c2976344d8f",
                "shortname":"mimacom",
                "name_de":"mimacom",
