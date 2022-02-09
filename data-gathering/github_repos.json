@@ -1170,6 +1170,14 @@
                ]
             },
             {
+               "uuid":"cd30fbb1-6fe8-4c91-93ec-d6448313c792",
+               "shortname":"ffhs",
+               "name_de":"Fernfachhochschule Schweiz",
+               "orgs":[
+                  "ffhs"
+               ]
+            },
+            {
                "uuid":"6b5a2caa-2eaf-4cea-bbda-b58cf61a0266",
                "shortname":"fcbg",
                "name_de":"Fondation Campus Biotech Geneva",
