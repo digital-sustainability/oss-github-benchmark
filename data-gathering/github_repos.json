@@ -1252,6 +1252,14 @@
                   "uzh",
                   "ZurichNLP"
                ]
+            },
+            {
+               "uuid":"9929b685-c0c1-4742-999c-91792bc0cd22",
+               "shortname":"ict-berufsbildung",
+               "name_de":"ICT-Berufsbildung",
+               "orgs":[
+                  "ICT-Berufsbildung"
+               ]
             }
          ]
       },
