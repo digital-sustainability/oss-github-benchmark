@@ -1299,6 +1299,14 @@
                ]
             },
             {
+               "uuid":"be967346-11db-4ff9-b423-08facc0d0f4b",
+               "shortname":"sp",
+               "name_de":"Sozialdemokratische Partei der Schweiz",
+               "orgs":[
+                  "spschweiz"
+               ]
+            },
+            {
                "uuid":"73d8b2d5-5731-4c54-9a40-29f82513b4f3",
                "shortname":"who",
                "name_de":"World Health Organization",
