@@ -1267,6 +1267,14 @@
                ]
             },
             {
+               "uuid":"0ff10fa4-89a6-11ec-8357-3c15c2d466fc",
+               "shortname":"GreenpeaceSchweiz",
+               "name_de":"Greenpeace Schweiz",
+               "orgs":[
+                  "GreenpeaceSchweiz"
+               ]
+            },
+            {
                "uuid":"241b1aab-7ffc-40fb-941f-7af16db9745b",
                "shortname":"itu",
                "name_de":"International Telecommunication Union",
