@@ -1055,15 +1055,6 @@
          "name_de":"Verwaltung Städte und Gemeinden",
          "institutions":[
             {
-               "uuid":"c9f03e8f-fa33-4b53-b92e-e5b6be3a75df",
-               "shortname":"zuerich",
-               "name_de":"Zürich",
-               "orgs":[
-                  "StatistikStadtZuerich",
-                  "opendatazurich"
-               ]
-            },
-            {
                "uuid":"0738ec44-9769-4774-914e-44f1c7365603",
                "shortname":"bern",
                "name_de":"Bern",
@@ -1077,6 +1068,14 @@
                "name_de":"Biel-Bienne",
                "orgs":[
                   "biel-bienne"
+               ]
+            },
+            {
+               "uuid":"e4d86b3b-b54e-4f5a-9c56-840dcb578e20",
+               "shortname":"luzern",
+               "name_de":"Luzern",
+               "orgs":[
+                  "stadtluzern"
                ]
             },
             {
@@ -1109,6 +1108,15 @@
                "name_de":"Yverdon",
                "orgs":[
                   "yverdon"
+               ]
+            },
+            {
+               "uuid":"c9f03e8f-fa33-4b53-b92e-e5b6be3a75df",
+               "shortname":"zuerich",
+               "name_de":"Zürich",
+               "orgs":[
+                  "StatistikStadtZuerich",
+                  "opendatazurich"
                ]
             }
          ]
