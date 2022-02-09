@@ -962,7 +962,8 @@
                "shortname":"bar",
                "name_de":"Schweizerisches Bundesarchiv",
                "orgs":[
-                  "SwissFederalArchives"
+                  "SwissFederalArchives",
+                  "sfa-siard"
                ]
             },
             {
