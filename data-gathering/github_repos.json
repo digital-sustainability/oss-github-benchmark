@@ -305,6 +305,14 @@
                ]
             },
             {
+               "uuid":"2bea4fed-4248-4e4d-a189-46f90e24bda4",
+               "shortname":"nine",
+               "name_de":"nine",
+               "orgs":[
+                  "ninech"
+               ]
+            },
+            {
                "uuid":"633e906b-da12-49f1-8de7-6d52aec20646",
                "shortname":"novu",
                "name_de":"novu",
@@ -435,6 +443,15 @@
                ]
             },
             {
+               "uuid":"35b8a62b-bba0-46d6-8256-6c42158f5a26",
+               "shortname":"ubique",
+               "name_de":"Ubique",
+               "orgs":[
+                  "UbiqueInnovation",
+                  "openmobilemaps"
+               ]
+            },
+            {
                "uuid":"a9bce5be-1175-4faf-9589-298fea4cb7b6",
                "shortname":"unprofession",
                "name_de":"unprofession",
@@ -550,6 +567,14 @@
                "name_de":"HL7 Benutzergruppe Schweiz",
                "orgs":[
                   "hl7ch"
+               ]
+            },
+            {
+               "uuid":"8f1292be-e5c6-4a1b-9ca0-6cd9498aef90",
+               "shortname":"keycdn",
+               "name_de":"KeyCDN",
+               "orgs":[
+                  "keycdn"
                ]
             },
             {
