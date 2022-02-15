@@ -1181,6 +1181,7 @@
                "name_de":"Berner Fachhochschule",
                "orgs":[
                   "bfh",
+                  "digital-sustainability",
                   "iam-ictm",
                   "bfh-science",
                   "HAFL-WWI"
@@ -1258,7 +1259,6 @@
                "orgs":[
                   "unibe-ch",
                   "artorg-unibe-ch",
-                  "digital-sustainability",
                   "CMPG",
                   "ConsBiol-unibern",
                   "hpc-unibe-ch",
