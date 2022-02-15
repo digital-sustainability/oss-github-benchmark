@@ -231,6 +231,14 @@
                ]
             },
             {
+                "uuid":"63e8550b-8bbf-41b0-bd9a-4283a3392447",
+                "shortname":"inventage",
+                "name_de":"Inventage AG",
+                "orgs":[
+                   "inventage"
+                ]
+             },
+            {
                "uuid":"0df80287-0662-4f30-8d8c-2bc1468d8587",
                "shortname":"interactivethings",
                "name_de":"Interactive Things",
