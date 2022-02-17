@@ -191,6 +191,14 @@
                ]
             },
             {
+               "uuid":"0ecce1bb-fd14-4e5c-9296-bfff1efcbda4",
+               "shortname":"ergon",
+               "name_de":"Ergon Informatik AG ",
+               "orgs":[
+                  "ergon"
+               ]
+            },
+            {
                "uuid":"bead444a-0f0c-491e-a893-7d89d21d8a51",
                "shortname":"erni",
                "name_de":"ERNI",
@@ -318,6 +326,14 @@
                "name_de":"nine",
                "orgs":[
                   "ninech"
+               ]
+            },
+            {
+               "uuid":"baa12e69-c8f1-48d9-9ef1-0e250e130275",
+               "shortname":"nxt",
+               "name_de":"nxt Engineering GmbH",
+               "orgs":[
+                  "nxt"
                ]
             },
             {
@@ -583,6 +599,14 @@
                "name_de":"KeyCDN",
                "orgs":[
                   "keycdn"
+               ]
+            },
+            {
+               "uuid":"e11b787f-92ed-4432-9ece-4a9c82188037",
+               "shortname":"k8up",
+               "name_de":"k8up",
+               "orgs":[
+                  "k8up-io"
                ]
             },
             {
