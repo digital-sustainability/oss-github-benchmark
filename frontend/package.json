@@ -35,7 +35,7 @@
     "@scullyio/scully": "^1.0.0",
     "d3": "^6.2.0",
     "express": "^4.15.2",
-    "lodash-es": "^4.17.15",
+    "lodash-es": "^4.17.21",
     "ng2-search-filter": "^0.5.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
