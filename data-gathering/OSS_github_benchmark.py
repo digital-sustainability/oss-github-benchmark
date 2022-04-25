@@ -31,6 +31,8 @@ collectionRepositories = db["repositories"]
 collectionRunning = db["running"]
 collectionTodoInstitutions = db["todoInstitutions"]
 collectionBadStuff = db["badStuff"]
+collectionUsers = db["users"]
+collectionUsersNew = db["usersNew"]
 
 # JSON Daten laden, Variablen setzen
 with open('github_repos.json', encoding='utf-8') as file:
@@ -39,6 +41,8 @@ institutions_data = []
 sector_data = {}
 repos_data = []
 sector = ""
+users = []
+userLogins = []
 
 
 def handle_rate_limit():
@@ -57,7 +61,7 @@ def saveProgress():
 
 
 def getProgress():
-    global i, j, currentDateAndTime, githubrepos
+    global i, j, currentDateAndTime, githubrepos, users, userLogins
     progress = collectionProgress.find_one({})
     if progress != None:
         i = progress["i"]
@@ -70,7 +74,10 @@ def getProgress():
         currentDateAndTime = datetime.datetime.now(
             timezone.utc).replace(tzinfo=timezone.utc)
         collectionRepositoriesNew.delete_many({})
+        collectionUsersNew.delete_many({})
     githubrepos = collectionTodoInstitutions.find_one({})["githubrepos"]
+    users = list(collectionUsersNew.find())
+    userLogins = [user["login"] for user in users]
 
 
 # Warte bis die vorherige Action fertig ist.
@@ -173,6 +180,7 @@ while i < len(githubrepos):
                 organization_data["email"] = tryUntilRateLimitNotExceeded(
                     "org.email")
                 organization_data["repos"] = []
+                organization_data["coders"] = []
                 # Die Anzahl GitHub-Organisationen, Members, Repos, Avatars (Link zu Icons) und die Organisations-Namen zu einer Institution hinzufügen
                 institution_data["num_orgs"] += 1
                 institution_data["num_members"] += organization_data["num_members"]
@@ -401,6 +409,55 @@ while i < len(githubrepos):
                             pass
 
                         try:
+                            contributors = tryUntilRateLimitNotExceeded(
+                                "repo.get_contributors()")
+                            repo_data["contributors"] = [
+                                user.login for user in contributors]
+                            for contributor in contributors:
+                                if not contributor.login in userLogins:
+                                    users.append({
+                                        "login": contributor.login,
+                                        "name": contributor.name,
+                                        "avatar_url": contributor.avatar_url,
+                                        "bio": contributor.bio,
+                                        "blog": contributor.blog,
+                                        "company": contributor.company,
+                                        "email": contributor.email,
+                                        "twitter_username": contributor.twitter_username,
+                                        "location": contributor.location,
+                                        "created_at": contributor.created_at,
+                                        "updated_at": contributor.updated_at,
+                                        "contributions": contributor.contributions,
+                                        "public_repos": contributor.public_repos,
+                                        "public_gists": contributor.public_gists,
+                                        "followers": contributor.followers,
+                                        "following": contributor.following,
+                                        "orgs": [org.name for org in contributor.get_orgs() if org.name],
+                                        # "repos": contributor.get_repos()
+                                    })
+                                    userLogins.append(contributor.login)
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            pass
+
+                        try:
+                            commits = tryUntilRateLimitNotExceeded(
+                                "repo.get_commits()")
+                            commiters = [
+                                commit.author.login for commit in commits if commit.author != None]
+                            coders = []
+                            for c in commiters:
+                                if not c in coders:
+                                    coders.append(c)
+                            repo_data["coders"] = coders
+                            for c in commiters:
+                                if not c in organization_data["coders"]:
+                                    organization_data["coders"].append(c)
+                        except KeyboardInterrupt:
+                            raise
+
+                        try:
                             repo_data["license"] = tryUntilRateLimitNotExceeded(
                                 "repo.get_license().license.name")
                         except KeyboardInterrupt:
@@ -472,7 +529,7 @@ while i < len(githubrepos):
                                     {"error": f"error in repo {repo.name} of org {org_name}: {str(e)}"})
                             except:
                                 badStuff(
-                                    {"error": f"error in org {org_name}: {str(e)}"})
+                                    {"error": f"error in org {org_name}"})
                         traceback.print_exc()
                     institution_data["repos"].append(repo_data)
                     organization_data["repos"].append(repo_data)
@@ -508,6 +565,9 @@ while i < len(githubrepos):
             {"uuid": institution_data["uuid"]}, institution_data, upsert=True)
         if len(institution_data["repos"]) != 0:
             collectionRepositoriesNew.insert_many(institution_data["repos"])
+        if len(users) != 0:
+            collectionUsersNew.insert_many(users)
+        users = []
         j += 1
         saveProgress()
     i += 1
@@ -517,6 +577,9 @@ collectionProgress.delete_many({})
 
 collectionRepositories.delete_many({})
 collectionRepositoriesNew.aggregate([{"$match": {}}, {"$out": "repositories"}])
+
+collectionUsers.delete_many({})
+collectionUsersNew.aggregate([{"$match": {}}, {"$out": "users"}])
 
 with open('github-data.pickle', 'wb') as file:
     pickle.dump(sector_data, file)
