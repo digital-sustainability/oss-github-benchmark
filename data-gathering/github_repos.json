@@ -143,10 +143,11 @@
             },
             {
                "uuid":"b2cc48ed-b5b7-4d0b-bca5-06c94e8dc477",
-               "shortname":"caos",
-               "name_de":"CAOS AG",
+               "shortname":"zitadel",
+               "name_de":"ZITADEL",
                "orgs":[
                   "caos"
+                  "zitadel"
                ]
             },
             {
