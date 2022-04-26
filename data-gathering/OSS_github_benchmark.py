@@ -81,6 +81,8 @@ def getProgress():
 
 
 # Warte bis die vorherige Action fertig ist.
+collectionRunning.delete_one({})
+sleep(3)
 actionRunning = collectionRunning.find_one({}) != None
 while actionRunning:
     collectionRunning.delete_one({})
@@ -89,10 +91,10 @@ while actionRunning:
     actionRunning = collectionRunning.find_one({}) != None
 
 
-def tryUntilRateLimitNotExceeded(cmd):
+def tryUntilRateLimitNotExceeded(f, *args, **kwargs):
     while True:
         try:
-            result = eval(cmd)
+            result = f(*args, **kwargs)
             break
         except github.RateLimitExceededException:
             handle_rate_limit()
@@ -158,27 +160,20 @@ while i < len(githubrepos):
             try:
                 print(f"{org_name} ({orgNo + 1}/{len(institution['orgs'])})")
                 org = tryUntilRateLimitNotExceeded(
-                    "g.get_organization(org_name)")
+                    g.get_organization, org_name)
                 organization_data = {}
                 for dataName in dataToGet:
                     organization_data[dataName] = 0
                 organization_data["name"] = org_name
-                organization_data["url"] = tryUntilRateLimitNotExceeded(
-                    "org.html_url")
-                organization_data["description"] = tryUntilRateLimitNotExceeded(
-                    "org.description")
+                organization_data["url"] = org.html_url
+                organization_data["description"] = org.description
                 organization_data["num_members"] = tryUntilRateLimitNotExceeded(
-                    "org.get_members().totalCount")
-                organization_data["num_repos"] = tryUntilRateLimitNotExceeded(
-                    "org.public_repos")
-                organization_data["avatar"] = tryUntilRateLimitNotExceeded(
-                    "org.avatar_url")
-                organization_data["created_at"] = tryUntilRateLimitNotExceeded(
-                    "org.created_at")
-                organization_data["location"] = tryUntilRateLimitNotExceeded(
-                    "org.location")
-                organization_data["email"] = tryUntilRateLimitNotExceeded(
-                    "org.email")
+                    org.get_members).totalCount
+                organization_data["num_repos"] = org.public_repos
+                organization_data["avatar"] = org.avatar_url
+                organization_data["created_at"] = org.created_at
+                organization_data["location"] = org.location
+                organization_data["email"] = org.email
                 organization_data["repos"] = []
                 organization_data["coders"] = []
                 # Die Anzahl GitHub-Organisationen, Members, Repos, Avatars (Link zu Icons) und die Organisations-Namen zu einer Institution hinzufügen
@@ -209,7 +204,6 @@ while i < len(githubrepos):
                             "num_commits": 0,
                             "num_stars": 0,
                             "num_watchers": 0,
-                            "last_years_commits": 0,
                             "commit_activities": [],
                             "has_own_commits": 0,
                             "issues_closed": 0,
@@ -222,247 +216,111 @@ while i < len(githubrepos):
                             "createdTimestamp": 0,
                             "updatedTimestamp": 0,
                         }
-                        try:
-                            commit_activities = tryUntilRateLimitNotExceeded(
-                                "repo.get_stats_commit_activity()")
-                            last_years_commits = 0
-                            # Alle Commits der letzten 12 Monate zusammenzählen
-                            if commit_activities != None:
-                                for week in commit_activities:
-                                    last_years_commits += tryUntilRateLimitNotExceeded(
-                                        "week.total")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            commit_activities = []
-                            last_years_commits = 0
+                        commit_activities = tryUntilRateLimitNotExceeded(
+                            repo.get_stats_commit_activity)
+                        last_years_commits = 0
+                        # Alle Commits der letzten 12 Monate zusammenzählen
+                        if commit_activities != None:
+                            for week in commit_activities:
+                                last_years_commits += week.total
                         # TODO: hinzufügen Könnte auch noch interessant sein: https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#get-the-weekly-commit-activity
                         # code_frequency = get_stats_code_frequency()
 
                         # Überprüfen ob commits schon im parent repo existieren (ein Fork ohne eigene Commits)
                         has_own_commits = 0
-                        if tryUntilRateLimitNotExceeded("repo.parent"):
+                        if repo.parent:
                             try:
                                 has_own_commits = tryUntilRateLimitNotExceeded(
-                                    'repo.compare(repo.parent.owner.login + ":master", "master").ahead_by')
-                            except KeyboardInterrupt:
-                                raise
+                                    repo.compare, repo.parent.owner.login + ":master", "master").ahead_by
                             except github.GithubException:
                                 pass
                         # Zahlreiche Attribute eines Repos herausholen: Name, Fork (eines anderen Repos), wie oft geforkt, Contributors, Commits, Stars, Watchers und Commits der letzten 12 Monate
                         # Reference PyGitHub: https://pygithub.readthedocs.io/en/latest/github_objects/Repository.html
                         # GitHub Statistics: https://developer.github.com/v3/repos/statistics/#get-contributors-list-with-additions-deletions-and-commit-counts
-                        try:
-                            repo_data["name"] = tryUntilRateLimitNotExceeded(
-                                "repo.name")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["url"] = tryUntilRateLimitNotExceeded(
-                                "repo.html_url")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["description"] = tryUntilRateLimitNotExceeded(
-                                "repo.description")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["fork"] = tryUntilRateLimitNotExceeded(
-                                "repo.fork")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["archived"] = tryUntilRateLimitNotExceeded(
-                                "repo.archived")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["num_forks"] = tryUntilRateLimitNotExceeded(
-                                "repo.forks_count")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["num_stars"] = tryUntilRateLimitNotExceeded(
-                                "repo.stargazers_count")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            # Diese Variable stimmt nicht: es werden Anzahl Stars zurückgegeben
-                            repo_data["num_watchers"] = tryUntilRateLimitNotExceeded(
-                                "repo.subscribers_count")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["last_years_commits"] = tryUntilRateLimitNotExceeded(
-                                "last_years_commits")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            # Diese Variable stimmt nicht: es wird teilweise die Anzahl Commits, teilweise auch was ganz anderes zurückgegeben
-                            repo_data["num_contributors"] = tryUntilRateLimitNotExceeded(
-                                "repo.get_contributors().totalCount")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["commit_activities"] = tryUntilRateLimitNotExceeded(
-                                "[ a.raw_data for a in commit_activities ]")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            # Sagt aus ob eigene Commits gemacht wurden oder nur geforkt
-                            repo_data["has_own_commits"] = has_own_commits
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["issues_closed"] = tryUntilRateLimitNotExceeded(
-                                'repo.get_issues(state="closed").totalCount')
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["issues_all"] = tryUntilRateLimitNotExceeded(
-                                'repo.get_issues(state="all").totalCount')
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["pull_requests_closed"] = tryUntilRateLimitNotExceeded(
-                                'repo.get_pulls(state="closed").totalCount')
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["pull_requests_all"] = tryUntilRateLimitNotExceeded(
-                                'repo.get_pulls(state="all").totalCount')
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["comments"] = tryUntilRateLimitNotExceeded(
-                                "repo.get_comments().totalCount")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["languages"] = tryUntilRateLimitNotExceeded(
-                                "repo.get_languages()")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["timestamp"] = currentDateAndTime
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["num_commits"] = tryUntilRateLimitNotExceeded(
-                                "repo.get_commits().totalCount")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["created_at"] = tryUntilRateLimitNotExceeded(
-                                "repo.created_at")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
-                        try:
-                            repo_data["updated_at"] = tryUntilRateLimitNotExceeded(
-                                "repo.updated_at")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
+                        repo_data["name"] = repo.name
+                        repo_data["url"] = repo.html_url
+                        repo_data["description"] = repo.description
+                        repo_data["fork"] = repo.fork
+                        repo_data["archived"] = repo.archived
+                        repo_data["num_forks"] = repo.forks_count
+                        repo_data["num_stars"] = repo.stargazers_count
+                        # Diese Variable stimmt nicht: es werden Anzahl Stars zurückgegeben
+                        repo_data["num_watchers"] = repo.subscribers_count
+                        # Diese Variable stimmt nicht: es wird teilweise die Anzahl Commits, teilweise auch was ganz anderes zurückgegeben
+                        repo_data["num_contributors"] = tryUntilRateLimitNotExceeded(
+                            repo.get_contributors).totalCount
+                        repo_data["commit_activities"] = [
+                            a.raw_data for a in commit_activities]
+                        # Sagt aus ob eigene Commits gemacht wurden oder nur geforkt
+                        repo_data["has_own_commits"] = has_own_commits
+                        repo_data["issues_closed"] = tryUntilRateLimitNotExceeded(
+                            repo.get_issues, state="closed").totalCount
+                        repo_data["issues_all"] = tryUntilRateLimitNotExceeded(
+                            repo.get_issues, state="all").totalCount
+                        repo_data["pull_requests_closed"] = tryUntilRateLimitNotExceeded(
+                            repo.get_pulls, state="closed").totalCount
+                        repo_data["pull_requests_all"] = tryUntilRateLimitNotExceeded(
+                            repo.get_pulls, state="all").totalCount
+                        repo_data["comments"] = tryUntilRateLimitNotExceeded(
+                            repo.get_comments).totalCount
+                        repo_data["languages"] = tryUntilRateLimitNotExceeded(
+                            repo.get_languages)
+                        repo_data["timestamp"] = currentDateAndTime
+                        repo_data["num_commits"] = tryUntilRateLimitNotExceeded(
+                            repo.get_commits).totalCount
+                        repo_data["created_at"] = repo.created_at
+                        repo_data["updated_at"] = repo.updated_at
 
-                        try:
-                            contributors = tryUntilRateLimitNotExceeded(
-                                "repo.get_contributors()")
-                            repo_data["contributors"] = [
-                                user.login for user in contributors]
-                            for contributor in contributors:
-                                if not contributor.login in userLogins:
-                                    users.append({
-                                        "login": contributor.login,
-                                        "name": contributor.name,
-                                        "avatar_url": contributor.avatar_url,
-                                        "bio": contributor.bio,
-                                        "blog": contributor.blog,
-                                        "company": contributor.company,
-                                        "email": contributor.email,
-                                        "twitter_username": contributor.twitter_username,
-                                        "location": contributor.location,
-                                        "created_at": contributor.created_at,
-                                        "updated_at": contributor.updated_at,
-                                        "contributions": contributor.contributions,
-                                        "public_repos": contributor.public_repos,
-                                        "public_gists": contributor.public_gists,
-                                        "followers": contributor.followers,
-                                        "following": contributor.following,
-                                        "orgs": [org.name for org in contributor.get_orgs() if org.name],
-                                        # "repos": contributor.get_repos()
-                                    })
-                                    userLogins.append(contributor.login)
-                        except KeyboardInterrupt:
-                            raise
-                        except:
-                            pass
+                        contributors = tryUntilRateLimitNotExceeded(
+                            repo.get_contributors)
+                        repo_data["contributors"] = [
+                            user.login for user in contributors]
+                        for contributor in contributors:
+                            if not contributor.login in userLogins:
+                                users.append({
+                                    "login": contributor.login,
+                                    "name": contributor.name,
+                                    "avatar_url": contributor.avatar_url,
+                                    "bio": contributor.bio,
+                                    "blog": contributor.blog,
+                                    "company": contributor.company,
+                                    "email": contributor.email,
+                                    "twitter_username": contributor.twitter_username,
+                                    "location": contributor.location,
+                                    "created_at": contributor.created_at,
+                                    "updated_at": contributor.updated_at,
+                                    "contributions": {institution_data["shortname"]: {organization_data["name"]: {repo_data["name"]: contributor.contributions}}},
+                                    "public_repos": contributor.public_repos,
+                                    "public_gists": contributor.public_gists,
+                                    "followers": contributor.followers,
+                                    "following": contributor.following,
+                                    "orgs": [org.name for org in contributor.get_orgs() if org.name],
+                                    # "repos": contributor.get_repos()
+                                })
+                                userLogins.append(contributor.login)
+                            # else:
+                            #     users[userLogins.index(contributor.login)]
+                            #     ["contributions"]
+                            #     [organization_data["shortname"]]
+                            #     [repo_data["name"]] = contributor.contributions
 
-                        try:
-                            commits = tryUntilRateLimitNotExceeded(
-                                "repo.get_commits()")
-                            commiters = [
-                                commit.author.login for commit in commits if commit.author != None]
-                            coders = []
-                            for c in commiters:
-                                if not c in coders:
-                                    coders.append(c)
-                            repo_data["coders"] = coders
-                            for c in commiters:
-                                if not c in organization_data["coders"]:
-                                    organization_data["coders"].append(c)
-                        except KeyboardInterrupt:
-                            raise
+                        commits = tryUntilRateLimitNotExceeded(
+                            repo.get_commits)
+                        commiters = [
+                            commit.author.login for commit in commits if commit.author != None]
+                        coders = []
+                        for c in commiters:
+                            if not c in coders:
+                                coders.append(c)
+                        repo_data["coders"] = coders
+                        for c in commiters:
+                            if not c in organization_data["coders"]:
+                                organization_data["coders"].append(c)
 
                         try:
                             repo_data["license"] = tryUntilRateLimitNotExceeded(
-                                "repo.get_license().license.name")
-                        except KeyboardInterrupt:
-                            raise
-                        except:
+                                repo.get_license).license.name
+                        except github.GithubException:
                             repo_data["license"] = "none"
 
                         # Stars, Contributors, Commits, Forks, Watchers und Last Year's Commits nur zählen wenn das Repo nicht geforkt ist
@@ -472,7 +330,6 @@ while i < len(githubrepos):
                             institution_data["total_num_commits"] += repo_data["num_commits"]
                             institution_data["total_num_own_repo_forks"] += repo_data["num_forks"]
                             institution_data["total_num_watchers"] += repo_data["num_watchers"]
-                            institution_data["total_commits_last_year"] += repo_data["last_years_commits"]
                             institution_data["total_pull_requests_all"] += repo_data["pull_requests_all"]
                             institution_data["total_pull_requests_closed"] += repo_data["pull_requests_closed"]
                             institution_data["total_issues_all"] += repo_data["issues_all"]
@@ -486,7 +343,6 @@ while i < len(githubrepos):
                             organization_data["total_num_commits"] += repo_data["num_commits"]
                             organization_data["total_num_own_repo_forks"] += repo_data["num_forks"]
                             organization_data["total_num_watchers"] += repo_data["num_watchers"]
-                            organization_data["total_commits_last_year"] += repo_data["last_years_commits"]
                             organization_data["total_pull_requests_all"] += repo_data["pull_requests_all"]
                             organization_data["total_pull_requests_closed"] += repo_data["pull_requests_closed"]
                             organization_data["total_issues_all"] += repo_data["issues_all"]
@@ -506,7 +362,7 @@ while i < len(githubrepos):
                             organization_data["total_num_forks_in_repos"] += 1
                             organization_data["total_num_commits"] += repo_data["has_own_commits"]
                     except RuntimeError as error:
-                        print("Fehler beim Laden der Daten von '" +
+                        print("Error occured while loading '" +
                               repo.name + "' : " + str(error))
                         try:
                             badStuff(repo)
@@ -543,7 +399,7 @@ while i < len(githubrepos):
                 except:
                     badStuff(f"{org_name}")
                 traceback.print_exc()
-        print("Anzahl GitHub Repos von " +
+        print("Number of GitHub repos of " +
               institution["name_de"] + ": " + str(institution_data["num_repos"]))
         institutions_data.append(institution_data)
         sector_data[sector_key].append(institution_data)
@@ -565,6 +421,7 @@ while i < len(githubrepos):
             {"uuid": institution_data["uuid"]}, institution_data, upsert=True)
         if len(institution_data["repos"]) != 0:
             collectionRepositoriesNew.insert_many(institution_data["repos"])
+        print("Users:", *[u.login for u in users])
         if len(users) != 0:
             collectionUsersNew.insert_many(users)
         users = []
@@ -583,8 +440,6 @@ collectionUsersNew.aggregate([{"$match": {}}, {"$out": "users"}])
 
 with open('github-data.pickle', 'wb') as file:
     pickle.dump(sector_data, file)
-
-print("Laden der bereits gecrawlten Daten...")
 
 institutions_data = collectionInstitutions.find({},
                                                 {
@@ -605,9 +460,6 @@ for institution in institutions_data:
         sector_data[institution["sector"]] = []
 institutions_data = institutions
 
-print("Daten geladen.")
-print("CSV aktualisieren...")
-
 csv_columns = [
     "sector",
     "name_de",
@@ -619,7 +471,6 @@ csv_columns = [
     "total_num_commits",
     "total_num_stars",
     "total_num_watchers",
-    "total_commits_last_year",
     "total_pull_requests_all",
     "total_pull_requests_closed",
     "total_issues_all",
@@ -637,15 +488,9 @@ with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvf
     for data in institutions_data:
         writer.writerow(data)
 
-print("CSV aktualisiert.")
-print("JSON aktualisieren...")
-
 # institutions_data.sort(key=lambda x: x[2], reverse=True)
 
 f = open("oss-github-benchmark.json", "w")
 f.write(json.dumps(sector_data, default=json_util.default))
 
 collectionRunning.delete_one({})
-
-print("JSON aktualisiert.")
-print("Fertig.")
