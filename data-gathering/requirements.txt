@@ -1,3 +1,4 @@
 PyGithub
 pymongo
 pymongo[srv]
+alive_progress
