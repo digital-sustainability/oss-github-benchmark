@@ -21,7 +21,7 @@ logger = logging.getLogger()
 g = Github(os.environ['GITHUBTOKEN'])
 
 cluster = MongoClient(os.environ['DATABASELINK'])
-db = cluster["Astatistics"]  # db = cluster["statistics"]
+db = cluster["statistics"]
 collectionInstitutions = db["institutions"]
 collectionRepositoriesNew = db["repositoriesNew"]
 collectionProgress = db["progress"]
