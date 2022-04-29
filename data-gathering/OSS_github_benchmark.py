@@ -13,6 +13,7 @@ import uuid
 from bson import json_util
 from alive_progress import alive_bar
 import threading
+from mergedeep import merge
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -28,7 +29,6 @@ collectionProgress = db["progress"]
 collectionRepositories = db["repositories"]
 collectionRunning = db["running"]
 collectionTodoInstitutions = db["todoInstitutions"]
-collectionBadStuff = db["badStuff"]
 collectionUsers = db["users"]
 collectionUsersNew = db["usersNew"]
 
@@ -383,9 +383,17 @@ def popUsers(repos):
 
 
 def saveUsers(users):
-    for user in users:
-        collectionUsersNew.update_one({"login": user["login"]}, {
-            "$set": {"contributions": user["contributions"]}})
+    with alive_bar(len(users)) as bar:
+        for user in users:
+            oldUser = collectionUsersNew.find_one({"login": user["login"]})
+            if oldUser:
+                mergedUsers = merge(user["contributions"],
+                                    oldUser["contributions"])
+                collectionUsersNew.update_one({"login": user["login"]}, {
+                    "$set": {"contributions": mergedUsers}})
+            else:
+                collectionUsersNew.insert_one(user)
+            bar()
 
 
 currentSector = progressSector
@@ -433,6 +441,8 @@ institutions_data = collectionInstitutions.find({},
     "repos": {"commit_activities": 0},
     "_id": 0,
 }
+
+
 )
 sector_data = {}
 institutions = []
