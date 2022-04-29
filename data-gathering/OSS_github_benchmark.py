@@ -21,23 +21,12 @@ logger = logging.getLogger()
 # GitHub Login mittels Token
 g = Github(os.environ['GITHUBTOKEN'])
 
-cluster = MongoClient(os.environ['DATABASELINK'])
-db = cluster["statistics"]
-collectionInstitutions = db["institutions"]
-collectionRepositoriesNew = db["repositoriesNew"]
-collectionProgress = db["progress"]
-collectionRepositories = db["repositories"]
-collectionRunning = db["running"]
-collectionTodoInstitutions = db["todoInstitutions"]
-collectionUsers = db["users"]
-collectionUsersNew = db["usersNew"]
-
-startTime = time()
+def getNumberOfSections():
+    return len(githubConfig)
 
 
-# JSON Daten laden, Variablen setzen
-with open('github_repos.json', encoding='utf-8') as file:
-    githubrepos = json.load(file)
+def getSectorInformation(sector):
+    return githubConfig[sector]
 
 
 def getProgress():
@@ -65,42 +54,92 @@ def running():
             collectionRunning.insert_one({"Status": "running"})
 
 
-# Warten bis die vorherige Action fertig ist.
-actionRunning = collectionRunning.find_one({}) != None
-if actionRunning:
-    collectionRunning.delete_one({})
-    sleep(3)
-    actionRunning = collectionRunning.find_one({}) != None
-    while actionRunning:
-        collectionRunning.delete_one({})
-        logger.warning(
-            "Action is already running. Trying again in one minute.")
-        sleep(60)
-        actionRunning = collectionRunning.find_one({}) != None
+def updateStats(institutionData, dataToGet):
+    inst_old = collectionInstitutions.find_one(
+        {"uuid": institutionData["uuid"]})
+    stat = {
+        "timestamp": currentDateAndTime,
+    }
+    for statName in dataToGet:
+        stat[statName] = institutionData[statName]
+    institutionData["stats"] = [stat]
+    if inst_old != None:
+        stats = inst_old["stats"]
+        stats.append(stat)
+        institutionData["stats"] = stats
+    return institutionData
 
-# Auf Fortschritt überprüfen.
-progress = getProgress()
-if progress != None:
-    currentDateAndTime = progress["currentDateAndTime"]
-    progressSector = progress["currentSector"]
-    progressInstitution = progress["currentInstitution"]
-    progressOrganization = progress["currentOrganization"]
-else:
-    currentDateAndTime = datetime.datetime.now(
-        timezone.utc).replace(tzinfo=timezone.utc)
-    progressSector = 0
-    progressInstitution = 0
+
+def saveInstitution(institutionData):
+    collectionInstitutions.replace_one(
+        {"uuid": institutionData["uuid"]}, institutionData, upsert=True)
+
+
+def saveRepositories(repos):
+    # pass
+    if len(repos) != 0:
+        collectionRepositoriesNew.insert_many(repos)
+
+
+def popRepos(inst):
+    repos = []
+    for i, repo in enumerate(inst["repos"]):
+        repos.append(repo)
+        inst["repos"][i] = repo["uuid"]
+    for j, org in enumerate(inst["orgs"]):
+        for i, repo in enumerate(org["repos"]):
+            inst["orgs"][j]["repos"][i] = repo["uuid"]
+    return(repos)
+
+
+def popUsers(repos):
+    users = []
+    for i, repo in enumerate(repos):
+        for j, contributor in enumerate(repo["contributors"]):
+            users.append(contributor)
+            repos[i]["contributors"][j] = contributor["login"]
+    return(users)
+
+
+def saveUsers(users):
+    with alive_bar(len(users)) as bar:
+        for user in users:
+            oldUser = collectionUsersNew.find_one({"login": user["login"]})
+            if oldUser:
+                mergedUsers = merge(user["contributions"],
+                                    oldUser["contributions"])
+                collectionUsersNew.update_one({"login": user["login"]}, {
+                    "$set": {"contributions": mergedUsers}})
+            else:
+                collectionUsersNew.insert_one(user)
+            bar()
+
+
+def saveInstitutionData(institutionData):
+    repositories = popRepos(institutionData)
+    users = popUsers(repositories)
+
+    saveInstitution(institutionData)
+    saveRepositories(repositories)
+    saveUsers(users)
+
+
+def crawlInstitution(currentInstitution):
+    waitForCallAttempts()
+    institutionData = getInstitution(
+        sector["institutions"][currentInstitution], dataToGet, progressOrganization)
     progressOrganization = 0
-    collectionUsersNew.delete_many({})
-    collectionTodoInstitutions.delete_many({})
-    collectionTodoInstitutions.insert_one(
-        {"githubrepos": list(githubrepos["GitHubRepos"].items())})
-githubrepos = collectionTodoInstitutions.find_one({})["githubrepos"]
-users = list(collectionUsersNew.find())
+    institutionData = updateStats(institutionData, dataToGet)
 
-# Als seperater Thread mitteilen, dass der Crawler läuft.
-runningSignal = threading.Thread(target=running, daemon=True)
-runningSignal.start()
+    saveInstitutionData(institutionData)
+
+    currentInstitution += 1
+    progress = {}
+    progress["currentDateAndTime"] = currentDateAndTime
+    progress["currentSector"] = currentSector
+    progress["currentInstitution"] = currentInstitution
+    progress["currentOrganization"] = 0
+    saveProgress(progress)
 
 
 def stopWhenTimeOver():
@@ -316,6 +355,64 @@ def getInstitution(institution, dataToGet, progressOrganization):
     return(institutionData)
 
 
+cluster = MongoClient(os.environ['DATABASELINK'])
+db = cluster["statistics"]
+collectionInstitutions = db["institutions"]
+collectionRepositoriesNew = db["repositoriesNew"]
+collectionProgress = db["progress"]
+collectionRepositories = db["repositories"]
+collectionRunning = db["running"]
+collectionTodoInstitutions = db["todoInstitutions"]
+collectionUsers = db["users"]
+collectionUsersNew = db["usersNew"]
+
+startTime = time()
+
+
+# JSON Daten laden, Variablen setzen
+with open('github_repos.json', encoding='utf-8') as file:
+    githubrepos = json.load(file)
+    githubConfig = list(githubrepos)
+
+
+# Warten bis die vorherige Action fertig ist.
+actionRunning = collectionRunning.find_one({}) != None
+if actionRunning:
+    collectionRunning.delete_one({})
+    sleep(3)
+    actionRunning = collectionRunning.find_one({}) != None
+    while actionRunning:
+        collectionRunning.delete_one({})
+        logger.warning(
+            "Action is already running. Trying again in one minute.")
+        sleep(60)
+        actionRunning = collectionRunning.find_one({}) != None
+
+# Auf Fortschritt überprüfen.
+progress = getProgress()
+if progress != None:
+    currentDateAndTime = progress["currentDateAndTime"]
+    progressSector = progress["currentSector"]
+    progressInstitution = progress["currentInstitution"]
+    progressOrganization = progress["currentOrganization"]
+else:
+    currentDateAndTime = datetime.datetime.now(
+        timezone.utc).replace(tzinfo=timezone.utc)
+    progressSector = 0
+    progressInstitution = 0
+    progressOrganization = 0
+    collectionUsersNew.delete_many({})
+    collectionTodoInstitutions.delete_many({})
+    collectionTodoInstitutions.insert_one(
+        {"githubrepos": list(githubrepos["GitHubRepos"].items())})
+githubrepos = collectionTodoInstitutions.find_one({})["githubrepos"]
+users = list(collectionUsersNew.find())
+
+# Als seperater Thread mitteilen, dass der Crawler läuft.
+runningSignal = threading.Thread(target=running, daemon=True)
+runningSignal.start()
+
+
 dataToGet = [
     "num_repos",
     "num_members",
@@ -335,93 +432,14 @@ dataToGet = [
 ]
 
 
-def updateStats(institutionData, dataToGet):
-    inst_old = collectionInstitutions.find_one(
-        {"uuid": institutionData["uuid"]})
-    stat = {
-        "timestamp": currentDateAndTime,
-    }
-    for statName in dataToGet:
-        stat[statName] = institutionData[statName]
-    institutionData["stats"] = [stat]
-    if inst_old != None:
-        stats = inst_old["stats"]
-        stats.append(stat)
-        institutionData["stats"] = stats
-    return institutionData
-
-
-def saveInstitution(institutionData):
-    collectionInstitutions.replace_one(
-        {"uuid": institutionData["uuid"]}, institutionData, upsert=True)
-
-
-def saveRepositories(repos):
-    # pass
-    if len(repos) != 0:
-        collectionRepositoriesNew.insert_many(repos)
-
-
-def popRepos(inst):
-    repos = []
-    for i, repo in enumerate(inst["repos"]):
-        repos.append(repo)
-        inst["repos"][i] = repo["uuid"]
-    for j, org in enumerate(inst["orgs"]):
-        for i, repo in enumerate(org["repos"]):
-            inst["orgs"][j]["repos"][i] = repo["uuid"]
-    return(repos)
-
-
-def popUsers(repos):
-    users = []
-    for i, repo in enumerate(repos):
-        for j, contributor in enumerate(repo["contributors"]):
-            users.append(contributor)
-            repos[i]["contributors"][j] = contributor["login"]
-    return(users)
-
-
-def saveUsers(users):
-    with alive_bar(len(users)) as bar:
-        for user in users:
-            oldUser = collectionUsersNew.find_one({"login": user["login"]})
-            if oldUser:
-                mergedUsers = merge(user["contributions"],
-                                    oldUser["contributions"])
-                collectionUsersNew.update_one({"login": user["login"]}, {
-                    "$set": {"contributions": mergedUsers}})
-            else:
-                collectionUsersNew.insert_one(user)
-            bar()
-
-
 currentSector = progressSector
 currentInstitution = progressInstitution
-while currentSector < len(githubrepos):
-    sector_key, sector = list(githubrepos)[currentSector]
+while currentSector < getNumberOfSections():
+    sector_key, sector = getSectorInformation(currentSector)
     print("Sector: " + sector_key)
 
     while currentInstitution < len(sector["institutions"]):
-        waitForCallAttempts()
-        institutionData = getInstitution(
-            sector["institutions"][currentInstitution], dataToGet, progressOrganization)
-        progressOrganization = 0
-        institutionData = updateStats(institutionData, dataToGet)
-
-        repositories = popRepos(institutionData)
-        users = popUsers(repositories)
-
-        saveInstitution(institutionData)
-        saveRepositories(repositories)
-        saveUsers(users)
-        currentInstitution += 1
-        progress = {}
-        progress["currentDateAndTime"] = currentDateAndTime
-        progress["currentSector"] = currentSector
-        progress["currentInstitution"] = currentInstitution
-        progress["currentOrganization"] = 0
-        saveProgress(progress)
+        crawlInstitution(currentInstitution)
 
     currentInstitution = 0
     currentSector += 1
@@ -490,3 +508,4 @@ with open("oss-github-benchmark.json", "w") as f:
     f.write(json.dumps(sector_data, default=json_util.default))
 
 collectionRunning.delete_one({})
+
