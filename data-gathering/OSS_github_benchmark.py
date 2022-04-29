@@ -51,11 +51,11 @@ def saveProgress(progress):
     stopWhenTimeOver()
 
 
-def waitForCallAttempts(attempts=100):
+def waitForCallAttempts(attempts=500):
     if g.rate_limiting[0] < attempts:
         print("Waiting for more call attemps...")
         while g.rate_limiting[0] < attempts:
-            sleep(1)
+            sleep(10)
 
 
 def running():
