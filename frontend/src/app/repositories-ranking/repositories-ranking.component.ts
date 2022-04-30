@@ -18,7 +18,7 @@ export class RepositoriesRankingComponent implements OnInit {
   item: IInstitution;
   displayedColumns: any[] = [
     ['name', 'Name', false, 'string'],
-    ['logo', '', false, 'img'],
+    // ['logo', '', false, 'img'],
     ['institution_name_de', 'Institution', false, 'string'],
     ['organisation_name_de', 'GitHub Organization', false, 'string'],
     ['last_years_commits', 'Commits last year', false, 'number'],
@@ -74,56 +74,61 @@ export class RepositoriesRankingComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataService.loadData().then((data) => {
-      let institutions = Object.entries(data.jsonData).reduce(
-        (previousValue, currentValue) => {
-          const [key, value] = currentValue;
-          return previousValue.concat(value);
-        },
-        []
-      );
-      this.state = institutions[institutions.length - 1].timestamp;
-      institutions.forEach((institution: any) => {
-        institution.orgs.forEach((org: any) => {
-          org.repos.forEach((repository: any) => {
-            let repo = repository;
-            repo.institution_name_de = institution.name_de;
-            repo.organisation_name_de = org.name;
-            repo.logo = org.avatar;
-            this.repositories.push(repo);
-          });
-        });
-      });
-      this.dataSource = new MatTableDataSource(this.repositories);
-      this.numRepositories = this.repositories.length;
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-      setTimeout(this.triggerFilter, 100);
-
-      this.dataSource.filterPredicate = (data: any, filter: string) => {
-        let datastring: string = '';
-        let property: string;
-        let filterNew = this.recordFilter;
-        for (property in data) {
-          datastring += data[property];
-        }
-        datastring = datastring.replace(/\s/g, '').toLowerCase();
-        filterNew = filterNew.replace(/\s/g, '').toLowerCase();
-        return (
-          datastring.includes(filterNew) && (!data.fork || this.includeForks)
+      this.dataService.loadRepoData().then((repoData) => {
+        let institutions = Object.entries(data.jsonData).reduce(
+          (previousValue, currentValue) => {
+            const [key, value] = currentValue;
+            return previousValue.concat(value);
+          },
+          []
         );
-      };
-      this.route.paramMap.subscribe((map) => {
-        const repositoryName = map.get('repository');
-        const organisation_name_de = map.get('institution');
-        if (repositoryName && organisation_name_de) {
-          let repository = this.repositories.find((repo) => {
-            return (
-              repo.organisation_name_de == organisation_name_de &&
-              repo.name == repositoryName
-            );
-          });
-          this.openDialog(repository.uuid);
-        }
+        let repos = Object.entries(repoData.jsonData).reduce(
+          (previousValue, currentValue) => {
+            const [key, value] = currentValue;
+            return previousValue.concat(value);
+          },
+          []
+        );
+        this.state = institutions[institutions.length - 1].timestamp;
+        repos.forEach((repository: any) => {
+          let repo = repository;
+          repo.institution_name_de = repo.institution;
+          repo.organisation_name_de = repo.organization;
+          // repo.logo = org.avatar;
+          this.repositories.push(repo);
+        });
+        this.dataSource = new MatTableDataSource(this.repositories);
+        this.numRepositories = this.repositories.length;
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        setTimeout(this.triggerFilter, 100);
+
+        this.dataSource.filterPredicate = (data: any, filter: string) => {
+          let datastring: string = '';
+          let property: string;
+          let filterNew = this.recordFilter;
+          for (property in data) {
+            datastring += data[property];
+          }
+          datastring = datastring.replace(/\s/g, '').toLowerCase();
+          filterNew = filterNew.replace(/\s/g, '').toLowerCase();
+          return (
+            datastring.includes(filterNew) && (!data.fork || this.includeForks)
+          );
+        };
+        this.route.paramMap.subscribe((map) => {
+          const repositoryName = map.get('repository');
+          const organisation_name_de = map.get('institution');
+          if (repositoryName && organisation_name_de) {
+            let repository = this.repositories.find((repo) => {
+              return (
+                repo.organisation_name_de == organisation_name_de &&
+                repo.name == repositoryName
+              );
+            });
+            this.openDialog(repository.uuid);
+          }
+        });
       });
     });
   }
