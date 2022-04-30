@@ -42,6 +42,7 @@ import { RepositoryDetailViewComponent } from './repository-detail-view/reposito
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { ScullyLibModule } from '@scullyio/ng-lib';
+import { UserRankingComponent } from './user-ranking/user-ranking.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { ScullyLibModule } from '@scullyio/ng-lib';
     ToNiceNamePipe,
     RepositoriesRankingComponent,
     RepositoryDetailViewComponent,
+    UserRankingComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
