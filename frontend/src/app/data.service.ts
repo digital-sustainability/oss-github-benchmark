@@ -33,7 +33,6 @@ export class DataService {
     const repoData = await this.http
       .get<ISector>(`${environment.api}repositories`)
       .toPromise();
-    console.log(repoData);
     return {
       csvData: this.parseJSON2CSV(repoData),
       jsonData: repoData,
@@ -44,7 +43,6 @@ export class DataService {
     const userData = await this.http
       .get<ISector>(`${environment.api}users`)
       .toPromise();
-    console.log(userData);
     return {
       csvData: this.parseJSON2CSV(userData),
       jsonData: userData,
