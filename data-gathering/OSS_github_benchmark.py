@@ -14,6 +14,7 @@ from bson import json_util
 from alive_progress import alive_bar
 import threading
 from mergedeep import merge
+import calendar
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
@@ -21,17 +22,59 @@ logger = logging.getLogger()
 # GitHub Login mittels Token
 g = Github(os.environ['GITHUBTOKEN'])
 
+
+cluster = MongoClient(os.environ['DATABASELINK'])
+db = cluster["statistics"]
+collectionInstitutions = db["institutions"]
+collectionRepositoriesNew = db["repositoriesNew"]
+collectionProgress = db["progress"]
+collectionRepositories = db["repositories"]
+collectionRunning = db["running"]
+collectionTodoInstitutions = db["todoInstitutions"]
+collectionUsers = db["users"]
+collectionUsersNew = db["usersNew"]
+
+startTime = time()
+
+
+def getProgress():
+    progress = collectionProgress.find_one({})
+    return progress
+
+
+# JSON Daten laden, Variablen setzen
+with open('github_repos.json', encoding='utf-8') as file:
+    githubrepos = json.load(file)
+
+
+# Auf Fortschritt überprüfen.
+progress = getProgress()
+if progress != None:
+    currentDateAndTime = progress["currentDateAndTime"]
+    progressSector = progress["currentSector"]
+    progressInstitution = progress["currentInstitution"]
+    progressOrganization = progress["currentOrganization"]
+else:
+    currentDateAndTime = datetime.datetime.now(
+        timezone.utc).replace(tzinfo=timezone.utc)
+    progressSector = 0
+    progressInstitution = 0
+    progressOrganization = 0
+    collectionUsersNew.delete_many({})
+    collectionTodoInstitutions.delete_many({})
+    collectionTodoInstitutions.insert_one(
+        {"githubrepos": list(githubrepos["GitHubRepos"].items())})
+githubrepos = collectionTodoInstitutions.find_one({})["githubrepos"]
+githubConfig = list(githubrepos)
+users = list(collectionUsersNew.find())
+
+
 def getNumberOfSections():
     return len(githubConfig)
 
 
 def getSectorInformation(sector):
     return githubConfig[sector]
-
-
-def getProgress():
-    progress = collectionProgress.find_one({})
-    return progress
 
 
 def saveProgress(progress):
@@ -43,8 +86,10 @@ def saveProgress(progress):
 def waitForCallAttempts(attempts=500):
     if g.rate_limiting[0] < attempts:
         print("Waiting for more call attemps...")
-        while g.rate_limiting[0] < attempts:
-            sleep(10)
+        core_rate_limit = g.get_rate_limit().core
+        reset_timestamp = calendar.timegm(core_rate_limit.reset.timetuple())
+        sleep_time = reset_timestamp - calendar.timegm(time.gmtime()) + 5
+        time.sleep(sleep_time)
 
 
 def running():
@@ -125,6 +170,7 @@ def saveInstitutionData(institutionData):
 
 
 def crawlInstitution(currentInstitution):
+    global progressOrganization
     waitForCallAttempts()
     institutionData = getInstitution(
         sector["institutions"][currentInstitution], dataToGet, progressOrganization)
@@ -355,26 +401,6 @@ def getInstitution(institution, dataToGet, progressOrganization):
     return(institutionData)
 
 
-cluster = MongoClient(os.environ['DATABASELINK'])
-db = cluster["statistics"]
-collectionInstitutions = db["institutions"]
-collectionRepositoriesNew = db["repositoriesNew"]
-collectionProgress = db["progress"]
-collectionRepositories = db["repositories"]
-collectionRunning = db["running"]
-collectionTodoInstitutions = db["todoInstitutions"]
-collectionUsers = db["users"]
-collectionUsersNew = db["usersNew"]
-
-startTime = time()
-
-
-# JSON Daten laden, Variablen setzen
-with open('github_repos.json', encoding='utf-8') as file:
-    githubrepos = json.load(file)
-    githubConfig = list(githubrepos)
-
-
 # Warten bis die vorherige Action fertig ist.
 actionRunning = collectionRunning.find_one({}) != None
 if actionRunning:
@@ -388,25 +414,6 @@ if actionRunning:
         sleep(60)
         actionRunning = collectionRunning.find_one({}) != None
 
-# Auf Fortschritt überprüfen.
-progress = getProgress()
-if progress != None:
-    currentDateAndTime = progress["currentDateAndTime"]
-    progressSector = progress["currentSector"]
-    progressInstitution = progress["currentInstitution"]
-    progressOrganization = progress["currentOrganization"]
-else:
-    currentDateAndTime = datetime.datetime.now(
-        timezone.utc).replace(tzinfo=timezone.utc)
-    progressSector = 0
-    progressInstitution = 0
-    progressOrganization = 0
-    collectionUsersNew.delete_many({})
-    collectionTodoInstitutions.delete_many({})
-    collectionTodoInstitutions.insert_one(
-        {"githubrepos": list(githubrepos["GitHubRepos"].items())})
-githubrepos = collectionTodoInstitutions.find_one({})["githubrepos"]
-users = list(collectionUsersNew.find())
 
 # Als seperater Thread mitteilen, dass der Crawler läuft.
 runningSignal = threading.Thread(target=running, daemon=True)
@@ -508,4 +515,3 @@ with open("oss-github-benchmark.json", "w") as f:
     f.write(json.dumps(sector_data, default=json_util.default))
 
 collectionRunning.delete_one({})
-
