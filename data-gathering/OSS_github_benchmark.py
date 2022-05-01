@@ -5,7 +5,7 @@ import datetime
 from github import Github
 import github
 import logging
-from time import sleep, time
+from time import sleep, time, gmtime
 from pymongo import MongoClient
 from datetime import timezone
 import datetime
@@ -88,8 +88,8 @@ def waitForCallAttempts(attempts=500):
         print("Waiting for more call attemps...")
         core_rate_limit = g.get_rate_limit().core
         reset_timestamp = calendar.timegm(core_rate_limit.reset.timetuple())
-        sleep_time = reset_timestamp - calendar.timegm(time.gmtime()) + 5
-        time.sleep(sleep_time)
+        sleep_time = reset_timestamp - calendar.timegm(gmtime()) + 5
+        sleep(sleep_time)
 
 
 def running():
