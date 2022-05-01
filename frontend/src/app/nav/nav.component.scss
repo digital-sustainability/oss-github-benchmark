@@ -31,3 +31,15 @@ mat-icon {
     padding: 18px 24px;
   }
 }
+
+@media only screen and (min-width: 1420px) {
+  .only-mobile {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 1420px) {
+  .only-pc {
+    display: none !important;
+  }
+}
