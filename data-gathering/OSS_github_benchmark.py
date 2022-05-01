@@ -224,7 +224,7 @@ def getUsers(contributors, instName, orgName, repoName):
     return users
 
 
-def getRepository(repo, instName, orgName):
+def getRepository(repo, instName, orgName, orgAvatar):
     commit_activities = repo.get_stats_commit_activity()
     # TODO: hinzufügen Könnte auch noch interessant sein: https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#get-the-weekly-commit-activity
     # code_frequency = get_stats_code_frequency()
@@ -269,6 +269,7 @@ def getRepository(repo, instName, orgName):
         "timestamp": currentDateAndTime,
         "createdTimestamp": repo.created_at,
         "updatedTimestamp": repo.updated_at,
+        "logo": orgAvatar
     }
 
     # Diese Variable stimmt nicht: es wird teilweise die Anzahl Commits, teilweise auch was ganz anderes zurückgegeben
@@ -323,7 +324,7 @@ def getOrganization(instName, orgName):
     for i, r in enumerate(repos):
         waitForCallAttempts()
         print("Crawling repo", r.name, f"({i+1}/{len(repos)})")
-        repo = getRepository(r, instName, orgName)
+        repo = getRepository(r, instName, orgName, organizationData["avatar"])
         if not repo["fork"]:
             organizationData["total_num_stars"] += repo["num_stars"]
             organizationData["total_num_contributors"] += repo["num_contributors"]

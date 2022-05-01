@@ -10,7 +10,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../explore/explore-item/explore-item.component';
 import { FormBuilder } from '@angular/forms';
 import { timeout } from 'd3';
-import { combineLatest } from 'rxjs';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 
