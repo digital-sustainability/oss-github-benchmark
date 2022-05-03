@@ -226,6 +226,11 @@ def getUsers(contributors, instName, orgName, repoName):
 
 def getRepository(repo, instName, orgName, orgAvatar):
     commit_activities = repo.get_stats_commit_activity()
+    if not commit_activities == None:
+        commit_activities = [a.raw_data for a in commit_activities]
+    else:
+        commit_activities = []
+
     # TODO: hinzufügen Könnte auch noch interessant sein: https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#get-the-weekly-commit-activity
     # code_frequency = get_stats_code_frequency()
 
@@ -256,8 +261,7 @@ def getRepository(repo, instName, orgName, orgAvatar):
         "num_stars": repo.stargazers_count,
         # Diese Variable stimmt nicht: es werden Anzahl Stars zurückgegeben
         "num_watchers": repo.subscribers_count,
-        "commit_activities": [
-            a.raw_data for a in commit_activities],
+        "commit_activities": commit_activities,
         # Sagt aus ob eigene Commits gemacht wurden oder nur geforkt
         "has_own_commits": has_own_commits,
         "issues_closed": 0,
@@ -281,15 +285,21 @@ def getRepository(repo, instName, orgName, orgAvatar):
     repoData["pull_requests_all"] = repo.get_pulls(state="all").totalCount
     repoData["comments"] = repo.get_comments().totalCount
     repoData["languages"] = repo.get_languages()
-    repoData["num_commits"] = repo.get_commits().totalCount
+
+    commiters = []
+    try:
+        commits = repo.get_commits()
+        repoData["num_commits"] = commits.totalCount
+        commiters = [
+            commit.author.login for commit in commits if commit.author != None]
+    except:
+        commits = []
+        repoData["num_commits"] = 0
 
     contributors = repo.get_contributors()
     repoData["contributors"] = getUsers(
         contributors, instName, orgName, repoData["name"])
 
-    commits = repo.get_commits()
-    commiters = [
-        commit.author.login for commit in commits if commit.author != None]
     coders = []
     for c in commiters:
         if not c in coders:
