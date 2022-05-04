@@ -195,6 +195,7 @@ def stopWhenTimeOver():
 
 def getUsers(contributors, instName, orgName, repoName):
     users = []
+    waitForCallAttempts()
     contributors = [c for c in contributors]
     with alive_bar(len(contributors)) as bar:
         for contributor in contributors:
