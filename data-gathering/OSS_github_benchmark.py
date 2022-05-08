@@ -179,7 +179,6 @@ def crawlInstitution(currentInstitution):
 
     saveInstitutionData(institutionData)
 
-    currentInstitution += 1
     progress = {}
     progress["currentDateAndTime"] = currentDateAndTime
     progress["currentSector"] = currentSector
@@ -459,10 +458,10 @@ while currentSector < getNumberOfSections():
 
     while currentInstitution < len(sector["institutions"]):
         crawlInstitution(currentInstitution)
+        currentInstitution += 1
 
     currentInstitution = 0
     currentSector += 1
-
 
 collectionProgress.delete_many({})
 
