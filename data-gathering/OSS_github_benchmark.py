@@ -34,8 +34,6 @@ collectionTodoInstitutions = db["todoInstitutions"]
 collectionUsers = db["users"]
 collectionUsersNew = db["usersNew"]
 
-startTime = time()
-
 
 def getProgress():
     progress = collectionProgress.find_one({})
@@ -75,12 +73,10 @@ def getSectorInformation(sector):
 def saveProgress(progress):
     collectionProgress.replace_one(
         {}, progress, upsert=True)
-    stopWhenTimeOver()
 
 
 def waitForCallAttempts(attempts=500):
     if g.rate_limiting[0] < attempts:
-        stopWhenTimeOver()
         print("Waiting for more call attemps...")
         core_rate_limit = g.get_rate_limit().core
         reset_timestamp = calendar.timegm(core_rate_limit.reset.timetuple())
@@ -172,11 +168,6 @@ def crawlInstitution(currentInstitution):
     institutionData = updateStats(institutionData, dataToGet)
 
     saveInstitutionData(institutionData)
-
-
-def stopWhenTimeOver():
-    if time() - startTime > 20000:
-        quit()
 
 
 def getUsers(contributors, instName, orgName, repoName):
