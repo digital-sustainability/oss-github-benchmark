@@ -21,7 +21,7 @@ export class UserRankingComponent implements OnInit {
     ['company', 'Company', false, 'string'],
     ['location', 'Location', false, 'string'],
     ['twitter_username', 'Twitter', false, 'string'],
-    ['contributions', 'Contributions', false, 'number'],
+    ['contributions_sum', 'Contributions', false, 'number'],
     ['public_repos', 'Public repos', false, 'number'],
     ['public_gists', 'Public gists', false, 'number'],
     ['followers', 'Followers', false, 'number'],
@@ -72,20 +72,23 @@ export class UserRankingComponent implements OnInit {
           }
           let contributions_sum = Object.values(u.contributions).reduce(
             (a, b) => {
-              a +
+              return (
+                a +
                 Object.values(b).reduce((c, d) => {
-                  c +
+                  return (
+                    c +
                     Object.values(d).reduce((e: number, f: number) => {
-                      e + f;
-                    }, 0);
-                }, 0);
+                      return e + f;
+                    }, 0)
+                  );
+                }, 0)
+              );
             },
             0
           );
-          u.contributions = {
-            tree: u.contributions,
-            sum: contributions_sum,
-          };
+          let contributionsString = JSON.stringify(u.contributions, null, 2);
+          u.contributions_sum = contributions_sum;
+          u.contributionsString = contributionsString;
           return u;
         });
       console.log(this.users);

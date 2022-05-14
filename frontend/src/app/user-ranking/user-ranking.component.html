@@ -27,7 +27,13 @@
         [ngClass]="{ number: column[3] == 'number' }"
         (click)="goToLink('https://github.com/' + user.login)"
         [ngStyle]="{ fontWeight: column[0] == 'name' ? 'bold' : 'normal' }"
-        [matTooltip]="user.description"
+        [matTooltip]="
+          column[0] == 'contributions_sum'
+            ? user.contributionsString
+            : column[0] == 'name'
+            ? user.bio
+            : ''
+        "
       >
         {{
           column[3] == "img"
