@@ -53,17 +53,12 @@ if progress != None:
     currentDateAndTime = progress["currentDateAndTime"]
     progressSector = progress["currentSector"]
     progressInstitution = progress["currentInstitution"]
-    progressOrganization = progress["currentOrganization"]
 else:
     currentDateAndTime = datetime.datetime.now(
         timezone.utc).replace(tzinfo=timezone.utc)
     progressSector = 0
     progressInstitution = 0
-    progressOrganization = 0
     collectionUsersNew.delete_many({})
-    collectionTodoInstitutions.delete_many({})
-    collectionTodoInstitutions.insert_one(
-        {"githubrepos": list(githubrepos["GitHubRepos"].items())})
 githubrepos = collectionTodoInstitutions.find_one({})["githubrepos"]
 githubConfig = list(githubrepos)
 users = list(collectionUsersNew.find())
@@ -85,6 +80,7 @@ def saveProgress(progress):
 
 def waitForCallAttempts(attempts=500):
     if g.rate_limiting[0] < attempts:
+        stopWhenTimeOver()
         print("Waiting for more call attemps...")
         core_rate_limit = g.get_rate_limit().core
         reset_timestamp = calendar.timegm(core_rate_limit.reset.timetuple())
@@ -170,21 +166,12 @@ def saveInstitutionData(institutionData):
 
 
 def crawlInstitution(currentInstitution):
-    global progressOrganization
     waitForCallAttempts()
     institutionData = getInstitution(
-        sector["institutions"][currentInstitution], dataToGet, progressOrganization)
-    progressOrganization = 0
+        sector["institutions"][currentInstitution], dataToGet)
     institutionData = updateStats(institutionData, dataToGet)
 
     saveInstitutionData(institutionData)
-
-    progress = {}
-    progress["currentDateAndTime"] = currentDateAndTime
-    progress["currentSector"] = currentSector
-    progress["currentInstitution"] = currentInstitution
-    progress["currentOrganization"] = 0
-    saveProgress(progress)
 
 
 def stopWhenTimeOver():
@@ -331,10 +318,13 @@ def getOrganization(instName, orgName):
     organizationData["repo_names"] = []
     organizationData["total_licenses"] = {}
     repos = [r for r in org.get_repos()]
+    gatheredRepoData = []
     for i, r in enumerate(repos):
         waitForCallAttempts()
         print("Crawling repo", r.name, f"({i+1}/{len(repos)})")
-        repo = getRepository(r, instName, orgName, organizationData["avatar"])
+        gatheredRepoData.append(getRepository(
+            r, instName, orgName, organizationData["avatar"]))
+    for repo in gatheredRepoData:
         if not repo["fork"]:
             organizationData["total_num_stars"] += repo["num_stars"]
             organizationData["total_num_contributors"] += repo["num_contributors"]
@@ -362,7 +352,7 @@ def getOrganization(instName, orgName):
     return(organizationData)
 
 
-def getInstitution(institution, dataToGet, progressOrganization):
+def getInstitution(institution, dataToGet):
     print(institution["name_de"])
     institutionData = {
         "uuid": institution["uuid"],
@@ -382,7 +372,7 @@ def getInstitution(institution, dataToGet, progressOrganization):
     institutionData["total_licenses"] = {}
     institutionData["timestamp"] = currentDateAndTime
     # Von einer Institution alle GitHub-Organisationen rausholen
-    currentOrganization = progressOrganization
+    currentOrganization = 0
     while currentOrganization < len(institution["orgs"]):
         orgName = institution["orgs"][currentOrganization]
         print(
@@ -459,6 +449,11 @@ while currentSector < getNumberOfSections():
     while currentInstitution < len(sector["institutions"]):
         crawlInstitution(currentInstitution)
         currentInstitution += 1
+        progress = {}
+        progress["currentDateAndTime"] = currentDateAndTime
+        progress["currentSector"] = currentSector
+        progress["currentInstitution"] = currentInstitution
+        saveProgress(progress)
 
     currentInstitution = 0
     currentSector += 1
@@ -471,58 +466,58 @@ collectionRepositoriesNew.aggregate([{"$match": {}}, {"$out": "repositories"}])
 collectionUsers.delete_many({})
 collectionUsersNew.aggregate([{"$match": {}}, {"$out": "users"}])
 
-institutions_data = collectionInstitutions.find({},
-                                                {
-    "orgs": {"repos": {"commit_activities": 0}},
-    "repos": {"commit_activities": 0},
-    "_id": 0,
-}
+# institutions_data = collectionInstitutions.find({},
+#                                                 {
+#     "orgs": {"repos": {"commit_activities": 0}},
+#     "repos": {"commit_activities": 0},
+#     "_id": 0,
+# }
 
 
-)
-sector_data = {}
-institutions = []
-for institution in institutions_data:
-    print(institution["shortname"])
-    try:
-        if len(sector_data[institution["sector"]]) >= 0:
-            sector_data[institution["sector"]].append(institution)
-            institutions.append(institution)
-    except KeyError:
-        sector_data[institution["sector"]] = []
-institutions_data = institutions
+# )
+# sector_data = {}
+# institutions = []
+# for institution in institutions_data:
+#     print(institution["shortname"])
+#     try:
+#         if len(sector_data[institution["sector"]]) >= 0:
+#             sector_data[institution["sector"]].append(institution)
+#             institutions.append(institution)
+#     except KeyError:
+#         sector_data[institution["sector"]] = []
+# institutions_data = institutions
 
-csv_columns = [
-    "sector",
-    "name_de",
-    "num_repos",
-    "num_members",
-    "total_num_contributors",
-    "total_num_own_repo_forks",
-    "total_num_forks_in_repos",
-    "total_num_commits",
-    "total_num_stars",
-    "total_num_watchers",
-    "total_pull_requests_all",
-    "total_pull_requests_closed",
-    "total_issues_all",
-    "total_issues_closed",
-    "total_comments",
-    "org_names",
-    "avatar",
-    "repo_names",
-    "total_licenses"
-]
-with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvfile:
-    writer = csv.DictWriter(
-        csvfile, fieldnames=csv_columns, extrasaction='ignore')
-    writer.writeheader()
-    for data in institutions_data:
-        writer.writerow(data)
+# csv_columns = [
+#     "sector",
+#     "name_de",
+#     "num_repos",
+#     "num_members",
+#     "total_num_contributors",
+#     "total_num_own_repo_forks",
+#     "total_num_forks_in_repos",
+#     "total_num_commits",
+#     "total_num_stars",
+#     "total_num_watchers",
+#     "total_pull_requests_all",
+#     "total_pull_requests_closed",
+#     "total_issues_all",
+#     "total_issues_closed",
+#     "total_comments",
+#     "org_names",
+#     "avatar",
+#     "repo_names",
+#     "total_licenses"
+# ]
+# with open("oss-github-benchmark.csv", 'w', newline='', encoding='utf-8') as csvfile:
+#     writer = csv.DictWriter(
+#         csvfile, fieldnames=csv_columns, extrasaction='ignore')
+#     writer.writeheader()
+#     for data in institutions_data:
+#         writer.writerow(data)
 
-# institutions_data.sort(key=lambda x: x[2], reverse=True)
+# # institutions_data.sort(key=lambda x: x[2], reverse=True)
 
-with open("oss-github-benchmark.json", "w") as f:
-    f.write(json.dumps(sector_data, default=json_util.default))
+# with open("oss-github-benchmark.json", "w") as f:
+# f.write(json.dumps(sector_data, default=json_util.default))
 
 collectionRunning.delete_one({})
