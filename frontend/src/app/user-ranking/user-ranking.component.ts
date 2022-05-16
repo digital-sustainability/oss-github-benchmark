@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { DataService, IData } from 'src/app/data.service';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { IInstitution } from 'src/app/interfaces/institution';
 import { MatPaginator } from '@angular/material/paginator';
@@ -15,15 +15,16 @@ import { ActivatedRoute } from '@angular/router';
 export class UserRankingComponent implements OnInit {
   item: IInstitution;
   displayedColumns: any[] = [
-    ['name', 'Name', false, 'string'],
     ['avatar_url', '', false, 'img'],
+    ['name', 'Name', false, 'string'],
+    ['login', 'Github user', false, 'string'],
     ['company', 'Company', false, 'string'],
-    ['contributions', 'Contributions', false, 'number'],
-    ['followers', 'Followers', false, 'number'],
+    ['location', 'Location', false, 'string'],
     ['twitter_username', 'Twitter', false, 'string'],
-    ['public_gists', 'Public gists', false, 'number'],
+    ['contributions_sum', 'Contributions', false, 'number'],
     ['public_repos', 'Public repos', false, 'number'],
-    ['login', 'Github login', false, 'string'],
+    ['public_gists', 'Public gists', false, 'number'],
+    ['followers', 'Followers', false, 'number'],
     ['created_at', 'Created at', false, 'date'],
     ['updated_at', 'Updated at ', false, 'date'],
   ];
@@ -69,6 +70,25 @@ export class UserRankingComponent implements OnInit {
           if (!u.name) {
             u.name = u.login;
           }
+          let contributions_sum = Object.values(u.contributions).reduce(
+            (a, b) => {
+              return (
+                a +
+                Object.values(b).reduce((c, d) => {
+                  return (
+                    c +
+                    Object.values(d).reduce((e: number, f: number) => {
+                      return e + f;
+                    }, 0)
+                  );
+                }, 0)
+              );
+            },
+            0
+          );
+          let contributionsString = JSON.stringify(u.contributions, null, 2);
+          u.contributions_sum = contributions_sum;
+          u.contributionsString = contributionsString;
           return u;
         });
       console.log(this.users);

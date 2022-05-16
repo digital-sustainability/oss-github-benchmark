@@ -10,22 +10,22 @@ import { RepositoryDetailViewComponent } from './repository-detail-view/reposito
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
 
 const routes: Routes = [
-  {
-    path: 'explore',
-    component: ExploreComponent,
-  },
-  {
-    path: 'visualization',
-    component: VisualizationComponent,
-  },
-  {
-    path: 'visualization/:institution',
-    component: VisualizationComponent,
-  },
-  {
-    path: 'metrics',
-    component: ListComponent,
-  },
+  // {
+  //   path: 'explore',
+  //   component: ExploreComponent,
+  // },
+  // {
+  //   path: 'visualization',
+  //   component: VisualizationComponent,
+  // },
+  // {
+  //   path: 'visualization/:institution',
+  //   component: VisualizationComponent,
+  // },
+  // {
+  //   path: 'metrics',
+  //   component: ListComponent,
+  // },
   {
     path: 'institutions',
     component: RankingComponent,

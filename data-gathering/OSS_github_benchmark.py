@@ -24,7 +24,7 @@ g = Github(os.environ['GITHUBTOKEN'])
 
 
 cluster = MongoClient(os.environ['DATABASELINK'])
-db = cluster["statistics"]
+db = cluster["statisticsNew"]
 collectionInstitutions = db["institutions"]
 collectionRepositoriesNew = db["repositoriesNew"]
 collectionProgress = db["progress"]
@@ -173,7 +173,10 @@ def crawlInstitution(currentInstitution):
 def getUsers(contributors, instName, orgName, repoName):
     users = []
     waitForCallAttempts()
-    contributors = [c for c in contributors]
+    try:
+        contributors = [c for c in contributors]
+    except github.GithubException:
+        contributors = [c for c in contributors[0:500]]
     with alive_bar(len(contributors)) as bar:
         for contributor in contributors:
             waitForCallAttempts()
@@ -203,7 +206,10 @@ def getUsers(contributors, instName, orgName, repoName):
 
 
 def getRepository(repo, instName, orgName, orgAvatar):
-    commit_activities = repo.get_stats_commit_activity()
+    try:
+        commit_activities = repo.get_stats_commit_activity()
+    except RecursionError:
+        commit_activities = None
     if not commit_activities == None:
         commit_activities = [a.raw_data for a in commit_activities]
     else:
@@ -254,8 +260,13 @@ def getRepository(repo, instName, orgName, orgAvatar):
         "logo": orgAvatar
     }
 
+    contributors = repo.get_contributors()
+
     # Diese Variable stimmt nicht: es wird teilweise die Anzahl Commits, teilweise auch was ganz anderes zurückgegeben
-    repoData["num_contributors"] = repo.get_contributors().totalCount
+    try:
+        repoData["num_contributors"] = contributors.totalCount
+    except github.GithubException:
+        repoData["num_contributors"] = 501
     repoData["issues_closed"] = repo.get_issues(state="closed").totalCount
     repoData["issues_all"] = repo.get_issues(state="all").totalCount
     repoData["pull_requests_closed"] = repo.get_pulls(
@@ -274,7 +285,6 @@ def getRepository(repo, instName, orgName, orgAvatar):
         commits = []
         repoData["num_commits"] = 0
 
-    contributors = repo.get_contributors()
     repoData["contributors"] = getUsers(
         contributors, instName, orgName, repoData["name"])
 
