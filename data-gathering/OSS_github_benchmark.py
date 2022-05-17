@@ -40,26 +40,11 @@ def getProgress():
     return progress
 
 
-# JSON Daten laden, Variablen setzen
-with open('github_repos.json', encoding='utf-8') as file:
-    githubrepos = json.load(file)
-
-
-# Auf Fortschritt überprüfen.
-progress = getProgress()
-if progress != None:
-    currentDateAndTime = progress["currentDateAndTime"]
-    progressSector = progress["currentSector"]
-    progressInstitution = progress["currentInstitution"]
-else:
-    currentDateAndTime = datetime.datetime.now(
-        timezone.utc).replace(tzinfo=timezone.utc)
-    progressSector = 0
-    progressInstitution = 0
-    collectionUsersNew.delete_many({})
-githubrepos = collectionTodoInstitutions.find_one({})["githubrepos"]
-githubConfig = list(githubrepos)
-users = list(collectionUsersNew.find())
+def running():
+    while True:
+        sleep(1)
+        if collectionRunning.find_one({}) == None:
+            collectionRunning.insert_one({"Status": "running"})
 
 
 def getNumberOfSections():
@@ -75,6 +60,15 @@ def saveProgress(progress):
         {}, progress, upsert=True)
 
 
+def crawlInstitution(currentInstitution):
+    waitForCallAttempts()
+    institutionData = getInstitution(
+        sector["institutions"][currentInstitution], dataToGet)
+    institutionData = updateStats(institutionData, dataToGet)
+
+    saveInstitutionData(institutionData)
+
+
 def waitForCallAttempts(attempts=500):
     if g.rate_limiting[0] < attempts:
         print("Waiting for more call attemps...")
@@ -82,13 +76,6 @@ def waitForCallAttempts(attempts=500):
         reset_timestamp = calendar.timegm(core_rate_limit.reset.timetuple())
         sleep_time = reset_timestamp - calendar.timegm(gmtime()) + 5
         sleep(sleep_time)
-
-
-def running():
-    while True:
-        sleep(1)
-        if collectionRunning.find_one({}) == None:
-            collectionRunning.insert_one({"Status": "running"})
 
 
 def updateStats(institutionData, dataToGet):
@@ -159,15 +146,6 @@ def saveInstitutionData(institutionData):
     saveInstitution(institutionData)
     saveRepositories(repositories)
     saveUsers(users)
-
-
-def crawlInstitution(currentInstitution):
-    waitForCallAttempts()
-    institutionData = getInstitution(
-        sector["institutions"][currentInstitution], dataToGet)
-    institutionData = updateStats(institutionData, dataToGet)
-
-    saveInstitutionData(institutionData)
 
 
 def getUsers(contributors, instName, orgName, repoName):
@@ -416,56 +394,77 @@ if actionRunning:
         sleep(60)
         actionRunning = collectionRunning.find_one({}) != None
 
-
 # Als seperater Thread mitteilen, dass der Crawler läuft.
 runningSignal = threading.Thread(target=running, daemon=True)
 runningSignal.start()
 
 
-dataToGet = [
-    "num_repos",
-    "num_members",
-    "total_num_contributors",
-    "total_num_own_repo_forks",
-    "total_num_forks_in_repos",
-    "total_num_commits",
-    "total_pull_requests",
-    "total_issues",
-    "total_num_stars",
-    "total_num_watchers",
-    "total_pull_requests_all",
-    "total_pull_requests_closed",
-    "total_issues_all",
-    "total_issues_closed",
-    "total_comments",
-]
+while 1:
+    # # JSON Daten laden, Variablen setzen
+    # with open('github_repos.json', encoding='utf-8') as file:
+    #     githubrepos = json.load(file)
 
+    # Auf Fortschritt überprüfen.
+    progress = getProgress()
+    if progress != None:
+        currentDateAndTime = progress["currentDateAndTime"]
+        progressSector = progress["currentSector"]
+        progressInstitution = progress["currentInstitution"]
+    else:
+        currentDateAndTime = datetime.datetime.now(
+            timezone.utc).replace(tzinfo=timezone.utc)
+        progressSector = 0
+        progressInstitution = 0
+        collectionUsersNew.delete_many({})
+    githubrepos = collectionTodoInstitutions.find_one({})["githubrepos"]
+    githubConfig = list(githubrepos)
+    users = list(collectionUsersNew.find())
 
-currentSector = progressSector
-currentInstitution = progressInstitution
-while currentSector < getNumberOfSections():
-    sector_key, sector = getSectorInformation(currentSector)
-    print("Sector: " + sector_key)
+    dataToGet = [
+        "num_repos",
+        "num_members",
+        "total_num_contributors",
+        "total_num_own_repo_forks",
+        "total_num_forks_in_repos",
+        "total_num_commits",
+        "total_pull_requests",
+        "total_issues",
+        "total_num_stars",
+        "total_num_watchers",
+        "total_pull_requests_all",
+        "total_pull_requests_closed",
+        "total_issues_all",
+        "total_issues_closed",
+        "total_comments",
+    ]
 
-    while currentInstitution < len(sector["institutions"]):
-        crawlInstitution(currentInstitution)
-        currentInstitution += 1
-        progress = {}
-        progress["currentDateAndTime"] = currentDateAndTime
-        progress["currentSector"] = currentSector
-        progress["currentInstitution"] = currentInstitution
-        saveProgress(progress)
+    currentSector = progressSector
+    currentInstitution = progressInstitution
+    while currentSector < getNumberOfSections():
+        sector_key, sector = getSectorInformation(currentSector)
+        print("Sector: " + sector_key)
 
-    currentInstitution = 0
-    currentSector += 1
+        while currentInstitution < len(sector["institutions"]):
+            crawlInstitution(currentInstitution)
+            currentInstitution += 1
+            progress = {}
+            progress["currentDateAndTime"] = currentDateAndTime
+            progress["currentSector"] = currentSector
+            progress["currentInstitution"] = currentInstitution
+            saveProgress(progress)
 
-collectionProgress.delete_many({})
+        currentInstitution = 0
+        currentSector += 1
 
-collectionRepositories.delete_many({})
-collectionRepositoriesNew.aggregate([{"$match": {}}, {"$out": "repositories"}])
+    collectionProgress.delete_many({})
 
-collectionUsers.delete_many({})
-collectionUsersNew.aggregate([{"$match": {}}, {"$out": "users"}])
+    collectionRepositories.delete_many({})
+    collectionRepositoriesNew.aggregate(
+        [{"$match": {}}, {"$out": "repositories"}])
+
+    collectionUsers.delete_many({})
+    collectionUsersNew.aggregate([{"$match": {}}, {"$out": "users"}])
+
 
 # institutions_data = collectionInstitutions.find({},
 #                                                 {
@@ -520,5 +519,4 @@ collectionUsersNew.aggregate([{"$match": {}}, {"$out": "users"}])
 
 # with open("oss-github-benchmark.json", "w") as f:
 # f.write(json.dumps(sector_data, default=json_util.default))
-
 collectionRunning.delete_one({})
