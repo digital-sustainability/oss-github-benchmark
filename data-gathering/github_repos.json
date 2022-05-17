@@ -215,6 +215,14 @@
                ]
             },
             {
+               "uuid":"9edcdf47-5ed0-4dbf-a734-6ce94f3c3c9e",
+               "shortname":"frangoteam",
+               "name_de":"frangoteam",
+               "orgs":[
+                  "frangoteam"
+               ]
+            },
+            {
                "uuid":"d0505f23-7585-4b3d-be75-a8847290a66b",
                "shortname":"isolutions",
                "name_de":"iSolutions",
@@ -523,15 +531,7 @@
                "orgs":[
                   "Zuehlke"
                ]
-            },
-            {
-               "uuid":"9edcdf47-5ed0-4dbf-a734-6ce94f3c3c9e",
-               "shortname":"frangoteam",
-               "name_de":"frangoteam",
-               "orgs":[
-                  "frangoteam"
-               ]
-            }            
+            }   
          ]
       },
       "Communities":{
