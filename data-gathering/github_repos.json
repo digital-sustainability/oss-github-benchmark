@@ -523,7 +523,15 @@
                "orgs":[
                   "Zuehlke"
                ]
-            }
+            },
+            {
+               "uuid":"9edcdf47-5ed0-4dbf-a734-6ce94f3c3c9e",
+               "shortname":"frangoteam",
+               "name_de":"frangoteam",
+               "orgs":[
+                  "frangoteam"
+               ]
+            }            
          ]
       },
       "Communities":{
