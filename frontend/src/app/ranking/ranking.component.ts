@@ -10,7 +10,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../explore/explore-item/explore-item.component';
 import { FormBuilder } from '@angular/forms';
 import { timeout } from 'd3';
-import { combineLatest } from 'rxjs';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 
@@ -105,42 +104,45 @@ export class RankingComponent implements OnInit {
   }
   ngOnInit(): void {
     this.initDisplayedColumns();
-    combineLatest([
-      this.dataService.loadDataObservable(),
-      this.route.paramMap,
-    ]).subscribe(([data, map]) => {
-      if (!this.institutions) {
-        const itemName = this.route.snapshot.params.itemName;
-        this.institutions = this.getInstitutionsFromData(data);
-        this.setInstitutionLocation();
-        this.state = this.institutions[this.institutions.length - 1].timestamp;
-        this.item = this.institutions.find((inst) => inst.name_de === itemName);
-        this.sortAndFilter(this.institutions);
-        this.dataSource.filterPredicate = (
-          dataSourceData: any,
-          filter: string
-        ) => {
-          let datastring = '';
-          let property: string;
-          let filterNew = this.recordFilter;
-          for (property in dataSourceData) {
-            if (dataSourceData.hasOwnProperty(property)) {
-              datastring += dataSourceData[property];
-            }
-          }
-          datastring = datastring.replace(/\s/g, '').toLowerCase();
-          filterNew = filterNew.replace(/\s/g, '').toLowerCase();
-          return (
-            datastring.includes(filterNew) &&
-            (this.checkboxes.indexOf(dataSourceData.sector) !== -1 ||
-              this.checkboxes.length === 0)
+    this.dataService.loadDataObservable().subscribe((data) => {
+      this.route.paramMap.subscribe((map) => {
+        if (!this.institutions) {
+          const itemName = this.route.snapshot.params.itemName;
+          this.institutions = this.getInstitutionsFromData(data);
+          this.setInstitutionLocation();
+          this.state =
+            this.institutions[this.institutions.length - 1].timestamp;
+          this.item = this.institutions.find(
+            (inst) => inst.name_de === itemName
           );
-        };
-      }
-      const institutionName = map.get('institution');
-      if (institutionName) {
-        this.openDialog(institutionName);
-      }
+          this.sortAndFilter(this.institutions);
+          this.dataSource.filterPredicate = (
+            dataSourceData: any,
+            filter: string
+          ) => {
+            let datastring = '';
+            let property: string;
+            let filterNew = this.recordFilter;
+            for (property in dataSourceData) {
+              if (dataSourceData.hasOwnProperty(property)) {
+                datastring += dataSourceData[property];
+              }
+            }
+            datastring = datastring.replace(/\s/g, '').toLowerCase();
+            filterNew = filterNew.replace(/\s/g, '').toLowerCase();
+            return (
+              datastring.includes(filterNew) &&
+              (this.checkboxes.indexOf(dataSourceData.sector) !== -1 ||
+                this.checkboxes.length === 0)
+            );
+          };
+        }
+
+        const institutionName = map.get('institution');
+        if (institutionName) {
+          this.openDialog(institutionName);
+        }
+      });
     });
   }
 

@@ -1,20 +1,13 @@
-<h1>Ranking of {{ numRepositories }} Repositories.</h1>
+<h1>Ranking of {{ numUsers }} users.</h1>
 <mat-form-field appearance="fill">
   <mat-label>Search</mat-label>
   <input matInput (keyup)="doFilter($event.target.value)" />
 </mat-form-field>
-<mat-checkbox
-  color="primary"
-  style="vertical-align: super"
-  [checked]="includeForks"
-  (change)="includeForksChange($event.checked)"
-  >Include forks
-</mat-checkbox>
 
-<p style="color: gray">
+<!-- <p style="color: gray">
   Information on OSS Benchmark updated:
   {{ state | date: "MMMM d, yyyy 'at' H:mm" }}
-</p>
+</p> -->
 <table
   mat-table
   [dataSource]="dataSource"
@@ -30,25 +23,33 @@
       </th>
       <td
         mat-cell
-        *matCellDef="let repository"
+        *matCellDef="let user"
         [ngClass]="{ number: column[3] == 'number' }"
-        (click)="openDialog(repository.uuid)"
+        (click)="goToLink('https://github.com/' + user.login)"
         [ngStyle]="{ fontWeight: column[0] == 'name' ? 'bold' : 'normal' }"
-        [matTooltip]="repository.description"
+        [matTooltip]="
+          column[0] == 'contributions_sum'
+            ? user.contributionsString
+            : column[0] == 'name'
+            ? user.bio
+            : ''
+        "
       >
         {{
           column[3] == "img"
             ? ""
             : column[2]
-            ? (repository[column[0]] | toNiceName)
+            ? (user[column[0]] | toNiceName)
             : column[3] == "date"
-            ? (repository[column[0]] | date: "MMMM d, yyyy 'at' H:mm")
-            : repository[column[0]]
+            ? (user[column[0]] | date: "MMMM d, yyyy 'at' H:mm")
+            : user[column[0]]
         }}
         <img
           *ngIf="column[3] == 'img'"
-          [src]="repository[column[0]]"
+          [src]="user[column[0]]"
           alt="logo"
+          width="50"
+          height="50"
         />
       </td>
     </ng-container>

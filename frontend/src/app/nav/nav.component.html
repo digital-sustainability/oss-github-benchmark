@@ -16,22 +16,26 @@
       <mat-icon>sort</mat-icon>
       <span>Repository Ranking</span>
     </button>
-    <button mat-button routerLink="/visualization">
+    <button mat-button routerLink="/people">
+      <mat-icon>groups</mat-icon>
+      <span>People Ranking</span>
+    </button>
+    <!-- <button mat-button routerLink="/visualization">
       <mat-icon>pie_chart</mat-icon>
       <span>Visualizations</span>
-    </button>
-    <button mat-button routerLink="/explore">
+    </button> -->
+    <!-- <button mat-button routerLink="/explore">
       <mat-icon>explore</mat-icon>
       <span>Explore</span>
     </button>
     <button mat-button routerLink="/metrics">
       <mat-icon>text_fields</mat-icon>
       <span>Metrics</span>
-    </button>
+    </button> -->
   </span>
   <span class="spacer"></span>
   <span class="only-pc">
-    <button mat-button [matMenuTriggerFor]="downloadMenu">
+    <!-- <button mat-button [matMenuTriggerFor]="downloadMenu">
       <mat-icon>get_app</mat-icon>
       <span>JSON / CSV</span>
     </button>
@@ -50,7 +54,7 @@
         target="_blank"
         >Download CSV</a
       >
-    </mat-menu>
+    </mat-menu> -->
     <a
       mat-button
       href="https://github.com/digital-sustainability/oss-github-benchmark"
@@ -80,11 +84,16 @@
       <span>Repository Ranking</span>
     </button>
     <br />
+    <button mat-button routerLink="/people" (click)="onSidenavClick()">
+      <mat-icon>groups</mat-icon>
+      <span>People Ranking</span>
+    </button>
+    <!-- <br />
     <button mat-button routerLink="/visualization" (click)="onSidenavClick()">
       <mat-icon>pie_chart</mat-icon>
       <span>Visualizations</span>
-    </button>
-    <br />
+    </button> -->
+    <!-- <br />
     <button mat-button routerLink="/explore" (click)="onSidenavClick()">
       <mat-icon>explore</mat-icon>
       <span>Explore</span>
@@ -93,8 +102,8 @@
     <button mat-button routerLink="/metrics" (click)="onSidenavClick()">
       <mat-icon>text_fields</mat-icon>
       <span>Metrics</span>
-    </button>
-    <br />
+    </button> -->
+    <!-- <br />
     <button mat-button [matMenuTriggerFor]="downloadMenu">
       <mat-icon>get_app</mat-icon>
       <span>JSON / CSV</span>
@@ -115,7 +124,7 @@
         (click)="onSidenavClick()"
         >Download CSV</a
       >
-    </mat-menu>
+    </mat-menu> -->
     <a
       mat-button
       href="https://github.com/digital-sustainability/oss-github-benchmark"
