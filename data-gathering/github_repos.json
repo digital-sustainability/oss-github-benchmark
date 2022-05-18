@@ -1,1401 +1,1401 @@
 {
-   "GitHubRepos":{
-      "IT":{
-         "name_de":"Informatikbranche",
-         "institutions":[
-            {
-               "uuid":"e1585135-a362-48e5-b1a0-10e6f53de00f",
-               "shortname":"3ap",
-               "name_de":"3ap AG",
-               "orgs":[
-                  "3AP-AG"
-               ]
-            },
-            {
-               "uuid":"29a0cd4e-3fc4-4f32-93d4-0b3642ea5ed8",
-               "shortname":"4teamwork",
-               "name_de":"4teamwork AG",
-               "orgs":[
-                  "4teamwork"
-               ]
-            },
-            {
-               "uuid":"0e06e7d6-2c9c-4282-b627-76e73aada5aa",
-               "shortname":"56kcloud",
-               "name_de":"56K Cloud",
-               "orgs":[
-                  "56kcloud"
-               ]
-            },
-            {
-               "uuid":"523aded3-35e2-4927-b7e9-9c50c6243541",
-               "shortname":"adfinis",
-               "name_de":"Adfinis AG",
-               "orgs":[
-                  "adfinis-sygroup",
-                  "adfinis-forks",
-                  "projectcaluma"
-               ]
-            },
-            {
-               "uuid":"b8d76bb8-e3c6-44d5-9f50-02359c8ff1c4",
-               "shortname":"adnovum",
-               "name_de":"AdNovum Informatik AG",
-               "orgs":[
-                  "adnovum"
-               ]
-            },
-            {
-               "uuid":"2e54a51b-9ad4-47b7-b735-e1a7734a3421",
-               "shortname":"advancedconcepts",
-               "name_de":"Advanced Concepts AG",
-               "orgs":[
-                  "advancedconcepts"
-               ]
-            },
-            {
-               "uuid":"b36bfd2a-e6ab-4389-a75d-88a9ac2eed20",
-               "shortname":"abraxas",
-               "name_de":"Abraxas",
-               "orgs":[
-                  "abraxas-labs"
-               ]
-            },
-            {
-               "uuid":"39602716-629e-415d-af97-21ae5b9ff705",
-               "shortname":"ahdis",
-               "name_de":"ahdis ag",
-               "orgs":[
-                  "ahdis"
-               ]
-            },
-            {
-               "uuid":"6404af0d-b1cf-47e7-a221-7288ffadbe46",
-               "shortname":"amazee",
-               "name_de":"amazee.io",
-               "orgs":[
-                  "amazeeio"
-               ]
-            },
-            {
-               "uuid":"6d50945b-3a80-4808-8c87-b5bef7610a71",
-               "shortname":"antistatique",
-               "name_de":"antistatique",
-               "orgs":[
-                  "antistatique"
-               ]
-            },
-            {
-               "uuid":"57664644-54b9-4ed3-a0bb-f2ffec4c0c61",
-               "shortname":"appswithlove",
-               "name_de":"Apps with love AG",
-               "orgs":[
-                  "appswithlove"
-               ]
-            },
-            {
-               "uuid":"695fe3c5-acaa-4c06-a9b2-362dcbe37d15",
-               "shortname":"bbv",
-               "name_de":"bbv Software Services AG",
-               "orgs":[
-                  "bbvch"
-               ]
-            },
-            {
-               "uuid":"34c46af6-a8dc-4eec-83bd-40ecddd913af",
-               "shortname":"bedag",
-               "name_de":"Bedag",
-               "orgs":[
-                  "bedag"
-               ]
-            },
-            {
-               "uuid":"80c57605-9088-4e2b-b928-82b9f3b98af3",
-               "shortname":"blackpoints",
-               "name_de":"Blackpoints AG",
-               "orgs":[
-                  "blackpoints"
-               ]
-            },
-            {
-               "uuid":"d4e9a748-caf4-4683-91aa-0d486c7b778b",
-               "shortname":"braintec",
-               "name_de":"brain-tec AG",
-               "orgs":[
-                  "brain-tec"
-               ]
-            },
-            {
-               "uuid":"bca4fcee-c04c-4438-ac85-7eec5ea9cb18",
-               "shortname":"bsi",
-               "name_de":"BSI Business Systems Integration AG",
-               "orgs":[
-                  "bsi-software"
-               ]
-            },
-            {
-               "uuid":"c19271bf-caf0-47af-9140-3c429026fabd",
-               "shortname":"camptocamp",
-               "name_de":"Camptocamp",
-               "orgs":[
-                  "camptocamp"
-               ]
-            },
-            {
-               "uuid":"b2cc48ed-b5b7-4d0b-bca5-06c94e8dc477",
-               "shortname":"caos",
-               "name_de":"CAOS AG",
-               "orgs":[
-                  "caos"
-               ]
-            },
-            {
-               "uuid":"86db9e5d-943f-45ca-b2d8-80624e73216b",
-               "shortname":"cividi",
-               "name_de":"cividi",
-               "orgs":[
-                  "cividi",
-                  "smartuse"
-               ]
-            },
-            {
-               "uuid":"6d1367ad-5a40-4b35-8644-97329e2a2eb8",
-               "shortname":"cloudscale",
-               "name_de":"cloudscale.ch AG",
-               "orgs":[
-                  "cloudscale-ch"
-               ]
-            },
-            {
-               "uuid":"e1e3e077-0362-412b-a9d3-5d02f8cf01f3",
-               "shortname":"cyon",
-               "name_de":"cyon GmbH",
-               "orgs":[
-                  "cyon"
-               ]
-            },
-            {
-               "uuid":"6eba34ec-e4b8-451f-bf05-b7fea4e9a101",
-               "shortname":"dvbern",
-               "name_de":"DV Bern",
-               "orgs":[
-                  "dvbern"
-               ]
-            },
-            {
-               "uuid":"122a3c2f-ea5f-4b12-81e3-d33213ebefcf",
-               "shortname":"elca",
-               "name_de":"ELCA",
-               "orgs":[
-                  "ElcaIT"
-               ]
-            },
-            {
-               "uuid":"0ecce1bb-fd14-4e5c-9296-bfff1efcbda4",
-               "shortname":"ergon",
-               "name_de":"Ergon Informatik AG ",
-               "orgs":[
-                  "ergon"
-               ]
-            },
-            {
-               "uuid":"bead444a-0f0c-491e-a893-7d89d21d8a51",
-               "shortname":"erni",
-               "name_de":"ERNI",
-               "orgs":[
-                  "ERNICommunity"
-               ]
-            },
-            {
-               "uuid":"13c7f0b1-de21-4ea9-a8e0-a3f0e7283161",
-               "shortname":"exoscale",
-               "name_de":"Exoscale",
-               "orgs":[
-                  "exoscale"
-               ]
-            },
-            {
-               "uuid":"9edcdf47-5ed0-4dbf-a734-6ce94f3c3c9e",
-               "shortname":"frangoteam",
-               "name_de":"frangoteam",
-               "orgs":[
-                  "frangoteam"
-               ]
-            },
-            {
-               "uuid":"d0505f23-7585-4b3d-be75-a8847290a66b",
-               "shortname":"isolutions",
-               "name_de":"iSolutions",
-               "orgs":[
-                  "isolutionsag"
-               ]
-            },
-            {
-               "uuid":"457eea78-c696-4496-86a9-46e5f293fa9a",
-               "shortname":"init7",
-               "name_de":"Init7",
-               "orgs":[
-                  "Init7"
-               ]
-            },
-            {
-               "uuid":"60029b54-e998-4234-9986-90eda2d948ee",
-               "shortname":"infomaniak",
-               "name_de":"Infomaniak",
-               "orgs":[
-                  "Infomaniak"
-               ]
-            },
-            {
-                "uuid":"63e8550b-8bbf-41b0-bd9a-4283a3392447",
-                "shortname":"inventage",
-                "name_de":"Inventage AG",
-                "orgs":[
-                   "inventage"
-                ]
-             },
-            {
-               "uuid":"0df80287-0662-4f30-8d8c-2bc1468d8587",
-               "shortname":"interactivethings",
-               "name_de":"Interactive Things",
-               "orgs":[
-                  "interactivethings"
-               ]
-            },
-            {
-               "uuid":"66e054eb-a175-441c-91cd-1bb17217fda3",
-               "shortname":"itigo",
-               "name_de":"ITIGO AG",
-               "orgs":[
-                  "itigoag"
-               ]
-            },
-            {
-               "uuid":"14d40b3a-cf3e-43e1-a425-fe649f6d4d9c",
-               "shortname":"jshmrtn",
-               "name_de":"JOSHMARTIN GmbH",
-               "orgs":[
-                  "jshmrtn"
-               ]
-            },
-            {
-               "uuid":"4ff319a7-6187-4b77-848a-43b8559b8b6c",
-               "shortname":"garaio",
-               "name_de":"Garaio",
-               "orgs":[
-                  "garaio"
-               ]
-            },
-            {
-               "uuid":"5ed01b04-a8bc-4475-b2fc-0e012bfae405",
-               "shortname":"gyselroth",
-               "name_de":"gyselroth",
-               "orgs":[
-                  "gyselroth"
-               ]
-            },
-            {
-               "uuid":"d6687487-318a-4862-bd51-4ea8a4d2a3e7",
-               "shortname":"hazelfire",
-               "name_de":"hazelfire GmbH",
-               "orgs":[
-                  "hzlf"
-               ]
-            },
-            {
-               "uuid":"2000714a-ccc2-46d3-a476-a6eeb2a7caef",
-               "shortname":"liip",
-               "name_de":"Liip",
-               "orgs":[
-                  "liip",
-                  "liip-forks",
-                  "rokka-io"
-               ]
-            },
-            {
-               "uuid":"b27523b9-c605-4eff-9e03-1c031a7ee222",
-               "shortname":"microsystems",
-               "name_de":"micro systems",
-               "orgs":[
-                  "arcapos"
-               ]
-            },
-            {
-               "uuid":"4014cdde-1900-4360-bb53-6c2976344d8f",
-               "shortname":"mimacom",
-               "name_de":"mimacom",
-               "orgs":[
-                  "mimacom"
-               ]
-            },
-            {
-               "uuid":"b123799c-858b-4b51-98ad-0956e410f947",
-               "shortname":"netcetera",
-               "name_de":"Netcetera",
-               "orgs":[
-                  "netceteragroup"
-               ]
-            },
-            {
-               "uuid":"2bea4fed-4248-4e4d-a189-46f90e24bda4",
-               "shortname":"nine",
-               "name_de":"nine",
-               "orgs":[
-                  "ninech"
-               ]
-            },
-            {
-               "uuid":"baa12e69-c8f1-48d9-9ef1-0e250e130275",
-               "shortname":"nxt",
-               "name_de":"nxt Engineering GmbH",
-               "orgs":[
-                  "nxt"
-               ]
-            },
-            {
-               "uuid":"633e906b-da12-49f1-8de7-6d52aec20646",
-               "shortname":"novu",
-               "name_de":"novu",
-               "orgs":[
-                  "teamnovu"
-               ]
-            },
-            {
-               "uuid":"1938533d-1168-4209-908a-0f2e7210ef2d",
-               "shortname":"offline",
-               "name_de":"OFFLINE GmbH",
-               "orgs":[
-                  "OFFLINE-GmbH"
-               ]
-            },
-            {
-               "uuid":"28e1ff2d-c6c6-4221-bc56-9e799c1279ed",
-               "shortname":"OpenFlowLabs",
-               "name_de":"OpenFlowLabs GmbH",
-               "orgs":[
-                  "OpenFlowLabs"
-               ]
-            },
-            {
-               "uuid":"cdde5d08-ce6a-403b-b56b-5212419d75aa",
-               "shortname":"opengis",
-               "name_de":"OPENGIS.ch GmbH",
-               "orgs":[
-                  "opengisch"
-               ]
-            },
-            {
-               "uuid":"71a72db6-8b13-405f-a3d4-d36db246940e",
-               "shortname":"openstream",
-               "name_de":"Openstream Internet Solutions",
-               "orgs":[
-                  "openstream"
-               ]
-            },
-            {
-               "uuid":"6517018e-e5e4-4d4b-96ff-020c84b1e3e0",
-               "shortname":"opsone",
-               "name_de":"Ops One AG",
-               "orgs":[
-                  "opsone-ch"
-               ]
-            },
-            {
-               "uuid":"a2144803-aa4a-4e02-8991-70889c096c47",
-               "shortname":"opten",
-               "name_de":"OPTEN AG",
-               "orgs":[
-                  "OPTEN"
-               ]
-            },
-            {
-               "uuid":"2a0e43a1-5d69-4841-a48a-2e40eae4d3cd",
-               "shortname":"puzzle",
-               "name_de":"Puzzle ITC",
-               "orgs":[
-                  "puzzle",
-                  "puzzle-bbt",
-                  "hitobito"
-               ]
-            },
-            {
-               "uuid":"c4943619-1cea-44ac-909b-39fae5705239",
-               "shortname":"seantis",
-               "name_de":"seantis gmbh",
-               "orgs":[
-                  "seantis"
-               ]
-            },
-            {
-               "uuid":"9db1ba26-7cc3-43fd-913a-84b2a185949a",
-               "shortname":"secanis",
-               "name_de":"secanis",
-               "orgs":[
-                  "secanis"
-               ]
-            },
-            {
-               "uuid":"12d86361-e13e-4ee5-8e39-65e37bf36bee",
-               "shortname":"snowflake",
-               "name_de":"Snowflake",
-               "orgs":[
-                  "snowflakech"
-               ]
-            },
-            {
-               "uuid":"f1f1868b-b6a6-4c7f-bbd2-dc086dd14b5f",
-               "shortname":"sourcepole",
-               "name_de":"Sourcepole",
-               "orgs":[
-                  "sourcepole"
-               ]
-            },
-            {
-               "uuid":"eaff4633-860b-4e4f-b773-2c40b4cf7121",
-               "shortname":"steppingstone",
-               "name_de":"stepping stone",
-               "orgs":[
-                  "stepping-stone"
-               ]
-            },
-            {
-               "uuid":"cccc179e-12ab-44e6-9c37-ff5b4c13f699",
-               "shortname":"tegonal",
-               "name_de":"Tegonal",
-               "orgs":[
-                  "tegonal"
-               ]
-            },
-            {
-               "uuid":"9597962d-1801-4583-bc7c-5191beb5c412",
-               "shortname":"threema",
-               "name_de":"Threema",
-               "orgs":[
-                  "threema-ch"
-               ]
-            },
-            {
-               "uuid":"e0e61369-9577-4aee-b729-09ddda4bbd78",
-               "shortname":"ticketpark",
-               "name_de":"Ticketpark GmbH",
-               "orgs":[
-                  "TicketPark"
-               ]
-            },
-            {
-               "uuid":"35b8a62b-bba0-46d6-8256-6c42158f5a26",
-               "shortname":"ubique",
-               "name_de":"Ubique",
-               "orgs":[
-                  "UbiqueInnovation",
-                  "openmobilemaps"
-               ]
-            },
-            {
-               "uuid":"a9bce5be-1175-4faf-9589-298fea4cb7b6",
-               "shortname":"unprofession",
-               "name_de":"unprofession",
-               "orgs":[
-                  "unprofession-al"
-               ]
-            },
-            {
-               "uuid":"c654ac6f-0698-4d70-8a95-ef1b559bd6d9",
-               "shortname":"vshn",
-               "name_de":"VSHN AG",
-               "orgs":[
-                  "vshn",
-                  "projectsyn"
-               ]
-            },
-            {
-               "uuid":"bed46d27-050c-4f50-ba9d-0740b27445b5",
-               "shortname":"whatwedo",
-               "name_de":"whatwedo GmbH",
-               "orgs":[
-                  "whatwedo"
-               ]
-            },
-            {
-               "uuid":"d3f61370-c3bf-46a8-81fc-13fbafbb578b",
-               "shortname":"xware",
-               "name_de":"XWare GmbH",
-               "orgs":[
-                  "xware-gmbh"
-               ]
-            },
-            {
-               "uuid":"03954cfa-40a5-4a78-9e40-c40573adb357",
-               "shortname":"zazuko",
-               "name_de":"Zazuko",
-               "orgs":[
-                  "zazuko"
-               ]
-            },
-            {
-               "uuid":"14c22145-fe1d-408d-9b79-6ed1841f8a2e",
-               "shortname":"zuehlke",
-               "name_de":"Zühlke",
-               "orgs":[
-                  "Zuehlke"
-               ]
-            }   
-         ]
-      },
-      "Communities":{
-         "name_de":"Communities, Projekte und Einzelfirmen",
-         "institutions":[
-            {
-               "uuid":"ee9b432e-df71-4cca-abd9-7db4235655c1",
-               "shortname":"appuio",
-               "name_de":"APPUiO",
-               "orgs":[
-                  "appuio"
-               ]
-            },
-            {
-               "uuid":"8b875871-d38a-426d-99dc-8615530c8c07",
-               "shortname":"arillso",
-               "name_de":"arillso",
-               "orgs":[
-                  "arillso"
-               ]
-            },
-            {
-               "uuid":"123964c9-f364-4e53-ad1c-103c301127dd",
-               "shortname":"caluma",
-               "name_de":"Caluma",
-               "orgs":[
-                  "projectcaluma"
-               ]
-            },
-            {
-               "uuid":"cd9d690f-e13f-4bda-b33c-04adb3b04407",
-               "shortname":"datalets",
-               "name_de":"Datalets",
-               "orgs":[
-                  "datalets"
-               ]
-            },
-            {
-               "uuid":"251cee4c-85fa-480f-be1a-8d7be4ea9edd",
-               "shortname":"dinacon",
-               "name_de":"DINAcon Konferenz für digitale Nachhaltigkeit",
-               "orgs":[
-                  "DINAcon"
-               ]
-            },
-            {
-               "uuid":"4095da07-8708-4df0-9a8a-90a8812847bb",
-               "shortname":"posmo",
-               "name_de":"Genossenschaft POSMO Schweiz",
-               "orgs":[
-                  "posmocoop"
-               ]
-            },
-            {
-               "uuid":"3f27bcfd-35d4-483e-b77a-1d9b9387dc2b",
-               "shortname":"hitobito",
-               "name_de":"Hitobito",
-               "orgs":[
-                  "hitobito"
-               ]
-            },
-            {
-               "uuid":"be4d25af-26b7-4404-9229-2b36b48afb38",
-               "shortname":"hl17",
-               "name_de":"HL7 Benutzergruppe Schweiz",
-               "orgs":[
-                  "hl7ch"
-               ]
-            },
-            {
-               "uuid":"8f1292be-e5c6-4a1b-9ca0-6cd9498aef90",
-               "shortname":"keycdn",
-               "name_de":"KeyCDN",
-               "orgs":[
-                  "keycdn"
-               ]
-            },
-            {
-               "uuid":"e11b787f-92ed-4432-9ece-4a9c82188037",
-               "shortname":"k8up",
-               "name_de":"k8up",
-               "orgs":[
-                  "k8up-io"
-               ]
-            },
-            {
-               "uuid":"fa2dc045-0a75-4ef2-8cee-8f77dad5e360",
-               "shortname":"lib4ri",
-               "name_de":"Lib4RI - Library for the Research Institutes within the ETH Domain: Eawag, Empa, PSI & WSL",
-               "orgs":[
-                  "Lib4RI"
-               ]
-            },
-            {
-               "uuid":"d6e8ccd4-294e-4af2-81e5-b7e6e2ff90b8",
-               "shortname":"lobbywatch",
-               "name_de":"lobbywatch.ch",
-               "orgs":[
-                  "lobbywatch"
-               ]
-            },
-            {
-               "uuid":"3f21cdab-d0ad-43cb-880a-7373ab6a6598",
-               "shortname":"opendigitalradio",
-               "name_de":"Opendigitalradio",
-               "orgs":[
-                  "Opendigitalradio"
-               ]
-            },
-            {
-               "uuid":"9342dedb-a5d2-48d4-8cf8-7679e780d628",
-               "shortname":"openolitor",
-               "name_de":"OpenOlitor",
-               "orgs":[
-                  "openolitor"
-               ]
-            },
-            {
-               "uuid":"7d8344e7-2f4d-4506-a5ab-db362105b485",
-               "shortname":"opensourcechallenge",
-               "name_de":"Open Source Challenge",
-               "orgs":[
-                  "opensource-challenge"
-               ]
-            },
-            {
-               "uuid":"c2027fb9-ea40-426c-a147-972abe4c4035",
-               "shortname":"schoolofdata",
-               "name_de":"School of Data in Switzerland",
-               "orgs":[
-                  "schoolofdata-ch"
-               ]
-            },
-            {
-               "uuid":"7678acde-150b-47ef-9e2b-8de3e08b738e",
-               "shortname":"swissgeol",
-               "name_de":"swissgeol",
-               "orgs":[
-                  "swissgeol"
-               ]
-            },
-            {
-               "uuid":"8e185d2c-507b-4d6e-b641-cb8af52b03fd",
-               "shortname":"teksi",
-               "name_de":"TEKSI, QGEP, QWAT",
-               "orgs":[
-                  "teksi",
-                  "qgep",
-                  "qwat"
-               ]
-            },
-            {
-               "uuid":"febbd667-edd9-46d1-afce-e8e3f647a098",
-               "shortname":"veriso",
-               "name_de":"VeriSO",
-               "orgs":[
-                  "veriso"
-               ]
-            }
-         ]
-      },
-      "Insurances":{
-         "name_de":"Versicherungen",
-         "institutions":[
-            {
-               "uuid":"85a99e02-2c95-45ea-afc7-0d7e37ebb6a9",
-               "shortname":"axawinterthur",
-               "name_de":"AXA Winterthur",
-               "orgs":[
-                  "axa-ch"
-               ]
-            },
-            {
-               "uuid":"a0042db8-cfb6-4f5f-b4ee-d43d37dd06b9",
-               "shortname":"baloise",
-               "name_de":"Baloise",
-               "orgs":[
-                  "baloise",
-                  "baloise-incubator"
-               ]
-            },
-            {
-               "uuid":"6c6d9994-e1f3-492d-81f2-af8e48d91fa6",
-               "shortname":"css",
-               "name_de":"CSS",
-               "orgs":[
-                  "css-ch"
-               ]
-            },
-            {
-               "uuid":"e681ab62-d056-427a-acb6-b08dcfd83ac0",
-               "shortname":"helsana",
-               "name_de":"Helsana",
-               "orgs":[
-                  "helsana"
-               ]
-            },
-            {
-               "uuid":"1e34201c-306e-4fbe-b055-80644f9fca9d",
-               "shortname":"mobiliar",
-               "name_de":"Mobiliar",
-               "orgs":[
-                  "diemobiliar",
-                  "mobiliar"
-               ]
-            },
-            {
-               "uuid":"5a0fc0f0-3bba-4a1d-8d88-5a0819a255a9",
-               "shortname":"zurich",
-               "name_de":"Zürich Versicherung",
-               "orgs":[
-                  "zurichversicherung",
-                  "Zurich-Insurance",
-                  "ZurichInsurance"
-               ]
-            },
-            {
-               "uuid":"2981dadf-68e2-4a01-bd64-09f3140e4f0d",
-               "shortname":"vaudoise",
-               "name_de":"Vaudoise",
-               "orgs":[
-                  "VaudoiseAssurances"
-               ]
-            }
-         ]
-      },
-      "Banking":{
-         "name_de":"Banken",
-         "institutions":[
-            {
-               "uuid":"017492df-42b7-47c2-b29a-d13efc346259",
-               "shortname":"creditsuisse",
-               "name_de":"Credit Suisse",
-               "orgs":[
-                  "CreditSuisse"
-               ]
-            },
-            {
-               "uuid":"0c7c7c8b-e33a-4634-a5cc-569d8bdd3351",
-               "shortname":"datatrans",
-               "name_de":"Datatrans AG",
-               "orgs":[
-                  "datatrans"
-               ]
-            },
-            {
-               "uuid":"b6c162a7-b7c7-4bbd-adf6-b978f68296a2",
-               "shortname":"migrosbank",
-               "name_de":"Migros Bank AG",
-               "orgs":[
-                  "migrosbank"
-               ]
-            },
-            {
-               "uuid":"1f6e4125-2d12-46cb-868c-0512d80d40d8",
-               "shortname":"postfinance",
-               "name_de":"Postfinance",
-               "orgs":[
-                  "postfinance"
-               ]
-            }
-         ]
-      },
-      "Media":{
-         "name_de":"Medien",
-         "institutions":[
-            {
-               "uuid":"d41fe5c9-3ce6-46c5-9310-2b9242491345",
-               "shortname":"srg",
-               "name_de":"SRG",
-               "orgs":[
-                  "srfdata",
-                  "srgssr"
-               ]
-            },
-            {
-               "uuid":"ca9d1276-397a-4fd0-a336-f4b04f58ed57",
-               "shortname":"nzz",
-               "name_de":"NZZ",
-               "orgs":[
-                  "nzzdev"
-               ]
-            },
-            {
-               "uuid":"b174698a-755a-4794-9bf4-8f6ada809066",
-               "shortname":"radiorabe",
-               "name_de":"Radio Bern RaBe",
-               "orgs":[
-                  "radiorabe"
-               ]
-            },
-            {
-               "uuid":"1f8dbf5d-937b-41a1-9d45-fdddda5eab95",
-               "shortname":"txgroup",
-               "name_de":"TX Group",
-               "orgs":[
-                  "GitHubTamediaEis",
-                  "DND-IT",
-                  "tamediadigital",
-                  "tamedia-ddj"
-               ]
-            }
-         ]
-      },
-      "FoodBeverage":{
-         "name_de":"Food & Beverage",
-         "institutions":[
-            {
-               "uuid":"d52c28f9-2dc4-4f2b-94b6-d67d8f8afd0c",
-               "shortname":"nestle",
-               "name_de":"Nestlé",
-               "orgs":[
-                  "nestle",
-                  "nestle-it"
-               ]
-            }
-         ]
-      },
-      "Pharma":{
-         "name_de":"Pharma",
-         "institutions":[
-            {
-               "uuid":"1a5d4232-22ed-4a09-9067-fbd42eb202db",
-               "shortname":"novartis",
-               "name_de":"Novartis",
-               "orgs":[
-                  "Novartis"
-               ]
-            },
-            {
-               "uuid":"8c0589a6-4eb0-429f-a32a-4adba5b71159",
-               "shortname":"roche",
-               "name_de":"Roche",
-               "orgs":[
-                  "Roche"
-               ]
-            }
-         ]
-      },
-      "Others":{
-         "name_de":"Andere Unternehmen",
-         "institutions":[
-            {
-               "uuid":"71b0832b-9d21-49a4-8514-ae709fd80700",
-               "shortname":"digitecgalaxus",
-               "name_de":"Digitec Galaxus AG",
-               "orgs":[
-                  "DigitecGalaxus"
-               ]
-            },
-            {
-               "uuid":"60af673e-9097-474e-ba51-d382407bca51",
-               "shortname":"digris",
-               "name_de":"digris AG",
-               "orgs":[
-                  "digris"
-               ]
-            },
-            {
-               "uuid":"ca0b8296-531c-4186-b49d-8d3b9e53b95d",
-               "shortname":"EVAplusAPI",
-               "name_de":"EVA+ API",
-               "orgs":[
-                  "EVAplusAPI"
-               ]
-            },
-            {
-               "uuid":"8485c700-3efa-4bf1-a4af-180c578ab070",
-               "shortname":"swisstxt",
-               "name_de":"SWISS TXT AG",
-               "orgs":[
-                  "swisstxt"
-               ]
-            }
-         ]
-      },
-      "Gov_Companies":{
-         "name_de":"Öffentliche Unternehmen und Anstalten",
-         "institutions":[
-            {
-               "uuid":"32d7c645-2ef8-4ce3-8813-c78383e1fd91",
-               "shortname":"asit",
-               "name_de":"ASIT - Association pour le Système d'information du Territoire",
-               "orgs":[
-                  "asit-asso"
-               ]
-            },
-            {
-               "uuid":"bebdf973-da12-478b-8203-3aa363155117",
-               "shortname":"bernmobil",
-               "name_de":"BERNMOBIL",
-               "orgs":[
-                  "BERNMOBIL"
-               ]
-            },
-            {
-               "uuid":"09fcec49-0914-4aec-ad7d-c39bda34a871",
-               "shortname":"swisspost",
-               "name_de":"Die Schweizerische Post AG",
-               "orgs":[
-                  "swisspost-yellowcube",
-                  "swisspush",
-                  "spsvn",
-                  "tntswisspostag"
-               ]
-            },
-            {
-               "uuid":"b13b03cc-1d26-412f-802f-5849e4c58152",
-               "shortname":"sbb",
-               "name_de":"SBB",
-               "orgs":[
-                  "SchweizerischeBundesbahnen",
-                  "sbb-api",
-                  "openTdataCH"
-               ]
-            },
-            {
-               "uuid":"978cf33e-d2c2-41e9-910c-f4966fc066d1",
-               "shortname":"sige",
-               "name_de":"SIGE - Service Intercommunal de Gestion",
-               "orgs":[
-                  "sige-riviera"
-               ]
-            },
-            {
-               "uuid":"260b058a-9fcf-47ca-bd35-8bcfedce6301",
-               "shortname":"swisscom",
-               "name_de":"Swisscom",
-               "orgs":[
-                  "swisscom",
-                  "SwisscomTrustServices",
-                  "swisscom-developer",
-                  "sinso",
-                  "Swisscom-BigD"
-               ]
-            },
-            {
-               "uuid":"04d3ec72-6517-48e4-974d-5e19c45d5afd",
-               "shortname":"vbz",
-               "name_de":"Verkehrsbetriebe Zürich (VBZ)",
-               "orgs":[
-                  "VerkehrsbetriebeZuerich"
-               ]
-            }
-         ]
-      },
-      "Gov_Federal":{
-         "name_de":"Verwaltung Bund",
-         "institutions":[
-            {
-               "uuid":"137478fc-ee92-43a4-94f7-c3df17c42a4c",
-               "shortname":"alv",
-               "name_de":"Arbeitslosenversicherung",
-               "orgs":[
-                  "alv-ch"
-               ]
-            },
-            {
-               "uuid":"9e0d0911-8a60-4dbd-a49d-9eab6bfa1d89",
-               "shortname":"bfe",
-               "name_de":"Bundesamt für Energie",
-               "orgs":[
-                  "SFOE"
-               ]
-            },
-            {
-               "uuid":"53795f08-ac6e-4aa4-a780-9283b20f958f",
-               "shortname":"bit",
-               "name_de":"Bundesamt für Informatik und Telekommunikation",
-               "orgs":[
-                  "admin-ch"
-               ]
-            },
-            {
-               "uuid":"869731b0-24f1-461c-8a12-17ac143581b5",
-               "shortname":"bj",
-               "name_de":"Bundesamt für Justiz",
-               "orgs":[
-                  "e-id-admin"
-               ]
-            },
-            {
-               "uuid":"3f213801-3496-4351-9a9c-2fb1b4aa6946",
-               "shortname":"bfs",
-               "name_de":"Bundesamt für Statistik",
-               "orgs":[
-                  "BFS-SHS-MSAS",
-                  "ogdch"
-               ]
-            },
-            {
-               "uuid":"5b460324-28c0-4613-ad1e-b00031f0ee41",
-               "shortname":"bk",
-               "name_de":"Bundeskanzlei",
-               "orgs":[
-                  "swiss"
-               ]
-            },
-            {
-               "uuid":"1a092c16-67bb-4b7a-972e-bbd5d838903b",
-               "shortname":"meteoswiss",
-               "name_de":"MeteoSwiss",
-               "orgs":[
-                  "MeteoSwiss-APN"
-               ]
-            },
-            {
-               "uuid":"5c902f1f-a811-404b-9a51-e74545bbdded",
-               "shortname":"bar",
-               "name_de":"Schweizerisches Bundesarchiv",
-               "orgs":[
-                  "SwissFederalArchives",
-                  "sfa-siard"
-               ]
-            },
-            {
-               "uuid":"37d97eb4-d0b3-40e9-8e2c-65f97a518700",
-               "shortname":"swisstopo",
-               "name_de":"swisstopo",
-               "orgs":[
-                  "geoadmin"
-               ]
-            }
-         ]
-      },
-      "Gov_Cantons":{
-         "name_de":"Verwaltung Kantone",
-         "institutions":[
-            {
-               "uuid":"2144d6bf-9dd7-47cb-a1cb-d0e35d957c89",
-               "shortname":"ag",
-               "name_de":"Kanton Aargau",
-               "orgs":[
-                  "kanton-aargau"
-               ]
-            },
-            {
-               "uuid":"4b39e548-a2df-49b2-8cb7-fdf9f624220f",
-               "shortname":"bs",
-               "name_de":"Kanton Basel-Stadt",
-               "orgs":[
-                  "StataBS",
-                  "statabs-test",
-                  "Staatsarchiv-Basel-Stadt",
-                  "opendatabs"
-               ]
-            },
-            {
-               "uuid":"6957de8e-01f7-4780-92e5-23a4076ed4ed",
-               "shortname":"be",
-               "name_de":"Kanton Bern",
-               "orgs":[
-                  "kanton-bern",
-                  "AGIBE"
-               ]
-            },
-            {
-               "uuid":"ad17ab38-23b2-48af-b060-1f6359f21512",
-               "shortname":"ne",
-               "name_de":"Kanton Neuenburg",
-               "orgs":[
-                  "sitn"
-               ]
-            },
-            {
-               "uuid":"fffad615-8bc3-4f36-8f13-ac8416fedc78",
-               "shortname":"so",
-               "name_de":"Kanton Solothurn",
-               "orgs":[
-                  "sogis"
-               ]
-            },
-            {
-               "uuid":"50de5180-6124-4375-902f-88850a9871af",
-               "shortname":"vd",
-               "name_de":"Kanton Waadt",
-               "orgs":[
-                  "dsi-vd"
-               ]
-            },
-            {
-               "uuid":"f3879203-f5e5-4bd8-b9e0-38d25b9a4391",
-               "shortname":"zh",
-               "name_de":"Kanton Zürich",
-               "orgs":[
-                  "FNSKtZH",
-                  "StatistikZH",
-                  "openZH",
-                  "gisktzh",
-                  "bildungsmonitoringZH"
-               ]
-            },
-            {
-               "uuid":"090eb1ff-8ce4-4a0a-9100-2dfa2214656a",
-               "shortname":"ge",
-               "name_de":"République et canton de Genève",
-               "orgs":[
-                  "republique-et-canton-de-geneve"
-               ]
-            }
-         ]
-      },
-      "Gov_Cities":{
-         "name_de":"Verwaltung Städte und Gemeinden",
-         "institutions":[
-            {
-               "uuid":"0738ec44-9769-4774-914e-44f1c7365603",
-               "shortname":"bern",
-               "name_de":"Bern",
-               "orgs":[
-                  "StadtBern"
-               ]
-            },
-            {
-               "uuid":"5042acd1-094e-467c-b0d9-ba3e46172194",
-               "shortname":"bielbienne",
-               "name_de":"Biel-Bienne",
-               "orgs":[
-                  "biel-bienne"
-               ]
-            },
-            {
-               "uuid":"e4d86b3b-b54e-4f5a-9c56-840dcb578e20",
-               "shortname":"luzern",
-               "name_de":"Luzern",
-               "orgs":[
-                  "stadtluzern"
-               ]
-            },
-            {
-               "uuid":"00a0c696-ad89-447b-9205-f269914b4c13",
-               "shortname":"nyon",
-               "name_de":"Nyon",
-               "orgs":[
-                  "sitnyon"
-               ]
-            },
-            {
-               "uuid":"837d8c83-25a2-491d-8d61-c512ae5153a4",
-               "shortname":"pully",
-               "name_de":"Pully",
-               "orgs":[
-                  "VilleDePully"
-               ]
-            },
-            {
-               "uuid":"3dcdcd98-c6af-4f6c-b4d9-7765173ed4b2",
-               "shortname":"uster",
-               "name_de":"Uster",
-               "orgs":[
-                  "GesellschaftStadtUster"
-               ]
-            },
-            {
-               "uuid":"5261d39b-8821-4f26-9d0d-50f5ce0390a8",
-               "shortname":"yverdon",
-               "name_de":"Yverdon",
-               "orgs":[
-                  "yverdon"
-               ]
-            },
-            {
-               "uuid":"c9f03e8f-fa33-4b53-b92e-e5b6be3a75df",
-               "shortname":"zuerich",
-               "name_de":"Zürich",
-               "orgs":[
-                  "StatistikStadtZuerich",
-                  "opendatazurich"
-               ]
-            }
-         ]
-      },
-      "ResearchAndEducation":{
-         "name_de":"Hochschulen und Forschung",
-         "institutions":[
-            {
-               "uuid":"95daefea-056e-4fd2-a381-5bd7ea6c8d3a",
-               "shortname":"bfh",
-               "name_de":"Berner Fachhochschule",
-               "orgs":[
-                  "bfh",
-                  "digital-sustainability",
-                  "iam-ictm",
-                  "bfh-science",
-                  "HAFL-WWI"
-               ]
-            },
-            {
-               "uuid":"299d2c35-d60f-46cf-ba84-abe534fab204",
-               "shortname":"cern",
-               "name_de":"European Organization for Nuclear Research (CERN)",
-               "orgs":[
-                  "CERN",
-                  "cernopendata",
-                  "cern-fts",
-                  "cerndb",
-                  "cernops",
-                  "AliceO2Group",
-                  "cms-opendata-analyses",
-                  "cvmfs",
-                  "CERN-E-Ternity"
-               ]
-            },
-            {
-               "uuid":"cd30fbb1-6fe8-4c91-93ec-d6448313c792",
-               "shortname":"ffhs",
-               "name_de":"Fernfachhochschule Schweiz",
-               "orgs":[
-                  "ffhs"
-               ]
-            },
-            {
-               "uuid":"6b5a2caa-2eaf-4cea-bbda-b58cf61a0266",
-               "shortname":"fcbg",
-               "name_de":"Fondation Campus Biotech Geneva",
-               "orgs":[
-                  "fcbg-hnp"
-               ]
-            },
-            {
-               "uuid":"b4ef6a7d-f7e3-4512-bce7-525acc758658",
-               "shortname":"psi",
-               "name_de":"Paul Scherrer Institut",
-               "orgs":[
-                  "paulscherrerinstitute"
-               ]
-            },
-            {
-               "uuid":"d2ad4064-3ea4-4ce4-8780-90c3e23098f7",
-               "shortname":"swissbib",
-               "name_de":"swissbib",
-               "orgs":[
-                  "swissbib",
-                  "linked-swissbib"
-               ]
-            },
-            {
-               "uuid":"6ededd44-29a6-4627-8380-0ad26de52898",
-               "shortname":"cscs",
-               "name_de":"Swiss National Supercomputing Center",
-               "orgs":[
-                  "eth-cscs"
-               ]
-            },
-            {
-               "uuid":"112e3114-39f5-4d8d-9811-caf824c69954",
-               "shortname":"swisstph",
-               "name_de":"Swiss Tropical and Public Health Institute",
-               "orgs":[
-                  "SwissTPH"
-               ]
-            },
-            {
-               "uuid":"90ee70b6-070a-45e4-831e-b56935398361",
-               "shortname":"unibe",
-               "name_de":"Universität Bern",
-               "orgs":[
-                  "unibe-ch",
-                  "artorg-unibe-ch",
-                  "CMPG",
-                  "ConsBiol-unibern",
-                  "hpc-unibe-ch",
-                  "IAM-CGG",
-                  "id-unibe-ch",
-                  "kogpsy",
-                  "reymond-group",
-                  "scg-unibe-ch",
-                  "TranslationalResearchUnit",
-                  "UB-Bern",
-                  "ub-unibe-ch",
-                  "ubern-mia",
-                  "unibe-cns",
-                  "zmk-unibe-ch"
-               ]
-            },
-            {
-               "uuid":"8502075b-2e86-4cda-948a-275ba7523bc2",
-               "shortname":"unine",
-               "name_de":"Université de Neuchâtel",
-               "orgs":[
-                  "UniNE-CHYN"
-               ]
-            },
-            {
-               "uuid":"398af282-c7e8-4f03-839a-2442deeb42ac",
-               "shortname":"unine",
-               "name_de":"Universität St.Gallen",
-               "orgs":[
-                  "Interactions-HSG",
-                  "ics-unisg",
-                  "HSG-Library"
-               ]
-            },
-            {
-               "uuid":"6932e726-fffb-4996-a6c8-e43d18d6379a",
-               "shortname":"unizh",
-               "name_de":"Universität Zürich",
-               "orgs":[
-                  "uzh",
-                  "ZurichNLP"
-               ]
-            },
-            {
-               "uuid":"9929b685-c0c1-4742-999c-91792bc0cd22",
-               "shortname":"ict-berufsbildung",
-               "name_de":"ICT-Berufsbildung",
-               "orgs":[
-                  "ICT-Berufsbildung"
-               ]
-            }
-         ]
-      },
-      "NGOs":{
-         "name_de":"Nichtregierungsorganisationen",
-         "institutions":[
-            {
-               "uuid":"d1d628b8-028b-45a2-8589-24c50e73b73a",
-               "shortname":"ebu",
-               "name_de":"European Broadcasting Union",
-               "orgs":[
-                  "ebu"
-               ]
-            },
-            {
-               "uuid":"0ff10fa4-89a6-11ec-8357-3c15c2d466fc",
-               "shortname":"GreenpeaceSchweiz",
-               "name_de":"Greenpeace Schweiz",
-               "orgs":[
-                  "GreenpeaceSchweiz"
-               ]
-            },
-            {
-               "uuid":"241b1aab-7ffc-40fb-941f-7af16db9745b",
-               "shortname":"itu",
-               "name_de":"International Telecommunication Union",
-               "orgs":[
-                  "openitu"
-               ]
-            },
-            {
-               "uuid":"be967346-11db-4ff9-b423-08facc0d0f4b",
-               "shortname":"sp",
-               "name_de":"Sozialdemokratische Partei der Schweiz",
-               "orgs":[
-                  "spschweiz"
-               ]
-            },
-            {
-               "uuid":"73d8b2d5-5731-4c54-9a40-29f82513b4f3",
-               "shortname":"who",
-               "name_de":"World Health Organization",
-               "orgs":[
-                  "WorldHealthOrganization"
-               ]
-            }
-         ]
-      }
-   }
+  "GitHubRepos": {
+    "IT": {
+      "name_de": "Informatikbranche",
+      "institutions": [
+        {
+          "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
+          "shortname": "3ap",
+          "name_de": "3ap AG",
+          "orgs": [
+            "3AP-AG"
+          ]
+        },
+        {
+          "uuid": "29a0cd4e-3fc4-4f32-93d4-0b3642ea5ed8",
+          "shortname": "4teamwork",
+          "name_de": "4teamwork AG",
+          "orgs": [
+            "4teamwork"
+          ]
+        },
+        {
+          "uuid": "0e06e7d6-2c9c-4282-b627-76e73aada5aa",
+          "shortname": "56kcloud",
+          "name_de": "56K Cloud",
+          "orgs": [
+            "56kcloud"
+          ]
+        },
+        {
+          "uuid": "28e1ff2d-c6c6-4221-bc56-9e799c1279ed",
+          "shortname": "OpenFlowLabs",
+          "name_de": "OpenFlowLabs GmbH",
+          "orgs": [
+            "OpenFlowLabs"
+          ]
+        },
+        {
+          "uuid": "b36bfd2a-e6ab-4389-a75d-88a9ac2eed20",
+          "shortname": "abraxas",
+          "name_de": "Abraxas",
+          "orgs": [
+            "abraxas-labs"
+          ]
+        },
+        {
+          "uuid": "523aded3-35e2-4927-b7e9-9c50c6243541",
+          "shortname": "adfinis",
+          "name_de": "Adfinis AG",
+          "orgs": [
+            "adfinis-sygroup",
+            "adfinis-forks",
+            "projectcaluma"
+          ]
+        },
+        {
+          "uuid": "b8d76bb8-e3c6-44d5-9f50-02359c8ff1c4",
+          "shortname": "adnovum",
+          "name_de": "AdNovum Informatik AG",
+          "orgs": [
+            "adnovum"
+          ]
+        },
+        {
+          "uuid": "2e54a51b-9ad4-47b7-b735-e1a7734a3421",
+          "shortname": "advancedconcepts",
+          "name_de": "Advanced Concepts AG",
+          "orgs": [
+            "advancedconcepts"
+          ]
+        },
+        {
+          "uuid": "39602716-629e-415d-af97-21ae5b9ff705",
+          "shortname": "ahdis",
+          "name_de": "ahdis ag",
+          "orgs": [
+            "ahdis"
+          ]
+        },
+        {
+          "uuid": "6404af0d-b1cf-47e7-a221-7288ffadbe46",
+          "shortname": "amazee",
+          "name_de": "amazee.io",
+          "orgs": [
+            "amazeeio"
+          ]
+        },
+        {
+          "uuid": "6d50945b-3a80-4808-8c87-b5bef7610a71",
+          "shortname": "antistatique",
+          "name_de": "antistatique",
+          "orgs": [
+            "antistatique"
+          ]
+        },
+        {
+          "uuid": "57664644-54b9-4ed3-a0bb-f2ffec4c0c61",
+          "shortname": "appswithlove",
+          "name_de": "Apps with love AG",
+          "orgs": [
+            "appswithlove"
+          ]
+        },
+        {
+          "uuid": "695fe3c5-acaa-4c06-a9b2-362dcbe37d15",
+          "shortname": "bbv",
+          "name_de": "bbv Software Services AG",
+          "orgs": [
+            "bbvch"
+          ]
+        },
+        {
+          "uuid": "34c46af6-a8dc-4eec-83bd-40ecddd913af",
+          "shortname": "bedag",
+          "name_de": "Bedag",
+          "orgs": [
+            "bedag"
+          ]
+        },
+        {
+          "uuid": "80c57605-9088-4e2b-b928-82b9f3b98af3",
+          "shortname": "blackpoints",
+          "name_de": "Blackpoints AG",
+          "orgs": [
+            "blackpoints"
+          ]
+        },
+        {
+          "uuid": "d4e9a748-caf4-4683-91aa-0d486c7b778b",
+          "shortname": "braintec",
+          "name_de": "brain-tec AG",
+          "orgs": [
+            "brain-tec"
+          ]
+        },
+        {
+          "uuid": "bca4fcee-c04c-4438-ac85-7eec5ea9cb18",
+          "shortname": "bsi",
+          "name_de": "BSI Business Systems Integration AG",
+          "orgs": [
+            "bsi-software"
+          ]
+        },
+        {
+          "uuid": "c19271bf-caf0-47af-9140-3c429026fabd",
+          "shortname": "camptocamp",
+          "name_de": "Camptocamp",
+          "orgs": [
+            "camptocamp"
+          ]
+        },
+        {
+          "uuid": "b2cc48ed-b5b7-4d0b-bca5-06c94e8dc477",
+          "shortname": "caos",
+          "name_de": "CAOS AG",
+          "orgs": [
+            "caos"
+          ]
+        },
+        {
+          "uuid": "86db9e5d-943f-45ca-b2d8-80624e73216b",
+          "shortname": "cividi",
+          "name_de": "cividi",
+          "orgs": [
+            "cividi",
+            "smartuse"
+          ]
+        },
+        {
+          "uuid": "6d1367ad-5a40-4b35-8644-97329e2a2eb8",
+          "shortname": "cloudscale",
+          "name_de": "cloudscale.ch AG",
+          "orgs": [
+            "cloudscale-ch"
+          ]
+        },
+        {
+          "uuid": "e1e3e077-0362-412b-a9d3-5d02f8cf01f3",
+          "shortname": "cyon",
+          "name_de": "cyon GmbH",
+          "orgs": [
+            "cyon"
+          ]
+        },
+        {
+          "uuid": "6eba34ec-e4b8-451f-bf05-b7fea4e9a101",
+          "shortname": "dvbern",
+          "name_de": "DV Bern",
+          "orgs": [
+            "dvbern"
+          ]
+        },
+        {
+          "uuid": "122a3c2f-ea5f-4b12-81e3-d33213ebefcf",
+          "shortname": "elca",
+          "name_de": "ELCA",
+          "orgs": [
+            "ElcaIT"
+          ]
+        },
+        {
+          "uuid": "0ecce1bb-fd14-4e5c-9296-bfff1efcbda4",
+          "shortname": "ergon",
+          "name_de": "Ergon Informatik AG ",
+          "orgs": [
+            "ergon"
+          ]
+        },
+        {
+          "uuid": "bead444a-0f0c-491e-a893-7d89d21d8a51",
+          "shortname": "erni",
+          "name_de": "ERNI",
+          "orgs": [
+            "ERNICommunity"
+          ]
+        },
+        {
+          "uuid": "13c7f0b1-de21-4ea9-a8e0-a3f0e7283161",
+          "shortname": "exoscale",
+          "name_de": "Exoscale",
+          "orgs": [
+            "exoscale"
+          ]
+        },
+        {
+          "uuid": "9edcdf47-5ed0-4dbf-a734-6ce94f3c3c9e",
+          "shortname": "frangoteam",
+          "name_de": "frangoteam",
+          "orgs": [
+            "frangoteam"
+          ]
+        },
+        {
+          "uuid": "4ff319a7-6187-4b77-848a-43b8559b8b6c",
+          "shortname": "garaio",
+          "name_de": "Garaio",
+          "orgs": [
+            "garaio"
+          ]
+        },
+        {
+          "uuid": "5ed01b04-a8bc-4475-b2fc-0e012bfae405",
+          "shortname": "gyselroth",
+          "name_de": "gyselroth",
+          "orgs": [
+            "gyselroth"
+          ]
+        },
+        {
+          "uuid": "d6687487-318a-4862-bd51-4ea8a4d2a3e7",
+          "shortname": "hazelfire",
+          "name_de": "hazelfire GmbH",
+          "orgs": [
+            "hzlf"
+          ]
+        },
+        {
+          "uuid": "60029b54-e998-4234-9986-90eda2d948ee",
+          "shortname": "infomaniak",
+          "name_de": "Infomaniak",
+          "orgs": [
+            "Infomaniak"
+          ]
+        },
+        {
+          "uuid": "457eea78-c696-4496-86a9-46e5f293fa9a",
+          "shortname": "init7",
+          "name_de": "Init7",
+          "orgs": [
+            "Init7"
+          ]
+        },
+        {
+          "uuid": "0df80287-0662-4f30-8d8c-2bc1468d8587",
+          "shortname": "interactivethings",
+          "name_de": "Interactive Things",
+          "orgs": [
+            "interactivethings"
+          ]
+        },
+        {
+          "uuid": "63e8550b-8bbf-41b0-bd9a-4283a3392447",
+          "shortname": "inventage",
+          "name_de": "Inventage AG",
+          "orgs": [
+            "inventage"
+          ]
+        },
+        {
+          "uuid": "d0505f23-7585-4b3d-be75-a8847290a66b",
+          "shortname": "isolutions",
+          "name_de": "iSolutions",
+          "orgs": [
+            "isolutionsag"
+          ]
+        },
+        {
+          "uuid": "66e054eb-a175-441c-91cd-1bb17217fda3",
+          "shortname": "itigo",
+          "name_de": "ITIGO AG",
+          "orgs": [
+            "itigoag"
+          ]
+        },
+        {
+          "uuid": "14d40b3a-cf3e-43e1-a425-fe649f6d4d9c",
+          "shortname": "jshmrtn",
+          "name_de": "JOSHMARTIN GmbH",
+          "orgs": [
+            "jshmrtn"
+          ]
+        },
+        {
+          "uuid": "2000714a-ccc2-46d3-a476-a6eeb2a7caef",
+          "shortname": "liip",
+          "name_de": "Liip",
+          "orgs": [
+            "liip",
+            "liip-forks",
+            "rokka-io"
+          ]
+        },
+        {
+          "uuid": "b27523b9-c605-4eff-9e03-1c031a7ee222",
+          "shortname": "microsystems",
+          "name_de": "micro systems",
+          "orgs": [
+            "arcapos"
+          ]
+        },
+        {
+          "uuid": "4014cdde-1900-4360-bb53-6c2976344d8f",
+          "shortname": "mimacom",
+          "name_de": "mimacom",
+          "orgs": [
+            "mimacom"
+          ]
+        },
+        {
+          "uuid": "b123799c-858b-4b51-98ad-0956e410f947",
+          "shortname": "netcetera",
+          "name_de": "Netcetera",
+          "orgs": [
+            "netceteragroup"
+          ]
+        },
+        {
+          "uuid": "2bea4fed-4248-4e4d-a189-46f90e24bda4",
+          "shortname": "nine",
+          "name_de": "nine",
+          "orgs": [
+            "ninech"
+          ]
+        },
+        {
+          "uuid": "633e906b-da12-49f1-8de7-6d52aec20646",
+          "shortname": "novu",
+          "name_de": "novu",
+          "orgs": [
+            "teamnovu"
+          ]
+        },
+        {
+          "uuid": "baa12e69-c8f1-48d9-9ef1-0e250e130275",
+          "shortname": "nxt",
+          "name_de": "nxt Engineering GmbH",
+          "orgs": [
+            "nxt"
+          ]
+        },
+        {
+          "uuid": "1938533d-1168-4209-908a-0f2e7210ef2d",
+          "shortname": "offline",
+          "name_de": "OFFLINE GmbH",
+          "orgs": [
+            "OFFLINE-GmbH"
+          ]
+        },
+        {
+          "uuid": "cdde5d08-ce6a-403b-b56b-5212419d75aa",
+          "shortname": "opengis",
+          "name_de": "OPENGIS.ch GmbH",
+          "orgs": [
+            "opengisch"
+          ]
+        },
+        {
+          "uuid": "71a72db6-8b13-405f-a3d4-d36db246940e",
+          "shortname": "openstream",
+          "name_de": "Openstream Internet Solutions",
+          "orgs": [
+            "openstream"
+          ]
+        },
+        {
+          "uuid": "6517018e-e5e4-4d4b-96ff-020c84b1e3e0",
+          "shortname": "opsone",
+          "name_de": "Ops One AG",
+          "orgs": [
+            "opsone-ch"
+          ]
+        },
+        {
+          "uuid": "a2144803-aa4a-4e02-8991-70889c096c47",
+          "shortname": "opten",
+          "name_de": "OPTEN AG",
+          "orgs": [
+            "OPTEN"
+          ]
+        },
+        {
+          "uuid": "2a0e43a1-5d69-4841-a48a-2e40eae4d3cd",
+          "shortname": "puzzle",
+          "name_de": "Puzzle ITC",
+          "orgs": [
+            "puzzle",
+            "puzzle-bbt",
+            "hitobito"
+          ]
+        },
+        {
+          "uuid": "c4943619-1cea-44ac-909b-39fae5705239",
+          "shortname": "seantis",
+          "name_de": "seantis gmbh",
+          "orgs": [
+            "seantis"
+          ]
+        },
+        {
+          "uuid": "9db1ba26-7cc3-43fd-913a-84b2a185949a",
+          "shortname": "secanis",
+          "name_de": "secanis",
+          "orgs": [
+            "secanis"
+          ]
+        },
+        {
+          "uuid": "12d86361-e13e-4ee5-8e39-65e37bf36bee",
+          "shortname": "snowflake",
+          "name_de": "Snowflake",
+          "orgs": [
+            "snowflakech"
+          ]
+        },
+        {
+          "uuid": "f1f1868b-b6a6-4c7f-bbd2-dc086dd14b5f",
+          "shortname": "sourcepole",
+          "name_de": "Sourcepole",
+          "orgs": [
+            "sourcepole"
+          ]
+        },
+        {
+          "uuid": "eaff4633-860b-4e4f-b773-2c40b4cf7121",
+          "shortname": "steppingstone",
+          "name_de": "stepping stone",
+          "orgs": [
+            "stepping-stone"
+          ]
+        },
+        {
+          "uuid": "cccc179e-12ab-44e6-9c37-ff5b4c13f699",
+          "shortname": "tegonal",
+          "name_de": "Tegonal",
+          "orgs": [
+            "tegonal"
+          ]
+        },
+        {
+          "uuid": "9597962d-1801-4583-bc7c-5191beb5c412",
+          "shortname": "threema",
+          "name_de": "Threema",
+          "orgs": [
+            "threema-ch"
+          ]
+        },
+        {
+          "uuid": "e0e61369-9577-4aee-b729-09ddda4bbd78",
+          "shortname": "ticketpark",
+          "name_de": "Ticketpark GmbH",
+          "orgs": [
+            "TicketPark"
+          ]
+        },
+        {
+          "uuid": "35b8a62b-bba0-46d6-8256-6c42158f5a26",
+          "shortname": "ubique",
+          "name_de": "Ubique",
+          "orgs": [
+            "UbiqueInnovation",
+            "openmobilemaps"
+          ]
+        },
+        {
+          "uuid": "a9bce5be-1175-4faf-9589-298fea4cb7b6",
+          "shortname": "unprofession",
+          "name_de": "unprofession",
+          "orgs": [
+            "unprofession-al"
+          ]
+        },
+        {
+          "uuid": "c654ac6f-0698-4d70-8a95-ef1b559bd6d9",
+          "shortname": "vshn",
+          "name_de": "VSHN AG",
+          "orgs": [
+            "vshn",
+            "projectsyn"
+          ]
+        },
+        {
+          "uuid": "bed46d27-050c-4f50-ba9d-0740b27445b5",
+          "shortname": "whatwedo",
+          "name_de": "whatwedo GmbH",
+          "orgs": [
+            "whatwedo"
+          ]
+        },
+        {
+          "uuid": "d3f61370-c3bf-46a8-81fc-13fbafbb578b",
+          "shortname": "xware",
+          "name_de": "XWare GmbH",
+          "orgs": [
+            "xware-gmbh"
+          ]
+        },
+        {
+          "uuid": "03954cfa-40a5-4a78-9e40-c40573adb357",
+          "shortname": "zazuko",
+          "name_de": "Zazuko",
+          "orgs": [
+            "zazuko"
+          ]
+        },
+        {
+          "uuid": "14c22145-fe1d-408d-9b79-6ed1841f8a2e",
+          "shortname": "zuehlke",
+          "name_de": "Zühlke",
+          "orgs": [
+            "Zuehlke"
+          ]
+        }
+      ]
+    },
+    "Communities": {
+      "name_de": "Communities, Projekte und Einzelfirmen",
+      "institutions": [
+        {
+          "uuid": "ee9b432e-df71-4cca-abd9-7db4235655c1",
+          "shortname": "appuio",
+          "name_de": "APPUiO",
+          "orgs": [
+            "appuio"
+          ]
+        },
+        {
+          "uuid": "8b875871-d38a-426d-99dc-8615530c8c07",
+          "shortname": "arillso",
+          "name_de": "arillso",
+          "orgs": [
+            "arillso"
+          ]
+        },
+        {
+          "uuid": "123964c9-f364-4e53-ad1c-103c301127dd",
+          "shortname": "caluma",
+          "name_de": "Caluma",
+          "orgs": [
+            "projectcaluma"
+          ]
+        },
+        {
+          "uuid": "cd9d690f-e13f-4bda-b33c-04adb3b04407",
+          "shortname": "datalets",
+          "name_de": "Datalets",
+          "orgs": [
+            "datalets"
+          ]
+        },
+        {
+          "uuid": "251cee4c-85fa-480f-be1a-8d7be4ea9edd",
+          "shortname": "dinacon",
+          "name_de": "DINAcon Konferenz für digitale Nachhaltigkeit",
+          "orgs": [
+            "DINAcon"
+          ]
+        },
+        {
+          "uuid": "3f27bcfd-35d4-483e-b77a-1d9b9387dc2b",
+          "shortname": "hitobito",
+          "name_de": "Hitobito",
+          "orgs": [
+            "hitobito"
+          ]
+        },
+        {
+          "uuid": "be4d25af-26b7-4404-9229-2b36b48afb38",
+          "shortname": "hl17",
+          "name_de": "HL7 Benutzergruppe Schweiz",
+          "orgs": [
+            "hl7ch"
+          ]
+        },
+        {
+          "uuid": "e11b787f-92ed-4432-9ece-4a9c82188037",
+          "shortname": "k8up",
+          "name_de": "k8up",
+          "orgs": [
+            "k8up-io"
+          ]
+        },
+        {
+          "uuid": "8f1292be-e5c6-4a1b-9ca0-6cd9498aef90",
+          "shortname": "keycdn",
+          "name_de": "KeyCDN",
+          "orgs": [
+            "keycdn"
+          ]
+        },
+        {
+          "uuid": "fa2dc045-0a75-4ef2-8cee-8f77dad5e360",
+          "shortname": "lib4ri",
+          "name_de": "Lib4RI - Library for the Research Institutes within the ETH Domain: Eawag, Empa, PSI & WSL",
+          "orgs": [
+            "Lib4RI"
+          ]
+        },
+        {
+          "uuid": "d6e8ccd4-294e-4af2-81e5-b7e6e2ff90b8",
+          "shortname": "lobbywatch",
+          "name_de": "lobbywatch.ch",
+          "orgs": [
+            "lobbywatch"
+          ]
+        },
+        {
+          "uuid": "3f21cdab-d0ad-43cb-880a-7373ab6a6598",
+          "shortname": "opendigitalradio",
+          "name_de": "Opendigitalradio",
+          "orgs": [
+            "Opendigitalradio"
+          ]
+        },
+        {
+          "uuid": "9342dedb-a5d2-48d4-8cf8-7679e780d628",
+          "shortname": "openolitor",
+          "name_de": "OpenOlitor",
+          "orgs": [
+            "openolitor"
+          ]
+        },
+        {
+          "uuid": "7d8344e7-2f4d-4506-a5ab-db362105b485",
+          "shortname": "opensourcechallenge",
+          "name_de": "Open Source Challenge",
+          "orgs": [
+            "opensource-challenge"
+          ]
+        },
+        {
+          "uuid": "4095da07-8708-4df0-9a8a-90a8812847bb",
+          "shortname": "posmo",
+          "name_de": "Genossenschaft POSMO Schweiz",
+          "orgs": [
+            "posmocoop"
+          ]
+        },
+        {
+          "uuid": "c2027fb9-ea40-426c-a147-972abe4c4035",
+          "shortname": "schoolofdata",
+          "name_de": "School of Data in Switzerland",
+          "orgs": [
+            "schoolofdata-ch"
+          ]
+        },
+        {
+          "uuid": "7678acde-150b-47ef-9e2b-8de3e08b738e",
+          "shortname": "swissgeol",
+          "name_de": "swissgeol",
+          "orgs": [
+            "swissgeol"
+          ]
+        },
+        {
+          "uuid": "8e185d2c-507b-4d6e-b641-cb8af52b03fd",
+          "shortname": "teksi",
+          "name_de": "TEKSI, QGEP, QWAT",
+          "orgs": [
+            "teksi",
+            "qgep",
+            "qwat"
+          ]
+        },
+        {
+          "uuid": "febbd667-edd9-46d1-afce-e8e3f647a098",
+          "shortname": "veriso",
+          "name_de": "VeriSO",
+          "orgs": [
+            "veriso"
+          ]
+        }
+      ]
+    },
+    "Insurances": {
+      "name_de": "Versicherungen",
+      "institutions": [
+        {
+          "uuid": "85a99e02-2c95-45ea-afc7-0d7e37ebb6a9",
+          "shortname": "axawinterthur",
+          "name_de": "AXA Winterthur",
+          "orgs": [
+            "axa-ch"
+          ]
+        },
+        {
+          "uuid": "a0042db8-cfb6-4f5f-b4ee-d43d37dd06b9",
+          "shortname": "baloise",
+          "name_de": "Baloise",
+          "orgs": [
+            "baloise",
+            "baloise-incubator"
+          ]
+        },
+        {
+          "uuid": "6c6d9994-e1f3-492d-81f2-af8e48d91fa6",
+          "shortname": "css",
+          "name_de": "CSS",
+          "orgs": [
+            "css-ch"
+          ]
+        },
+        {
+          "uuid": "e681ab62-d056-427a-acb6-b08dcfd83ac0",
+          "shortname": "helsana",
+          "name_de": "Helsana",
+          "orgs": [
+            "helsana"
+          ]
+        },
+        {
+          "uuid": "1e34201c-306e-4fbe-b055-80644f9fca9d",
+          "shortname": "mobiliar",
+          "name_de": "Mobiliar",
+          "orgs": [
+            "diemobiliar",
+            "mobiliar"
+          ]
+        },
+        {
+          "uuid": "2981dadf-68e2-4a01-bd64-09f3140e4f0d",
+          "shortname": "vaudoise",
+          "name_de": "Vaudoise",
+          "orgs": [
+            "VaudoiseAssurances"
+          ]
+        },
+        {
+          "uuid": "5a0fc0f0-3bba-4a1d-8d88-5a0819a255a9",
+          "shortname": "zurich",
+          "name_de": "Zürich Versicherung",
+          "orgs": [
+            "zurichversicherung",
+            "Zurich-Insurance",
+            "ZurichInsurance"
+          ]
+        }
+      ]
+    },
+    "Banking": {
+      "name_de": "Banken",
+      "institutions": [
+        {
+          "uuid": "017492df-42b7-47c2-b29a-d13efc346259",
+          "shortname": "creditsuisse",
+          "name_de": "Credit Suisse",
+          "orgs": [
+            "CreditSuisse"
+          ]
+        },
+        {
+          "uuid": "0c7c7c8b-e33a-4634-a5cc-569d8bdd3351",
+          "shortname": "datatrans",
+          "name_de": "Datatrans AG",
+          "orgs": [
+            "datatrans"
+          ]
+        },
+        {
+          "uuid": "b6c162a7-b7c7-4bbd-adf6-b978f68296a2",
+          "shortname": "migrosbank",
+          "name_de": "Migros Bank AG",
+          "orgs": [
+            "migrosbank"
+          ]
+        },
+        {
+          "uuid": "1f6e4125-2d12-46cb-868c-0512d80d40d8",
+          "shortname": "postfinance",
+          "name_de": "Postfinance",
+          "orgs": [
+            "postfinance"
+          ]
+        }
+      ]
+    },
+    "Media": {
+      "name_de": "Medien",
+      "institutions": [
+        {
+          "uuid": "ca9d1276-397a-4fd0-a336-f4b04f58ed57",
+          "shortname": "nzz",
+          "name_de": "NZZ",
+          "orgs": [
+            "nzzdev"
+          ]
+        },
+        {
+          "uuid": "b174698a-755a-4794-9bf4-8f6ada809066",
+          "shortname": "radiorabe",
+          "name_de": "Radio Bern RaBe",
+          "orgs": [
+            "radiorabe"
+          ]
+        },
+        {
+          "uuid": "d41fe5c9-3ce6-46c5-9310-2b9242491345",
+          "shortname": "srg",
+          "name_de": "SRG",
+          "orgs": [
+            "srfdata",
+            "srgssr"
+          ]
+        },
+        {
+          "uuid": "1f8dbf5d-937b-41a1-9d45-fdddda5eab95",
+          "shortname": "txgroup",
+          "name_de": "TX Group",
+          "orgs": [
+            "GitHubTamediaEis",
+            "DND-IT",
+            "tamediadigital",
+            "tamedia-ddj"
+          ]
+        }
+      ]
+    },
+    "FoodBeverage": {
+      "name_de": "Food & Beverage",
+      "institutions": [
+        {
+          "uuid": "d52c28f9-2dc4-4f2b-94b6-d67d8f8afd0c",
+          "shortname": "nestle",
+          "name_de": "Nestlé",
+          "orgs": [
+            "nestle",
+            "nestle-it"
+          ]
+        }
+      ]
+    },
+    "Pharma": {
+      "name_de": "Pharma",
+      "institutions": [
+        {
+          "uuid": "1a5d4232-22ed-4a09-9067-fbd42eb202db",
+          "shortname": "novartis",
+          "name_de": "Novartis",
+          "orgs": [
+            "Novartis"
+          ]
+        },
+        {
+          "uuid": "8c0589a6-4eb0-429f-a32a-4adba5b71159",
+          "shortname": "roche",
+          "name_de": "Roche",
+          "orgs": [
+            "Roche"
+          ]
+        }
+      ]
+    },
+    "Others": {
+      "name_de": "Andere Unternehmen",
+      "institutions": [
+        {
+          "uuid": "ca0b8296-531c-4186-b49d-8d3b9e53b95d",
+          "shortname": "EVAplusAPI",
+          "name_de": "EVA+ API",
+          "orgs": [
+            "EVAplusAPI"
+          ]
+        },
+        {
+          "uuid": "71b0832b-9d21-49a4-8514-ae709fd80700",
+          "shortname": "digitecgalaxus",
+          "name_de": "Digitec Galaxus AG",
+          "orgs": [
+            "DigitecGalaxus"
+          ]
+        },
+        {
+          "uuid": "60af673e-9097-474e-ba51-d382407bca51",
+          "shortname": "digris",
+          "name_de": "digris AG",
+          "orgs": [
+            "digris"
+          ]
+        },
+        {
+          "uuid": "8485c700-3efa-4bf1-a4af-180c578ab070",
+          "shortname": "swisstxt",
+          "name_de": "SWISS TXT AG",
+          "orgs": [
+            "swisstxt"
+          ]
+        }
+      ]
+    },
+    "Gov_Companies": {
+      "name_de": "Öffentliche Unternehmen und Anstalten",
+      "institutions": [
+        {
+          "uuid": "32d7c645-2ef8-4ce3-8813-c78383e1fd91",
+          "shortname": "asit",
+          "name_de": "ASIT - Association pour le Système d'information du Territoire",
+          "orgs": [
+            "asit-asso"
+          ]
+        },
+        {
+          "uuid": "bebdf973-da12-478b-8203-3aa363155117",
+          "shortname": "bernmobil",
+          "name_de": "BERNMOBIL",
+          "orgs": [
+            "BERNMOBIL"
+          ]
+        },
+        {
+          "uuid": "b13b03cc-1d26-412f-802f-5849e4c58152",
+          "shortname": "sbb",
+          "name_de": "SBB",
+          "orgs": [
+            "SchweizerischeBundesbahnen",
+            "sbb-api",
+            "openTdataCH"
+          ]
+        },
+        {
+          "uuid": "978cf33e-d2c2-41e9-910c-f4966fc066d1",
+          "shortname": "sige",
+          "name_de": "SIGE - Service Intercommunal de Gestion",
+          "orgs": [
+            "sige-riviera"
+          ]
+        },
+        {
+          "uuid": "260b058a-9fcf-47ca-bd35-8bcfedce6301",
+          "shortname": "swisscom",
+          "name_de": "Swisscom",
+          "orgs": [
+            "swisscom",
+            "SwisscomTrustServices",
+            "swisscom-developer",
+            "sinso",
+            "Swisscom-BigD"
+          ]
+        },
+        {
+          "uuid": "09fcec49-0914-4aec-ad7d-c39bda34a871",
+          "shortname": "swisspost",
+          "name_de": "Die Schweizerische Post AG",
+          "orgs": [
+            "swisspost-yellowcube",
+            "swisspush",
+            "spsvn",
+            "tntswisspostag"
+          ]
+        },
+        {
+          "uuid": "04d3ec72-6517-48e4-974d-5e19c45d5afd",
+          "shortname": "vbz",
+          "name_de": "Verkehrsbetriebe Zürich (VBZ)",
+          "orgs": [
+            "VerkehrsbetriebeZuerich"
+          ]
+        }
+      ]
+    },
+    "Gov_Federal": {
+      "name_de": "Verwaltung Bund",
+      "institutions": [
+        {
+          "uuid": "137478fc-ee92-43a4-94f7-c3df17c42a4c",
+          "shortname": "alv",
+          "name_de": "Arbeitslosenversicherung",
+          "orgs": [
+            "alv-ch"
+          ]
+        },
+        {
+          "uuid": "5c902f1f-a811-404b-9a51-e74545bbdded",
+          "shortname": "bar",
+          "name_de": "Schweizerisches Bundesarchiv",
+          "orgs": [
+            "SwissFederalArchives",
+            "sfa-siard"
+          ]
+        },
+        {
+          "uuid": "9e0d0911-8a60-4dbd-a49d-9eab6bfa1d89",
+          "shortname": "bfe",
+          "name_de": "Bundesamt für Energie",
+          "orgs": [
+            "SFOE"
+          ]
+        },
+        {
+          "uuid": "3f213801-3496-4351-9a9c-2fb1b4aa6946",
+          "shortname": "bfs",
+          "name_de": "Bundesamt für Statistik",
+          "orgs": [
+            "BFS-SHS-MSAS",
+            "ogdch"
+          ]
+        },
+        {
+          "uuid": "53795f08-ac6e-4aa4-a780-9283b20f958f",
+          "shortname": "bit",
+          "name_de": "Bundesamt für Informatik und Telekommunikation",
+          "orgs": [
+            "admin-ch"
+          ]
+        },
+        {
+          "uuid": "869731b0-24f1-461c-8a12-17ac143581b5",
+          "shortname": "bj",
+          "name_de": "Bundesamt für Justiz",
+          "orgs": [
+            "e-id-admin"
+          ]
+        },
+        {
+          "uuid": "5b460324-28c0-4613-ad1e-b00031f0ee41",
+          "shortname": "bk",
+          "name_de": "Bundeskanzlei",
+          "orgs": [
+            "swiss"
+          ]
+        },
+        {
+          "uuid": "1a092c16-67bb-4b7a-972e-bbd5d838903b",
+          "shortname": "meteoswiss",
+          "name_de": "MeteoSwiss",
+          "orgs": [
+            "MeteoSwiss-APN"
+          ]
+        },
+        {
+          "uuid": "37d97eb4-d0b3-40e9-8e2c-65f97a518700",
+          "shortname": "swisstopo",
+          "name_de": "swisstopo",
+          "orgs": [
+            "geoadmin"
+          ]
+        }
+      ]
+    },
+    "Gov_Cantons": {
+      "name_de": "Verwaltung Kantone",
+      "institutions": [
+        {
+          "uuid": "2144d6bf-9dd7-47cb-a1cb-d0e35d957c89",
+          "shortname": "ag",
+          "name_de": "Kanton Aargau",
+          "orgs": [
+            "kanton-aargau"
+          ]
+        },
+        {
+          "uuid": "6957de8e-01f7-4780-92e5-23a4076ed4ed",
+          "shortname": "be",
+          "name_de": "Kanton Bern",
+          "orgs": [
+            "kanton-bern",
+            "AGIBE"
+          ]
+        },
+        {
+          "uuid": "4b39e548-a2df-49b2-8cb7-fdf9f624220f",
+          "shortname": "bs",
+          "name_de": "Kanton Basel-Stadt",
+          "orgs": [
+            "StataBS",
+            "statabs-test",
+            "Staatsarchiv-Basel-Stadt",
+            "opendatabs"
+          ]
+        },
+        {
+          "uuid": "090eb1ff-8ce4-4a0a-9100-2dfa2214656a",
+          "shortname": "ge",
+          "name_de": "République et canton de Genève",
+          "orgs": [
+            "republique-et-canton-de-geneve"
+          ]
+        },
+        {
+          "uuid": "ad17ab38-23b2-48af-b060-1f6359f21512",
+          "shortname": "ne",
+          "name_de": "Kanton Neuenburg",
+          "orgs": [
+            "sitn"
+          ]
+        },
+        {
+          "uuid": "fffad615-8bc3-4f36-8f13-ac8416fedc78",
+          "shortname": "so",
+          "name_de": "Kanton Solothurn",
+          "orgs": [
+            "sogis"
+          ]
+        },
+        {
+          "uuid": "50de5180-6124-4375-902f-88850a9871af",
+          "shortname": "vd",
+          "name_de": "Kanton Waadt",
+          "orgs": [
+            "dsi-vd"
+          ]
+        },
+        {
+          "uuid": "f3879203-f5e5-4bd8-b9e0-38d25b9a4391",
+          "shortname": "zh",
+          "name_de": "Kanton Zürich",
+          "orgs": [
+            "FNSKtZH",
+            "StatistikZH",
+            "openZH",
+            "gisktzh",
+            "bildungsmonitoringZH"
+          ]
+        }
+      ]
+    },
+    "Gov_Cities": {
+      "name_de": "Verwaltung Städte und Gemeinden",
+      "institutions": [
+        {
+          "uuid": "0738ec44-9769-4774-914e-44f1c7365603",
+          "shortname": "bern",
+          "name_de": "Bern",
+          "orgs": [
+            "StadtBern"
+          ]
+        },
+        {
+          "uuid": "5042acd1-094e-467c-b0d9-ba3e46172194",
+          "shortname": "bielbienne",
+          "name_de": "Biel-Bienne",
+          "orgs": [
+            "biel-bienne"
+          ]
+        },
+        {
+          "uuid": "e4d86b3b-b54e-4f5a-9c56-840dcb578e20",
+          "shortname": "luzern",
+          "name_de": "Luzern",
+          "orgs": [
+            "stadtluzern"
+          ]
+        },
+        {
+          "uuid": "00a0c696-ad89-447b-9205-f269914b4c13",
+          "shortname": "nyon",
+          "name_de": "Nyon",
+          "orgs": [
+            "sitnyon"
+          ]
+        },
+        {
+          "uuid": "837d8c83-25a2-491d-8d61-c512ae5153a4",
+          "shortname": "pully",
+          "name_de": "Pully",
+          "orgs": [
+            "VilleDePully"
+          ]
+        },
+        {
+          "uuid": "3dcdcd98-c6af-4f6c-b4d9-7765173ed4b2",
+          "shortname": "uster",
+          "name_de": "Uster",
+          "orgs": [
+            "GesellschaftStadtUster"
+          ]
+        },
+        {
+          "uuid": "5261d39b-8821-4f26-9d0d-50f5ce0390a8",
+          "shortname": "yverdon",
+          "name_de": "Yverdon",
+          "orgs": [
+            "yverdon"
+          ]
+        },
+        {
+          "uuid": "c9f03e8f-fa33-4b53-b92e-e5b6be3a75df",
+          "shortname": "zuerich",
+          "name_de": "Zürich",
+          "orgs": [
+            "StatistikStadtZuerich",
+            "opendatazurich"
+          ]
+        }
+      ]
+    },
+    "ResearchAndEducation": {
+      "name_de": "Hochschulen und Forschung",
+      "institutions": [
+        {
+          "uuid": "95daefea-056e-4fd2-a381-5bd7ea6c8d3a",
+          "shortname": "bfh",
+          "name_de": "Berner Fachhochschule",
+          "orgs": [
+            "bfh",
+            "digital-sustainability",
+            "iam-ictm",
+            "bfh-science",
+            "HAFL-WWI"
+          ]
+        },
+        {
+          "uuid": "299d2c35-d60f-46cf-ba84-abe534fab204",
+          "shortname": "cern",
+          "name_de": "European Organization for Nuclear Research (CERN)",
+          "orgs": [
+            "CERN",
+            "cernopendata",
+            "cern-fts",
+            "cerndb",
+            "cernops",
+            "AliceO2Group",
+            "cms-opendata-analyses",
+            "cvmfs",
+            "CERN-E-Ternity"
+          ]
+        },
+        {
+          "uuid": "6ededd44-29a6-4627-8380-0ad26de52898",
+          "shortname": "cscs",
+          "name_de": "Swiss National Supercomputing Center",
+          "orgs": [
+            "eth-cscs"
+          ]
+        },
+        {
+          "uuid": "6b5a2caa-2eaf-4cea-bbda-b58cf61a0266",
+          "shortname": "fcbg",
+          "name_de": "Fondation Campus Biotech Geneva",
+          "orgs": [
+            "fcbg-hnp"
+          ]
+        },
+        {
+          "uuid": "cd30fbb1-6fe8-4c91-93ec-d6448313c792",
+          "shortname": "ffhs",
+          "name_de": "Fernfachhochschule Schweiz",
+          "orgs": [
+            "ffhs"
+          ]
+        },
+        {
+          "uuid": "9929b685-c0c1-4742-999c-91792bc0cd22",
+          "shortname": "ict-berufsbildung",
+          "name_de": "ICT-Berufsbildung",
+          "orgs": [
+            "ICT-Berufsbildung"
+          ]
+        },
+        {
+          "uuid": "b4ef6a7d-f7e3-4512-bce7-525acc758658",
+          "shortname": "psi",
+          "name_de": "Paul Scherrer Institut",
+          "orgs": [
+            "paulscherrerinstitute"
+          ]
+        },
+        {
+          "uuid": "d2ad4064-3ea4-4ce4-8780-90c3e23098f7",
+          "shortname": "swissbib",
+          "name_de": "swissbib",
+          "orgs": [
+            "swissbib",
+            "linked-swissbib"
+          ]
+        },
+        {
+          "uuid": "112e3114-39f5-4d8d-9811-caf824c69954",
+          "shortname": "swisstph",
+          "name_de": "Swiss Tropical and Public Health Institute",
+          "orgs": [
+            "SwissTPH"
+          ]
+        },
+        {
+          "uuid": "90ee70b6-070a-45e4-831e-b56935398361",
+          "shortname": "unibe",
+          "name_de": "Universität Bern",
+          "orgs": [
+            "unibe-ch",
+            "artorg-unibe-ch",
+            "CMPG",
+            "ConsBiol-unibern",
+            "hpc-unibe-ch",
+            "IAM-CGG",
+            "id-unibe-ch",
+            "kogpsy",
+            "reymond-group",
+            "scg-unibe-ch",
+            "TranslationalResearchUnit",
+            "UB-Bern",
+            "ub-unibe-ch",
+            "ubern-mia",
+            "unibe-cns",
+            "zmk-unibe-ch"
+          ]
+        },
+        {
+          "uuid": "8502075b-2e86-4cda-948a-275ba7523bc2",
+          "shortname": "unine",
+          "name_de": "Université de Neuchâtel",
+          "orgs": [
+            "UniNE-CHYN"
+          ]
+        },
+        {
+          "uuid": "398af282-c7e8-4f03-839a-2442deeb42ac",
+          "shortname": "unine",
+          "name_de": "Universität St.Gallen",
+          "orgs": [
+            "Interactions-HSG",
+            "ics-unisg",
+            "HSG-Library"
+          ]
+        },
+        {
+          "uuid": "6932e726-fffb-4996-a6c8-e43d18d6379a",
+          "shortname": "unizh",
+          "name_de": "Universität Zürich",
+          "orgs": [
+            "uzh",
+            "ZurichNLP"
+          ]
+        }
+      ]
+    },
+    "NGOs": {
+      "name_de": "Nichtregierungsorganisationen",
+      "institutions": [
+        {
+          "uuid": "0ff10fa4-89a6-11ec-8357-3c15c2d466fc",
+          "shortname": "GreenpeaceSchweiz",
+          "name_de": "Greenpeace Schweiz",
+          "orgs": [
+            "GreenpeaceSchweiz"
+          ]
+        },
+        {
+          "uuid": "d1d628b8-028b-45a2-8589-24c50e73b73a",
+          "shortname": "ebu",
+          "name_de": "European Broadcasting Union",
+          "orgs": [
+            "ebu"
+          ]
+        },
+        {
+          "uuid": "241b1aab-7ffc-40fb-941f-7af16db9745b",
+          "shortname": "itu",
+          "name_de": "International Telecommunication Union",
+          "orgs": [
+            "openitu"
+          ]
+        },
+        {
+          "uuid": "be967346-11db-4ff9-b423-08facc0d0f4b",
+          "shortname": "sp",
+          "name_de": "Sozialdemokratische Partei der Schweiz",
+          "orgs": [
+            "spschweiz"
+          ]
+        },
+        {
+          "uuid": "73d8b2d5-5731-4c54-9a40-29f82513b4f3",
+          "shortname": "who",
+          "name_de": "World Health Organization",
+          "orgs": [
+            "WorldHealthOrganization"
+          ]
+        }
+      ]
+    }
+  }
 }
