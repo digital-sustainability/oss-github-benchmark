@@ -142,15 +142,6 @@
                ]
             },
             {
-               "uuid":"b2cc48ed-b5b7-4d0b-bca5-06c94e8dc477",
-               "shortname":"zitadel",
-               "name_de":"ZITADEL",
-               "orgs":[
-                  "caos"
-                  "zitadel"
-               ]
-            },
-            {
                "uuid":"86db9e5d-943f-45ca-b2d8-80624e73216b",
                "shortname":"cividi",
                "name_de":"cividi",
@@ -515,6 +506,15 @@
                "name_de":"Zazuko",
                "orgs":[
                   "zazuko"
+               ]
+            },
+            {
+               "uuid":"b2cc48ed-b5b7-4d0b-bca5-06c94e8dc477",
+               "shortname":"zitadel",
+               "name_de":"ZITADEL",
+               "orgs":[
+                  "caos",
+                  "zitadel"
                ]
             },
             {
