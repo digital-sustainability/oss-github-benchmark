@@ -3,18 +3,44 @@ name: Test input data
 on:
   push:
     paths:
-    - oss-api/src/data-gathering/github_repos.json
+    - github_repos.json
+    # Verify as well when changing validation
+    - .github/workflows/validate-input.yaml
+  pull_request:
+    paths:
+    - github_repos.json
+    # Verify as well when changing validation
+    - .github/workflows/validate-input.yaml
 
 jobs:
-  yamllint:
+  jsonlint:
+    name: Lint JSON
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.x
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-        architecture: 'x64'
-    - name: lint data
+    - name: Install sponge cmd
       run: |
-        python -mjson.tool oss-api/src/data-gathering/github_repos.json
+        sudo apt-get install moreutils
+    - name: verify syntax
+      run: |
+        jq 'empty' github_repos.json
+    - name: verify format
+      run: |
+        jq '.' github_repos.json | sponge github_repos.json
+        if [[ `git status --porcelain` ]]; then
+          echo "File not formatted correctly"
+          echo "Format with \`jq '.' github_repos.json | sponge github_repos.json\`"
+          echo "Changes:"
+          git diff;
+          exit 1;
+        fi
+    - name: verify company order
+      run: |
+        jq '.GitHubRepos|=map_values(.institutions|=sort_by(.shortname))' github_repos.json | sponge github_repos.json
+        if [[ `git status --porcelain` ]]; then
+          echo "File companies not sorted correctly"
+          echo "Fix with \`jq '.GitHubRepos|=map_values(.institutions|=sort_by(.shortname))' github_repos.json | sponge github_repos.json\`"
+          echo "Changes:"
+          git diff;
+          exit 1;
+        fi
