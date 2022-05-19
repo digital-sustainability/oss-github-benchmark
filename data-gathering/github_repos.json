@@ -150,14 +150,6 @@
           ]
         },
         {
-          "uuid": "b2cc48ed-b5b7-4d0b-bca5-06c94e8dc477",
-          "shortname": "caos",
-          "name_de": "CAOS AG",
-          "orgs": [
-            "caos"
-          ]
-        },
-        {
           "uuid": "86db9e5d-943f-45ca-b2d8-80624e73216b",
           "shortname": "cividi",
           "name_de": "cividi",
@@ -531,6 +523,15 @@
           "orgs": [
             "zazuko"
           ]
+        },
+        {
+           "uuid":"b2cc48ed-b5b7-4d0b-bca5-06c94e8dc477",
+           "shortname":"zitadel",
+           "name_de":"ZITADEL",
+           "orgs":[
+              "caos",
+              "zitadel"
+           ]
         },
         {
           "uuid": "14c22145-fe1d-408d-9b79-6ed1841f8a2e",
