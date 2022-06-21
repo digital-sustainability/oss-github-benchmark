@@ -1,4 +1,3 @@
-
 # Visit our website!
 
 https://ossbenchmark.com
@@ -7,7 +6,7 @@ https://ossbenchmark.com
 
 ## using `docker`
 
-__dependencies: `docker` or `python`__
+**dependencies: `docker` or `python`**
 
 ```
 docker build -t oss-github .
@@ -28,7 +27,7 @@ python OSS_github_benchmark.py
 
 # Start Visualization
 
-__dependencies: `node`__
+**dependencies: `node`**
 
 ```
 cd frontend
@@ -41,3 +40,6 @@ npm start
 There is a jupyter notebook that loads a [pickle](https://docs.python.org/3/library/pickle.html)-file of the data.
 It's located at `./data-gathering/github-data.pickle`
 
+## Deployment
+
+git subtree push --prefix data-gathering prod master
