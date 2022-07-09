@@ -24,7 +24,7 @@ g = Github(os.environ['GITHUBTOKEN'])
 
 
 cluster = MongoClient(os.environ['DATABASELINK'])
-db = cluster["statisticsNew"]
+db = cluster["statistics"]
 collectionInstitutions = db["institutions"]
 collectionRepositoriesNew = db["repositoriesNew"]
 collectionProgress = db["progress"]
@@ -33,6 +33,7 @@ collectionRunning = db["running"]
 collectionTodoInstitutions = db["todoInstitutions"]
 collectionUsers = db["users"]
 collectionUsersNew = db["usersNew"]
+collectionBadStuff = db["badStuff"]
 
 
 def getProgress():
@@ -62,11 +63,14 @@ def saveProgress(progress):
 
 def crawlInstitution(currentInstitution):
     waitForCallAttempts()
-    institutionData = getInstitution(
-        sector["institutions"][currentInstitution], dataToGet)
-    institutionData = updateStats(institutionData, dataToGet)
-
-    saveInstitutionData(institutionData)
+    try:
+        institutionData = getInstitution(
+            sector["institutions"][currentInstitution], dataToGet)
+        institutionData = updateStats(institutionData, dataToGet)
+        saveInstitutionData(institutionData)
+    except github.UnknownObjectException:
+        print(
+            f'Institution {sector["institutions"][currentInstitution]["name_de"]} is empty.')
 
 
 def waitForCallAttempts(attempts=500):
@@ -352,32 +356,44 @@ def getInstitution(institution, dataToGet):
     institutionData["timestamp"] = currentDateAndTime
     # Von einer Institution alle GitHub-Organisationen rausholen
     currentOrganization = 0
+    badOrgs = 0
     while currentOrganization < len(institution["orgs"]):
         orgName = institution["orgs"][currentOrganization]
         print(
             f"{orgName} ({currentOrganization + 1}/{len(institution['orgs'])})")
-        organizationData = getOrganization(institution["shortname"], orgName)
-        institutionData["orgs"].append(organizationData)
-        # Die Anzahl GitHub-Organisationen, Members, Repos, Avatars (Link zu Icons) und die Organisations-Namen zu einer Institution hinzufügen
-        institutionData["num_orgs"] += 1
-        institutionData["num_members"] += organizationData["num_members"]
-        institutionData["num_repos"] += organizationData["num_repos"]
-        institutionData["avatar"].append(organizationData["avatar"])
-        institutionData["org_names"].append(orgName)
-        institutionData["sector"] = sector_key
-        institutionData["total_num_stars"] += organizationData["total_num_stars"]
-        institutionData["total_num_contributors"] += organizationData["total_num_contributors"]
-        institutionData["total_num_commits"] += organizationData["total_num_commits"]
-        institutionData["total_num_own_repo_forks"] += organizationData["total_num_own_repo_forks"]
-        institutionData["total_num_watchers"] += organizationData["total_num_watchers"]
-        institutionData["total_pull_requests_all"] += organizationData["total_pull_requests_all"]
-        institutionData["total_pull_requests_closed"] += organizationData["total_pull_requests_closed"]
-        institutionData["total_issues_all"] += organizationData["total_issues_all"]
-        institutionData["total_issues_closed"] += organizationData["total_issues_closed"]
-        institutionData["total_comments"] += organizationData["total_comments"]
-        institutionData["repos"] += organizationData["repos"]
-        institutionData["repo_names"] += organizationData["repo_names"]
-        currentOrganization += 1
+        try:
+            organizationData = getOrganization(
+                institution["shortname"], orgName)
+            institutionData["orgs"].append(organizationData)
+            # Die Anzahl GitHub-Organisationen, Members, Repos, Avatars (Link zu Icons) und die Organisations-Namen zu einer Institution hinzufügen
+            institutionData["num_orgs"] += 1
+            institutionData["num_members"] += organizationData["num_members"]
+            institutionData["num_repos"] += organizationData["num_repos"]
+            institutionData["avatar"].append(organizationData["avatar"])
+            institutionData["org_names"].append(orgName)
+            institutionData["sector"] = sector_key
+            institutionData["total_num_stars"] += organizationData["total_num_stars"]
+            institutionData["total_num_contributors"] += organizationData["total_num_contributors"]
+            institutionData["total_num_commits"] += organizationData["total_num_commits"]
+            institutionData["total_num_own_repo_forks"] += organizationData["total_num_own_repo_forks"]
+            institutionData["total_num_watchers"] += organizationData["total_num_watchers"]
+            institutionData["total_pull_requests_all"] += organizationData["total_pull_requests_all"]
+            institutionData["total_pull_requests_closed"] += organizationData["total_pull_requests_closed"]
+            institutionData["total_issues_all"] += organizationData["total_issues_all"]
+            institutionData["total_issues_closed"] += organizationData["total_issues_closed"]
+            institutionData["total_comments"] += organizationData["total_comments"]
+            institutionData["repos"] += organizationData["repos"]
+            institutionData["repo_names"] += organizationData["repo_names"]
+            currentOrganization += 1
+        except github.UnknownObjectException:
+            print(f'Organization {orgName} does not exist.')
+            collectionBadStuff.insert_one(
+                {"orgName": orgName})
+            print(f'{orgName} logged in badStuff.')
+            if len(institution["orgs"]) != badOrgs + 1:
+                badOrgs += 1
+            else:
+                raise
     return(institutionData)
 
 
@@ -519,4 +535,5 @@ while 1:
 
 # with open("oss-github-benchmark.json", "w") as f:
 # f.write(json.dumps(sector_data, default=json_util.default))
+
 collectionRunning.delete_one({})
