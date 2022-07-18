@@ -1,0 +1,53 @@
+# Notes:
+# Images are cleaned up daily, only latest is kept!
+# See `Settings > Packages & Registries`.
+
+stages:
+  - build
+  - deploy
+
+include:
+  - project: "digital-sustainability-lab/ci-lib"
+    ref: main
+    file:
+      - "dsl_dokku.yml"
+      - "dsl_docker_build_simple.yml"
+      - "dsl_deploy_image_to_dokku.yml"
+
+# CONFIGURATION
+variables:
+  IMAGE_NAME: "area_of_interest"
+  IMAGE_TAGS: "$CI_COMMIT_SHA latest"
+  DOKKU_APP_NAME: "oss-crawler"
+  DOCKERFILE_PATH: "./data-gathering/"
+  HOST_KEYS: "$CS_DEBIAN_SSH_HOST_KEY"
+  PRIVATE_KEYS: "$CS_DEBIAN_SSH_PRIVATE_KEY"
+  SSH_HOST: dsl.digisus-lab.ch
+  SSH_USER: debian
+
+# BUILD THE APP
+express-angular.build:
+  extends: .dsl_docker_build_simple
+  stage: build
+  allow_failure: false
+  when: manual
+
+# CREATE A DOKKU APP IF IT DOESN'T ALREADY EXIST
+express-angular.dokku-create-app:
+  extends: .dsl_dokku
+  stage: deploy
+  script:
+    # Prepare dokku app
+    - dokku apps:list | grep "$DOKKU_APP_NAME" || dokku apps:create "$DOKKU_APP_NAME"
+  allow_failure: false
+  needs: []
+
+# DEPLOY THE APP
+express-angular.deploy:
+  extends: .dsl_deploy_image_to_dokku
+  stage: deploy
+  variables:
+    REMOTE_IMAGE: "$CI_REGISTRY/$CI_PROJECT_PATH/$IMAGE_NAME:latest"
+  needs:
+    - job: express-angular.dokku-create-app
+    - job: express-angular.build
