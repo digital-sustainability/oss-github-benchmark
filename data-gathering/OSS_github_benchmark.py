@@ -62,7 +62,6 @@ def saveProgress(progress):
 
 
 def crawlInstitution(currentInstitution):
-    waitForCallAttempts()
     try:
         institutionData = getInstitution(
             sector["institutions"][currentInstitution], dataToGet)
@@ -284,6 +283,7 @@ def getRepository(repo, instName, orgName, orgAvatar):
 
 
 def getOrganization(instName, orgName):
+    waitForCallAttempts()
     org = g.get_organization(orgName)
     organizationData = {}
     for dataName in dataToGet:
