@@ -18,10 +18,7 @@ export class DataService {
 
   async loadData(): Promise<IData> {
     const data = await this.http
-      .get<ISector>(`${environment.api}institutions`)
-      .toPromise();
-    const repoData = await this.http
-      .get<ISector>(`${environment.api}repositories`)
+      .get<any>(`${environment.api}institutions`)
       .toPromise();
     return {
       csvData: this.parseJSON2CSV(data),
@@ -29,23 +26,42 @@ export class DataService {
     };
   }
 
-  async loadRepoData(): Promise<any> {
+  async loadRepoData(config: {
+    search?: string;
+    sort?: string;
+    direction?: 'ASC' | 'DESC';
+    page?: string;
+    count?: string;
+    includeForks?: string;
+  }): Promise<any> {
     const repoData = await this.http
-      .get<ISector>(`${environment.api}repositories`)
+      .get<any>(`${environment.api}paginatedRepositories`, {
+        params: config,
+      })
       .toPromise();
     return {
-      csvData: this.parseJSON2CSV(repoData),
-      jsonData: repoData,
+      csvData: this.parseJSON2CSV(repoData.users),
+      jsonData: repoData.users,
+      total: repoData.total,
     };
   }
 
-  async loadUserData(): Promise<any> {
+  async loadUserData(config: {
+    search: string;
+    sort: string;
+    direction: 'ASC' | 'DESC';
+    page: string;
+    count: string;
+  }): Promise<any> {
     const userData = await this.http
-      .get<ISector>(`${environment.api}users`)
+      .get<any>(`${environment.api}paginatedUsers`, {
+        params: config,
+      })
       .toPromise();
     return {
-      csvData: this.parseJSON2CSV(userData),
-      jsonData: userData,
+      csvData: this.parseJSON2CSV(userData.users),
+      jsonData: userData.users,
+      total: userData.total,
     };
   }
 

@@ -74,7 +74,7 @@ export interface Institution {
   total_licenses: Licenses;
   timestamp: Date;
   sector: string;
-  stats: Statistic[];
+  stats?: Statistic[];
   searchString?: string;
 }
 
@@ -167,4 +167,23 @@ export interface InstitutionQueryConfig {
   direction: 'ASC' | 'DESC';
   page: number;
   count: number;
+  sendStats: boolean;
+  includeForksInSort: boolean;
+}
+
+export interface UserQueryConfig {
+  search?: string;
+  sort: string;
+  direction: 'ASC' | 'DESC';
+  page: number;
+  count: number;
+}
+
+export interface RepositoryQueryConfig {
+  search?: string;
+  sort: string;
+  direction: 'ASC' | 'DESC';
+  page: number;
+  count: number;
+  includeForks: boolean;
 }

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api: 'https://oss-benchmark-backend.fdn.iwi.unibe.ch/',
+  api: 'http://localhost:3000/api/',
 };
 
 /*

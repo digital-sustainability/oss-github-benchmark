@@ -96,7 +96,7 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
     <td mat-cell *matCellDef="let institution">
       <a [href]="'/institutions/' + institution.shortname" tabindex="-1">
-      {{ institution.location }}
+        {{ institution.location }}
       </a>
     </td>
   </ng-container>
@@ -105,7 +105,7 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Created at</th>
     <td mat-cell *matCellDef="let institution">
       <a [href]="'/institutions/' + institution.shortname" tabindex="-1">
-      {{ institution.created_at | date: "MMMM d, yyyy 'at' H:mm" }}
+        {{ institution.created_at | date: "MMMM d, yyyy 'at' H:mm" }}
       </a>
     </td>
   </ng-container>
@@ -129,7 +129,6 @@
     mat-row
     *matRowDef="let row; columns: displayedColumns"
     class="clickable"
-
   ></tr>
 </table>
 
