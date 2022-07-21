@@ -30,8 +30,8 @@ export class RepositoriesRankingComponent implements OnInit {
     ['num_forks', 'Forks', false, 'number'],
     ['num_stars', 'Stars', false, 'number'],
     ['has_own_commits', 'Own commits', false, 'number'],
-    ['created_at', 'Created at', false, 'date'],
-    ['updated_at', 'Updated at ', false, 'date'],
+    ['createdTimestamp', 'Created at', false, 'date'],
+    ['updatedTimestamp', 'Updated at ', false, 'date'],
     ['fork', 'Is fork?', true, 'string'],
     ['license', 'License', false, 'string'],
   ];
@@ -43,6 +43,10 @@ export class RepositoriesRankingComponent implements OnInit {
   state: Date;
   repositories: any[] = [];
   includeForks: boolean = false;
+  page: number = 0;
+  count: number = 30;
+  activeSort: string = 'followers';
+  sortDirection: 'ASC' | 'DESC' = 'DESC';
 
   doFilter = (value: string) => {
     if (value) {
@@ -74,70 +78,74 @@ export class RepositoriesRankingComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataService.loadData().then((data) => {
-      this.dataService.loadRepoData().then((repoData) => {
-        let institutions = Object.entries(data.jsonData).reduce(
-          (previousValue, currentValue) => {
-            const [key, value] = currentValue;
-            return previousValue.concat(value);
-          },
-          []
-        );
-        let repos = Object.entries(repoData.jsonData).reduce(
-          (previousValue, currentValue) => {
-            const [key, value] = currentValue;
-            return previousValue.concat(value);
-          },
-          []
-        );
-        this.state = institutions[institutions.length - 1].timestamp;
-        repos.forEach((repository: any) => {
-          let repo = repository;
-          repo.institution_name_de = repo.institution;
-          repo.organisation_name_de = repo.organization;
-          this.repositories.push(repo);
-        });
-        this.dataSource = new MatTableDataSource(this.repositories);
-        this.numRepositories = this.repositories.length;
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-        setTimeout(this.triggerFilter, 100);
-
-        this.dataSource.filterPredicate = (data: any, filter: string) => {
-          let datastring: string = '';
-          let property: string;
-          let filterNew = this.recordFilter;
-          for (property in data) {
-            datastring += data[property];
-          }
-          datastring = datastring.replace(/\s/g, '').toLowerCase();
-          filterNew = filterNew.replace(/\s/g, '').toLowerCase();
-          return (
-            datastring.includes(filterNew) && (!data.fork || this.includeForks)
+      this.dataService
+        .loadRepoData({
+          search: this.recordFilter,
+          sort: this.activeSort,
+          direction: this.sortDirection,
+          page: this.page.toString(),
+          count: this.count.toString(),
+          includeForks: 'false',
+        })
+        .then((repoData) => {
+          let institutions = Object.entries(data.jsonData).reduce(
+            (previousValue, currentValue) => {
+              const [key, value] = currentValue;
+              return previousValue.concat(value);
+            },
+            []
           );
-        };
-        this.route.paramMap.subscribe((map) => {
-          const repositoryName = map.get('repository');
-          const organisation_name_de = map.get('institution');
-          if (repositoryName && organisation_name_de) {
-            let repository = this.repositories.find((repo) => {
-              return (
-                repo.organisation_name_de == organisation_name_de &&
-                repo.name == repositoryName
-              );
-            });
-            this.openDialog(repository.uuid);
-          }
+          let repos = Object.entries(repoData.jsonData).reduce(
+            (previousValue, currentValue) => {
+              const [key, value] = currentValue;
+              return previousValue.concat(value);
+            },
+            []
+          );
+          this.state = institutions[institutions.length - 1].timestamp;
+          repos.forEach((repository: any) => {
+            let repo = repository;
+            repo.institution_name_de = repo.institution;
+            repo.organisation_name_de = repo.organization;
+            this.repositories.push(repo);
+          });
+          this.dataSource = new MatTableDataSource(this.repositories);
+          this.numRepositories = this.repositories.length;
+
+          this.dataSource.filterPredicate = (data: any, filter: string) => {
+            let datastring: string = '';
+            let property: string;
+            let filterNew = this.recordFilter;
+            for (property in data) {
+              datastring += data[property];
+            }
+            datastring = datastring.replace(/\s/g, '').toLowerCase();
+            filterNew = filterNew.replace(/\s/g, '').toLowerCase();
+            return (
+              datastring.includes(filterNew) &&
+              (!data.fork || this.includeForks)
+            );
+          };
+          this.route.paramMap.subscribe((map) => {
+            const repositoryName = map.get('repository');
+            const organisation_name_de = map.get('institution');
+            if (repositoryName && organisation_name_de) {
+              let repository = this.repositories.find((repo) => {
+                return (
+                  repo.organisation_name_de == organisation_name_de &&
+                  repo.name == repositoryName
+                );
+              });
+              this.openDialog(repository.uuid);
+            }
+          });
         });
-      });
     });
   }
 
   changeURL(relativeUrl: string): void {
     this.location.replaceState(relativeUrl);
   }
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
 
   openDialog(uuid: string) {
     if (uuid) {

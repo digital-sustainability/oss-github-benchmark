@@ -11,6 +11,12 @@ export class InstitutionQueryPipe implements PipeTransform {
       direction: queryParams.direction ? queryParams.direction : 'DESC',
       page: queryParams.page ? parseInt(queryParams.page) : 0,
       count: queryParams.count ? parseInt(queryParams.count) : 30,
+      sendStats: queryParams.sendStats
+        ? queryParams.sendStats === 'true'
+        : false,
+      includeForksInSort: queryParams.includeForksInSort
+        ? queryParams.includeForksInSort === 'true'
+        : false,
     };
     return config;
   }

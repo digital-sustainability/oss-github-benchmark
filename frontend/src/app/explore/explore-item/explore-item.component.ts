@@ -112,52 +112,56 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.dataService.loadRepoData().then((repoData) => {
-      repoData = repoData.jsonData;
-      this.item = Object.assign({}, this.data.institution);
-      this.item.repos = this.item.repos.map((repoUUID) => {
-        const t = repoData.find((repo) => {
-          return repo.uuid == repoUUID;
+    this.dataService
+      .loadRepoData({
+        count: '200',
+      })
+      .then((repoData) => {
+        repoData = repoData.jsonData;
+        this.item = Object.assign({}, this.data.institution);
+        this.item.repos = this.item.repos.map((repoUUID) => {
+          const t = repoData.find((repo) => {
+            return repo.uuid == repoUUID;
+          });
+          console.log(repoUUID);
+          return t;
         });
-        console.log(repoUUID);
-        return t;
-      });
-      this.includeForks = this.data.includeForks;
-      if (this.item.repos) {
-        this.item.repos.forEach((repo) => {
-          repo.name = lowerCase(repo.name);
-        });
-      }
-      if (this.item.repos.length > 0) {
-        this.dataSource = new MatTableDataSource(this.item.repos);
-      }
-      this.sort.active = sortState.active;
-      this.sort.direction = sortState.direction;
-      this.sort.sortChange.emit(sortState);
-      this.dataSource.filterPredicate = (data: any, filter: string) => {
-        let datastring: string = '';
-        let property: string;
-        let filterNew = this.recordFilter;
-        for (property in data) {
-          datastring += data[property];
+        this.includeForks = this.data.includeForks;
+        if (this.item.repos) {
+          this.item.repos.forEach((repo) => {
+            repo.name = lowerCase(repo.name);
+          });
         }
-        datastring = datastring.replace(/\s/g, '').toLowerCase();
-        filterNew = filterNew.replace(/\s/g, '').toLowerCase();
-        return (
-          datastring.includes(filterNew) && (this.includeForks || !data.fork)
-        );
-      };
-      this.triggerFilter();
-      if (this.item.org_names.length == 1) {
-        this.displayedColumns = this.displayedColumns.filter(
-          (e) => e !== 'organization'
-        );
-      }
-      if (this.includeForks) {
-        this.includeForksChange(false);
-      }
-      console.log(this.item);
-    });
+        if (this.item.repos.length > 0) {
+          this.dataSource = new MatTableDataSource(this.item.repos);
+        }
+        this.sort.active = sortState.active;
+        this.sort.direction = sortState.direction;
+        this.sort.sortChange.emit(sortState);
+        this.dataSource.filterPredicate = (data: any, filter: string) => {
+          let datastring: string = '';
+          let property: string;
+          let filterNew = this.recordFilter;
+          for (property in data) {
+            datastring += data[property];
+          }
+          datastring = datastring.replace(/\s/g, '').toLowerCase();
+          filterNew = filterNew.replace(/\s/g, '').toLowerCase();
+          return (
+            datastring.includes(filterNew) && (this.includeForks || !data.fork)
+          );
+        };
+        this.triggerFilter();
+        if (this.item.org_names.length == 1) {
+          this.displayedColumns = this.displayedColumns.filter(
+            (e) => e !== 'organization'
+          );
+        }
+        if (this.includeForks) {
+          this.includeForksChange(false);
+        }
+        console.log(this.item);
+      });
   }
 
   navigateTo(url: string): void {

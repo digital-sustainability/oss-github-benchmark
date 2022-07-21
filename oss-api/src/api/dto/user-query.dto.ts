@@ -1,8 +1,7 @@
 import { IsIn, IsString, Min, Max, IsInt } from 'class-validator';
-import { InstitutionQueryConfig } from 'src/interfaces';
+import { UserQueryConfig } from 'src/interfaces';
 
-export class InstitutionQueryDto implements InstitutionQueryConfig {
-  sector: string[];
+export class UserQueryDto implements UserQueryConfig {
   sort: string;
   @IsIn(['DESC', 'ASC'])
   direction: 'DESC' | 'ASC';
@@ -15,6 +14,4 @@ export class InstitutionQueryDto implements InstitutionQueryConfig {
   page: number;
   @IsString()
   search: string;
-  sendStats: boolean;
-  includeForksInSort: boolean;
 }
