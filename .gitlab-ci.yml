@@ -16,10 +16,10 @@ include:
 
 # CONFIGURATION
 variables:
-  IMAGE_NAME: "area_of_interest"
+  IMAGE_NAME: "oss-benchmark-api"
   IMAGE_TAGS: "$CI_COMMIT_SHA latest"
-  DOKKU_APP_NAME: "oss-crawler"
-  DOCKERFILE_PATH: "./data-gathering/"
+  DOKKU_APP_NAME: "oss-api"
+  DOCKERFILE_PATH: "./"
   HOST_KEYS: "$CS_DEBIAN_SSH_HOST_KEY"
   PRIVATE_KEYS: "$CS_DEBIAN_SSH_PRIVATE_KEY"
   SSH_HOST: dsl.digisus-lab.ch
