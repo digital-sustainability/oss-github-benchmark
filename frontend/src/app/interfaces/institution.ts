@@ -65,6 +65,15 @@ export interface ICommitActivity {
   week: number;
 }
 
+export interface InstitutionQueryConfig {
+  sector: string[];
+  search?: string;
+  sort: string;
+  direction: 'ASC' | 'DESC';
+  page: number;
+  count: number;
+}
+
 enum SectorEnum {
   IT = 'IT',
   Communities = 'Communities',

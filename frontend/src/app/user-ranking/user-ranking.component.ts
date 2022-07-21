@@ -1,11 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { DataService, IData } from 'src/app/data.service';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { IInstitution } from 'src/app/interfaces/institution';
-import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-user-ranking',
@@ -26,7 +25,7 @@ export class UserRankingComponent implements OnInit {
     ['public_gists', 'Public gists', false, 'number'],
     ['followers', 'Followers', false, 'number'],
     ['created_at', 'Created at', false, 'date'],
-    ['updated_at', 'Updated at ', false, 'date'],
+    ['updated_at', 'Updated at', false, 'date'],
   ];
   displayedColumnsOnlyNames = this.displayedColumns.map((column) => column[0]);
   recordFilter = '';
@@ -35,22 +34,64 @@ export class UserRankingComponent implements OnInit {
   numUsers: number;
   state: Date;
   users: any[] = [];
-  includeForks: boolean = false;
+  page: number = 0;
+  count: number = 30;
+  activeSort: string = 'followers';
+  sortDirection: 'ASC' | 'DESC' = 'DESC';
 
   doFilter = (value: string) => {
-    if (value) {
-      this.recordFilter = value.trim().toLocaleLowerCase();
-    }
-    setTimeout(this.triggerFilter, 100);
-  };
-
-  triggerFilter = () => {
-    this.dataSource.filter = 'trigger filter';
-    this.numUsers = this.dataSource.filteredData.length;
+    this.recordFilter = value.trim().toLocaleLowerCase();
+    this.reloadData();
   };
 
   goToLink(url: string) {
     window.open(url, '_blank');
+  }
+
+  reloadData(): void {
+    this.dataService
+      .loadUserData({
+        search: this.recordFilter,
+        sort: this.activeSort,
+        direction: this.sortDirection,
+        page: this.page.toString(),
+        count: this.count.toString(),
+      })
+      .then((userData) => {
+        this.users = Object.entries(userData.jsonData)
+          .reduce((previousValue, currentValue) => {
+            const [key, value] = currentValue;
+            return previousValue.concat(value);
+          }, [])
+          .map((u) => {
+            if (!u.name) {
+              u.name = u.login;
+            }
+            let contributions_sum = Object.values(u.contributions).reduce(
+              (a, b) => {
+                return (
+                  a +
+                  Object.values(b).reduce((c, d) => {
+                    return (
+                      c +
+                      Object.values(d).reduce((e: number, f: number) => {
+                        return e + f;
+                      }, 0)
+                    );
+                  }, 0)
+                );
+              },
+              0
+            );
+            let contributionsString = JSON.stringify(u.contributions, null, 2);
+            u.contributions_sum = contributions_sum;
+            u.contributionsString = contributionsString;
+            return u;
+          });
+        console.log(this.users);
+        this.dataSource = new MatTableDataSource(this.users);
+        this.numUsers = userData.total;
+      });
   }
 
   constructor(
@@ -60,62 +101,22 @@ export class UserRankingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dataService.loadUserData().then((userData) => {
-      this.users = Object.entries(userData.jsonData)
-        .reduce((previousValue, currentValue) => {
-          const [key, value] = currentValue;
-          return previousValue.concat(value);
-        }, [])
-        .map((u) => {
-          if (!u.name) {
-            u.name = u.login;
-          }
-          let contributions_sum = Object.values(u.contributions).reduce(
-            (a, b) => {
-              return (
-                a +
-                Object.values(b).reduce((c, d) => {
-                  return (
-                    c +
-                    Object.values(d).reduce((e: number, f: number) => {
-                      return e + f;
-                    }, 0)
-                  );
-                }, 0)
-              );
-            },
-            0
-          );
-          let contributionsString = JSON.stringify(u.contributions, null, 2);
-          u.contributions_sum = contributions_sum;
-          u.contributionsString = contributionsString;
-          return u;
-        });
-      console.log(this.users);
-      this.dataSource = new MatTableDataSource(this.users);
-      this.numUsers = this.users.length;
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-      setTimeout(this.triggerFilter, 100);
-
-      this.dataSource.filterPredicate = (data: any, filter: string) => {
-        let datastring: string = '';
-        let property: string;
-        let filterNew = this.recordFilter;
-        for (property in data) {
-          datastring += data[property];
-        }
-        datastring = datastring.replace(/\s/g, '').toLowerCase();
-        filterNew = filterNew.replace(/\s/g, '').toLowerCase();
-        return datastring.includes(filterNew);
-      };
-    });
+    this.reloadData();
   }
 
   changeURL(relativeUrl: string): void {
     this.location.replaceState(relativeUrl);
   }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  paginatorUpdate(event) {
+    this.page = event.pageIndex;
+    this.count = event.pageSize;
+    this.reloadData();
+  }
+
+  sortingUpdate(event: Sort) {
+    this.activeSort = event.active;
+    this.sortDirection = event.direction == 'asc' ? 'ASC' : 'DESC';
+    this.reloadData();
+  }
 }
