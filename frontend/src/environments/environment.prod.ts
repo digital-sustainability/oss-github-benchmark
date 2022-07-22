@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api: 'https://oss-benchmark-backend.fdn.iwi.unibe.ch/',
+  api: 'https://oss-api.dsl.digisus-lab.ch/api/',
 };

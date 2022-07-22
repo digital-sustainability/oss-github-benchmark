@@ -6,6 +6,7 @@ import { IInstitution } from 'src/app/interfaces/institution';
 import { MatDialog } from '@angular/material/dialog';
 import { RepositoryDetailViewComponent } from '../repository-detail-view/repository-detail-view.component';
 import { ActivatedRoute } from '@angular/router';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-repositories-ranking',
@@ -47,21 +48,11 @@ export class RepositoriesRankingComponent implements OnInit {
   sortDirection: 'ASC' | 'DESC' = 'DESC';
 
   doFilter = (value: string) => {
-    if (value) {
-      this.recordFilter = value.trim().toLocaleLowerCase();
-    }
-    setTimeout(this.triggerFilter, 100);
+    this.recordFilter = value.trim().toLocaleLowerCase();
+    this.reloadData();
   };
 
-  triggerFilter = () => {
-    this.dataSource.filter = 'trigger filter';
-    this.numRepositories = this.dataSource.filteredData.length;
-  };
-
-  includeForksChange(checked) {
-    this.includeForks = checked;
-    this.triggerFilter();
-  }
+  includeForksChange(checked) {}
 
   goToLink(url: string) {
     window.open(url, '_blank');
@@ -74,71 +65,47 @@ export class RepositoriesRankingComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
-    this.dataService.loadData().then((data) => {
-      this.dataService
-        .loadRepoData({
-          search: this.recordFilter,
-          sort: this.activeSort,
-          direction: this.sortDirection,
-          page: this.page.toString(),
-          count: this.count.toString(),
-          includeForks: 'false',
-        })
-        .then((repoData) => {
-          let institutions = Object.entries(data.jsonData).reduce(
-            (previousValue, currentValue) => {
-              const [key, value] = currentValue;
-              return previousValue.concat(value);
-            },
-            []
-          );
-          let repos = Object.entries(repoData.jsonData).reduce(
-            (previousValue, currentValue) => {
-              const [key, value] = currentValue;
-              return previousValue.concat(value);
-            },
-            []
-          );
-          this.state = institutions[institutions.length - 1].timestamp;
-          repos.forEach((repository: any) => {
-            let repo = repository;
-            repo.institution_name_de = repo.institution;
-            repo.organisation_name_de = repo.organization;
-            this.repositories.push(repo);
-          });
-          this.dataSource = new MatTableDataSource(this.repositories);
-          this.numRepositories = repoData.total;
-
-          this.dataSource.filterPredicate = (data: any, filter: string) => {
-            let datastring: string = '';
-            let property: string;
-            let filterNew = this.recordFilter;
-            for (property in data) {
-              datastring += data[property];
-            }
-            datastring = datastring.replace(/\s/g, '').toLowerCase();
-            filterNew = filterNew.replace(/\s/g, '').toLowerCase();
-            return (
-              datastring.includes(filterNew) &&
-              (!data.fork || this.includeForks)
-            );
-          };
-          this.route.paramMap.subscribe((map) => {
-            const repositoryName = map.get('repository');
-            const organisation_name_de = map.get('institution');
-            if (repositoryName && organisation_name_de) {
-              let repository = this.repositories.find((repo) => {
-                return (
-                  repo.organisation_name_de == organisation_name_de &&
-                  repo.name == repositoryName
-                );
-              });
-              this.openDialog(repository.uuid);
-            }
-          });
+  reloadData() {
+    this.dataService
+      .loadRepoData({
+        search: this.recordFilter,
+        sort: this.activeSort,
+        direction: this.sortDirection,
+        page: this.page.toString(),
+        count: this.count.toString(),
+        includeForks: 'false',
+      })
+      .then((repoData) => {
+        let repos = repoData.jsonData;
+        this.state = repos[0].timestamp;
+        this.repositories = [];
+        console.log(repos);
+        repos.forEach((repository: any) => {
+          let repo = repository;
+          repo.institution_name_de = repo.institution;
+          repo.organisation_name_de = repo.organization;
+          this.repositories.push(repo);
         });
-    });
+        this.dataSource = new MatTableDataSource(this.repositories);
+        this.numRepositories = repoData.total;
+        this.route.paramMap.subscribe((map) => {
+          const repositoryName = map.get('repository');
+          const organisation_name_de = map.get('institution');
+          if (repositoryName && organisation_name_de) {
+            let repository = this.repositories.find((repo) => {
+              return (
+                repo.organisation_name_de == organisation_name_de &&
+                repo.name == repositoryName
+              );
+            });
+            this.openDialog(repository.uuid);
+          }
+        });
+      });
+  }
+
+  ngOnInit(): void {
+    this.reloadData();
   }
 
   changeURL(relativeUrl: string): void {
@@ -165,5 +132,17 @@ export class RepositoriesRankingComponent implements OnInit {
         this.changeURL('/repositories');
       });
     }
+  }
+
+  paginatorUpdate(event) {
+    this.page = event.pageIndex;
+    this.count = event.pageSize;
+    this.reloadData();
+  }
+
+  sortingUpdate(event: Sort) {
+    this.activeSort = event.active;
+    this.sortDirection = event.direction == 'asc' ? 'ASC' : 'DESC';
+    this.reloadData();
   }
 }
