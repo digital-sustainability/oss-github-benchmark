@@ -1,6 +1,9 @@
-import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
+import {
+  Injectable,
+  OnApplicationBootstrap,
+  OnApplicationShutdown,
+} from '@nestjs/common';
 import { MongoClient, ConnectOptions } from 'mongodb';
-import { connected } from 'process';
 import {
   Institution,
   Repository,
@@ -13,15 +16,21 @@ import {
 } from 'src/interfaces';
 
 @Injectable()
-export class MongoDbService implements OnApplicationBootstrap {
+export class MongoDbService
+  implements OnApplicationBootstrap, OnApplicationShutdown
+{
+  async onApplicationShutdown(signal?: string) {
+    await this.destroyConnection();
+  }
   async onApplicationBootstrap() {
-    await this.getCrawlerStatus();
-    setInterval(async () => {
-      await this.getCrawlerStatus();
-    }, 60000);
-    await this.getData();
-    setInterval(async () => {
-      await this.getData();
+    await this.initializeConnection();
+    this.getCrawlerStatus().then(() => console.log('Loaded crawler status'));
+    setInterval(() => {
+      this.getCrawlerStatus().then(() => console.log('Loaded crawler status'));
+    }, 180000);
+    this.getData().then(() => console.log('Loaded data'));
+    setInterval(() => {
+      this.getData().then(() => console.log('Reloaded data'));
     }, 3600000);
   }
 
@@ -35,6 +44,7 @@ export class MongoDbService implements OnApplicationBootstrap {
   private userSearchStrings: string[];
 
   private async initializeConnection() {
+    if (this.client !== undefined) return;
     this.client = new MongoClient(process.env.MONGO_READ, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -42,7 +52,9 @@ export class MongoDbService implements OnApplicationBootstrap {
     await this.client.connect();
   }
   private async destroyConnection() {
-    this.client.close();
+    if (!this.client) return;
+    await this.client.close();
+    this.client = undefined;
   }
 
   async findAllInstitutions() {
@@ -150,7 +162,7 @@ export class MongoDbService implements OnApplicationBootstrap {
     if (params.search.length > 0)
       users = users.filter((user: User, index) => {
         const search: string = this.userSearchStrings[index];
-        if (!search) return console.log(this.users[index]);
+        if (!search) return true;
         return search.toLowerCase().includes(params.search.toLowerCase());
       });
     users = [...users].sort((a, b) => {
@@ -256,16 +268,11 @@ export class MongoDbService implements OnApplicationBootstrap {
   }
 
   private async getData() {
-    console.log('(Re)loading data...');
-    await this.initializeConnection();
     this.institutions = await this.getInstitutions();
     this.repositories = await this.getRepositories();
     this.users = await this.getUsers();
-    await this.destroyConnection();
-    console.log('Data loaded.');
   }
   private async getCrawlerStatus() {
-    await this.initializeConnection();
     const progress = await this.getProgress();
     const todos = await this.getTodoInstitutions();
     const running = await this.checkIfRunning();
@@ -279,6 +286,5 @@ export class MongoDbService implements OnApplicationBootstrap {
       currentInstitutionName: currentInstitution,
       running: running,
     };
-    await this.destroyConnection();
   }
 }

@@ -1,10 +1,8 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { DataService, IData } from 'src/app/data.service';
-import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { IInstitution } from 'src/app/interfaces/institution';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { RepositoryDetailViewComponent } from '../repository-detail-view/repository-detail-view.component';
 import { ActivatedRoute } from '@angular/router';
@@ -110,7 +108,7 @@ export class RepositoriesRankingComponent implements OnInit {
             this.repositories.push(repo);
           });
           this.dataSource = new MatTableDataSource(this.repositories);
-          this.numRepositories = this.repositories.length;
+          this.numRepositories = repoData.total;
 
           this.dataSource.filterPredicate = (data: any, filter: string) => {
             let datastring: string = '';
