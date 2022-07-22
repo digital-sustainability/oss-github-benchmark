@@ -40,8 +40,8 @@ export class DataService {
       })
       .toPromise();
     return {
-      csvData: this.parseJSON2CSV(repoData.users),
-      jsonData: repoData.users,
+      csvData: this.parseJSON2CSV(repoData.repositories),
+      jsonData: repoData.repositories,
       total: repoData.total,
     };
   }
