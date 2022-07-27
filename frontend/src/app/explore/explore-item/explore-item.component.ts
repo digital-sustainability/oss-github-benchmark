@@ -19,7 +19,7 @@ const sortState: Sort = { active: 'name', direction: 'desc' };
   templateUrl: './explore-item.component.html',
   styleUrls: ['./explore-item.component.scss'],
 })
-export class ExploreItemComponent implements OnInit, AfterViewInit {
+export class ExploreItemComponent implements OnInit {
   item: any;
   displayedColumns: string[] = [
     'name',
@@ -86,47 +86,51 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
     { text: 'Comments:', content: 'total_comments', toNiceName: false },
     { text: 'Organisations:', content: 'num_orgs', toNiceName: false },
   ];
-  includeForks: boolean;
+  includeForks: boolean = false;
   recordFilter = '';
+  page: number = 0;
+  count: number = 30;
+  activeSort: string = 'num_commits';
+  sortDirection: 'ASC' | 'DESC' = 'DESC';
+  numRepositories: number;
 
-  triggerFilter() {
-    this.dataSource.filter = 'trigger filter';
+  resetPaginator() {
+    this.paginator.pageIndex = 0;
+    this.page = 0;
   }
 
   includeForksChange(checked: boolean) {
     this.includeForks = checked;
-    if (checked) {
-      this.item.num_repos += this.item.total_num_forks_in_repos;
-    } else {
-      this.item.num_repos -= this.item.total_num_forks_in_repos;
-    }
-    this.triggerFilter();
+    this.resetPaginator();
+    this.reloadData();
   }
 
   constructor(
     private dataService: DataService,
     private dialogRef: MatDialogRef<ExploreItemComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    this.sort = new MatSort();
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.reloadData();
+  }
+
+  reloadData() {
     this.dataService
       .loadRepoData({
-        count: '200',
+        sort: this.activeSort,
+        direction: this.sortDirection,
+        page: this.page.toString(),
+        count: this.count.toString(),
+        includeForks: this.includeForks.toString(),
+        search: `"institution":"${this.data.institution.shortname}"`,
       })
-      .then((repoData) => {
-        repoData = repoData.jsonData;
+      .then((data) => {
+        let repoData: any[] = data.jsonData;
+        this.numRepositories = data.total;
+        console.log(this.data);
         this.item = Object.assign({}, this.data.institution);
-        this.item.repos = this.item.repos.map((repoUUID) => {
-          const t = repoData.find((repo) => {
-            return repo.uuid == repoUUID;
-          });
-          console.log(repoUUID);
-          return t;
-        });
-        this.includeForks = this.data.includeForks;
+        this.item.repos = repoData;
         if (this.item.repos) {
           this.item.repos.forEach((repo) => {
             repo.name = lowerCase(repo.name);
@@ -135,32 +139,6 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
         if (this.item.repos.length > 0) {
           this.dataSource = new MatTableDataSource(this.item.repos);
         }
-        this.sort.active = sortState.active;
-        this.sort.direction = sortState.direction;
-        this.sort.sortChange.emit(sortState);
-        this.dataSource.filterPredicate = (data: any, filter: string) => {
-          let datastring: string = '';
-          let property: string;
-          let filterNew = this.recordFilter;
-          for (property in data) {
-            datastring += data[property];
-          }
-          datastring = datastring.replace(/\s/g, '').toLowerCase();
-          filterNew = filterNew.replace(/\s/g, '').toLowerCase();
-          return (
-            datastring.includes(filterNew) && (this.includeForks || !data.fork)
-          );
-        };
-        this.triggerFilter();
-        if (this.item.org_names.length == 1) {
-          this.displayedColumns = this.displayedColumns.filter(
-            (e) => e !== 'organization'
-          );
-        }
-        if (this.includeForks) {
-          this.includeForksChange(false);
-        }
-        console.log(this.item);
       });
   }
 
@@ -168,11 +146,18 @@ export class ExploreItemComponent implements OnInit, AfterViewInit {
     window.open(url, '_blank');
   }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-
-  ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+  paginatorUpdate(event) {
+    this.page = event.pageIndex;
+    this.count = event.pageSize;
+    this.reloadData();
   }
+
+  sortingUpdate(event: Sort) {
+    this.activeSort = event.active;
+    this.sortDirection = event.direction == 'asc' ? 'ASC' : 'DESC';
+    this.resetPaginator();
+    this.reloadData();
+  }
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 }
