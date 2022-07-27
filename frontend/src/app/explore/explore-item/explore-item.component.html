@@ -209,6 +209,10 @@
 
     <mat-paginator
       [pageSizeOptions]="[30, 50, 100, 200]"
+      [length]="numRepositories"
+      [pageSize]="30"
+      (page)="paginatorUpdate($event)"
+      aria-label="Select page"
       showFirstLastButtons
     ></mat-paginator>
   </div>

@@ -14,11 +14,13 @@ import {
   UserQueryConfig,
   RepositoryQueryConfig,
 } from 'src/interfaces';
+import { DataGathering } from 'src/data-gathering/data-gathering';
 
 @Injectable()
 export class MongoDbService
   implements OnApplicationBootstrap, OnApplicationShutdown
 {
+  constructor(private dataGathering: DataGathering) {}
   async onApplicationShutdown(signal?: string) {
     await this.destroyConnection();
   }
@@ -32,6 +34,7 @@ export class MongoDbService
     setInterval(() => {
       this.getData().then(() => console.log('Reloaded data'));
     }, 3600000);
+    this.dataGathering.startScript();
   }
 
   private client: MongoClient | undefined;
@@ -42,6 +45,7 @@ export class MongoDbService
   private institutionSearchStrings: string[];
   private repositorySearchStrings: string[];
   private userSearchStrings: string[];
+  private updateDate: Date = new Date();
 
   private async initializeConnection() {
     if (this.client !== undefined) return;
@@ -249,6 +253,13 @@ export class MongoDbService
         },
       )
       .toArray();
+    (await repositories).forEach((repository) => {
+      repository.logo = `https://github.com/${repository.organization}.png`;
+      this.updateDate =
+        this.updateDate.getTime() > repository.timestamp.getTime()
+          ? repository.timestamp
+          : repository.timestamp;
+    });
     this.repositorySearchStrings = (await repositories).map((value) => {
       return JSON.stringify(value);
     });
@@ -278,13 +289,33 @@ export class MongoDbService
     const running = await this.checkIfRunning();
     const currentInstitution: string =
       todos.githubrepos[progress.currentSector][1].institutions[
-        progress.currentInstitution
+        progress.currentInstitution - 1
       ].name_de;
+    let orgs: string[] = [];
+    todos.githubrepos.forEach((sector) => {
+      sector[1].institutions.forEach((institution) => {
+        institution.orgs.forEach((org) => {
+          orgs.push(org);
+        });
+      });
+    });
+    const percentile =
+      Math.round(
+        (orgs.indexOf(
+          todos.githubrepos[progress.currentSector][1].institutions[
+            progress.currentInstitution - 1
+          ].orgs[0],
+        ) /
+          orgs.length) *
+          10000,
+      ) / 100;
     this.status = {
       currentSectorNO: progress.currentSector,
-      currentInstitutionNO: progress.currentInstitution,
+      currentInstitutionNO: progress.currentInstitution - 1,
       currentInstitutionName: currentInstitution,
       running: running,
+      progress: percentile,
+      lastUpdated: this.updateDate,
     };
   }
 }
