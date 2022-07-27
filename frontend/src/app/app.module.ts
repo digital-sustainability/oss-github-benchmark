@@ -13,7 +13,7 @@ import { DimensionSelectorComponent } from './dimension-selector/dimension-selec
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from './metric/list/list.component';
 import { ItemComponent } from './metric/item/item.component';
-import { ExploreItemComponent } from './explore/explore-item/explore-item.component';
+import { ExploreItemComponent } from './explore-item/explore-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,6 +35,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { ChartsModule } from 'ng2-charts';
 
 import { ToNiceNamePipe } from './pipes/toNiceName.pipe';
 import { RepositoriesRankingComponent } from './repositories-ranking/repositories-ranking.component';
@@ -90,6 +91,7 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
     MatExpansionModule,
     MatDividerModule,
     ScullyLibModule,
+    ChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
