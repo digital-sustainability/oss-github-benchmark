@@ -7,7 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { IInstitution } from 'src/app/interfaces/institution';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { ExploreItemComponent } from '../explore/explore-item/explore-item.component';
+import { ExploreItemComponent } from '../explore-item/explore-item.component';
 import { FormBuilder } from '@angular/forms';
 import { timeout } from 'd3';
 
