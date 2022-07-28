@@ -105,6 +105,7 @@ export interface Repository {
   contributors: string[];
   coders: string[];
   license: string;
+  logo?: string;
 }
 
 export interface User {
@@ -152,6 +153,8 @@ export interface Status {
   currentInstitutionNO: number;
   currentInstitutionName: string;
   running: boolean;
+  progress: number;
+  lastUpdated: Date;
 }
 
 export interface Progress {

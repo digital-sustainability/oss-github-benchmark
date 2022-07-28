@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { IInstitution } from 'src/app/interfaces/institution';
 import { ActivatedRoute } from '@angular/router';
 import { Sort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-user-ranking',
@@ -39,8 +40,14 @@ export class UserRankingComponent implements OnInit {
   activeSort: string = 'followers';
   sortDirection: 'ASC' | 'DESC' = 'DESC';
 
+  resetPaginator() {
+    this.paginator.pageIndex = 0;
+    this.page = 0;
+  }
+
   doFilter = (value: string) => {
     this.recordFilter = value.trim().toLocaleLowerCase();
+    this.resetPaginator();
     this.reloadData();
   };
 
@@ -117,6 +124,9 @@ export class UserRankingComponent implements OnInit {
   sortingUpdate(event: Sort) {
     this.activeSort = event.active;
     this.sortDirection = event.direction == 'asc' ? 'ASC' : 'DESC';
+    this.resetPaginator();
     this.reloadData();
   }
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 }

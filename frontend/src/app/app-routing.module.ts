@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { VisualizationComponent } from './visualization/visualization.component';
 import { ListComponent } from './metric/list/list.component';
-import { ExploreItemComponent } from './explore/explore-item/explore-item.component';
+import { ExploreItemComponent } from './explore-item/explore-item.component';
 import { ExploreComponent } from './explore/explore.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { RepositoriesRankingComponent } from './repositories-ranking/repositories-ranking.component';
@@ -56,8 +56,9 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      initialNavigation: 'enabled',
-    }),
+    initialNavigation: 'enabled',
+    relativeLinkResolution: 'legacy'
+}),
   ],
   exports: [RouterModule],
 })

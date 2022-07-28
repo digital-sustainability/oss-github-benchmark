@@ -4,7 +4,7 @@ import { IData } from 'src/app/data.service';
 import * as _ from 'lodash-es';
 import { Options } from '../options';
 import { MatDialog } from '@angular/material/dialog';
-import { ExploreItemComponent } from '../../explore/explore-item/explore-item.component';
+import { ExploreItemComponent } from '../../explore-item/explore-item.component';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 @Component({
