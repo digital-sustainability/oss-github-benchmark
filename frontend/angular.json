@@ -169,6 +169,5 @@
         }
       }
     }
-  },
-  "defaultProject": "oss-github-benchmark"
+  }
 }
