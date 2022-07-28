@@ -8,7 +8,7 @@ import { IInstitution } from 'src/app/interfaces/institution';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../explore-item/explore-item.component';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { timeout } from 'd3';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };
@@ -91,7 +91,7 @@ export class RankingComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private location: Location,
-    fb: FormBuilder
+    fb: UntypedFormBuilder
   ) {
     this.sort = new MatSort();
     this.sectorFilters.forEach(
