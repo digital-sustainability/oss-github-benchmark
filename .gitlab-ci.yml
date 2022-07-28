@@ -47,7 +47,7 @@ express-angular.deploy:
   extends: .dsl_deploy_image_to_dokku
   stage: deploy
   variables:
-    REMOTE_IMAGE: "$CI_REGISTRY/$CI_PROJECT_PATH/$IMAGE_NAME:latest"
+    REMOTE_IMAGE: "$CI_REGISTRY/$CI_PROJECT_PATH/$IMAGE_NAME:$CI_COMMIT_SHA"
   needs:
     - job: express-angular.dokku-create-app
     - job: express-angular.build
