@@ -209,7 +209,20 @@
 
     <mat-paginator
       [pageSizeOptions]="[30, 50, 100, 200]"
+      [length]="numRepositories"
+      [pageSize]="30"
+      (page)="paginatorUpdate($event)"
+      aria-label="Select page"
       showFirstLastButtons
     ></mat-paginator>
   </div>
+
+  <!-- <canvas
+    baseChart
+    width="400"
+    height="400"
+    [data]="lineChartData"
+    [options]="lineChartOptions"
+    [type]="lineChartType"
+  ></canvas> -->
 </div>

@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RepositoryDetailViewComponent } from '../repository-detail-view/repository-detail-view.component';
 import { ActivatedRoute } from '@angular/router';
 import { Sort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-repositories-ranking',
@@ -20,7 +21,7 @@ export class RepositoriesRankingComponent implements OnInit {
     ['logo', '', false, 'img'],
     ['institution_name_de', 'Institution', false, 'string'],
     ['organisation_name_de', 'GitHub Organization', false, 'string'],
-    ['last_years_commits', 'Commits last year', false, 'number'],
+    // ['last_years_commits', 'Commits last year', false, 'number'],
     ['comments', 'Comments', false, 'number'],
     ['issues_all', 'Issues', false, 'number'],
     ['pull_requests_all', 'Pull requests', false, 'number'],
@@ -44,15 +45,24 @@ export class RepositoriesRankingComponent implements OnInit {
   includeForks: boolean = false;
   page: number = 0;
   count: number = 30;
-  activeSort: string = 'followers';
+  activeSort: string = 'num_commits';
   sortDirection: 'ASC' | 'DESC' = 'DESC';
+
+  resetPaginator() {
+    this.paginator.pageIndex = 0;
+    this.page = 0;
+  }
 
   doFilter = (value: string) => {
     this.recordFilter = value.trim().toLocaleLowerCase();
+    this.resetPaginator();
     this.reloadData();
   };
 
-  includeForksChange(checked) {}
+  includeForksChange(checked: boolean) {
+    this.includeForks = checked;
+    this.reloadData();
+  }
 
   goToLink(url: string) {
     window.open(url, '_blank');
@@ -73,13 +83,12 @@ export class RepositoriesRankingComponent implements OnInit {
         direction: this.sortDirection,
         page: this.page.toString(),
         count: this.count.toString(),
-        includeForks: 'false',
+        includeForks: this.includeForks.toString(),
       })
       .then((repoData) => {
         let repos = repoData.jsonData;
-        this.state = repos[0].timestamp;
-        this.repositories = [];
         console.log(repos);
+        this.repositories = [];
         repos.forEach((repository: any) => {
           let repo = repository;
           repo.institution_name_de = repo.institution;
@@ -143,6 +152,9 @@ export class RepositoriesRankingComponent implements OnInit {
   sortingUpdate(event: Sort) {
     this.activeSort = event.active;
     this.sortDirection = event.direction == 'asc' ? 'ASC' : 'DESC';
+    this.resetPaginator();
     this.reloadData();
   }
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 }

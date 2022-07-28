@@ -3,6 +3,7 @@
   <mat-label>Search</mat-label>
   <input matInput (keyup)="doFilter($event.target.value)" />
 </mat-form-field>
+
 <mat-checkbox
   color="primary"
   style="vertical-align: super"
@@ -11,16 +12,16 @@
   >Include forks
 </mat-checkbox>
 
-<p style="color: gray">
+<!-- <p style="color: gray">
   Information on OSS Benchmark updated:
   {{ state | date: "MMMM d, yyyy 'at' H:mm" }}
-</p>
+</p> -->
 <table
   mat-table
   [dataSource]="dataSource"
   class="mat-elevation-z8"
   matSort
-  matSortActive="last_years_commits"
+  matSortActive="num_commits"
   matSortDirection="desc"
   (matSortChange)="sortingUpdate($event)"
 >
