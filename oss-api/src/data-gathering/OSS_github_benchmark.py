@@ -5,7 +5,7 @@ import datetime
 from github import Github
 import github
 import logging
-from time import sleep, time, gmtime
+from time import sleep, gmtime
 from pymongo import MongoClient
 from datetime import timezone
 import datetime
@@ -35,6 +35,11 @@ collectionTodoInstitutions = db["todoInstitutions"]
 collectionUsers = db["users"]
 collectionUsersNew = db["usersNew"]
 collectionBadStuff = db["badStuff"]
+
+
+def date():
+    return datetime.datetime.now(
+        timezone.utc).replace(tzinfo=timezone.utc)
 
 
 def getProgress():
@@ -86,7 +91,7 @@ def updateStats(institutionData, dataToGet):
     inst_old = collectionInstitutions.find_one(
         {"uuid": institutionData["uuid"]})
     stat = {
-        "timestamp": currentDateAndTime,
+        "timestamp": date(),
     }
     for statName in dataToGet:
         stat[statName] = institutionData[statName]
@@ -237,7 +242,7 @@ def getRepository(repo, instName, orgName, orgAvatar):
         "pull_requests_all": 0,
         "comments": 0,
         "languages": [],
-        "timestamp": currentDateAndTime,
+        "timestamp": date(),
         "createdTimestamp": repo.created_at,
         "updatedTimestamp": repo.updated_at,
         "logo": orgAvatar
@@ -356,7 +361,7 @@ def getInstitution(institution, dataToGet):
     institutionData["repos"] = []
     institutionData["repo_names"] = []
     institutionData["total_licenses"] = {}
-    institutionData["timestamp"] = currentDateAndTime
+    institutionData["timestamp"] = date()
     # Von einer Institution alle GitHub-Organisationen rausholen
     currentOrganization = 0
     badOrgs = 0
@@ -426,12 +431,9 @@ while 1:
     # Auf Fortschritt überprüfen.
     progress = getProgress()
     if progress != None:
-        currentDateAndTime = progress["currentDateAndTime"]
         progressSector = progress["currentSector"]
         progressInstitution = progress["currentInstitution"]
     else:
-        currentDateAndTime = datetime.datetime.now(
-            timezone.utc).replace(tzinfo=timezone.utc)
         progressSector = 0
         progressInstitution = 0
         collectionUsersNew.delete_many({})
@@ -467,7 +469,6 @@ while 1:
             crawlInstitution(currentInstitution)
             currentInstitution += 1
             progress = {}
-            progress["currentDateAndTime"] = currentDateAndTime
             progress["currentSector"] = currentSector
             progress["currentInstitution"] = currentInstitution
             saveProgress(progress)
