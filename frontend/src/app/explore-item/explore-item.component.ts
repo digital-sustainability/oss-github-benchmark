@@ -1,116 +1,49 @@
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  Inject,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { DataService } from 'src/app/data.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort, Sort } from '@angular/material/sort';
+import { Sort } from '@angular/material/sort';
 import { lowerCase } from 'lodash-es';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-// import { Chart, ChartConfiguration, ChartType } from 'chart.js';
-// import { BaseChartDirective } from 'ng2-charts';
-
+import { ChartConfiguration, ChartType } from 'chart.js';
+import Chart from 'chart.js/auto';
 @Component({
   selector: 'app-explore-item',
   templateUrl: './explore-item.component.html',
   styleUrls: ['./explore-item.component.scss'],
 })
 export class ExploreItemComponent implements OnInit {
-  // public lineChartData: ChartConfiguration['data'] = {
-  //   datasets: [
-  //     {
-  //       data: [65, 59, 80, 81, 56, 55, 40],
-  //       label: 'Series A',
-  //       backgroundColor: 'rgba(148,159,177,0.2)',
-  //       borderColor: 'rgba(148,159,177,1)',
-  //       pointBackgroundColor: 'rgba(148,159,177,1)',
-  //       pointBorderColor: '#fff',
-  //       pointHoverBackgroundColor: '#fff',
-  //       pointHoverBorderColor: 'rgba(148,159,177,0.8)',
-  //       fill: 'origin',
-  //     },
-  //     {
-  //       data: [28, 48, 40, 19, 86, 27, 90],
-  //       label: 'Series B',
-  //       backgroundColor: 'rgba(77,83,96,0.2)',
-  //       borderColor: 'rgba(77,83,96,1)',
-  //       pointBackgroundColor: 'rgba(77,83,96,1)',
-  //       pointBorderColor: '#fff',
-  //       pointHoverBackgroundColor: '#fff',
-  //       pointHoverBorderColor: 'rgba(77,83,96,1)',
-  //       fill: 'origin',
-  //     },
-  //     {
-  //       data: [180, 480, 770, 90, 1000, 270, 400],
-  //       label: 'Series C',
-  //       yAxisID: 'y-axis-1',
-  //       backgroundColor: 'rgba(255,0,0,0.3)',
-  //       borderColor: 'red',
-  //       pointBackgroundColor: 'rgba(148,159,177,1)',
-  //       pointBorderColor: '#fff',
-  //       pointHoverBackgroundColor: '#fff',
-  //       pointHoverBorderColor: 'rgba(148,159,177,0.8)',
-  //       fill: 'origin',
-  //     },
-  //   ],
-  //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  // };
+  public lineChartData: ChartConfiguration['data'];
 
-  // public lineChartOptions = {
-  //   elements: {
-  //     line: {
-  //       tension: 0.5,
-  //     },
-  //   },
-  //   scales: {
-  //     // We use this empty structure as a placeholder for dynamic theming.
-  //     x: {},
-  //     'y-axis-0': {
-  //       position: 'left',
-  //     },
-  //     'y-axis-1': {
-  //       position: 'right',
-  //       grid: {
-  //         color: 'rgba(255,0,0,0.3)',
-  //       },
-  //       ticks: {
-  //         color: 'red',
-  //       },
-  //     },
-  //   },
+  public lineChartOptions = {
+    elements: {
+      point: {
+        radius: 5,
+      },
+    },
+    responsive: true,
+    scales: {
+      x: {
+        type: 'linear',
+        ticks: {
+          callback: function (value: Date) {
+            return new Date(value).toLocaleDateString();
+          },
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          title: (context) => {
+            return new Date(context[0].raw.x).toLocaleDateString();
+          },
+        },
+      },
+    },
+  };
 
-  //   plugins: {
-  //     legend: { display: true },
-  //     annotation: {
-  //       annotations: [
-  //         {
-  //           type: 'line',
-  //           scaleID: 'x',
-  //           value: 'March',
-  //           borderColor: 'orange',
-  //           borderWidth: 2,
-  //           label: {
-  //             position: 'center',
-  //             enabled: true,
-  //             color: 'orange',
-  //             content: 'LineAnno',
-  //             font: {
-  //               weight: 'bold',
-  //             },
-  //           },
-  //         },
-  //       ],
-  //     },
-  //   },
-  // };
-
-  // public lineChartType: ChartType = 'line';
-
-  // @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+  public chartType: ChartType = 'line';
 
   item: any;
   displayedColumns: string[] = [
@@ -201,9 +134,63 @@ export class ExploreItemComponent implements OnInit {
     private dataService: DataService,
     private dialogRef: MatDialogRef<ExploreItemComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    const charts: string[] = [
+      'Repositories',
+      'Members',
+      'Comments',
+      'Issues',
+      'Closed issues',
+      'Commits',
+      'Contributors',
+      'Forks in repositories',
+      'Own repositories forks',
+      'Stars',
+      'Watchers',
+      'Pull requests',
+      'Closed pull requests',
+    ];
+    this.lineChartData = {
+      datasets: charts.map((str) => {
+        return {
+          label: str,
+          data: [],
+          backgroundColor: 'black',
+          borderColor: 'black',
+          pointBackgroundColor: 'gray',
+          pointHoverBorderColor: 'black',
+          pointBorderColor: 'black',
+          hoverRadius: 10,
+          cubicInterpolationMode: 'monotone',
+          tension: 0.4,
+        };
+      }),
+    };
+  }
 
   ngOnInit(): void {
+    this.data.institution.stats.forEach((stat) => {
+      [
+        'num_repos',
+        'num_members',
+        'total_comments',
+        'total_issues_all',
+        'total_issues_closed',
+        'total_num_commits',
+        'total_num_contributors',
+        'total_num_forks_in_repos',
+        'total_num_own_repo_forks',
+        'total_num_stars',
+        'total_num_watchers',
+        'total_pull_requests_all',
+        'total_pull_requests_closed',
+      ].forEach((prop: string, index) => {
+        this.lineChartData.datasets[index].data.push({
+          x: new Date(stat.timestamp).getTime(),
+          y: stat[prop],
+        });
+      });
+    });
     this.reloadData();
   }
 
