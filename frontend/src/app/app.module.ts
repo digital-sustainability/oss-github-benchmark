@@ -35,7 +35,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { NgChartsModule } from 'ng2-charts';
+// import { NgChartsModule } from 'ng2-charts';
 
 import { ToNiceNamePipe } from './pipes/toNiceName.pipe';
 import { RepositoriesRankingComponent } from './repositories-ranking/repositories-ranking.component';
@@ -91,7 +91,7 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
     MatExpansionModule,
     MatDividerModule,
     ScullyLibModule,
-    NgChartsModule,
+    // NgChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
