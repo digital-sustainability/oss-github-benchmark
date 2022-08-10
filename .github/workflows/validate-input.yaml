@@ -3,7 +3,7 @@ name: Test input data
 on:
   push:
     paths:
-    - data-gathering/github_repos.json
+    - oss-api/src/data-gathering/github_repos.json
 
 jobs:
   yamllint:
@@ -17,4 +17,4 @@ jobs:
         architecture: 'x64'
     - name: lint data
       run: |
-        python -mjson.tool data-gathering/github_repos.json
+        python -mjson.tool oss-api/src/data-gathering/github_repos.json
