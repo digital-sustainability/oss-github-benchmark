@@ -23,9 +23,14 @@ export class ApiController {
   }
   @Get('paginatedInstitutions')
   @UsePipes(new InstitutionQueryPipe(), new ValidationPipe({ transform: true }))
-  async findInstitutions(
-    @Query() queryDto: InstitutionQueryDto,
-  ): Promise<Institution[]> {
+  async findInstitutions(@Query() queryDto: InstitutionQueryDto): Promise<
+    | {
+        institutions: Institution[];
+        total: number;
+        sectors: { [key: string]: number };
+      }
+    | Institution
+  > {
     const queryConfig = queryDto;
     return this.mongoDbService.findInstitutions(queryConfig);
   }

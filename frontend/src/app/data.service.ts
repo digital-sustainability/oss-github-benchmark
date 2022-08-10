@@ -16,13 +16,32 @@ export class DataService {
 
   constructor(private http: HttpClient) {}
 
-  async loadData(): Promise<IData> {
-    const data = await this.http
-      .get<any>(`${environment.api}institutions`)
+  async loadInstitutionData(config: {
+    search?: string;
+    sort?: string;
+    direction?: 'ASC' | 'DESC';
+    page?: string;
+    count?: string;
+    includeForks?: string;
+    sector?: string[];
+    sendStats?: string;
+    findName?: string;
+  }): Promise<any> {
+    const institutionData = await this.http
+      .get<any>(`${environment.api}paginatedInstitutions`, {
+        params: config,
+      })
       .toPromise();
+    if (config.findName)
+      return {
+        csvData: this.parseJSON2CSV(institutionData),
+        jsonData: institutionData,
+      };
     return {
-      csvData: this.parseJSON2CSV(data),
-      jsonData: data,
+      csvData: this.parseJSON2CSV(institutionData.institutions),
+      jsonData: institutionData.institutions,
+      total: institutionData.total,
+      sectors: institutionData.sectors,
     };
   }
 
