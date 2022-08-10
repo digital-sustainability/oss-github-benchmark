@@ -21,7 +21,6 @@ export class ExploreItemComponent implements OnInit {
         radius: 5,
       },
     },
-    responsive: true,
     scales: {
       x: {
         type: 'linear',
@@ -169,6 +168,71 @@ export class ExploreItemComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    Chart.register({
+      id: 'corsair',
+      afterInit: (chart) => {
+        // @ts-ignore
+        chart.corsair = {
+          x: 0,
+          y: 0,
+        };
+      },
+      afterEvent: (chart, evt) => {
+        const {
+          chartArea: { top, bottom, left, right },
+        } = chart;
+        const {
+          event: { x, y },
+        } = evt;
+        if (x < left || x > right || y < top || y > bottom) {
+          // @ts-ignore
+          chart.corsair = {
+            x,
+            y,
+            draw: false,
+          };
+          chart.draw();
+          return;
+        }
+
+        // @ts-ignore
+        chart.corsair = {
+          x,
+          y,
+          draw: true,
+        };
+
+        chart.draw();
+      },
+      afterDatasetsDraw: (chart, _, opts) => {
+        const {
+          ctx,
+          chartArea: { top, bottom, left, right },
+        } = chart;
+        // @ts-ignore
+        const { x, y, draw } = chart.corsair;
+
+        if (!draw) {
+          return;
+        }
+
+        // @ts-ignore
+        ctx.lineWidth = opts.width || 0;
+        // @ts-ignore
+        ctx.setLineDash(opts.dash || []);
+        // @ts-ignore
+        ctx.strokeStyle = opts.color || 'lightgray';
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(x, bottom);
+        ctx.lineTo(x, top);
+        ctx.moveTo(left, y);
+        ctx.lineTo(right, y);
+        ctx.stroke();
+        ctx.restore();
+      },
+    });
     this.data.institution.stats.forEach((stat) => {
       [
         'num_repos',
@@ -207,7 +271,6 @@ export class ExploreItemComponent implements OnInit {
       .then((data) => {
         let repoData: any[] = data.jsonData;
         this.numRepositories = data.total;
-        console.log(this.data);
         this.item = Object.assign({}, this.data.institution);
         this.item.repos = repoData;
         if (this.item.repos) {

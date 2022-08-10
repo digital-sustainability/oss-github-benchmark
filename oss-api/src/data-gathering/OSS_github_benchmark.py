@@ -81,6 +81,7 @@ def crawlInstitution(currentInstitution):
 def waitForCallAttempts(attempts=500):
     if g.rate_limiting[0] < attempts:
         print("Waiting for more call attemps...")
+        sys.stdout.flush()
         core_rate_limit = g.get_rate_limit().core
         reset_timestamp = calendar.timegm(core_rate_limit.reset.timetuple())
         sleep_time = reset_timestamp - calendar.timegm(gmtime()) + 5
@@ -423,68 +424,70 @@ runningSignal = threading.Thread(target=running, daemon=True)
 runningSignal.start()
 
 
-while 1:
-    # # JSON Daten laden, Variablen setzen
-    # with open('github_repos.json', encoding='utf-8') as file:
-    #     githubrepos = json.load(file)
+try:
+    while 1:
+        # # JSON Daten laden, Variablen setzen
+        # with open('github_repos.json', encoding='utf-8') as file:
+        #     githubrepos = json.load(file)
 
-    # Auf Fortschritt überprüfen.
-    progress = getProgress()
-    if progress != None:
-        progressSector = progress["currentSector"]
-        progressInstitution = progress["currentInstitution"]
-    else:
-        progressSector = 0
-        progressInstitution = 0
-        collectionUsersNew.delete_many({})
-    githubrepos = collectionTodoInstitutions.find_one({})["githubrepos"]
-    githubConfig = list(githubrepos)
-    users = list(collectionUsersNew.find())
+        # Auf Fortschritt überprüfen.
+        progress = getProgress()
+        if progress != None:
+            progressSector = progress["currentSector"]
+            progressInstitution = progress["currentInstitution"]
+        else:
+            progressSector = 0
+            progressInstitution = 0
+            collectionUsersNew.delete_many({})
+        githubrepos = collectionTodoInstitutions.find_one({})["githubrepos"]
+        githubConfig = list(githubrepos)
+        users = list(collectionUsersNew.find())
 
-    dataToGet = [
-        "num_repos",
-        "num_members",
-        "total_num_contributors",
-        "total_num_own_repo_forks",
-        "total_num_forks_in_repos",
-        "total_num_commits",
-        "total_pull_requests",
-        "total_issues",
-        "total_num_stars",
-        "total_num_watchers",
-        "total_pull_requests_all",
-        "total_pull_requests_closed",
-        "total_issues_all",
-        "total_issues_closed",
-        "total_comments",
-    ]
+        dataToGet = [
+            "num_repos",
+            "num_members",
+            "total_num_contributors",
+            "total_num_own_repo_forks",
+            "total_num_forks_in_repos",
+            "total_num_commits",
+            "total_pull_requests",
+            "total_issues",
+            "total_num_stars",
+            "total_num_watchers",
+            "total_pull_requests_all",
+            "total_pull_requests_closed",
+            "total_issues_all",
+            "total_issues_closed",
+            "total_comments",
+        ]
 
-    currentSector = progressSector
-    currentInstitution = progressInstitution
-    while currentSector < getNumberOfSections():
-        sector_key, sector = getSectorInformation(currentSector)
-        print("Sector: " + sector_key)
+        currentSector = progressSector
+        currentInstitution = progressInstitution
+        while currentSector < getNumberOfSections():
+            sector_key, sector = getSectorInformation(currentSector)
+            print("Sector: " + sector_key)
 
-        while currentInstitution < len(sector["institutions"]):
-            crawlInstitution(currentInstitution)
-            currentInstitution += 1
-            progress = {}
-            progress["currentSector"] = currentSector
-            progress["currentInstitution"] = currentInstitution
-            saveProgress(progress)
+            while currentInstitution < len(sector["institutions"]):
+                crawlInstitution(currentInstitution)
+                currentInstitution += 1
+                progress = {}
+                progress["currentSector"] = currentSector
+                progress["currentInstitution"] = currentInstitution
+                saveProgress(progress)
 
-        currentInstitution = 0
-        currentSector += 1
+            currentInstitution = 0
+            currentSector += 1
 
-    collectionProgress.delete_many({})
+        collectionProgress.delete_many({})
 
-    collectionRepositories.delete_many({})
-    collectionRepositoriesNew.aggregate(
-        [{"$match": {}}, {"$out": "repositories"}])
+        collectionRepositories.delete_many({})
+        collectionRepositoriesNew.aggregate(
+            [{"$match": {}}, {"$out": "repositories"}])
 
-    collectionUsers.delete_many({})
-    collectionUsersNew.aggregate([{"$match": {}}, {"$out": "users"}])
-
+        collectionUsers.delete_many({})
+        collectionUsersNew.aggregate([{"$match": {}}, {"$out": "users"}])
+finally:
+    sys.stdout.flush()
 
 # institutions_data = collectionInstitutions.find({},
 #                                                 {
