@@ -158,7 +158,6 @@ export interface Status {
 }
 
 export interface Progress {
-  currentDateAndTime: number;
   currentSector: number;
   currentInstitution: number;
 }
@@ -172,6 +171,7 @@ export interface InstitutionQueryConfig {
   count: number;
   sendStats: boolean;
   includeForksInSort: boolean;
+  findName: string;
 }
 
 export interface UserQueryConfig {

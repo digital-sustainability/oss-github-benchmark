@@ -72,7 +72,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "oss-github-benchmark:build"
+            "browserTarget": "oss-github-benchmark:build",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -159,9 +160,7 @@
           "options": {
             "browserTarget": "oss-github-benchmark:build:production",
             "serverTarget": "oss-github-benchmark:server:production",
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {}

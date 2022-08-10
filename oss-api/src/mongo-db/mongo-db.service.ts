@@ -26,6 +26,7 @@ export class MongoDbService
   }
   async onApplicationBootstrap() {
     await this.initializeConnection();
+    if (process.env.NODE_ENV === 'production') this.dataGathering.startScript();
     this.getCrawlerStatus().then(() => console.log('Loaded crawler status'));
     setInterval(() => {
       this.getCrawlerStatus().then(() => console.log('Loaded crawler status'));
@@ -34,7 +35,6 @@ export class MongoDbService
     setInterval(() => {
       this.getData().then(() => console.log('Reloaded data'));
     }, 3600000);
-    this.dataGathering.startScript();
   }
 
   private client: MongoClient | undefined;
@@ -75,15 +75,24 @@ export class MongoDbService
   }
 
   async findInstitutions(params: InstitutionQueryConfig) {
-    let insts = this.institutions;
-    if (params.sector.length > 0)
-      insts = insts.filter((institution: Institution) => {
-        return params.sector.includes(institution.sector);
+    if (params.findName) {
+      return this.institutions.find((inst) => {
+        return inst.shortname === params.findName;
       });
+    }
+    let sectors: { [key: string]: number } = {};
+    let insts = this.institutions;
     if (params.search.length > 0)
       insts = insts.filter((institution: Institution, index) => {
         const search: string = this.institutionSearchStrings[index];
         return search.toLowerCase().includes(params.search.toLowerCase());
+      });
+    insts.forEach((institution) => {
+      sectors[institution.sector] = (sectors[institution.sector] ?? 0) + 1;
+    });
+    if (params.sector.length > 0)
+      insts = insts.filter((institution: Institution) => {
+        return params.sector.includes(institution.sector);
       });
     insts = [...insts].sort((a, b) => {
       if (typeof a[params.sort] == 'string') {
@@ -106,20 +115,32 @@ export class MongoDbService
               (params.includeForksInSort ? 0 : a.total_num_forks_in_repos);
       }
     });
+    let total = insts.length;
     if (params.sendStats) {
-      return insts.slice(
+      return {
+        institutions: insts.slice(
+          params.page * params.count,
+          (params.page + 1) * params.count,
+        ),
+        total: total,
+        sectors: sectors,
+      };
+    } else {
+      insts = insts.slice(
         params.page * params.count,
         (params.page + 1) * params.count,
       );
-    } else {
-      insts.slice(params.page * params.count, (params.page + 1) * params.count);
       const institutionsWithoutStats: Institution[] = insts.map(
         (inst: Institution) => {
           const { stats, ...institutionWithoutStats } = inst;
           return institutionWithoutStats;
         },
       );
-      return institutionsWithoutStats;
+      return {
+        institutions: institutionsWithoutStats,
+        total: total,
+        sectors: sectors,
+      };
     }
   }
   async findRepositories(params: RepositoryQueryConfig) {
@@ -231,7 +252,7 @@ export class MongoDbService
     let insts = this.client
       .db('statistics')
       .collection<Institution>('institutions')
-      .find({}, { session: session })
+      .find({ num_orgs: { $ne: 0 } }, { session: session })
       .toArray();
     this.institutionSearchStrings = (await insts).map((value) => {
       return JSON.stringify(value);
@@ -279,9 +300,13 @@ export class MongoDbService
   }
 
   private async getData() {
+    console.log('Loading data...');
     this.institutions = await this.getInstitutions();
+    console.log('Loaded institutions');
     this.repositories = await this.getRepositories();
+    console.log('Loaded repositories');
     this.users = await this.getUsers();
+    console.log('Loaded users');
   }
   private async getCrawlerStatus() {
     const progress = await this.getProgress();

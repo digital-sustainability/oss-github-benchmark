@@ -5,7 +5,7 @@ import { InstitutionQueryConfig } from './interfaces';
 export class InstitutionQueryPipe implements PipeTransform {
   transform(queryParams: any, metadata: ArgumentMetadata) {
     const config: InstitutionQueryConfig = {
-      sector: queryParams.sector ? queryParams.sector.split(',') : [],
+      sector: queryParams.sector ? queryParams.sector : [],
       search: queryParams.search ? queryParams.search : '',
       sort: queryParams.sort ? queryParams.sort : 'num_repos',
       direction: queryParams.direction ? queryParams.direction : 'DESC',
@@ -17,6 +17,7 @@ export class InstitutionQueryPipe implements PipeTransform {
       includeForksInSort: queryParams.includeForksInSort
         ? queryParams.includeForksInSort === 'true'
         : false,
+      findName: queryParams.findName ? queryParams.findName : '',
     };
     return config;
   }

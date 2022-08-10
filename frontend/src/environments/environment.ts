@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api: 'https://oss-api.dsl.digisus-lab.ch/api/',
+  api: 'http://localhost:3000/api/',
 };
 
 /*
