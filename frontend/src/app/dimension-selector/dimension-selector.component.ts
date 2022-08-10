@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { DataService, Metric } from '../data.service';
 import { Options } from '../visualizations/options';
 import {combineLatest} from "rxjs";
@@ -19,7 +19,7 @@ export class DimensionSelectorComponent implements OnInit {
   @Output() optionsChange = new EventEmitter<Options>();
   metrics: Metric[];
 
-  constructor(private dataService: DataService, private fb: UntypedFormBuilder) {}
+  constructor(private dataService: DataService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.dataService.dimensionOptions.subscribe((ops) => {
