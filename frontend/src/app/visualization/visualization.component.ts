@@ -13,7 +13,7 @@ export class VisualizationComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.dataService.loadData().then((data) => {
+    this.dataService.loadInstitutionData({}).then((data) => {
       this.data = data;
     });
   }

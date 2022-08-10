@@ -61,6 +61,7 @@ export class RepositoriesRankingComponent implements OnInit {
 
   includeForksChange(checked: boolean) {
     this.includeForks = checked;
+    this.resetPaginator();
     this.reloadData();
   }
 

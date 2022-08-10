@@ -17,4 +17,5 @@ export class InstitutionQueryDto implements InstitutionQueryConfig {
   search: string;
   sendStats: boolean;
   includeForksInSort: boolean;
+  findName: string;
 }
