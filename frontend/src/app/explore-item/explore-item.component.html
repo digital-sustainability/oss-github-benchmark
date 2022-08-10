@@ -1,14 +1,10 @@
 <div class="wrapper">
-  <h1>
-    <img [src]="data.institution.avatar[0]" alt="" />{{
-      data.institution.name_de
-    }}
-  </h1>
-  <!-- 
+  <h1><img [src]="item.avatar[0]" alt="" />{{ item.name_de }}</h1>
+
   <p style="color: gray">
     Information on OSS Benchmark updated:
-    {{ data.institution.timestamp | date: "MMMM d, yyyy 'at' H:mm" }}
-  </p> -->
+    {{ item.timestamp | date: "MMMM d, yyyy 'at' H:mm" }}
+  </p>
 
   <h2>GitHub Organizations:</h2>
   <div style="margin-bottom: 20px">
@@ -221,14 +217,12 @@
     ></mat-paginator>
   </div>
 
-  <div *ngFor="let chart of lineChartData.datasets">
-    <canvas
-      baseChart
-      width="max"
-      height="100"
-      [data]="{ datasets: [chart] }"
-      [options]="lineChartOptions"
-      [type]="chartType"
-    ></canvas>
-  </div>
+  <!-- <canvas
+    baseChart
+    width="400"
+    height="400"
+    [data]="lineChartData"
+    [options]="lineChartOptions"
+    [type]="lineChartType"
+  ></canvas> -->
 </div>
