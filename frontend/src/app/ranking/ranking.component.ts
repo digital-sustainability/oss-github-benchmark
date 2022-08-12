@@ -1,14 +1,13 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { DataService, IData } from 'src/app/data.service';
-import { MatSort, Sort } from '@angular/material/sort';
+import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { IInstitution } from 'src/app/interfaces/institution';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../explore-item/explore-item.component';
-import { UntypedFormBuilder } from '@angular/forms';
 import { timeout } from 'd3';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };

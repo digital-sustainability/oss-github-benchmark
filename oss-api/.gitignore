@@ -1,4 +1,5 @@
 # compiled output
+/client
 /dist
 /node_modules
 
