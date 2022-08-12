@@ -11,6 +11,7 @@
     "lite": "lite-server",
     "dev:ssr": "ng run oss-github-benchmark:serve-ssr",
     "serve:ssr": "node dist/oss-github-benchmark/server/main.js",
+    "build:prod": "ng build -c production",
     "build:ssr": "ng build --prod && ng run oss-github-benchmark:server:production",
     "prerender": "ng run oss-github-benchmark:prerender",
     "scully": "npx scully --",
