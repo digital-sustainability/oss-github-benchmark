@@ -28,7 +28,7 @@ COPY --from=backendBuild dist dist
 
 COPY --from=backendBuild node_modules/ dist/node_modules
 
-COPY --from=frontendBuild client dist/client
+COPY --from=frontendBuild client client
 
 COPY oss-api/src/data-gathering/OSS_github_benchmark.py src/data-gathering/OSS_github_benchmark.py
 
