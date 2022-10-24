@@ -49,17 +49,6 @@
     </section>
   </div>
 
-  <div *ngFor="let chart of lineChartData.datasets">
-    <canvas
-      baseChart
-      width="max"
-      height="100"
-      [data]="{ datasets: [chart] }"
-      [options]="lineChartOptions"
-      [type]="chartType"
-    ></canvas>
-  </div>
-
   <div *ngIf="dataSource">
     <h2>Repos:</h2>
     <mat-checkbox
