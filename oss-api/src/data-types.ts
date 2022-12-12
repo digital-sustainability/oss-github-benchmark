@@ -1,7 +1,6 @@
 export interface CrawlerConfig {
-  GitHubRepos: {
-    [key: string]: CrawlerSector;
-  };
+  name: string,
+  value: CrawlerSector[];
 }
 
 export interface CrawlerSector {

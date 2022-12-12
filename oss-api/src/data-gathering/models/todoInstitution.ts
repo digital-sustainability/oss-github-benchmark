@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
+import { CrawlerSector, CrawlerConfig } from "src/data-types";
 
-export default class todoInstituition {
-    constructor(public githubrepos: Array<Array<Object>>, public _id: ObjectId){}
+export default class todoInstitution {
+    constructor(public githubrepos: Array<Array<CrawlerSector>>, public _id: ObjectId){}
 }
