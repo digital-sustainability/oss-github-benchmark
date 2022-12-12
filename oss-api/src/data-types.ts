@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 export interface CrawlerConfig {
   name: string,
   value: CrawlerSector[];
@@ -14,6 +16,82 @@ export interface CrawlerInstitution {
   name_de: string;
   orgs: string[];
 }
+
+export interface CrawlerUsersNew {
+  _id: ObjectId;
+  login: string;
+  name: string;
+  avatar_url: string;
+  bio: string;
+  blog: string;
+  company: string;
+  email: string;
+  twitter_username: string;
+  created_at: Date;
+  updated_at: Date;
+  contributions: any[];
+  public_repos: number;
+  public_gists: number;
+  followers: number;
+  following: number;
+  orgs: string[];
+}
+
+export interface CrawlerOrg {
+  status: number,
+  url: string,
+  headers: any[],
+  data: CrawlerOrgData,
+}
+
+export interface CrawlerOrgData{
+  login: string,
+  id: number,
+  node_id: string,
+  url: string,
+  repos_url: string,
+  events_url: string,
+  hooks_url: string,
+  issues_url: string,
+  members_url: string,
+  public_members_url: string,
+  avatar_url: string,
+  description: string,
+  name: string,
+  company: object,
+  blog: string,
+  location: string,
+  email: string,
+  twitter_username: object,
+  is_verified: boolean,
+  has_organization_projects: boolean,
+  has_repository_projects: boolean,
+  public_repos: number,
+  public_gists: number,
+  followers: number,
+  following: number,
+  html_url: string,
+  created_at: Date,
+  updated_at: Date,
+  type: string
+}
+
+export interface OrgData{
+  name: string;
+  url: string;
+  description: string;
+  num_members: number;
+  num_repos: number;
+  avatar: string;
+  created_at: Date;
+  location: string;
+  email: string;
+  repos: string[];
+  repo_names: string[];
+  total_licenses: object;
+}
+
+
 
 export interface PythonInstitution {
   uuid: string;

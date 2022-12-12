@@ -1,8 +1,10 @@
 import * as mongoDB from "mongodb";
+import { Timestamp } from "mongodb";
 import { CrawlerConfig } from "src/data-types";
+import rawResponse from "../models/rawResponse";
 import todoInstituition from "../models/todoInstitution";
 
-export const dbCollections: { todoInstitution?: mongoDB.Collection, institutions?: mongoDB.Collection, progress?: mongoDB.Collection, repositoriesNew?: mongoDB.Collection, running?: mongoDB.Collection, usersNew?: mongoDB.Collection } = {}
+export const dbCollections: { todoInstitution?: mongoDB.Collection, institutions?: mongoDB.Collection, progress?: mongoDB.Collection, repositoriesNew?: mongoDB.Collection, running?: mongoDB.Collection, usersNew?: mongoDB.Collection, rawResponse?: mongoDB.Collection } = {}
 
 /**
  * Connect to the MongoDB Database
@@ -17,13 +19,31 @@ export const connectToDatabase = async () => {
     dbCollections.repositoriesNew = db.collection("repositoriesNew");
     dbCollections.running = db.collection("running");
     dbCollections.usersNew = db.collection("usersNew");
+    dbCollections.rawResponse = db.collection("rawResponse");
  }
 
+ /*****************************************READ**************************************************************/
  /**
   * Get all the Institutions that need to be crawled
   * 
   * @returns the todoInstitutions object array;
   */
- export const db_getTodoInstitutions = async () => {
+ export const db_readTodoInstitutions = async () => {
     return (await dbCollections.todoInstitution.find({}).toArray()) as todoInstituition[];
+ }
+ 
+ /*****************************************WRITE**************************************************************/
+
+ export const db_writeRawResponse = async (response: string, method: string) => {
+    await dbCollections.rawResponse.insertOne({method, response, ts : new Date()})
+ }
+
+
+
+ /*****************************************DELETE**************************************************************/
+ /**
+  * Remove all new users from the users new collection
+  */
+ export const db_removeAllNewUsers = async () => {
+    await dbCollections.usersNew.deleteMany({});
  }
