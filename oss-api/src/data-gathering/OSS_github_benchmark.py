@@ -1,3 +1,5 @@
+# Imports
+
 import json
 import csv
 import os
@@ -17,13 +19,14 @@ from mergedeep import merge
 import calendar
 import sys
 
+# Set up logging (used once)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger()
 
 # GitHub Login mittels Token
 g = Github(os.environ['GITHUBTOKEN'])
 
-
+# Database stuff
 cluster = MongoClient(os.environ['DATABASELINK'])
 db = cluster["statistics"]
 collectionInstitutions = db["institutions"]
@@ -36,37 +39,37 @@ collectionUsers = db["users"]
 collectionUsersNew = db["usersNew"]
 collectionBadStuff = db["badStuff"]
 
-
+# Returns Date
 def date():
     return datetime.datetime.now(
         timezone.utc).replace(tzinfo=timezone.utc)
 
-
+# Returns Progress
 def getProgress():
     progress = collectionProgress.find_one({})
     return progress
 
-
+# Spams "running" into database
 def running():
     while True:
         sleep(1)
         if collectionRunning.find_one({}) == None:
             collectionRunning.insert_one({"Status": "running"})
 
-
+# Returns the number of sections
 def getNumberOfSections():
     return len(githubConfig)
 
-
+# Returns sector information
 def getSectorInformation(sector):
     return githubConfig[sector]
 
-
+# Replace progress entry
 def saveProgress(progress):
     collectionProgress.replace_one(
         {}, progress, upsert=True)
 
-
+# Crawl an institution
 def crawlInstitution(currentInstitution):
     try:
         institutionData = getInstitution(
@@ -77,7 +80,7 @@ def crawlInstitution(currentInstitution):
         print(
             f'Institution {sector["institutions"][currentInstitution]["name_de"]} is empty.')
 
-
+# Wait for more call attempts (rate limiter)
 def waitForCallAttempts(attempts=500):
     if g.rate_limiting[0] < attempts:
         print("Waiting for more call attemps...")
@@ -87,7 +90,7 @@ def waitForCallAttempts(attempts=500):
         sleep_time = reset_timestamp - calendar.timegm(gmtime()) + 5
         sleep(sleep_time)
 
-
+# Update stats of institution
 def updateStats(institutionData, dataToGet):
     inst_old = collectionInstitutions.find_one(
         {"uuid": institutionData["uuid"]})
@@ -103,18 +106,18 @@ def updateStats(institutionData, dataToGet):
         institutionData["stats"] = stats
     return institutionData
 
-
+# Save an institution
 def saveInstitution(institutionData):
     collectionInstitutions.replace_one(
         {"uuid": institutionData["uuid"]}, institutionData, upsert=True)
 
-
+# Save a repo
 def saveRepositories(repos):
     # pass
     if len(repos) != 0:
         collectionRepositoriesNew.insert_many(repos)
 
-
+# ??? 
 def popRepos(inst):
     repos = []
     for i, repo in enumerate(inst["repos"]):
@@ -125,7 +128,7 @@ def popRepos(inst):
             inst["orgs"][j]["repos"][i] = repo["uuid"]
     return(repos)
 
-
+# Get Users of repo (i guess?)
 def popUsers(repos):
     users = []
     for i, repo in enumerate(repos):
@@ -134,7 +137,7 @@ def popUsers(repos):
             repos[i]["contributors"][j] = contributor["login"]
     return(users)
 
-
+# Save users
 def saveUsers(users):
     with alive_bar(len(users)) as bar:
         for user in users:
@@ -148,7 +151,7 @@ def saveUsers(users):
                 collectionUsersNew.insert_one(user)
             bar()
 
-
+# save insitution data
 def saveInstitutionData(institutionData):
     repositories = popRepos(institutionData)
     users = popUsers(repositories)
@@ -157,7 +160,7 @@ def saveInstitutionData(institutionData):
     saveRepositories(repositories)
     saveUsers(users)
 
-
+# Get users from repo (??)
 def getUsers(contributors, instName, orgName, repoName):
     users = []
     waitForCallAttempts()
@@ -192,7 +195,7 @@ def getUsers(contributors, instName, orgName, repoName):
             bar()
     return users
 
-
+# Get Repo
 def getRepository(repo, instName, orgName, orgAvatar):
     waitForCallAttempts()
     try:
@@ -290,7 +293,7 @@ def getRepository(repo, instName, orgName, orgAvatar):
     sys.stdout.flush()
     return repoData
 
-
+# Get Organisation
 def getOrganization(instName, orgName):
     waitForCallAttempts()
     org = g.get_organization(orgName)
@@ -343,7 +346,7 @@ def getOrganization(instName, orgName):
         organizationData["repo_names"].append(repo["name"])
     return(organizationData)
 
-
+# Get Institution
 def getInstitution(institution, dataToGet):
     print(institution["name_de"])
     institutionData = {
