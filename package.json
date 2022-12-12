@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@octokit/rest": "^19.0.5",
+    "mongodb": "^4.12.1"
+  }
+}
