@@ -34,7 +34,7 @@ export const connectToDatabase = async () => {
  
  /*****************************************WRITE**************************************************************/
 
- export const db_writeRawResponse = async (response: string, method: string) => {
+ export const db_writeRawResponse = async (response: object, method: string) => {
     await dbCollections.rawResponse.insertOne({method, response, ts : new Date()})
  }
 
