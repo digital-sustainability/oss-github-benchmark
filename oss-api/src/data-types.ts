@@ -7,14 +7,64 @@ export interface CrawlerConfig {
 
 export interface CrawlerSector {
   name_de: string;
-  institutions: CrawlerInstitution[];
+  institutions: CrawlerTodoInstitution[];
 }
 
-export interface CrawlerInstitution {
+export interface CrawlerTodoInstitution {
   uuid: string;
   shortname: string;
   name_de: string;
   orgs: string[];
+}
+
+export interface Institution{
+uuid: string;
+shortname: string;
+name_de: string;
+num_repos: number;
+num_members: number;
+total_num_contributors: number;
+total_num_own_repo_forks: number;
+total_num_forks_in_repos: number;
+total_num_commits: number;
+total_pull_requests: number; 
+total_issues: number;
+total_num_stars: number;
+total_num_watchers: number;
+total_pull_requests_all: number;
+total_pull_requests_closed: number;
+total_issues_all: number;
+total_issues_closed: number;
+total_comments: number;
+org_names: string[];
+orgs: OrgData[];
+num_orgs: number;
+avatar: string[];
+repos: string[];
+repo_names: string[];
+total_licenses: Object;
+timestamp: Date;
+sector: string;
+stats: Stats[];
+}
+
+export interface Stats {
+timestamp: Date;
+num_repos: number;
+num_members: number;
+total_num_contributors: number;
+total_num_own_repo_forks: number;
+total_num_forks_in_repos: number;
+total_num_commits: number;
+total_pull_requests: number;
+total_issues: number;
+total_num_stars: number;
+total_num_watchers: number;
+total_pull_requests_all: number;
+total_pull_requests_closed: number;
+total_issues_all: number;
+total_issues_closed: number;
+total_comments: number;
 }
 
 export interface CrawlerUsersNew {
@@ -42,6 +92,13 @@ export interface CrawlerOrg {
   url: string,
   headers: any[],
   data: CrawlerOrgData,
+}
+
+export interface GitResponseBasic {
+  status: number,
+  url: string,
+  headers: any[],
+  data: object,
 }
 
 export interface CrawlerOrgData{
@@ -75,7 +132,6 @@ export interface CrawlerOrgData{
   updated_at: Date,
   type: string
 }
-
 
 export interface CrawlerOrgRepository {
   status: number,
@@ -154,7 +210,13 @@ export interface RepositoryInfo {
   archived: boolean;
   disabled: boolean;
   open_issues_count: number;
-  license: object;
+  license: {
+    key: string;
+    name: string;
+    spdx_id: string;
+    url: string;
+    node_id: string;
+  };
   allow_forking: boolean;
   is_template: boolean;
   web_commit_signoff_required: boolean;
@@ -195,6 +257,7 @@ export interface OrgData{
   total_issues_all: number;
   total_issues_closed: number;
   total_comments: number;
+  total_num_forks_in_repos: number;
   repos: string[];
   repo_names: string[];
   total_licenses: object;
