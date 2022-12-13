@@ -13,7 +13,7 @@ export const connectToGithub = async () =>{
  * @param orgName The name of the organisation
  * @returns NULL or a CrawlerOrg object with all organisation Info
  */
-export const getOragnisation = async (orgName: string) => {
+export const git_getOragnisation = async (orgName: string) => {
     // Request org data from github
     let res = await octokit.request(`GET /orgs/${orgName}`, {org: 'ORG'}) as CrawlerOrg;
     // If response Object is null or undefined return null
@@ -33,7 +33,7 @@ export const getOragnisation = async (orgName: string) => {
  * @param orgName The name of the organisation
  * @returns NULL or a GitResponseBasic object with all the member data
  */
-export const getMembers = async (orgName: string) => {
+export const git_getMembers = async (orgName: string) => {
     // Request member data from github
     let res = await octokit.request(`GET /orgs/${orgName}/members`, { org: 'ORG'}) as GitResponseBasic
     // If response is null or undefined, return null
@@ -53,7 +53,7 @@ export const getMembers = async (orgName: string) => {
  * @param orgName The name of the organisation
  * @returns NULL or a CrawlerOrgRepository object with the repository list
  */
-export const getOrgRepositoryList = async (orgName: string) => {
+export const git_getOrgRepositoryList = async (orgName: string) => {
     // Request repository list from github
     let res = await octokit.request(`GET /orgs/${orgName}/repos`, {org: 'ORG'}) as CrawlerOrgRepository
     // If response is null or undefined, return null;
@@ -74,7 +74,7 @@ export const getOrgRepositoryList = async (orgName: string) => {
  * @param repoName The name of the repository
  * @returns NULL or a GitResponseBasic Object with the contributors list
  */
-export const getRepositoryContributors = async (ownerName: string, repoName: string) => {
+export const git_getRepositoryContributors = async (ownerName: string, repoName: string) => {
     // Get all the contributors from a git repository
     let res = await octokit.request(`GET /repos/${ownerName}/${repoName}/contributors`, {owner: 'OWNER',repo: 'REPO'}) as GitResponseBasic
     // If reponse is null or undefined return null
@@ -95,7 +95,7 @@ export const getRepositoryContributors = async (ownerName: string, repoName: str
  * @param repoName The name of the repository
  * @returns NULL or a GitResponseBasic Object with the contributors list
  */
-export const getRepoCommits = async (ownerName: string, repoName: string) => {
+export const git_getRepoCommits = async (ownerName: string, repoName: string) => {
     // Get all the commits of a repository
     let res = await octokit.request(`GET /repos/${ownerName}/${repoName}/commits`, {owner: 'OWNER',repo: 'REPO'}) as GitResponseBasic
     // If response is null or undefined return null
@@ -117,7 +117,7 @@ export const getRepoCommits = async (ownerName: string, repoName: string) => {
  * @param state The state of the pull requests. {open, closed, all}
  * @returns NULL or a GitResponseBasic object with the pull request list
  */
-export const getPullRequests = async (ownerName: string, repoName: string, state: string) => {
+export const git_getPullRequests = async (ownerName: string, repoName: string, state: string) => {
     // If the given state is not open, closed or all, return null
     if(state != "open" && state != "closed" && state != "all"){
         return null;
@@ -143,7 +143,7 @@ export const getPullRequests = async (ownerName: string, repoName: string, state
  * @param state The state of the pull requests. {open, closed, all}
  * @returns NULL or a GitResponseBasic object with the issues list
  */
-export const getIssues = async (ownerName: string, repoName: string, state: string) => {
+export const git_getIssues = async (ownerName: string, repoName: string, state: string) => {
     // If the given state is not open, closed or all, return null
     if(state != "open" && state != "closed" && state != "all"){
         return null;
@@ -168,7 +168,7 @@ export const getIssues = async (ownerName: string, repoName: string, state: stri
  * @param repoName The name of the repository
  * @returns NULL or a GitResponseBasic object with the issues list
  */
-export const getComments = async (ownerName: string, repoName: string) => {
+export const git_getComments = async (ownerName: string, repoName: string) => {
     // Get all the comments for the repo
     let res = await octokit.request(`GET /repos/${ownerName}/${repoName}/comments`, {owner: 'OWNER',repo: 'REPO'}) as GitResponseBasic
     // If response is null or undefined return null
@@ -189,7 +189,7 @@ export const getComments = async (ownerName: string, repoName: string) => {
  * @param repoName The name of the repo
  * @returns NULL or a GitResponseBasic object with the compare object
  */
-export const compareTwoCommits = async (ownerName: string, repoName: string) => {
+export const git_compareTwoCommits = async (ownerName: string, repoName: string) => {
     // Get all the comments for the repo
     let res = await octokit.request(`GET /repos/${ownerName}/${repoName}/compare/master...master`, {owner: 'OWNER',repo: 'REPO'}) as GitResponseBasic
     // If response is null or undefined return null

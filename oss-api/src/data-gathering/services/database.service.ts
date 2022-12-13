@@ -23,6 +23,7 @@ export const connectToDatabase = async () => {
  }
 
  /*****************************************READ**************************************************************/
+
  /**
   * Get all the Institutions that need to be crawled
   * 
@@ -34,13 +35,18 @@ export const connectToDatabase = async () => {
  
  /*****************************************WRITE**************************************************************/
 
+ /**
+  * Write the raw response from github to the database
+  * @param response The reponse object
+  * @param method What exactly was requested
+  */
  export const db_writeRawResponse = async (response: object, method: string) => {
     await dbCollections.rawResponse.insertOne({method, response, ts : new Date()})
  }
 
 
-
  /*****************************************DELETE**************************************************************/
+
  /**
   * Remove all new users from the users new collection
   */

@@ -1,7 +1,7 @@
 import { CrawlerConfig, CrawlerTodoInstitution, CrawlerOrg, OrgData, Institution, RepositoryInfo } from "src/data-types";
 import todoInstitution from "./models/todoInstitution";
 import { connectToDatabase, dbCollections, db_readTodoInstitutions, db_removeAllNewUsers, db_writeRawResponse } from "./services/database.service";
-import { compareTwoCommits, connectToGithub, getComments, getIssues, getMembers, getOragnisation, getOrgRepositoryList, getPullRequests, getRepoCommits, getRepositoryContributors } from "./services/github.service";
+import { git_compareTwoCommits, connectToGithub, git_getComments, git_getIssues, git_getMembers, git_getOragnisation, git_getOrgRepositoryList, git_getPullRequests, git_getRepoCommits, git_getRepositoryContributors } from "./services/github.service";
 
 /**
  * Initate the MongoDB and Github instances
@@ -77,7 +77,7 @@ const coordinator = async () => {
             institution.num_repos += org.num_repos;
             institution.avatar.push(org.avatar);
             institution.org_names.push(orgName);
-            institution.sector = ""; // TODO - need to get sector key
+            institution.sector = ""; // TODO - need to get sector key, maybe put it directy in line 22??
             institution.total_num_stars += org.total_num_stars;
             institution.total_num_contributors += org.total_num_contributors;
             institution.total_num_commits += org.total_num_commits;
@@ -92,13 +92,13 @@ const coordinator = async () => {
             institution.repo_names.concat(org.repo_names);
         }
 
-        // python line 409
+        // TODO - python line 409
     }
 }
 
 const getOrganisation = async(orgName: string) => {
     // Get all organisation Data from Github
-    let org = await getOragnisation(orgName)
+    let org = await git_getOragnisation(orgName)
     // If organisation is null, skip it
     if(!org || org == undefined){
         return null;
@@ -106,7 +106,7 @@ const getOrganisation = async(orgName: string) => {
     // Write the reponse Object to the Database
     await db_writeRawResponse(org, "get_org");
     // Get the number of members in the organisation
-    let members = await getMembers(orgName);
+    let members = await git_getMembers(orgName);
     // If members is null or undefined, skip the organisation
     if(!members || members == undefined){
         return null;
@@ -116,7 +116,7 @@ const getOrganisation = async(orgName: string) => {
     // Get the member count
     let memberCount = Object.keys(members.data).length;
     // Get the list of all repositories corresponding to the org
-    let repoList = await getOrgRepositoryList(orgName);
+    let repoList = await git_getOrgRepositoryList(orgName);
     // If the list is null or undefined, skip this org
     if(!repoList || repoList == undefined){
         return null;
@@ -161,7 +161,7 @@ const getRepository = async (repo: RepositoryInfo, orgData: OrgData) => {
     // If this repository is a fork, skip it
     if(repo.fork){
         // Get the difference between master and master. That will show if they made own commits to the fork or not.
-        let commits = await compareTwoCommits(repo.owner.login, repo.name);
+        let commits = await git_compareTwoCommits(repo.owner.login, repo.name);
         // If the contributors are null or undefined skip this repo
         if(!commits || commits == undefined){
             return;
@@ -176,7 +176,7 @@ const getRepository = async (repo: RepositoryInfo, orgData: OrgData) => {
         return orgData;
     }
     // Get all the contributors of the repository          
-    let contributors = await getRepositoryContributors(repo.owner.login, repo.name);
+    let contributors = await git_getRepositoryContributors(repo.owner.login, repo.name);
     // If the contributors are null or undefined skip this repo
     if(!contributors || contributors == undefined){
         return orgData;
@@ -184,7 +184,7 @@ const getRepository = async (repo: RepositoryInfo, orgData: OrgData) => {
     // Write the response to the database
     await db_writeRawResponse(contributors, "get_repo_contributors");
     // Get all the commits of the repository
-    let commits = await getRepoCommits(repo.owner.login, repo.name);
+    let commits = await git_getRepoCommits(repo.owner.login, repo.name);
     // If commits is null or undefined skip this repo
     if(!commits || commits == undefined){
         return orgData;
@@ -192,7 +192,7 @@ const getRepository = async (repo: RepositoryInfo, orgData: OrgData) => {
     // Write the response to the database
     await db_writeRawResponse(commits, "get_repo_commits");
     // Get all pull requests from repo
-    let allPullRequests = await getPullRequests(repo.owner.login, repo.name, "all");
+    let allPullRequests = await git_getPullRequests(repo.owner.login, repo.name, "all");
     // If allPullRequests is null or undefined skip this repo
     if(!allPullRequests || allPullRequests == undefined){
         return orgData;
@@ -200,20 +200,20 @@ const getRepository = async (repo: RepositoryInfo, orgData: OrgData) => {
     // Write the response to the database
     await db_writeRawResponse(allPullRequests, "get_repo_pull_all");
     // Get the closed pull requests
-    let closedPullRequests = await getPullRequests(repo.owner.login, repo.name, "closed");
+    let closedPullRequests = await git_getPullRequests(repo.owner.login, repo.name, "closed");
     // If closedPullRequests is null or undefined skip this repo
     if(!closedPullRequests || closedPullRequests == undefined){
         return orgData;
     }
     // Get all issues from repo
-    let allIssues = await getIssues(repo.owner.login, repo.name, "all");
+    let allIssues = await git_getIssues(repo.owner.login, repo.name, "all");
     // If allPullRequests is null or undefined skip this repo
     if(!allIssues || allIssues == undefined){
         return orgData;
     }
     // Write the response to the database
     await db_writeRawResponse(allIssues, "get_repo_issues_all");
-    let comments = await getComments(repo.owner.login, repo.name);
+    let comments = await git_getComments(repo.owner.login, repo.name);
     // If allPullRequests is null or undefined skip this repo
     if(!comments || comments == undefined){
         return orgData;
