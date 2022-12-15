@@ -120,11 +120,17 @@ def saveRepositories(repos):
 # ??? 
 def popRepos(inst):
     repos = []
+    # for all repos int inst.repo
     for i, repo in enumerate(inst["repos"]):
+        # append it to the repos array
         repos.append(repo)
+        # change the repo object to the uuid of the repo
         inst["repos"][i] = repo["uuid"]
+    # for all orgs in inst.orgs   
     for j, org in enumerate(inst["orgs"]):
+        # for all repos in inst.org.repos
         for i, repo in enumerate(org["repos"]):
+            # change inst.org.repos to the repos uuid
             inst["orgs"][j]["repos"][i] = repo["uuid"]
     return(repos)
 
@@ -160,7 +166,7 @@ def saveInstitutionData(institutionData):
     saveRepositories(repositories)
     saveUsers(users)
 
-# Get users from repo (??)
+# Get users from github
 def getUsers(contributors, instName, orgName, repoName):
     users = []
     waitForCallAttempts()

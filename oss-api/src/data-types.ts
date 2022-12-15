@@ -115,7 +115,7 @@ export interface CrawlerOrgData{
   avatar_url: string,
   description: string,
   name: string,
-  company: object,
+  company: string,
   blog: string,
   location: string,
   email: string,
@@ -142,6 +142,7 @@ export interface CrawlerOrgRepository {
 
 export interface RepositoryInfo {
   id: number;
+  uuid: string;
   node_id: string;
   name: string;
   full_name: string;

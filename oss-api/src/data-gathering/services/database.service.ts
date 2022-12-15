@@ -1,8 +1,11 @@
 import * as mongoDB from "mongodb";
 import { Timestamp } from "mongodb";
-import { CrawlerConfig } from "src/data-types";
+import { CrawlerConfig, RepositoryInfo } from "src/data-types";
+import { User } from "src/interfaces";
+import institution from "../models/institution";
 import rawResponse from "../models/rawResponse";
 import todoInstituition from "../models/todoInstitution";
+import user from "../models/user";
 
 export const dbCollections: { todoInstitution?: mongoDB.Collection, institutions?: mongoDB.Collection, progress?: mongoDB.Collection, repositoriesNew?: mongoDB.Collection, running?: mongoDB.Collection, usersNew?: mongoDB.Collection, rawResponse?: mongoDB.Collection } = {}
 
@@ -12,7 +15,7 @@ export const dbCollections: { todoInstitution?: mongoDB.Collection, institutions
 export const connectToDatabase = async () => { 
     const client: mongoDB.MongoClient = new mongoDB.MongoClient(process.env.DATABASELINK);
     await client.connect();
-    const db: mongoDB.Db = client.db("statisticsNew");
+    const db: mongoDB.Db = client.db("testing");
     dbCollections.todoInstitution = db.collection("todoInstitutions");
     dbCollections.institutions = db.collection("institutions");
     dbCollections.progress = db.collection("progress");
@@ -32,17 +35,63 @@ export const connectToDatabase = async () => {
  export const db_readTodoInstitutions = async () => {
     return (await dbCollections.todoInstitution.find({}).toArray()) as todoInstituition[];
  }
+
+ /**
+  * Get a Institution with its uuid
+  * @param uuid The uuid of the institution
+  * @returns The Institution as an institution objetc
+  */
+ export const db_readInstitution = async (uuid: string) => {
+    return await dbCollections.institutions.findOne({"uuid": uuid}) as institution
+ }
+
+ /**
+  * Get a User with its login
+  * @param login The login of the user
+  * @returns The user as a user object
+  */
+ export const db_getUser = async (login: string) => {
+    return await dbCollections.usersNew.findOne({"login": login}) as user
+ }
  
- /*****************************************WRITE**************************************************************/
+ /*****************************************Create**************************************************************/
 
  /**
   * Write the raw response from github to the database
   * @param response The reponse object
   * @param method What exactly was requested
   */
- export const db_writeRawResponse = async (response: object, method: string) => {
+ export const db_createRawResponse = async (response: object, method: string) => {
     await dbCollections.rawResponse.insertOne({method, response, ts : new Date()})
  }
+
+ /**
+  * Insert a repository into the database
+  * @param repository The repository to be inserted
+  */
+ export const db_createRepository = async (repository: RepositoryInfo) => {
+    await dbCollections.repositoriesNew.insertOne(repository);
+ }
+
+ /**
+  * Insert a user into the database
+  * @param user The user object
+  */
+ export const db_createUser = async (user: User) => {
+    await dbCollections.usersNew.insertOne(user as user);
+ }
+
+
+ /*****************************************Update**************************************************************/
+
+ /**
+  * Update user in database
+  * @param user The user object
+  */
+ export const db_UpdateUser = async (user: User) => {
+    await dbCollections.usersNew.updateOne({login: user.login}, {$set:user});
+ }
+
 
 
  /*****************************************DELETE**************************************************************/

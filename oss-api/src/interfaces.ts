@@ -1,3 +1,10 @@
+export interface GithubResponse{
+  status: number,
+  url: string,
+  headers: any[],
+  data: object,
+}
+
 export interface Statistic {
   timestamp: Date;
   num_repos: number;
