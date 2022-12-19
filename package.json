@@ -3,5 +3,8 @@
     "@octokit/rest": "^19.0.5",
     "mongodb": "^4.12.1",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.1"
   }
 }

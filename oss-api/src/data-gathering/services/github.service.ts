@@ -1,5 +1,5 @@
 import { CrawlerOrg, CrawlerOrgRepository, GitResponseBasic } from "src/data-types";
-import { GithubResponse, User } from "src/interfaces";
+import { GithubResponse, GithubResponseCommits, GithubResponseLanguages, User } from "src/interfaces";
 
 const { Octokit } = require("@octokit/rest");
 
@@ -98,7 +98,7 @@ export const git_getRepositoryContributors = async (ownerName: string, repoName:
  */
 export const git_getRepoCommits = async (ownerName: string, repoName: string) => {
     // Get all the commits of a repository
-    let res = await octokit.request(`GET /repos/${ownerName}/${repoName}/commits`, {owner: 'OWNER',repo: 'REPO'}) as GitResponseBasic
+    let res = await octokit.request(`GET /repos/${ownerName}/${repoName}/commits`, {owner: 'OWNER',repo: 'REPO'}) as GithubResponseCommits
     // If response is null or undefined return null
     if(!res || res == undefined){
         return null;
@@ -208,12 +208,32 @@ export const git_compareTwoCommits = async (ownerName: string, repoName: string)
 /**
  * Get All the Info from a user
  * @param username The username of the user. Is the "login" entry in the contributor object
- * @returns 
+ * @returns NULL ot a GitResponseBasic object with a user list
  */
 export const git_getUser = async (username: string) => {
     let res = await octokit.request(`GET /users/${username}`, {username: 'USERNAME'}) as GitResponseBasic
     // If response is null or undefined return null
     if(!res || res == undefined){
+        return null;
+    }
+    // If response status is not 200, return null
+    if(res.status != 200){
+        return null;
+    }
+    // Else return the response object
+    return res;
+}
+
+/**
+ * Get all the languages used in the repository
+ * @param ownerName The name of the owner of the repository
+ * @param repoName  The name of the repository
+ * @returns NULL or a GithubResponseLanguages object with the Languages object
+ */
+export const git_getLanguages =async (ownerName: string, repoName: string) => {
+    let res = await octokit.request(`GET /repos/${ownerName}/${repoName}/languages`, {owner: 'OWNER', repo: 'REPO'}) as GithubResponseLanguages
+     // If response is null or undefined return null
+     if(!res || res == undefined){
         return null;
     }
     // If response status is not 200, return null
