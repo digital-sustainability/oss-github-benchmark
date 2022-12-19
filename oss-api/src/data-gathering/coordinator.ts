@@ -24,6 +24,7 @@ import {
   db_createRepository,
   db_createUser,
   db_UpdateUser,
+  db_Update_Create_Institution,
 } from './services/database.service';
 import {
   git_compareTwoCommits,
@@ -179,9 +180,7 @@ const coordinator = async () => {
     // And add that to the institution
     institution.stats = stats;
     // Save institution Data
-    //let repos = institution.repos;
-    //console.log(institution);
-    console.log('finished');
+    await db_Update_Create_Institution(institution);
   }
 };
 

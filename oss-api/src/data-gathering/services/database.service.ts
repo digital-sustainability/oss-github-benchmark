@@ -1,4 +1,5 @@
 import * as mongoDB from 'mongodb';
+import { Institution } from 'src/data-types';
 import { Repository, User } from 'src/interfaces';
 import institution from '../models/institution';
 import todoInstituition from '../models/todoInstitution';
@@ -113,6 +114,16 @@ export const db_createUser = async (user: User) => {
  */
 export const db_UpdateUser = async (user: User) => {
   await dbCollections.usersNew.updateOne({ login: user.login }, { $set: user });
+};
+
+export const db_Update_Create_Institution = async (
+  institution: Institution,
+) => {
+  await dbCollections.institutions.replaceOne(
+    { uuid: institution },
+    { institution },
+    { upsert: true },
+  );
 };
 
 /*****************************************DELETE**************************************************************/
