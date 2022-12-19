@@ -1,53 +1,58 @@
-export interface GithubResponse{
-  status: number,
-  url: string,
-  headers: any[],
-  data: object,
+export interface GithubResponse {
+  status: number;
+  url: string;
+  headers: any[];
+  data: object | CommitActivity[];
 }
 
-export interface GithubResponseLanguages{
-  status: number,
-  url: string,
-  headers: any[],
-  data: Languages,
+export interface CommitActivity {
+  total: number;
+  week: number;
+  days: number[];
+}
+export interface GithubResponseLanguages {
+  status: number;
+  url: string;
+  headers: any[];
+  data: Languages;
 }
 
-export interface GithubResponseCommits{
-  status: number,
-  url: string,
-  headers: any[],
-  data: Commit[],
+export interface GithubResponseCommits {
+  status: number;
+  url: string;
+  headers: any[];
+  data: Commit[];
 }
 
 export interface Commit {
-    url: string,
-    sha: string,
-    node_id: string,
-    html_url: string,
-    comments_url: string,
-    commit: object,
-    author: {
-      login: string,
-      id: number,
-      node_id: string,
-      avatar_url: string,
-      gravatar_id: string,
-      url: string,
-      html_url: string,
-      followers_url: string,
-      following_url: string,
-      gists_url: string,
-      starred_url: string,
-      subscriptions_url: string,
-      organizations_url: string,
-      repos_url: string,
-      events_url: string,
-      received_events_url: string,
-      type: string,
-      site_admin: boolean
-    },
-    committer: object,
-    parents: object 
+  url: string;
+  sha: string;
+  node_id: string;
+  html_url: string;
+  comments_url: string;
+  commit: object;
+  author: {
+    login: string;
+    id: number;
+    node_id: string;
+    avatar_url: string;
+    gravatar_id: string;
+    url: string;
+    html_url: string;
+    followers_url: string;
+    following_url: string;
+    gists_url: string;
+    starred_url: string;
+    subscriptions_url: string;
+    organizations_url: string;
+    repos_url: string;
+    events_url: string;
+    received_events_url: string;
+    type: string;
+    site_admin: boolean;
+  };
+  committer: object;
+  parents: object;
 }
 
 export interface Statistic {
@@ -144,6 +149,37 @@ export interface Repository {
   num_commits: number;
   num_stars: number;
   num_watchers: number;
+  has_own_commits: number;
+  issues_closed: number;
+  issues_all: number;
+  pull_requests_closed: number;
+  pull_requests_all: number;
+  comments: number;
+  languages: Languages;
+  timestamp: Date;
+  createdTimestamp: Date;
+  updatedTimestamp: Date;
+  contributors: string[];
+  coders: string[];
+  license: string;
+  logo?: string;
+}
+
+export interface RepositoryNew {
+  name: string;
+  uuid: string;
+  url: string;
+  institution: string;
+  organization: string;
+  description: string;
+  fork: boolean;
+  archived: boolean;
+  num_forks: number;
+  num_contributors: number;
+  num_commits: number;
+  num_stars: number;
+  num_watchers: number;
+  commit_activities: CommitActivity[];
   has_own_commits: number;
   issues_closed: number;
   issues_all: number;

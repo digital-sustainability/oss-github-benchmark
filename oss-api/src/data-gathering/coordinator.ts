@@ -10,7 +10,9 @@ import {
   OrganisationContributions,
   Repository,
   RepositoryContributions,
+  RepositoryNew,
   User,
+  CommitActivity,
 } from 'src/interfaces';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -36,11 +38,21 @@ import {
   git_getRepositoryContributors,
   git_getUser,
   git_getLanguages,
+  git_getRepository,
+  git_getCommitActivity,
 } from './services/github.service';
 
 // TODO - add info output on which org we are, instutiton, repo etc
-// TODO - use the interfaces.ts interfaces
 // TODO - why removing users new
+// TODO - only gets the first 30 commits/contributors etc
+// TODO - logging in the if statement
+// TODO - Add class
+// TODO - NEST Patterns
+// TODO - Grosses Objekt aus allen daten
+// TODO - SLAP
+// TODO - Nest Logger for errors
+// TODO - git time logging
+// TODO - new types
 
 /**
  * Initate the MongoDB and Github instances
@@ -70,8 +82,6 @@ const coordinator = async () => {
     console.error('Did not find any institutions to crawl. Returning');
     return -1;
   }
-  // Clean all users from the database (newusers collection)
-  //await db_removeAllNewUsers();
   // Get all orgs from an institution from github
   let testData = [institutionList[0]];
   // For each instution
@@ -266,25 +276,48 @@ const getRepository = async (
   console.log(repo.name);
   // Generate a uuid for the repository
   repo.uuid = uuidv4();
-  // If this repository is a fork
-  if (repo.fork) {
+  // Get the repository
+  let repositoryCompleat = await git_getRepository(repo.owner.login, repo.name);
+  // If repositoryCompleat is null or undefined skip this repo
+  if (!repositoryCompleat || repositoryCompleat == undefined) {
+    console.error(
+      `Error while getting contributors for the ${repo.name} repo!`,
+    );
+    return orgData;
+  }
+  // Write the response to the database
+  await db_createRawResponse(
+    repositoryCompleat,
+    'get_repo_full',
+    institutioName,
+    orgName,
+    repo.name,
+  );
+  // Set how many commits its ahead (if it is forked, ahead from the original)
+  let ahead_by = 0;
+  // If there exists a parent, this is a fork
+  if (repositoryCompleat.data['parent']) {
     // Get the difference between master and master. That will show if they made own commits to the fork or not.
-    let commits = await git_compareTwoCommits(repo.owner.login, repo.name);
-    // If the commits are null or undefined skip this repo
-    if (!commits || commits == undefined) {
+    let aheadByCommits = await git_compareTwoCommits(
+      repo.owner.login,
+      repo.name,
+      repositoryCompleat.data['parent']['owner']['login'],
+      ':' + repositoryCompleat.data['source']['default_branch'],
+    );
+    // If the aheadByCommits is null or undefined skip this repo
+    if (!aheadByCommits || aheadByCommits == undefined) {
       return;
     }
     // Write the response to the database
     await db_createRawResponse(
-      commits,
-      'get_repo_commits',
+      aheadByCommits,
+      'get_repo_ahead_commits',
       institutioName,
       orgName,
       repo.name,
     );
-    // Update the organisation data
-    orgData.total_num_forks_in_repos++;
-    orgData.total_num_commits += commits.data['ahead_by'];
+    // Get the number of commits ahead of the parent
+    ahead_by = aheadByCommits.data['ahead_by'];
   }
   // Get all the contributors of the repository
   let contributors = await git_getRepositoryContributors(
@@ -348,6 +381,14 @@ const getRepository = async (
   if (!closedPullRequests || closedPullRequests == undefined) {
     return orgData;
   }
+  // Write the response to the database
+  await db_createRawResponse(
+    closedPullRequests,
+    'get_repo_pull_closed',
+    institutioName,
+    orgName,
+    repo.name,
+  );
   // Get all issues from repo
   let allIssues = await git_getIssues(repo.owner.login, repo.name, 'all');
   // If allPullRequests is null or undefined skip this repo
@@ -390,6 +431,23 @@ const getRepository = async (
     orgName,
     repo.name,
   );
+  // Get the commit activities from last year
+  let commitActivities = await git_getCommitActivity(
+    repo.owner.login,
+    repo.name,
+  );
+  // If langugages is null or undefined skip this repo
+  if (!commitActivities || commitActivities == undefined) {
+    return orgData;
+  }
+  // Write the response to the database
+  await db_createRawResponse(
+    commitActivities,
+    'get_repo_commit_activties',
+    institutioName,
+    orgName,
+    repo.name,
+  );
   // If the repo is not a fork, add data
   if (!repo.fork) {
     // Add repo information to the orgData
@@ -419,7 +477,13 @@ const getRepository = async (
       orgData.total_licenses[licenceName] = 1;
     }
   }
-  // Cast contirbutors Data to users array
+  // If this repository is a fork
+  else {
+    // Update the organisation data
+    orgData.total_num_forks_in_repos++;
+    orgData.total_num_commits += ahead_by;
+  }
+  // Cast contributors Data to users array
   let users = contributors.data as User[];
   let contributorNames: string[] = [];
   // Create all the contibutors or update them
@@ -438,14 +502,14 @@ const getRepository = async (
     if (commit.author.login in coders) {
       continue;
     }
-
+    // Add to array
     coders.push(commit.author.login);
   }
   // Create repo object
-  let newRepo: Repository = {
+  let newRepo: RepositoryNew = {
     name: repo.name,
     uuid: repo.uuid,
-    url: repo.url,
+    url: repo.html_url,
     institution: institutioName,
     organization: orgName,
     description: repo.description,
@@ -455,8 +519,9 @@ const getRepository = async (
     num_contributors: Object.keys(contributors.data).length,
     num_commits: Object.keys(commits.data).length,
     num_stars: repo.stargazers_count,
-    num_watchers: repo.watchers,
-    has_own_commits: Object.keys(commits.data).length,
+    num_watchers: repositoryCompleat.data['subscribers_count'],
+    commit_activities: commitActivities.data as CommitActivity[],
+    has_own_commits: ahead_by,
     issues_closed: orgData.total_issues_all - repo.open_issues_count,
     issues_all: Object.keys(allIssues.data).length,
     pull_requests_closed: Object.keys(closedPullRequests.data).length,
@@ -464,11 +529,12 @@ const getRepository = async (
     comments: Object.keys(comments.data).length,
     languages: languages.data,
     timestamp: new Date(),
-    createdTimestamp: repo.created_at,
-    updatedTimestamp: repo.updated_at,
+    createdTimestamp: new Date(repo.created_at),
+    updatedTimestamp: new Date(repo.updated_at),
     contributors: contributorNames,
     coders: coders,
     license: repo.license ? repo.license.name : 'none',
+    logo: repo.owner.avatar_url,
   };
   // Write repo to the database
   await db_createRepository(newRepo);
