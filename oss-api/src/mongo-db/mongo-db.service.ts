@@ -109,6 +109,18 @@ export class MongoDbService
 
   /***********************************Read**************************************************/
 
+  /**
+   * Find a user by their username
+   * @param userName The username of the user
+   * @returns A User object
+   */
+  async findUser(userName: string): Promise<User> {
+    return this.client
+      .db('testing')
+      .collection<User>('usersNew')
+      .findOne({ login: userName });
+  }
+
   /***********************************Update************************************************/
 
   /**

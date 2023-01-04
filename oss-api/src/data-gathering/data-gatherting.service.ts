@@ -127,16 +127,9 @@ export class DataGatheringService
     this.logger.log(
       `Getting the userdata from the database with the username ${userName}.`,
     );
-    let queryConfig: UserQueryConfig = {
-      search: userName,
-      sort: '',
-      direction: 'DESC',
-      page: 0,
-      count: 1,
-    };
-    let databaseUser = await this.mongoService.findUsers(queryConfig);
-    if (databaseUser.total != 1) return null;
-    return databaseUser.users[0];
+    let databaseUser = await this.mongoService.findUser(userName);
+    if (!databaseUser) return null;
+    return databaseUser;
   }
 
   /**
