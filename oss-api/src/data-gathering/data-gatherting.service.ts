@@ -1,5 +1,6 @@
 import {
   Injectable,
+  Logger,
   OnApplicationBootstrap,
   OnApplicationShutdown,
 } from '@nestjs/common';
@@ -14,7 +15,9 @@ import {
   UserQueryConfig,
 } from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
-import user from './models/user';
+
+// TODO - merge createContributionObject and mergeContributions
+// TODO - create new find user method
 
 @Injectable()
 export class DataGatheringService
@@ -27,63 +30,77 @@ export class DataGatheringService
   async onApplicationBootstrap() {}
   async onApplicationShutdown(signal?: string) {}
 
+  private readonly logger = new Logger(DataGatheringService.name);
+
+  /**
+   * Handle all the user creation and updating
+   * @param contributor The Github contributor object
+   * @param repoName The name of the repository
+   * @param orgName The name of the organisaton
+   * @param institutioName The name of the institution
+   * @returns null or the created user object
+   */
   private async handleUser(
-    user: GithubContributor,
+    contributor: GithubContributor,
     repoName: string,
     orgName: string,
     institutioName: string,
   ) {
-    // Get User from Github
+    this.logger.log(`Handling user ${contributor.login}`);
     const gitUser = await this.getGitHubUser(
-      user.login,
+      contributor.login,
       institutioName,
       orgName,
       repoName,
     );
-    // If the gitUser is null, return
     if (!gitUser) return null;
-    // Get User data from Database
-    const databaseUser = await this.getDatabaseUser(user.login);
-    // Create Contribution object
+    const databaseUser = await this.getDatabaseUser(contributor.login);
     const contributionObject = await this.createContributionObject(
       repoName,
       orgName,
       institutioName,
-      user.contributions,
+      contributor.contributions,
     );
-    // Create User Object
     let newUser = await this.createNewUserObject(
       gitUser,
       contributionObject,
       orgName,
       databaseUser.orgs,
     );
-    // If user is new (not in db), add created contribution object, add orgs, and save to database
     if (!databaseUser) {
-      await this.mongoService.createUser(newUser);
+      await this.mongoService.createNewUser(newUser);
       return;
     }
-    // Transform and save the new contribution
-    newUser.contributions = await this.transformContributions(
-      databaseUser,
+    newUser.contributions = await this.mergeContributions(
+      databaseUser.contributions,
       institutioName,
       orgName,
       repoName,
       contributionObject,
     );
-    // Write to Database
     await this.mongoService.updateUser(newUser);
+    return newUser;
   }
 
+  /******************************************Helper Functions*******************************************************/
+
+  /**
+   * Get the specified user data from github
+   * @param userName The username of the specified user
+   * @param institutionName The name of the crawled institution (for logging purposes)
+   * @param orgName The name of the crawled organisation (for logging purposes)
+   * @param repoName The name of the crawled repository (for logging purposes)
+   * @returns Null or a GithubUser object containing the data
+   */
   private async getGitHubUser(
     userName: string,
     institutionName: string,
     orgName: string,
     repoName: string,
   ): Promise<null | GithubUser> {
-    // Get the user data from github
+    this.logger.log(`Getting userdata from github from user ${userName}`);
     const gitUserResponse = await this.githubService.get_User(userName);
-    // Write the plain data into the database
+    this.logger.log(`Alredy made ${1}/${1} calls. ${gitUserResponse.headers}`);
     this.mongoService.createRawResponse(
       'get_github_user',
       institutionName,
@@ -92,14 +109,24 @@ export class DataGatheringService
       userName,
       gitUserResponse,
     );
-    // Check if there was an error (other status than 200)
-    if (gitUserResponse.status != 200) return null;
-    // Else return the transformed Data
+    if (gitUserResponse.status != 200) {
+      this.logger.error(
+        `Error while getting userdata from github from user ${userName}. Status is ${gitUserResponse.status}`,
+      );
+      return null;
+    }
     return gitUserResponse.data as GithubUser;
   }
 
+  /**
+   * Get the specified user data from the database
+   * @param userName The username of the specified user
+   * @returns Null or a User object containing the data of the specified user
+   */
   private async getDatabaseUser(userName: string): Promise<null | User> {
-    // Create the query config
+    this.logger.log(
+      `Getting the userdata from the database with the username ${userName}.`,
+    );
     let queryConfig: UserQueryConfig = {
       search: userName,
       sort: '',
@@ -107,21 +134,25 @@ export class DataGatheringService
       page: 0,
       count: 1,
     };
-    // Get the database user
     let databaseUser = await this.mongoService.findUsers(queryConfig);
-    // Check if there is only one result
     if (databaseUser.total != 1) return null;
-    // Return the user
     return databaseUser.users[0];
   }
 
+  /**
+   * Create the new contribution object to add to the user
+   * @param repoName The name of the repository
+   * @param orgName The name of the organisation
+   * @param institutionName The name of the institution
+   * @param numberOfContributions The number of contributions this user has made to this repo
+   * @returns The new contribution object
+   */
   private async createContributionObject(
     repoName: string,
     orgName: string,
     institutionName: string,
     numberOfContributions: number,
   ): Promise<Contributions> {
-    // Create contribution object
     let repoContribution: RepositoryContributions = {
       [repoName]: numberOfContributions,
     };
@@ -132,15 +163,21 @@ export class DataGatheringService
     return contribution;
   }
 
+  /**
+   * Create a new user object
+   * @param githubUser A GithubUser object
+   * @param contibutions The Contributions Object of the user
+   * @param orgName The organisation name
+   * @param savedOrgs The orgs that where alredy saved in the database (else a empty string array)
+   * @returns A new user object
+   */
   private async createNewUserObject(
     githubUser: GithubUser,
     contibutions: Contributions,
     orgName: string,
     savedOrgs: string[],
   ): Promise<User> {
-    // If this org is not saved in the database, push it into the array
     if (!(orgName in savedOrgs)) savedOrgs.push(orgName);
-
     let newUser: User = {
       login: githubUser.login,
       name: githubUser.name,
@@ -163,16 +200,22 @@ export class DataGatheringService
     return newUser;
   }
 
-  private async transformContributions(
-    databaseUser: User,
+  /**
+   * Merge two contribution objects (the one from the database and the new one)
+   * @param dbContributions The contributions object from the database user
+   * @param institutionName The name of the current institution
+   * @param orgName The name of the organisation
+   * @param repoName The name of the repository
+   * @param newContribution The new contribution
+   * @returns The merged contribution object
+   */
+  private async mergeContributions(
+    dbContributions: Contributions,
     institutionName: string,
     orgName: string,
     repoName: string,
     newContribution: Contributions,
-  ) {
-    // Get contributions
-    let dbContributions = databaseUser.contributions;
-    // If the instituion doesnt exist in the user contribution, add it. Same with organisation and repository
+  ): Promise<Contributions> {
     if (!dbContributions[institutionName]) {
       Object.assign(dbContributions, newContribution);
     } else if (!dbContributions[institutionName][orgName]) {
@@ -186,7 +229,6 @@ export class DataGatheringService
         newContribution[institutionName][orgName],
       );
     }
-    // Then return the new contribution object
     return dbContributions;
   }
 }

@@ -1,5 +1,6 @@
 import {
   Injectable,
+  Logger,
   OnApplicationBootstrap,
   OnApplicationShutdown,
 } from '@nestjs/common';
@@ -48,6 +49,7 @@ export class MongoDbService
   private repositorySearchStrings: string[];
   private userSearchStrings: string[];
   private updateDate: Date = new Date();
+  private readonly logger = new Logger(MongoDbService.name);
 
   private async initializeConnection() {
     if (this.client !== undefined) return;
@@ -63,6 +65,17 @@ export class MongoDbService
     this.client = undefined;
   }
 
+  /***********************************Create************************************************/
+
+  /**
+   * Create a raw response entry in the database
+   * @param method The github method used
+   * @param institutionName The name of the institution
+   * @param orgName The organisation Name
+   * @param repoName The name of the repository
+   * @param userName The name of the user
+   * @param response The response object
+   */
   async createRawResponse(
     method: string,
     institutionName: string,
@@ -70,33 +83,49 @@ export class MongoDbService
     repoName: string,
     userName: string,
     response: OctokitResponse<any>,
-  ) {
-    await this.client
-      .db('testing')
-      .collection<RawResponse>('rawResponse')
-      .insertOne({
-        method: method,
-        ts: new Date(),
-        institutionName: institutionName,
-        orgName: orgName,
-        repoName: repoName,
-        userName: userName,
-        response: response,
-      });
-  }
-  async createUser(user: User) {
-    await this.client
-      .db('testing')
-      .collection<User>('usersNew')
-      .insertOne(user);
+  ): Promise<void> {
+    this.logger.log(`Adding raw response to the database.`);
+    this.client.db('testing').collection<RawResponse>('rawResponse').insertOne({
+      method: method,
+      ts: new Date(),
+      institutionName: institutionName,
+      orgName: orgName,
+      repoName: repoName,
+      userName: userName,
+      response: response,
+    });
   }
 
-  async updateUser(user: User) {
-    await this.client
+  /**
+   * Create a new user in the database
+   * @param user The user object
+   */
+  async createNewUser(user: User): Promise<void> {
+    this.logger.log(
+      `Adding new user with username ${user.login} to the database`,
+    );
+    this.client.db('testing').collection<User>('usersNew').insertOne(user);
+  }
+
+  /***********************************Read**************************************************/
+
+  /***********************************Update************************************************/
+
+  /**
+   * Update a user in the database
+   * @param user The user object
+   */
+  async updateUser(user: User): Promise<void> {
+    this.logger.log(
+      `Updating user with the username ${user.login} in the database.`,
+    );
+    this.client
       .db('testing')
       .collection<User>('usersNew')
       .updateOne({ login: user.login }, { $set: { user } });
   }
+
+  /***********************************Delete************************************************/
 
   async findAllInstitutions() {
     return this.institutions;

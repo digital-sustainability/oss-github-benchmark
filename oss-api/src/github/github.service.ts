@@ -36,6 +36,8 @@ export class GithubService
     this.octokit = undefined;
   }
 
+  /***************************************User Calls**************************************************/
+
   /**
    * Get the data of the specified user from github.
    * @param username The username
@@ -46,4 +48,6 @@ export class GithubService
       username: username,
     });
   }
+
+  /**********************************Repository Calls**************************************************/
 }
