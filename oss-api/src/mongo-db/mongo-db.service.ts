@@ -13,8 +13,10 @@ import {
   InstitutionQueryConfig,
   UserQueryConfig,
   RepositoryQueryConfig,
+  RawResponse,
 } from 'src/interfaces';
 import { DataGathering } from 'src/data-gathering/data-gathering';
+import { OctokitResponse } from '@octokit/types';
 
 @Injectable()
 export class MongoDbService
@@ -59,6 +61,41 @@ export class MongoDbService
     if (!this.client) return;
     await this.client.close();
     this.client = undefined;
+  }
+
+  async createRawResponse(
+    method: string,
+    institutionName: string,
+    orgName: string,
+    repoName: string,
+    userName: string,
+    response: OctokitResponse<any>,
+  ) {
+    await this.client
+      .db('testing')
+      .collection<RawResponse>('rawResponse')
+      .insertOne({
+        method: method,
+        ts: new Date(),
+        institutionName: institutionName,
+        orgName: orgName,
+        repoName: repoName,
+        userName: userName,
+        response: response,
+      });
+  }
+  async createUser(user: User) {
+    await this.client
+      .db('testing')
+      .collection<User>('usersNew')
+      .insertOne(user);
+  }
+
+  async updateUser(user: User) {
+    await this.client
+      .db('testing')
+      .collection<User>('usersNew')
+      .updateOne({ login: user.login }, { $set: { user } });
   }
 
   async findAllInstitutions() {

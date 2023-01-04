@@ -5,6 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { DataGathering } from './data-gathering/data-gathering';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { DataGatheringService } from './data-gathering/data-gatherting.service';
+import { GithubService } from './github/github.service';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -14,6 +16,11 @@ import { join } from 'path';
     }),
   ],
   controllers: [ApiController],
-  providers: [MongoDbService, DataGathering],
+  providers: [
+    MongoDbService,
+    DataGathering,
+    DataGatheringService,
+    GithubService,
+  ],
 })
 export class AppModule {}
