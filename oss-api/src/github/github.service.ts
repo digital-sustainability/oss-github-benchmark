@@ -44,10 +44,174 @@ export class GithubService
    * @returns A promise of the type OcktokitResponse
    */
   async get_User(username: string): Promise<OctokitResponse<any>> {
-    return this.octokit.users.getByUsername({
+    return this.octokit.rest.users.getByUsername({
       username: username,
     });
   }
 
   /**********************************Repository Calls**************************************************/
+
+  /**
+   * Get the data of the specified repository from github
+   * @param owner The name of the owner of the repository
+   * @param repoName The name of the repository
+   * @returns A promise of the type OcktokitResponse
+   */
+  async get_Repository(
+    owner: string,
+    repoName: string,
+  ): Promise<OctokitResponse<any>> {
+    return this.octokit.rest.repos.get({
+      owner: owner,
+      repo: repoName,
+    });
+  }
+
+  /**
+   * Get all the Contributors of the specified repository
+   * @param owner The name of the owner of the repository
+   * @param repoName The name of the repository
+   * @returns A promise of the type OcktokitResponse
+   */
+  async get_RepoContributors(
+    owner: string,
+    repoName: string,
+  ): Promise<OctokitResponse<any>> {
+    return this.octokit.rest.repos.listContributors({
+      owner: owner,
+      repo: repoName,
+    });
+  }
+
+  /**
+   * Get all the programming languages used in a repository
+   * @param owner The name of the owner of the repository
+   * @param repoName The name of the repository
+   * @returns A promise of the type OcktokitResponse
+   */
+  async get_RepoLanguages(
+    owner: string,
+    repoName: string,
+  ): Promise<OctokitResponse<any>> {
+    return this.octokit.rest.repos.listLanguages({
+      owner: owner,
+      repo: repoName,
+    });
+  }
+
+  /**
+   * Get the last years commit acitivity
+   * @param owner The name of the owner of the repository
+   * @param repoName The name of the repository
+   * @returns A promise of the type OcktokitResponse
+   */
+  async get_RepoCommitActivity(
+    ownerName: string,
+    repoName: string,
+  ): Promise<OctokitResponse<any>> {
+    return this.octokit.rest.repos.getCommitActivityStats({
+      owner: ownerName,
+      repo: repoName,
+    });
+  }
+
+  /**********************************Commits Calls**************************************************/
+
+  /**
+   * Get all the commits to the repo
+   * @param owner The name of the owner of the repository
+   * @param repoName The name of the repository
+   * @returns A promise of the type OcktokitResponse
+   */
+  async get_RepoCommits(
+    owner: string,
+    repoName: string,
+  ): Promise<OctokitResponse<any>> {
+    return this.octokit.rest.repos.listCommits({
+      owner: owner,
+      repo: repoName,
+    });
+  }
+
+  /**
+   * Get all the comments for all the commits of a repo
+   * @param owner The name of the owner of the repository
+   * @param repoName The name of the repository
+   * @returns A promise of the type OcktokitResponse
+   */
+  async get_RepoCommitComments(
+    owner: string,
+    repoName: string,
+  ): Promise<OctokitResponse<any>> {
+    return this.octokit.rest.repos.listCommitCommentsForRepo({
+      owner: owner,
+      repo: repoName,
+    });
+  }
+
+  /**
+   * Get the difference between two commits
+   * @param owner The name of the owner of the repository
+   * @param repoName The name of the repository
+   * @param parentOwner The name of the owner of the parent repository
+   * @param parentDefaultBranch The name of the parent repository default branch
+   * @param defaultBranch The name of this repository default branch
+   * @returns A promise of the type OcktokitResponse
+   */
+  async compare_Commits(
+    owner: string,
+    repoName: string,
+    parentOwner: string,
+    parentDefaultBranch: string,
+    defaultBranch: string,
+  ): Promise<OctokitResponse<any>> {
+    const basehead = `${defaultBranch}...${parentOwner}:${parentDefaultBranch}`;
+    return this.octokit.rest.repos.compareCommitsWithBasehead({
+      owner: owner,
+      repo: repoName,
+      basehead: basehead,
+    });
+  }
+
+  /**********************************Pulls Calls**************************************************/
+
+  /**
+   * Get the pull requests of the repo, with its state
+   * @param owner The name of the owner of the repository
+   * @param repoName The name of the repository
+   * @param state The state of the pull request. Must be open, closed or all.
+   * @returns A promise of the type OcktokitResponse
+   */
+  async get_RepoPulls(
+    owner: string,
+    repoName: string,
+    state: 'open' | 'closed' | 'all',
+  ): Promise<OctokitResponse<any>> {
+    return this.octokit.rest.pulls.list({
+      owner: owner,
+      repo: repoName,
+      state: state,
+    });
+  }
+
+  /**********************************Issues Calls**************************************************/
+
+  /**
+   * Get all the issues of a repo, with its state
+   * @param owner The name of the owner of the repository
+   * @param repoName The name of the repository
+   * @param state The state of the issue. Must be open, closed or all.
+   * @returns A promise of the type OcktokitResponse
+   */
+  async get_RepoIssues(
+    owner: string,
+    repoName: string,
+    state: 'open' | 'closed' | 'all',
+  ): Promise<OctokitResponse<any>> {
+    return this.octokit.rest.issues.list({
+      owner: owner,
+      repo: repoName,
+      state: state,
+    });
+  }
 }

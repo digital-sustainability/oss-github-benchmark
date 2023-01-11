@@ -87,12 +87,6 @@ export const git_getOrgRepositoryList = async (orgName: string) => {
   return res;
 };
 
-/**
- * Get all the contributors of a repository
- * @param ownerName The name of the owner of the repository
- * @param repoName The name of the repository
- * @returns NULL or a GitResponseBasic Object with the contributors list
- */
 export const git_getRepositoryContributors = async (
   ownerName: string,
   repoName: string,
@@ -114,12 +108,6 @@ export const git_getRepositoryContributors = async (
   return res;
 };
 
-/**
- * Get all the commits of a repository
- * @param ownerName The name of the owner of the repository
- * @param repoName The name of the repository
- * @returns NULL or a GitResponseBasic Object with the contributors list
- */
 export const git_getRepoCommits = async (
   ownerName: string,
   repoName: string,
@@ -141,13 +129,6 @@ export const git_getRepoCommits = async (
   return res;
 };
 
-/**
- * Get the pull requests from the specified type from the repo
- * @param ownerName The name of the owner of the repository
- * @param repoName The name of the repository
- * @param state The state of the pull requests. {open, closed, all}
- * @returns NULL or a GitResponseBasic object with the pull request list
- */
 export const git_getPullRequests = async (
   ownerName: string,
   repoName: string,
@@ -174,13 +155,6 @@ export const git_getPullRequests = async (
   return res;
 };
 
-/**
- * Get the issues with the specified state from the repo
- * @param ownerName The name of the owner of the repository
- * @param repoName The name of the repository
- * @param state The state of the pull requests. {open, closed, all}
- * @returns NULL or a GitResponseBasic object with the issues list
- */
 export const git_getIssues = async (
   ownerName: string,
   repoName: string,
@@ -207,12 +181,6 @@ export const git_getIssues = async (
   return res;
 };
 
-/**
- * Get all the comments for the repository
- * @param ownerName The name of the owner of the repositors
- * @param repoName The name of the repository
- * @returns NULL or a GitResponseBasic object with the issues list
- */
 export const git_getComments = async (ownerName: string, repoName: string) => {
   // Get all the comments for the repo
   let res = (await octokit.request(
@@ -231,12 +199,6 @@ export const git_getComments = async (ownerName: string, repoName: string) => {
   return res;
 };
 
-/**
- * Get the difference between two commits.
- * @param ownerName The name of the owner of the repo
- * @param repoName The name of the repo
- * @returns NULL or a GitResponseBasic object with the compare object
- */
 export const git_compareTwoCommits = async (
   ownerName: string,
   repoName: string,
@@ -262,11 +224,6 @@ export const git_compareTwoCommits = async (
   return res;
 };
 
-/**
- * Get All the Info from a user
- * @param username The username of the user. Is the "login" entry in the contributor object
- * @returns NULL ot a GitResponseBasic object with a user list
- */
 export const git_getUser = async (username: string) => {
   let res = (await octokit.request(`GET /users/${username}`, {
     username: 'USERNAME',
@@ -283,12 +240,6 @@ export const git_getUser = async (username: string) => {
   return res;
 };
 
-/**
- * Get all the languages used in the repository
- * @param ownerName The name of the owner of the repository
- * @param repoName  The name of the repository
- * @returns NULL or a GithubResponseLanguages object with the Languages object
- */
 export const git_getLanguages = async (ownerName: string, repoName: string) => {
   let res = (await octokit.request(
     `GET /repos/${ownerName}/${repoName}/languages`,
@@ -306,12 +257,6 @@ export const git_getLanguages = async (ownerName: string, repoName: string) => {
   return res;
 };
 
-/**
- * Get the specified repository
- * @param ownerName The name of the owner of the repository
- * @param repoName The repository name
- * @returns NULL or a GithubResponse object with the repo data
- */
 export const git_getRepository = async (
   ownerName: string,
   repoName: string,
@@ -332,12 +277,6 @@ export const git_getRepository = async (
   return res;
 };
 
-/**
- * Get the commit activity of the last year
- * @param ownerName The name of the owner of the repository
- * @param repoName The repository name
- * @returns NULL or a GithubResponse object with the acitivty data
- */
 export const git_getCommitActivity = async (
   ownerName: string,
   repoName: string,

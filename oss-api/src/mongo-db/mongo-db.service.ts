@@ -79,10 +79,10 @@ export class MongoDbService
   async createRawResponse(
     method: string,
     institutionName: string,
-    orgName: string,
-    repoName: string,
-    userName: string,
-    response: OctokitResponse<any>,
+    orgName?: string,
+    repoName?: string,
+    userName?: string,
+    response?: OctokitResponse<any>,
   ): Promise<void> {
     this.logger.log(`Adding raw response to the database.`);
     this.client.db('testing').collection<RawResponse>('rawResponse').insertOne({
@@ -105,6 +105,18 @@ export class MongoDbService
       `Adding new user with username ${user.login} to the database`,
     );
     this.client.db('testing').collection<User>('usersNew').insertOne(user);
+  }
+
+  /**
+   * Create a new repository in the database
+   * @param repository The repository object
+   */
+  async createNewRepository(repository: Repository): Promise<void> {
+    this.logger.log(`Adding new Repository to the database`);
+    this.client
+      .db(`testing`)
+      .collection<Repository>('repositoryNew')
+      .insertOne(repository);
   }
 
   /***********************************Read**************************************************/
