@@ -20,12 +20,15 @@ import {
   GithubOrganisationRepository,
   GithubRepo,
   GithubUser,
+  Institution,
   Languages,
   OrganisationContributions,
   Organization,
   Repository,
   RepositoryContributions,
-  RepositoryInfo,
+  Statistic,
+  TodoIndustry,
+  TodoInstitution,
   User,
 } from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
@@ -46,30 +49,67 @@ export class DataGatheringService
     private githubService: GithubService,
     private mongoService: MongoDbService,
   ) {}
+
+  async onApplicationShutdown(signal?: string) {}
   async onApplicationBootstrap() {
     this.prepareInstitutions();
   }
-  async onApplicationShutdown(signal?: string) {}
 
   private readonly logger = new Logger(DataGatheringService.name);
 
+  /**
+   * Prepare all the insitutions and call handle institution
+   */
   private async prepareInstitutions() {
-    // Get all todo institutions from db
-    // Get all Insitutions and add them into objects
-    // Foreach institution
+    this.logger.log(`Preperaing all institutions to be crawled`);
+    const todoInstituition = (
+      await this.mongoService.findAllTodoInstitutions()
+    )[0];
+    for (const industry of todoInstituition.githubrepos) {
+      const industryName = industry[0] as string;
+      const industryObject = industry[1] as TodoIndustry;
+
+      for (const institution of industryObject.institutions) {
+        //this.logger.log(instituion);
+        this.handleInstitution(institution);
+      }
+    }
   }
 
-  private async handleInstitution() {
-    // Create a institution object
-    // For each org in the institution
-    // get the org data (handleorg)
-    // update the the institution data
-    // After loop, get the old institution
-    // Creat a stats array
-    // Use the old stats object as base
-    // Create the new one and add it
-    // add the array to the institution object
-    // Write that into the database
+  /**
+   * Handle all the insitution data
+   * @param institution The institution todo
+   * @param sector The sector of the insitution
+   */
+  private async handleInstitution(
+    institution: TodoInstitution,
+    sector: string,
+  ) {
+    this.logger.log(`Handling institution ${institution}`);
+    let newInstitution = await this.createInstitutionObject(
+      institution,
+      sector,
+    );
+    const oldInstitution = await this.mongoService.findInstitution(
+      institution.uuid,
+    );
+    for (const organisation of institution.orgs) {
+      const newOrganisation = await this.handleOrg(
+        organisation,
+        institution.name_de,
+      );
+      if (!newOrganisation) continue;
+      newInstitution = await this.updateInstitutionWithOrgData(
+        newOrganisation,
+        newInstitution,
+      );
+      break;
+    }
+    const stats: Statistic[] = oldInstitution ? oldInstitution.stats : [];
+    const newStatistic = await this.createStatistics(newInstitution);
+    stats.push(newStatistic);
+    newInstitution.stats = stats;
+    await this.mongoService.updateInstitution(newInstitution);
   }
 
   private async handleOrg(orgName: string, institutionName: string) {
@@ -466,7 +506,7 @@ export class DataGatheringService
     );
     if (getRepoPullRequestsResponse.status != 200) {
       this.logger.error(
-        `Error while getting pull request data from github from repository ${repoName}. Status is ${getRepoCommitsReponse.status}`,
+        `Error while getting pull request data from github from repository ${repoName}. Status is ${getRepoPullRequestsResponse.status}`,
       );
       return null;
     }
@@ -915,7 +955,7 @@ export class DataGatheringService
   private async getCodersFromCommits(
     commits: GithubCommit[],
   ): Promise<string[]> {
-    let coders: string[] = [];
+    const coders: string[] = [];
     for (const commit of commits) {
       if (!commit.author) continue;
       if (commit.author.login in coders) continue;
@@ -1063,5 +1103,112 @@ export class DataGatheringService
     organisation.repos.push(repository.uuid);
     organisation.repo_names.push(repository.name);
     return organisation;
+  }
+
+  /**
+   * Create a institution object   * @param todoInstitution The TodoInstitution object of this institution
+   * @param institutionSector The institution sector
+   * @returns A institution object
+   */
+  private async createInstitutionObject(
+    todoInstitution: TodoInstitution,
+    institutionSector: string,
+  ): Promise<Institution> {
+    const institution: Institution = {
+      uuid: todoInstitution.uuid,
+      shortname: todoInstitution.shortname,
+      name_de: todoInstitution.name_de,
+      num_repos: 0,
+      num_members: 0,
+      total_num_contributors: 0,
+      total_num_own_repo_forks: 0,
+      total_num_forks_in_repos: 0,
+      total_num_commits: 0,
+      total_pull_requests: 0,
+      total_issues: 0,
+      total_num_stars: 0,
+      total_num_watchers: 0,
+      total_pull_requests_all: 0,
+      total_pull_requests_closed: 0,
+      total_issues_all: 0,
+      total_issues_closed: 0,
+      total_comments: 0,
+      org_names: [],
+      orgs: [],
+      num_orgs: 0,
+      avatar: [],
+      repos: [],
+      repo_names: [],
+      total_licenses: {},
+      timestamp: new Date(),
+      sector: institutionSector,
+      stats: [],
+      searchString: '',
+    };
+    return institution;
+  }
+
+  /**
+   * Create a new Statistics object
+   * @param institution A institution object
+   * @returns The statistic object
+   */
+  private async createStatistics(institution: Institution): Promise<Statistic> {
+    const stats: Statistic = {
+      timestamp: new Date(),
+      num_repos: institution.num_repos,
+      num_members: institution.num_members,
+      total_num_contributors: institution.total_num_contributors,
+      total_num_own_repo_forks: institution.total_num_own_repo_forks,
+      total_num_forks_in_repos: institution.total_num_forks_in_repos,
+      total_num_commits: institution.total_num_commits,
+      total_pull_requests: institution.total_pull_requests,
+      total_issues: institution.total_issues,
+      total_num_stars: institution.total_num_stars,
+      total_num_watchers: institution.total_num_watchers,
+      total_commits_last_year: 0, // TODO - find this value
+      total_pull_requests_all: institution.total_pull_requests_all,
+      total_pull_requests_closed: institution.total_pull_requests_closed,
+      total_issues_all: institution.total_issues_all,
+      total_issues_closed: institution.total_issues_closed,
+      total_comments: institution.total_comments,
+    };
+    return stats;
+  }
+
+  /**
+   * Update the institution with new organisation data
+   * @param organisation The organisation data to update with
+   * @param institution The institution data to be updated
+   * @returns The updated institution
+   */
+  private async updateInstitutionWithOrgData(
+    organisation: Organization,
+    institution: Institution,
+  ): Promise<Institution> {
+    institution.orgs.push(organisation);
+    institution.num_orgs += 1;
+    institution.num_members += organisation.num_members;
+    institution.num_repos += organisation.num_repos;
+    institution.avatar.push(organisation.avatar);
+    institution.org_names.push(organisation.name);
+    institution.total_num_stars += organisation.total_num_stars;
+    institution.total_num_contributors += organisation.total_num_contributors;
+    institution.total_num_commits += organisation.total_num_commits;
+    institution.total_num_own_repo_forks +=
+      organisation.total_num_own_repo_forks;
+    institution.total_num_watchers += organisation.total_num_watchers;
+    institution.total_pull_requests_all += organisation.total_pull_requests_all;
+    institution.total_pull_requests_closed +=
+      organisation.total_pull_requests_closed;
+    institution.total_issues_all += organisation.total_issues_all;
+    institution.total_issues_closed += organisation.total_issues_closed;
+    institution.total_comments += organisation.total_comments;
+    institution.repos = institution.repo_names.concat(organisation.repos);
+    institution.repo_names = institution.repo_names.concat(
+      organisation.repo_names,
+    );
+
+    return institution;
   }
 }

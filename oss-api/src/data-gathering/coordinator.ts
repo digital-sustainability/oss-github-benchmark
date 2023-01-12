@@ -1,4 +1,4 @@
-import {
+/*import {
   CrawlerTodoInstitution,
   OrgData,
   Institution,
@@ -41,12 +41,12 @@ import {
   git_getLanguages,
   git_getRepository,
   git_getCommitActivity,
-} from './services/github.service';
+} from './services/github.service';*/
 
 /**
  * Initate the MongoDB and Github instances
  */
-const coordinator = async () => {
+/*const coordinator = async () => {
   // Connect to database
   await connectToDatabase();
   // Connect to Github
@@ -170,9 +170,9 @@ const coordinator = async () => {
     // Save institution Data
     await db_Update_Create_Institution(institution);
   }
-};
+};*/
 
-const getOrganisation = async (orgName: string, institutioName: string) => {
+/*const getOrganisation = async (orgName: string, institutioName: string) => {
   console.log(orgName);
 
   // Get all organisation Data from Github
@@ -244,7 +244,7 @@ const getOrganisation = async (orgName: string, institutioName: string) => {
     );
   }
   return orgData;
-};
+};*/
 
 /**
  * Get repo info from github and save it to the database. Return the updated organisation data
@@ -254,7 +254,7 @@ const getOrganisation = async (orgName: string, institutioName: string) => {
  * @param orgName The name of the Organisation. This data is not saved in the orgData object.
  * @returns The Updated OrgData object
  */
-const getRepository = async (
+/*const getRepository = async (
   repo: RepositoryInfo,
   orgData: OrgData,
   institutioName: string,
@@ -529,7 +529,7 @@ const getRepository = async (
   orgData.repos.push(repo.uuid);
   orgData.repo_names.push(repo.name);
   return orgData;
-};
+};*/
 
 /**
  * Create a new user in the database or update an old one
@@ -539,7 +539,7 @@ const getRepository = async (
  * @param institutionName The name of the institution
  * @returns nothing
  */
-const createUser = async (
+/*const createUser = async (
   user: User,
   repoName: string,
   orgName: string,
@@ -609,8 +609,6 @@ const createUser = async (
   }
   // And add to database
   await db_UpdateUser(newUser);
-};
+};*/
 
-coordinator();
-
-export default coordinator;
+//export default coordinator;

@@ -139,14 +139,30 @@ export class MongoDbService
 
   /**
    * Get all the todo institutions from the database
-   * @returns A TodoInstitution Object
+   * @returns A TodoInstitution array
    */
-  async findAllTodoInstitutions(): Promise<TodoInstitution> {
+  async findAllTodoInstitutions(): Promise<TodoInstitution[]> {
     this.logger.log(`Getting all the todo Institutions from the database`);
     return this.client
       .db('testing')
       .collection<TodoInstitution>('todoInstitutions')
-      .find({});
+      .find()
+      .toArray();
+  }
+
+  /**
+   * Get the institution with the given uuid
+   * @param uuid The uuid of the institution
+   * @returns A Insitution object
+   */
+  async findInstitution(uuid: string): Promise<Institution> {
+    this.logger.log(
+      `Getting the institution with the uuid ${uuid} from the database`,
+    );
+    return this.client
+      .db('testing')
+      .collection<Institution>('institutitions')
+      .findOne({ uuid: uuid });
   }
 
   /***********************************Update************************************************/
@@ -163,6 +179,54 @@ export class MongoDbService
       .db('testing')
       .collection<User>('usersNew')
       .updateOne({ login: user.login }, { $set: { user } });
+  }
+
+  /**
+   * Create or update a institution in the database
+   * @param institution A institution object
+   */
+  async updateInstitution(institution: Institution): Promise<void> {
+    this.logger.log(
+      `Updating/Creating institution ${institution.name_de} in the database`,
+    );
+    this.client
+      .db('testing')
+      .collection<Institution>('institutions')
+      .replaceOne(
+        { uuid: institution.uuid },
+        {
+          uuid: institution.uuid,
+          shortname: institution.shortname,
+          name_de: institution.name_de,
+          num_repos: institution.num_repos,
+          num_members: institution.num_members,
+          total_num_contributors: institution.total_num_contributors,
+          total_num_own_repo_forks: institution.total_num_own_repo_forks,
+          total_num_forks_in_repos: institution.total_num_forks_in_repos,
+          total_num_commits: institution.total_num_commits,
+          total_pull_requests: institution.total_pull_requests,
+          total_issues: institution.total_issues,
+          total_num_stars: institution.total_num_stars,
+          total_num_watchers: institution.total_num_watchers,
+          total_pull_requests_all: institution.total_pull_requests_all,
+          total_pull_requests_closed: institution.total_pull_requests_closed,
+          total_issues_all: institution.total_issues_all,
+          total_issues_closed: institution.total_issues_closed,
+          total_comments: institution.total_comments,
+          org_names: institution.org_names,
+          orgs: institution.orgs,
+          num_orgs: institution.num_orgs,
+          avatar: institution.avatar,
+          repos: institution.repos,
+          repo_names: institution.repo_names,
+          total_licenses: institution.total_licenses,
+          timestamp: new Date(),
+          sector: institution.sector,
+          stats: institution.stats,
+          searchString: institution.searchString,
+        },
+        { upsert: true },
+      );
   }
 
   /***********************************Delete************************************************/

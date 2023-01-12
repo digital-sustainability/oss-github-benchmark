@@ -1814,7 +1814,7 @@ export interface RawResponse {
 }
 
 export interface TodoInstitution {
-  githubrepos: string[];
+  githubrepos: object[];
 }
 
 export interface UserQueryConfig {
@@ -2039,71 +2039,21 @@ export interface Repository {
   logo?: string;
 }
 
-/************************************Old Types*******************************************/
-
-export interface GithubResponseLanguages {
-  status: number;
-  url: string;
-  headers: any[];
-  data: Languages;
+export interface TodoIndustry {
+  name_de: string;
+  institutions: TodoInstitution[];
 }
 
-export interface GithubResponseCommits {
-  status: number;
-  url: string;
-  headers: any[];
-  data: Commit[];
+export interface TodoInstitution {
+  uuid: string;
+  shortname: string;
+  name_de: string;
+  orgs: string[];
 }
 
-export interface Commit {
-  url: string;
-  sha: string;
-  node_id: string;
-  html_url: string;
-  comments_url: string;
-  commit: object;
-  author: {
-    login: string;
-    id: number;
-    node_id: string;
-    avatar_url: string;
-    gravatar_id: string;
-    url: string;
-    html_url: string;
-    followers_url: string;
-    following_url: string;
-    gists_url: string;
-    starred_url: string;
-    subscriptions_url: string;
-    organizations_url: string;
-    repos_url: string;
-    events_url: string;
-    received_events_url: string;
-    type: string;
-    site_admin: boolean;
-  };
-  committer: object;
-  parents: object;
-}
-
-export interface Statistic {
-  timestamp: Date;
-  num_repos: number;
-  num_members: number;
-  total_num_contributors: number;
-  total_num_own_repo_forks: number;
-  total_num_forks_in_repos: number;
-  total_num_commits: number;
-  total_pull_requests: number;
-  total_issues: number;
-  total_num_stars: number;
-  total_num_watchers: number;
-  total_commits_last_year: number;
-  total_pull_requests_all: number;
-  total_pull_requests_closed: number;
-  total_issues_all: number;
-  total_issues_closed: number;
-  total_comments: number;
+export interface Industry {
+  name: string;
+  institutions: TodoIndustry;
 }
 
 export interface Institution {
@@ -2138,6 +2088,59 @@ export interface Institution {
   searchString?: string;
 }
 
+export interface Statistic {
+  timestamp: Date;
+  num_repos: number;
+  num_members: number;
+  total_num_contributors: number;
+  total_num_own_repo_forks: number;
+  total_num_forks_in_repos: number;
+  total_num_commits: number;
+  total_pull_requests: number;
+  total_issues: number;
+  total_num_stars: number;
+  total_num_watchers: number;
+  total_commits_last_year: number;
+  total_pull_requests_all: number;
+  total_pull_requests_closed: number;
+  total_issues_all: number;
+  total_issues_closed: number;
+  total_comments: number;
+}
+
+/************************************Old Types*******************************************/
+
+export interface Commit {
+  url: string;
+  sha: string;
+  node_id: string;
+  html_url: string;
+  comments_url: string;
+  commit: object;
+  author: {
+    login: string;
+    id: number;
+    node_id: string;
+    avatar_url: string;
+    gravatar_id: string;
+    url: string;
+    html_url: string;
+    followers_url: string;
+    following_url: string;
+    gists_url: string;
+    starred_url: string;
+    subscriptions_url: string;
+    organizations_url: string;
+    repos_url: string;
+    events_url: string;
+    received_events_url: string;
+    type: string;
+    site_admin: boolean;
+  };
+  committer: object;
+  parents: object;
+}
+
 export interface RepositoryNew {
   name: string;
   uuid: string;
@@ -2152,7 +2155,7 @@ export interface RepositoryNew {
   num_commits: number;
   num_stars: number;
   num_watchers: number;
-  commit_activities: CommitActivity[];
+  commit_activities: number;
   has_own_commits: number;
   issues_closed: number;
   issues_all: number;
