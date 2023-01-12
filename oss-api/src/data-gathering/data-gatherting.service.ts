@@ -34,7 +34,6 @@ import {
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { v4 as uuidv4 } from 'uuid';
 
-// TODO - merge createContributionObject and mergeContributions
 // TODO - get more than one page from github
 // TODO - big object from all data
 // TODO - var for the database, as it is in plain text
@@ -304,9 +303,10 @@ export class DataGatheringService
     if (!gitUser) return null;
     const databaseUser = await this.getDatabaseUser(contributor.login);
     const contributionObject = await this.createContributionObject(
-      repoName,
-      orgName,
+      databaseUser?.contributions,
       institutioName,
+      orgName,
+      repoName,
       contributor.contributions,
     );
     const newUser = await this.createNewUserObject(
@@ -319,13 +319,6 @@ export class DataGatheringService
       await this.mongoService.createNewUser(newUser);
       return;
     }
-    newUser.contributions = await this.mergeContributions(
-      databaseUser.contributions,
-      institutioName,
-      orgName,
-      repoName,
-      contributionObject,
-    );
     await this.mongoService.updateUser(newUser);
     return newUser;
   }
@@ -876,7 +869,7 @@ export class DataGatheringService
    * @param numberOfContributions The number of contributions this user has made to this repo
    * @returns The new contribution object
    */
-  private async createContributionObject(
+  private async createContributionObjectold(
     repoName: string,
     orgName: string,
     institutionName: string,
@@ -930,32 +923,40 @@ export class DataGatheringService
   }
 
   /**
-   * Merge two contribution objects (the one from the database and the new one)
+   * Create a new contribution aboject
    * @param dbContributions The contributions object from the database user
    * @param institutionName The name of the current institution
    * @param orgName The name of the organisation
    * @param repoName The name of the repository
-   * @param newContribution The new contribution
-   * @returns The merged contribution object
+   * @param numberOfContributions The number of contributions this user has made to this repo
+   * @returns The new contribution object
    */
-  private async mergeContributions(
+  private async createContributionObject(
     dbContributions: Contributions,
     institutionName: string,
     orgName: string,
     repoName: string,
-    newContribution: Contributions,
+    numberOfContributions: number,
   ): Promise<Contributions> {
+    const repoContribution: RepositoryContributions = {
+      [repoName]: numberOfContributions,
+    };
+    const orgContribution: OrganisationContributions = {
+      [orgName]: repoContribution,
+    };
+    const contribution: Contributions = { [institutionName]: orgContribution };
+    if (!dbContributions) return contribution;
     if (!dbContributions[institutionName]) {
-      Object.assign(dbContributions, newContribution);
+      Object.assign(dbContributions, contribution);
     } else if (!dbContributions[institutionName][orgName]) {
       Object.assign(
         dbContributions[institutionName],
-        newContribution[institutionName],
+        contribution[institutionName],
       );
     } else if (!dbContributions[institutionName][orgName][repoName]) {
       Object.assign(
         dbContributions[institutionName][orgName],
-        newContribution[institutionName][orgName],
+        contribution[institutionName][orgName],
       );
     }
     return dbContributions;
