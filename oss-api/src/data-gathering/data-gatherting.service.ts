@@ -862,30 +862,6 @@ export class DataGatheringService
   }
 
   /**
-   * Create the new contribution object to add to the user
-   * @param repoName The name of the repository
-   * @param orgName The name of the organisation
-   * @param institutionName The name of the institution
-   * @param numberOfContributions The number of contributions this user has made to this repo
-   * @returns The new contribution object
-   */
-  private async createContributionObjectold(
-    repoName: string,
-    orgName: string,
-    institutionName: string,
-    numberOfContributions: number,
-  ): Promise<Contributions> {
-    const repoContribution: RepositoryContributions = {
-      [repoName]: numberOfContributions,
-    };
-    const orgContribution: OrganisationContributions = {
-      [orgName]: repoContribution,
-    };
-    const contribution: Contributions = { [institutionName]: orgContribution };
-    return contribution;
-  }
-
-  /**
    * Create a new user object
    * @param githubUser A GithubUser object
    * @param contibutions The Contributions Object of the user
