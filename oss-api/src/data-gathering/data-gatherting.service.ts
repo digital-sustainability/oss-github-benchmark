@@ -37,11 +37,9 @@ import { v4 as uuidv4 } from 'uuid';
 // TODO - merge createContributionObject and mergeContributions
 // TODO - get more than one page from github
 // TODO - big object from all data
-// TODO - Organisation watchers count is wrong as the repository object doesnt contain that number
 // TODO - var for the database, as it is in plain text
 // TODO - wrap all github calls in try catch HTTP errors
 // TODO - check where it is at, then start with the oldest org
-// TODO - Repo, coders check that is it is not double entry
 // TODO - Repo add: commit activity
 // TODO - pino logger
 // TODO - raw responses into files
@@ -1104,7 +1102,7 @@ export class DataGatheringService
       organisation.total_num_contributors += repository.num_contributors;
       organisation.total_num_commits += repository.num_commits;
       organisation.total_num_own_repo_forks += repository.num_forks;
-      organisation.total_num_watchers += 0;
+      organisation.total_num_watchers += repository.num_watchers;
       organisation.total_pull_requests_all += repository.pull_requests_all;
       organisation.total_pull_requests_closed +=
         repository.pull_requests_closed;

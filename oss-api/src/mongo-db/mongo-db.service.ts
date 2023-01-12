@@ -167,7 +167,7 @@ export class MongoDbService
     );
     return this.client
       .db('testing')
-      .collection<Institution>('institutitions')
+      .collection<Institution>('institutions')
       .findOne({ uuid: uuid });
   }
 
