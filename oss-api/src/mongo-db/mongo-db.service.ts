@@ -85,7 +85,11 @@ export class MongoDbService
     userName?: string,
     response?: OctokitResponse<any>,
   ): Promise<void> {
-    this.logger.log(`Adding raw response to the database.`);
+    this.logger.log(
+      `Adding raw response to the database, sized ${
+        JSON.stringify(response).length
+      }.`,
+    );
     this.client.db('testing').collection<RawResponse>('rawResponse').insertOne({
       method: method,
       ts: new Date(),
@@ -113,7 +117,9 @@ export class MongoDbService
    * @param repository The repository object
    */
   async createNewRepository(repository: Repository): Promise<void> {
-    this.logger.log(`Adding new Repository to the database`);
+    this.logger.log(
+      `Adding new Repository named ${repository.name} to the database`,
+    );
     this.client
       .db(`testing`)
       .collection<Repository>('repositoryNew')
@@ -175,10 +181,28 @@ export class MongoDbService
     this.logger.log(
       `Updating user with the username ${user.login} in the database.`,
     );
-    this.client
-      .db('testing')
-      .collection<User>('usersNew')
-      .updateOne({ login: user.login }, { user });
+    this.client.db('testing').collection<User>('usersNew').replaceOne(
+      { login: user.login },
+      {
+        login: user.login,
+        name: user.name,
+        avatar_url: user.avatar_url,
+        bio: user.bio,
+        blog: user.blog,
+        company: user.company,
+        email: user.email,
+        twitter_username: user.twitter_username,
+        location: user.location,
+        created_at: user.created_at,
+        updated_at: user.updated_at,
+        contributions: user.contributions,
+        public_repos: user.public_repos,
+        public_gists: user.public_gists,
+        followers: user.followers,
+        following: user.following,
+        orgs: user.orgs,
+      },
+    );
   }
 
   /**

@@ -34,7 +34,6 @@ import {
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { v4 as uuidv4 } from 'uuid';
 
-// TODO - check how many github calls were made, with the headers
 // TODO - merge createContributionObject and mergeContributions
 // TODO - get more than one page from github
 // TODO - big object from all data
@@ -43,7 +42,9 @@ import { v4 as uuidv4 } from 'uuid';
 // TODO - wrap all github calls in try catch HTTP errors
 // TODO - check where it is at, then start with the oldest org
 // TODO - Repo, coders check that is it is not double entry
-// TODO - Repo add: commit activity, logo,
+// TODO - Repo add: commit activity
+// TODO - pino logger
+// TODO - raw responses into files
 @Injectable()
 export class DataGatheringService
   implements OnApplicationBootstrap, OnApplicationShutdown
@@ -73,8 +74,9 @@ export class DataGatheringService
       const industryObject = industry[1] as TodoIndustry;
       for (const institution of industryObject.institutions) {
         await this.handleInstitution(institution, industryName);
+        break;
       }
-      continue;
+      break;
     }
   }
 
@@ -100,13 +102,12 @@ export class DataGatheringService
         organisation,
         institution.shortname,
       );
-      console.log(newOrganisation);
-      if (!newOrganisation) break;
+      if (!newOrganisation) continue;
       newInstitution = await this.updateInstitutionWithOrgData(
         newOrganisation,
         newInstitution,
       );
-      continue;
+      break;
     }
     const stats: Statistic[] = oldInstitution ? oldInstitution.stats : [];
     const newStatistic = await this.createStatistics(newInstitution);
@@ -149,7 +150,7 @@ export class DataGatheringService
         institutionName,
         orgName,
       );
-      if (!newRepo) break;
+      if (!newRepo) continue;
       organisation = await this.updateOrganisationData(organisation, newRepo);
     }
     return organisation;
@@ -235,7 +236,7 @@ export class DataGatheringService
       orgName,
     );
     if (!languages) return null;
-    const commitAcitivity = this.getGitHubCommitActivity(
+    const commitAcitivity = await this.getGitHubCommitActivity(
       repo.name,
       repo.owner.login,
       institutionName,
@@ -864,7 +865,7 @@ export class DataGatheringService
     this.logger.log(
       `Getting the userdata from the database with the username ${userName}.`,
     );
-    let databaseUser = await this.mongoService.findUser(userName);
+    const databaseUser = await this.mongoService.findUser(userName);
     if (!databaseUser) return null;
     return databaseUser;
   }
@@ -907,7 +908,7 @@ export class DataGatheringService
     orgName: string,
     savedOrgs: string[],
   ): Promise<User> {
-    if (!(orgName in savedOrgs)) savedOrgs.push(orgName);
+    if (!savedOrgs.includes(orgName)) savedOrgs.push(orgName);
     const newUser: User = {
       login: githubUser.login,
       name: githubUser.name,
@@ -972,8 +973,8 @@ export class DataGatheringService
   ): Promise<string[]> {
     const coders: string[] = [];
     for (const commit of commits) {
-      if (!commit.author) break;
-      if (commit.author.login in coders) break;
+      if (!commit.author) continue;
+      if (coders.includes(commit.author.login)) continue;
       coders.push(commit.author.login);
     }
     return coders;
