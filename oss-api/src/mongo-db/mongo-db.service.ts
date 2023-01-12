@@ -178,7 +178,7 @@ export class MongoDbService
     this.client
       .db('testing')
       .collection<User>('usersNew')
-      .updateOne({ login: user.login }, { $set: { user } });
+      .updateOne({ login: user.login }, { user });
   }
 
   /**

@@ -221,7 +221,7 @@ export class GithubService
     repoName: string,
     state: 'open' | 'closed' | 'all',
   ): Promise<OctokitResponse<any>> {
-    return this.octokit.rest.issues.list({
+    return this.octokit.rest.issues.listForRepo({
       owner: owner,
       repo: repoName,
       state: state,

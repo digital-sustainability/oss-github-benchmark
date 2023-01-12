@@ -40,7 +40,10 @@ import { v4 as uuidv4 } from 'uuid';
 // TODO - big object from all data
 // TODO - Organisation watchers count is wrong as the repository object doesnt contain that number
 // TODO - var for the database, as it is in plain text
-// TODO - var for the github token
+// TODO - wrap all github calls in try catch HTTP errors
+// TODO - check where it is at, then start with the oldest org
+// TODO - Repo, coders check that is it is not double entry
+// TODO - Repo add: commit activity, logo,
 @Injectable()
 export class DataGatheringService
   implements OnApplicationBootstrap, OnApplicationShutdown
@@ -68,11 +71,10 @@ export class DataGatheringService
     for (const industry of todoInstituition.githubrepos) {
       const industryName = industry[0] as string;
       const industryObject = industry[1] as TodoIndustry;
-
       for (const institution of industryObject.institutions) {
-        //this.logger.log(instituion);
-        this.handleInstitution(institution);
+        await this.handleInstitution(institution, industryName);
       }
+      continue;
     }
   }
 
@@ -85,7 +87,7 @@ export class DataGatheringService
     institution: TodoInstitution,
     sector: string,
   ) {
-    this.logger.log(`Handling institution ${institution}`);
+    this.logger.log(`Handling institution ${institution.name_de}`);
     let newInstitution = await this.createInstitutionObject(
       institution,
       sector,
@@ -96,14 +98,15 @@ export class DataGatheringService
     for (const organisation of institution.orgs) {
       const newOrganisation = await this.handleOrg(
         organisation,
-        institution.name_de,
+        institution.shortname,
       );
-      if (!newOrganisation) continue;
+      console.log(newOrganisation);
+      if (!newOrganisation) break;
       newInstitution = await this.updateInstitutionWithOrgData(
         newOrganisation,
         newInstitution,
       );
-      break;
+      continue;
     }
     const stats: Statistic[] = oldInstitution ? oldInstitution.stats : [];
     const newStatistic = await this.createStatistics(newInstitution);
@@ -112,7 +115,16 @@ export class DataGatheringService
     await this.mongoService.updateInstitution(newInstitution);
   }
 
-  private async handleOrg(orgName: string, institutionName: string) {
+  /**
+   * Handle all the organisation data
+   * @param orgName The name of the organisation
+   * @param institutionName The name of the institution
+   * @returns The Organisation Object
+   */
+  private async handleOrg(
+    orgName: string,
+    institutionName: string,
+  ): Promise<Organization> {
     this.logger.log(`Handling Organisation ${orgName}`);
     const gitOrganisation = await this.getGitHubOrganisation(
       institutionName,
@@ -129,14 +141,15 @@ export class DataGatheringService
     let organisation = await this.createOrganisationObject(
       gitOrganisation,
       members.length,
+      orgName,
     );
     for (const repository of repositories) {
       const newRepo = await this.handleRepo(
         repository,
         institutionName,
-        organisation.name,
+        orgName,
       );
-      if (!newRepo) continue;
+      if (!newRepo) break;
       organisation = await this.updateOrganisationData(organisation, newRepo);
     }
     return organisation;
@@ -243,7 +256,7 @@ export class DataGatheringService
       if (!comaparedCommits) return null;
       aheadByCommits = comaparedCommits.ahead_by;
     }
-    let contributorNames: string[] = [];
+    const contributorNames: string[] = [];
     for (const contributor of contributors) {
       contributorNames.push(contributor.login);
       await this.handleUser(contributor, repo.name, orgName, institutionName);
@@ -297,11 +310,11 @@ export class DataGatheringService
       institutioName,
       contributor.contributions,
     );
-    let newUser = await this.createNewUserObject(
+    const newUser = await this.createNewUserObject(
       gitUser,
       contributionObject,
       orgName,
-      databaseUser.orgs,
+      databaseUser ? databaseUser.orgs : [],
     );
     if (!databaseUser) {
       await this.mongoService.createNewUser(newUser);
@@ -336,7 +349,9 @@ export class DataGatheringService
   ): Promise<null | GithubUser> {
     this.logger.log(`Getting userdata from github from user ${userName}`);
     const gitUserResponse = await this.githubService.get_User(userName);
-    this.logger.log(`Alredy made ${1}/${1} calls. ${gitUserResponse.headers}`);
+    this.logger.log(
+      `Alredy made ${gitUserResponse.headers['x-ratelimit-used']}/${gitUserResponse.headers['x-ratelimit-limit']} calls.`,
+    );
     this.mongoService.createRawResponse(
       'get_github_user',
       institutionName,
@@ -373,7 +388,9 @@ export class DataGatheringService
       owner,
       repoName,
     );
-    this.logger.log(`Alredy made ${1}/${1} calls. ${gitRepoResponse.headers}`);
+    this.logger.log(
+      `Alredy made ${gitRepoResponse.headers['x-ratelimit-used']}/${gitRepoResponse.headers['x-ratelimit-limit']} calls.`,
+    );
     this.mongoService.createRawResponse(
       'get_github_repo',
       institutionName,
@@ -411,7 +428,7 @@ export class DataGatheringService
     const gitRepoContributorsResponse =
       await this.githubService.get_RepoContributors(owner, repoName);
     this.logger.log(
-      `Alredy made ${1}/${1} calls. ${gitRepoContributorsResponse.headers}`,
+      `Alredy made ${gitRepoContributorsResponse.headers['x-ratelimit-used']}/${gitRepoContributorsResponse.headers['x-ratelimit-limit']} calls.`,
     );
     this.mongoService.createRawResponse(
       'get_github_contributors',
@@ -450,7 +467,7 @@ export class DataGatheringService
       repoName,
     );
     this.logger.log(
-      `Alredy made ${1}/${1} calls. ${getRepoCommitsReponse.headers}`,
+      `Alredy made ${getRepoCommitsReponse.headers['x-ratelimit-used']}/${getRepoCommitsReponse.headers['x-ratelimit-limit']} calls.`,
     );
     this.mongoService.createRawResponse(
       'get_github_commits',
@@ -494,7 +511,7 @@ export class DataGatheringService
       state,
     );
     this.logger.log(
-      `Alredy made ${1}/${1} calls. ${getRepoPullRequestsResponse.headers}`,
+      `Alredy made ${getRepoPullRequestsResponse.headers['x-ratelimit-used']}/${getRepoPullRequestsResponse.headers['x-ratelimit-limit']} calls.`,
     );
     this.mongoService.createRawResponse(
       'get_github_pull_requests',
@@ -538,7 +555,7 @@ export class DataGatheringService
       state,
     );
     this.logger.log(
-      `Alredy made ${1}/${1} calls. ${getRepoIssuesResponse.headers}`,
+      `Alredy made ${getRepoIssuesResponse.headers['x-ratelimit-used']}/${getRepoIssuesResponse.headers['x-ratelimit-limit']} calls.`,
     );
     this.mongoService.createRawResponse(
       'get_github_issues',
@@ -577,7 +594,7 @@ export class DataGatheringService
     const getRepoCommitCommentsResult =
       await this.githubService.get_RepoCommitComments(owner, repoName);
     this.logger.log(
-      `Alredy made ${1}/${1} calls. ${getRepoCommitCommentsResult.headers}`,
+      `Alredy made ${getRepoCommitCommentsResult.headers['x-ratelimit-used']}/${getRepoCommitCommentsResult.headers['x-ratelimit-limit']} calls.`,
     );
     this.mongoService.createRawResponse(
       'get_github_commit_comments',
@@ -618,7 +635,7 @@ export class DataGatheringService
       repoName,
     );
     this.logger.log(
-      `Alredy made ${1}/${1} calls. ${getRepoLanguagesResult.headers}`,
+      `Alredy made ${getRepoLanguagesResult.headers['x-ratelimit-used']}/${getRepoLanguagesResult.headers['x-ratelimit-limit']} calls.`,
     );
     this.mongoService.createRawResponse(
       'get_github_langauges',
@@ -659,7 +676,7 @@ export class DataGatheringService
       getRepoCommitActivityResult =
         await this.githubService.get_RepoCommitActivity(owner, repoName);
       this.logger.log(
-        `Alredy made ${1}/${1} calls. ${getRepoCommitActivityResult.headers}`,
+        `Alredy made ${getRepoCommitActivityResult.headers['x-ratelimit-used']}/${getRepoCommitActivityResult.headers['x-ratelimit-limit']} calls.`,
       );
       this.mongoService.createRawResponse(
         'get_github_commit_acitivity',
@@ -700,7 +717,7 @@ export class DataGatheringService
       orgName,
     );
     this.logger.log(
-      `Alredy made ${1}/${1} calls. ${getOrganisationResult.headers}`,
+      `Alredy made ${getOrganisationResult.headers['x-ratelimit-used']}/${getOrganisationResult.headers['x-ratelimit-limit']} calls.`,
     );
     this.mongoService.createRawResponse(
       'get_github_organisation',
@@ -733,7 +750,7 @@ export class DataGatheringService
     const getOrganisationMembersResult =
       await this.githubService.get_OrganisationMembers(orgName);
     this.logger.log(
-      `Alredy made ${1}/${1} calls. ${getOrganisationMembersResult.headers}`,
+      `Alredy made ${getOrganisationMembersResult.headers['x-ratelimit-used']}/${getOrganisationMembersResult.headers['x-ratelimit-limit']} calls.`,
     );
     this.mongoService.createRawResponse(
       'get_github_organisation_members',
@@ -768,9 +785,7 @@ export class DataGatheringService
     const getOrganisationRepositoriesResult =
       await this.githubService.get_OrganisationRepositories(orgName);
     this.logger.log(
-      `Alredy made ${1}/${1} calls. ${
-        getOrganisationRepositoriesResult.headers
-      }`,
+      `Alredy made ${getOrganisationRepositoriesResult.headers['x-ratelimit-used']}/${getOrganisationRepositoriesResult.headers['x-ratelimit-limit']} calls.`,
     );
     this.mongoService.createRawResponse(
       'get_github_organisation_repositories',
@@ -820,7 +835,7 @@ export class DataGatheringService
       defaultBranch,
     );
     this.logger.log(
-      `Alredy made ${1}/${1} calls. ${compareTwoCommitsResult.headers}`,
+      `Alredy made ${compareTwoCommitsResult.headers['x-ratelimit-used']}/${compareTwoCommitsResult.headers['x-ratelimit-limit']} calls.`,
     );
     this.mongoService.createRawResponse(
       'compare_github_commits',
@@ -868,13 +883,13 @@ export class DataGatheringService
     institutionName: string,
     numberOfContributions: number,
   ): Promise<Contributions> {
-    let repoContribution: RepositoryContributions = {
+    const repoContribution: RepositoryContributions = {
       [repoName]: numberOfContributions,
     };
-    let orgContribution: OrganisationContributions = {
+    const orgContribution: OrganisationContributions = {
       [orgName]: repoContribution,
     };
-    let contribution: Contributions = { [institutionName]: orgContribution };
+    const contribution: Contributions = { [institutionName]: orgContribution };
     return contribution;
   }
 
@@ -893,7 +908,7 @@ export class DataGatheringService
     savedOrgs: string[],
   ): Promise<User> {
     if (!(orgName in savedOrgs)) savedOrgs.push(orgName);
-    let newUser: User = {
+    const newUser: User = {
       login: githubUser.login,
       name: githubUser.name,
       avatar_url: githubUser.avatar_url,
@@ -957,8 +972,8 @@ export class DataGatheringService
   ): Promise<string[]> {
     const coders: string[] = [];
     for (const commit of commits) {
-      if (!commit.author) continue;
-      if (commit.author.login in coders) continue;
+      if (!commit.author) break;
+      if (commit.author.login in coders) break;
       coders.push(commit.author.login);
     }
     return coders;
@@ -1038,9 +1053,10 @@ export class DataGatheringService
   private async createOrganisationObject(
     organisation: GithubOrganisation,
     memberCount: number,
+    orgName: string,
   ): Promise<Organization> {
     const newOrg: Organization = {
-      num_repos: 0,
+      num_repos: organisation.public_repos,
       num_members: memberCount,
       total_num_contributors: 0,
       total_num_own_repo_forks: 0,
@@ -1055,8 +1071,8 @@ export class DataGatheringService
       total_issues_all: 0,
       total_issues_closed: 0,
       total_comments: 0,
-      name: organisation.name,
-      url: organisation.url,
+      name: orgName,
+      url: organisation.html_url,
       description: organisation.description,
       avatar: organisation.avatar_url,
       created_at: new Date(organisation.created_at),
