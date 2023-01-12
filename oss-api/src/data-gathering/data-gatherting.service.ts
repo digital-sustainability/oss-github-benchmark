@@ -5,7 +5,6 @@ import {
   OnApplicationShutdown,
 } from '@nestjs/common';
 import { OctokitResponse } from '@octokit/types';
-import { OrgData } from 'src/data-types';
 import { GithubService } from 'src/github/github.service';
 import {
   Contributions,
@@ -16,6 +15,9 @@ import {
   GithubCommitActivity,
   GithubCommitComparison,
   GithubContributor,
+  GithubOrganisation,
+  GithubOrganisationMember,
+  GithubOrganisationRepository,
   GithubRepo,
   GithubUser,
   Languages,
@@ -25,7 +27,6 @@ import {
   RepositoryContributions,
   RepositoryInfo,
   User,
-  UserQueryConfig,
 } from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { v4 as uuidv4 } from 'uuid';
@@ -33,6 +34,10 @@ import { v4 as uuidv4 } from 'uuid';
 // TODO - check how many github calls were made, with the headers
 // TODO - merge createContributionObject and mergeContributions
 // TODO - get more than one page from github
+// TODO - big object from all data
+// TODO - Organisation watchers count is wrong as the repository object doesnt contain that number
+// TODO - var for the database, as it is in plain text
+// TODO - var for the github token
 @Injectable()
 export class DataGatheringService
   implements OnApplicationBootstrap, OnApplicationShutdown
@@ -42,16 +47,19 @@ export class DataGatheringService
     private mongoService: MongoDbService,
   ) {}
   async onApplicationBootstrap() {
-    this.handleInstitution();
+    this.prepareInstitutions();
   }
   async onApplicationShutdown(signal?: string) {}
 
   private readonly logger = new Logger(DataGatheringService.name);
 
-  private async handleInstitution() {
+  private async prepareInstitutions() {
     // Get all todo institutions from db
     // Get all Insitutions and add them into objects
     // Foreach institution
+  }
+
+  private async handleInstitution() {
     // Create a institution object
     // For each org in the institution
     // get the org data (handleorg)
@@ -64,14 +72,34 @@ export class DataGatheringService
     // Write that into the database
   }
 
-  private async handleOrg() {
-    // Get all the orgdata from github
-    // Get the number of member of the org from github
-    // Get all the repositories of the organisation from github
-    // Create Org object
-    // For all repos in org
-    // create them and update the org data
-    // return the org data
+  private async handleOrg(orgName: string, institutionName: string) {
+    this.logger.log(`Handling Organisation ${orgName}`);
+    const gitOrganisation = await this.getGitHubOrganisation(
+      institutionName,
+      orgName,
+    );
+    const members = await this.getGithubOrganisationMembers(
+      orgName,
+      institutionName,
+    );
+    const repositories = await this.getGitHubOrganisationRepositories(
+      orgName,
+      institutionName,
+    );
+    let organisation = await this.createOrganisationObject(
+      gitOrganisation,
+      members.length,
+    );
+    for (const repository of repositories) {
+      const newRepo = await this.handleRepo(
+        repository,
+        institutionName,
+        organisation.name,
+      );
+      if (!newRepo) continue;
+      organisation = await this.updateOrganisationData(organisation, newRepo);
+    }
+    return organisation;
   }
 
   /**
@@ -82,7 +110,7 @@ export class DataGatheringService
    * @returns Null or the new repository
    */
   private async handleRepo(
-    repo: RepositoryInfo,
+    repo: GithubOrganisationRepository,
     institutionName: string,
     orgName: string,
   ): Promise<null | Repository> {
@@ -618,6 +646,110 @@ export class DataGatheringService
   }
 
   /**
+   * Get the organisation data from github
+   * @param institutionName The name of the institution
+   * @param orgName The name of the organisation
+   * @returns Null or a GithubOrganisation object containing the data
+   */
+  private async getGitHubOrganisation(
+    institutionName: string,
+    orgName: string,
+  ): Promise<null | GithubOrganisation> {
+    this.logger.log(`Getting all the data of the organisation ${orgName}`);
+    const getOrganisationResult = await this.githubService.get_Organisation(
+      orgName,
+    );
+    this.logger.log(
+      `Alredy made ${1}/${1} calls. ${getOrganisationResult.headers}`,
+    );
+    this.mongoService.createRawResponse(
+      'get_github_organisation',
+      institutionName,
+      orgName,
+      '',
+      '',
+      getOrganisationResult,
+    );
+    if (getOrganisationResult.status != 200) {
+      this.logger.error(
+        `Error while getting organisation data from github from the organisation ${orgName}. Status is ${getOrganisationResult.status}`,
+      );
+      return null;
+    }
+    return getOrganisationResult.data as GithubOrganisation;
+  }
+
+  /**
+   * Get all the members from a organisation from github
+   * @param institutionName The name of the institution
+   * @param orgName The name of the organisation
+   * @returns Null or a GithubOrganisationMember array containing the data
+   */
+  private async getGithubOrganisationMembers(
+    orgName: string,
+    institutionName: string,
+  ): Promise<null | GithubOrganisationMember[]> {
+    this.logger.log(`Getting all the members of the organisation ${orgName}`);
+    const getOrganisationMembersResult =
+      await this.githubService.get_OrganisationMembers(orgName);
+    this.logger.log(
+      `Alredy made ${1}/${1} calls. ${getOrganisationMembersResult.headers}`,
+    );
+    this.mongoService.createRawResponse(
+      'get_github_organisation_members',
+      institutionName,
+      orgName,
+      '',
+      '',
+      getOrganisationMembersResult,
+    );
+    if (getOrganisationMembersResult.status != 200) {
+      this.logger.error(
+        `Error while getting organisation members data from github from the organisation ${orgName}. Status is ${getOrganisationMembersResult.status}`,
+      );
+      return null;
+    }
+    return getOrganisationMembersResult.data as GithubOrganisationMember[];
+  }
+
+  /**
+   * Get all the repositories from a repository from github"
+   * @param institutionName The name of the institution
+   * @param orgName The name of the organisation
+   * @returns Null or a GithubOrganisationRepository array containing the data
+   */
+  private async getGitHubOrganisationRepositories(
+    orgName: string,
+    institutionName: string,
+  ): Promise<null | GithubOrganisationRepository[]> {
+    this.logger.log(
+      `Getting all the repositories of the organisation ${orgName}`,
+    );
+    const getOrganisationRepositoriesResult =
+      await this.githubService.get_OrganisationRepositories(orgName);
+    this.logger.log(
+      `Alredy made ${1}/${1} calls. ${
+        getOrganisationRepositoriesResult.headers
+      }`,
+    );
+    this.mongoService.createRawResponse(
+      'get_github_organisation_repositories',
+      institutionName,
+      orgName,
+      '',
+      '',
+      getOrganisationRepositoriesResult,
+    );
+    if (getOrganisationRepositoriesResult.status != 200) {
+      this.logger.error(
+        `Error while getting organisation repositories data from github from the organisation ${orgName}. Status is ${getOrganisationRepositoriesResult.status}`,
+      );
+      return null;
+    }
+    return getOrganisationRepositoriesResult.data as GithubOrganisationRepository[];
+  }
+
+  /**
    *
    * @param repoName The name of the repository
    * @param owner The name of the owner of the repository
@@ -855,5 +987,81 @@ export class DataGatheringService
     };
 
     return repo;
+  }
+
+  /**
+   * Create a organisation Object
+   * @param organisation A Github Organisation Object
+   * @param memberCount The number of members in the organisation
+   * @returns A Organisation Object
+   */
+  private async createOrganisationObject(
+    organisation: GithubOrganisation,
+    memberCount: number,
+  ): Promise<Organization> {
+    const newOrg: Organization = {
+      num_repos: 0,
+      num_members: memberCount,
+      total_num_contributors: 0,
+      total_num_own_repo_forks: 0,
+      total_num_forks_in_repos: 0,
+      total_num_commits: 0,
+      total_pull_requests: 0,
+      total_issues: 0,
+      total_num_stars: 0,
+      total_num_watchers: 0,
+      total_pull_requests_all: 0,
+      total_pull_requests_closed: 0,
+      total_issues_all: 0,
+      total_issues_closed: 0,
+      total_comments: 0,
+      name: organisation.name,
+      url: organisation.url,
+      description: organisation.description,
+      avatar: organisation.avatar_url,
+      created_at: new Date(organisation.created_at),
+      location: organisation.location,
+      email: organisation.email,
+      repos: [],
+      repo_names: [],
+      total_licenses: {},
+    };
+    return newOrg;
+  }
+
+  /**
+   * Update the Organisation with repository Data
+   * @param organisation The organisation object
+   * @param repository The repository object
+   * @returns The updated organisation object
+   */
+  private async updateOrganisationData(
+    organisation: Organization,
+    repository: Repository,
+  ): Promise<Organization> {
+    if (repository.fork) {
+      organisation.total_num_forks_in_repos++;
+      organisation.total_num_commits += repository.has_own_commits;
+    } else {
+      organisation.total_num_stars += repository.num_stars;
+      organisation.total_num_contributors += repository.num_contributors;
+      organisation.total_num_commits += repository.num_commits;
+      organisation.total_num_own_repo_forks += repository.num_forks;
+      organisation.total_num_watchers += 0;
+      organisation.total_pull_requests_all += repository.pull_requests_all;
+      organisation.total_pull_requests_closed +=
+        repository.pull_requests_closed;
+      organisation.total_issues_all += repository.issues_all;
+      organisation.total_issues_closed += repository.issues_closed;
+      organisation.total_comments += repository.comments;
+      if (repository.license in organisation.total_licenses) {
+        organisation.total_licenses[repository.license]++;
+      } else {
+        organisation.total_licenses[repository.license] = 1;
+      }
+    }
+    organisation.repos.push(repository.uuid);
+    organisation.repo_names.push(repository.name);
+    return organisation;
   }
 }

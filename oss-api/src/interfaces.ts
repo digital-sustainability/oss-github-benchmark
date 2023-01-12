@@ -1615,6 +1615,192 @@ export interface GithubCommitComparison {
   ];
 }
 
+export interface GithubOrganisation {
+  login: string;
+  id: number;
+  node_id: string;
+  url: string;
+  repos_url: string;
+  events_url: string;
+  hooks_url: string;
+  issues_url: string;
+  members_url: string;
+  public_members_url: string;
+  avatar_url: string;
+  description: string;
+  name: string;
+  company: string;
+  blog: string;
+  location: string;
+  email: string;
+  twitter_username: string;
+  is_verified: true;
+  has_organization_projects: true;
+  has_repository_projects: true;
+  public_repos: number;
+  public_gists: number;
+  followers: number;
+  following: number;
+  html_url: string;
+  created_at: Date;
+  updated_at: Date;
+  type: string;
+  total_private_repos: number;
+  owned_private_repos: number;
+  private_gists: number;
+  disk_usage: number;
+  collaborators: number;
+  billing_email: string;
+  plan: {
+    name: string;
+    space: number;
+    private_repos: number;
+    filled_seats: number;
+    seats: number;
+  };
+  default_repository_permission: string;
+  members_can_create_repositories: true;
+  two_factor_requirement_enabled: true;
+  members_allowed_repository_creation_type: string;
+  members_can_create_public_repositories: boolean;
+  members_can_create_private_repositories: boolean;
+  members_can_create_internal_repositories: boolean;
+  members_can_create_pages: true;
+  members_can_fork_private_repositories: boolean;
+}
+
+export interface GithubOrganisationRepository {
+  id: number;
+  node_id: string;
+  name: string;
+  full_name: string;
+  owner: {
+    login: string;
+    id: number;
+    node_id: string;
+    avatar_url: string;
+    gravatar_id: string;
+    url: string;
+    html_url: string;
+    followers_url: string;
+    following_url: string;
+    gists_url: string;
+    starred_url: string;
+    subscriptions_url: string;
+    organizations_url: string;
+    repos_url: string;
+    events_url: string;
+    received_events_url: string;
+    type: string;
+    site_admin: boolean;
+  };
+  private: boolean;
+  html_url: string;
+  description: string;
+  fork: boolean;
+  url: string;
+  archive_url: string;
+  assignees_url: string;
+  blobs_url: string;
+  branches_url: string;
+  collaborators_url: string;
+  comments_url: string;
+  commits_url: string;
+  compare_url: string;
+  contents_url: string;
+  contributors_url: string;
+  deployments_url: string;
+  downloads_url: string;
+  events_url: string;
+  forks_url: string;
+  git_commits_url: string;
+  git_refs_url: string;
+  git_tags_url: string;
+  git_url: string;
+  issue_comment_url: string;
+  issue_events_url: string;
+  issues_url: string;
+  keys_url: string;
+  labels_url: string;
+  languages_url: string;
+  merges_url: string;
+  milestones_url: string;
+  notifications_url: string;
+  pulls_url: string;
+  releases_url: string;
+  ssh_url: string;
+  stargazers_url: string;
+  statuses_url: string;
+  subscribers_url: string;
+  subscription_url: string;
+  tags_url: string;
+  teams_url: string;
+  trees_url: string;
+  clone_url: string;
+  mirror_url: string;
+  hooks_url: string;
+  svn_url: string;
+  homepage: string;
+  language: null;
+  forks_count: number;
+  stargazers_count: number;
+  watchers_count: number;
+  size: number;
+  default_branch: string;
+  open_issues_count: number;
+  is_template: boolean;
+  topics: [string, string, string, string];
+  has_issues: true;
+  has_projects: true;
+  has_wiki: true;
+  has_pages: boolean;
+  has_downloads: true;
+  has_discussions: boolean;
+  archived: boolean;
+  disabled: boolean;
+  visibility: string;
+  pushed_at: Date;
+  created_at: Date;
+  updated_at: Date;
+  permissions: {
+    admin: boolean;
+    push: boolean;
+    pull: true;
+  };
+  security_and_analysis: {
+    advanced_security: {
+      status: string;
+    };
+    secret_scanning: {
+      status: string;
+    };
+    secret_scanning_push_protection: {
+      status: string;
+    };
+  };
+}
+
+export interface GithubOrganisationMember {
+  login: string;
+  id: number;
+  node_id: string;
+  avatar_url: string;
+  gravatar_id: string;
+  url: string;
+  html_url: string;
+  followers_url: string;
+  following_url: string;
+  gists_url: string;
+  starred_url: string;
+  subscriptions_url: string;
+  organizations_url: string;
+  repos_url: string;
+  events_url: string;
+  received_events_url: string;
+  type: string;
+  site_admin: boolean;
+}
+
 /************************************Database Types*******************************************/
 
 export interface RawResponse {
@@ -1625,6 +1811,10 @@ export interface RawResponse {
   repoName?: string;
   userName?: string;
   response: OctokitResponse<any>;
+}
+
+export interface TodoInstitution {
+  githubrepos: string[];
 }
 
 export interface UserQueryConfig {

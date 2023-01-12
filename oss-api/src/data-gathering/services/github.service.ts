@@ -21,11 +21,6 @@ export const connectToGithub = async () => {
   octokit = new Octokit({ auth: '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' });
 };
 
-/**
- * Get an Organisation from Github
- * @param orgName The name of the organisation
- * @returns NULL or a CrawlerOrg object with all organisation Info
- */
 export const git_getOragnisation = async (orgName: string) => {
   // Request org data from github
   let res = (await octokit.request(`GET /orgs/${orgName}`, {
@@ -43,11 +38,6 @@ export const git_getOragnisation = async (orgName: string) => {
   return res;
 };
 
-/**
- * Get the number of members in a organisation
- * @param orgName The name of the organisation
- * @returns NULL or a GitResponseBasic object with all the member data
- */
 export const git_getMembers = async (orgName: string) => {
   // Request member data from github
   let res = (await octokit.request(`GET /orgs/${orgName}/members`, {
@@ -65,11 +55,6 @@ export const git_getMembers = async (orgName: string) => {
   return res;
 };
 
-/**
- * Get a list with all the repos and their information corresponfing to an org
- * @param orgName The name of the organisation
- * @returns NULL or a CrawlerOrgRepository object with the repository list
- */
 export const git_getOrgRepositoryList = async (orgName: string) => {
   // Request repository list from github
   let res = (await octokit.request(`GET /orgs/${orgName}/repos`, {

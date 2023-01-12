@@ -43,18 +43,6 @@ import {
   git_getCommitActivity,
 } from './services/github.service';
 
-// TODO - add info output on which org we are, instutiton, repo etc
-// TODO - why removing users new
-// TODO - only gets the first 30 commits/contributors etc
-// TODO - logging in the if statement
-// TODO - Add class
-// TODO - NEST Patterns
-// TODO - Grosses Objekt aus allen daten
-// TODO - SLAP
-// TODO - Nest Logger for errors
-// TODO - git time logging
-// TODO - new types
-
 /**
  * Initate the MongoDB and Github instances
  */

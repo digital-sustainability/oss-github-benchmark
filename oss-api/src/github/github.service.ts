@@ -115,6 +115,19 @@ export class GithubService
     });
   }
 
+  /**
+   * Get all the repositories of a organisation
+   * @param orgName The name of the organisation
+   * @returns A promise of the type OcktokitResponse
+   */
+  async get_OrganisationRepositories(
+    orgName: string,
+  ): Promise<OctokitResponse<any>> {
+    return this.octokit.rest.repos.listForOrg({
+      org: orgName,
+    });
+  }
+
   /**********************************Commits Calls**************************************************/
 
   /**
@@ -212,6 +225,34 @@ export class GithubService
       owner: owner,
       repo: repoName,
       state: state,
+    });
+  }
+
+  /***************************************Organisation Calls**************************************************/
+
+  /**
+   * Get the data of the specified organisation
+   * @param orgName The name of the organisation
+   * @returns A promise of the type OcktokitResponse
+   */
+  async get_Organisation(orgName: string): Promise<OctokitResponse<any>> {
+    return this.octokit.rest.orgs.get({
+      org: orgName,
+    });
+  }
+
+  /***************************************Member Calls**************************************************/
+
+  /**
+   * Get all the members of a organisation
+   * @param orgName The name of the organisation
+   * @returns A promise of the type OcktokitResponse
+   */
+  async get_OrganisationMembers(
+    orgName: string,
+  ): Promise<OctokitResponse<any>> {
+    return this.octokit.rest.orgs.listMembers({
+      org: orgName,
     });
   }
 }

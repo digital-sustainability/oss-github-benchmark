@@ -15,6 +15,7 @@ import {
   UserQueryConfig,
   RepositoryQueryConfig,
   RawResponse,
+  TodoInstitution,
 } from 'src/interfaces';
 import { DataGathering } from 'src/data-gathering/data-gathering';
 import { OctokitResponse } from '@octokit/types';
@@ -127,10 +128,25 @@ export class MongoDbService
    * @returns A User object
    */
   async findUser(userName: string): Promise<User> {
+    this.logger.log(
+      `Searching the user with the username ${userName} in the database`,
+    );
     return this.client
       .db('testing')
       .collection<User>('usersNew')
       .findOne({ login: userName });
+  }
+
+  /**
+   * Get all the todo institutions from the database
+   * @returns A TodoInstitution Object
+   */
+  async findAllTodoInstitutions(): Promise<TodoInstitution> {
+    this.logger.log(`Getting all the todo Institutions from the database`);
+    return this.client
+      .db('testing')
+      .collection<TodoInstitution>('todoInstitutions')
+      .find({});
   }
 
   /***********************************Update************************************************/
