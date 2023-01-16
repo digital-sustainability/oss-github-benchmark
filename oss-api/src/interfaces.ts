@@ -1814,7 +1814,17 @@ export interface RawResponse {
 }
 
 export interface TodoInstitution {
-  githubrepos: object[];
+  uuid: string;
+  sector: string;
+  ts: Date;
+  shortname: string;
+  name_de: string;
+  orgs: TodoOrganisation[];
+}
+
+export interface TodoOrganisation {
+  name: string;
+  ts: Date;
 }
 
 export interface UserQueryConfig {
@@ -2042,13 +2052,6 @@ export interface Repository {
 export interface TodoIndustry {
   name_de: string;
   institutions: TodoInstitution[];
-}
-
-export interface TodoInstitution {
-  uuid: string;
-  shortname: string;
-  name_de: string;
-  orgs: string[];
 }
 
 export interface Industry {

@@ -38,10 +38,10 @@ import { v4 as uuidv4 } from 'uuid';
 // TODO - big object from all data
 // TODO - var for the database, as it is in plain text
 // TODO - wrap all github calls in try catch HTTP errors
-// TODO - check where it is at, then start with the oldest org
 // TODO - Repo add: commit activity
 // TODO - pino logger
 // TODO - raw responses into files
+// TODO - when all calls finished return
 @Injectable()
 export class DataGatheringService
   implements OnApplicationBootstrap, OnApplicationShutdown
@@ -53,7 +53,7 @@ export class DataGatheringService
 
   async onApplicationShutdown(signal?: string) {}
   async onApplicationBootstrap() {
-    this.prepareInstitutions();
+    await this.prepareInstitutions();
   }
 
   private readonly logger = new Logger(DataGatheringService.name);
@@ -62,17 +62,17 @@ export class DataGatheringService
    * Prepare all the insitutions and call handle institution
    */
   private async prepareInstitutions() {
-    this.logger.log(`Preperaing all institutions to be crawled`);
-    const todoInstituition = (
-      await this.mongoService.findAllTodoInstitutions()
-    )[0];
-    for (const industry of todoInstituition.githubrepos) {
-      const industryName = industry[0] as string;
-      const industryObject = industry[1] as TodoIndustry;
-      for (const institution of industryObject.institutions) {
-        await this.handleInstitution(institution, industryName);
-        break;
-      }
+    this.logger.log(`Prepairing all institutions to be crawled`);
+    const todoInstituitions = await this.mongoService.findAllTodoInstitutions();
+    todoInstituitions.sort((a, b) => {
+      if (!a.ts && !b.ts) return 0;
+      if (!a.ts) return 1;
+      if (!b.ts) return -1;
+      return b.ts.getTime() - a.ts.getTime();
+    });
+    for (const todoInstituition of todoInstituitions) {
+      await this.handleInstitution(todoInstituition, todoInstituition.sector);
+      await this.mongoService.updateTodoInstitutionTs(todoInstituition.uuid);
       break;
     }
   }
@@ -94,9 +94,16 @@ export class DataGatheringService
     const oldInstitution = await this.mongoService.findInstitution(
       institution.uuid,
     );
-    for (const organisation of institution.orgs) {
+    institution.orgs.sort((a, b) => {
+      if (!a.ts && !b.ts) return 0;
+      if (!a.ts) return 1;
+      if (!b.ts) return -1;
+      return b.ts.getTime() - a.ts.getTime();
+    });
+    for (let i = 0; i < institution.orgs.length; i++) {
+      const organisation = institution.orgs[i];
       const newOrganisation = await this.handleOrg(
-        organisation,
+        organisation.name,
         institution.shortname,
       );
       if (!newOrganisation) continue;
@@ -104,7 +111,10 @@ export class DataGatheringService
         newOrganisation,
         newInstitution,
       );
-      break;
+      organisation.ts = new Date();
+      institution.orgs[i] = organisation;
+      await this.mongoService.updateOrgTimestamp(institution);
+      i = institution.orgs.length;
     }
     const stats: Statistic[] = oldInstitution ? oldInstitution.stats : [];
     const newStatistic = await this.createStatistics(newInstitution);

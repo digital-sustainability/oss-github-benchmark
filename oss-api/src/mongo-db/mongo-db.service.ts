@@ -3,6 +3,7 @@ import {
   Logger,
   OnApplicationBootstrap,
   OnApplicationShutdown,
+  OnModuleInit,
 } from '@nestjs/common';
 import { MongoClient, ConnectOptions } from 'mongodb';
 import {
@@ -17,20 +18,17 @@ import {
   RawResponse,
   TodoInstitution,
 } from 'src/interfaces';
-import { DataGathering } from 'src/data-gathering/data-gathering';
 import { OctokitResponse } from '@octokit/types';
 
 @Injectable()
 export class MongoDbService
-  implements OnApplicationBootstrap, OnApplicationShutdown
+  implements OnApplicationBootstrap, OnApplicationShutdown, OnModuleInit
 {
-  constructor(private dataGathering: DataGathering) {}
+  constructor() {}
   async onApplicationShutdown(signal?: string) {
     await this.destroyConnection();
   }
   async onApplicationBootstrap() {
-    await this.initializeConnection();
-    if (process.env.NODE_ENV === 'production') this.dataGathering.startScript();
     this.getCrawlerStatus().then(() => console.log('Loaded crawler status'));
     setInterval(() => {
       this.getCrawlerStatus().then(() => console.log('Loaded crawler status'));
@@ -39,6 +37,9 @@ export class MongoDbService
     setInterval(() => {
       this.getData().then(() => console.log('Reloaded data'));
     }, 3600000);
+  }
+  async onModuleInit() {
+    await this.initializeConnection();
   }
 
   private client: MongoClient | undefined;
@@ -54,11 +55,10 @@ export class MongoDbService
 
   private async initializeConnection() {
     if (this.client !== undefined) return;
-    this.client = new MongoClient(process.env.MONGO_READ, {
+    this.client = await new MongoClient(process.env.MONGO_READ, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    } as ConnectOptions);
-    await this.client.connect();
+    } as ConnectOptions).connect();
   }
   private async destroyConnection() {
     if (!this.client) return;
@@ -148,11 +148,17 @@ export class MongoDbService
    * @returns A TodoInstitution array
    */
   async findAllTodoInstitutions(): Promise<TodoInstitution[]> {
-    this.logger.log(`Getting all the todo Institutions from the database`);
+    this.logger.log(`Getting all the todo institutions from the database`);
+    const session = await this.client.startSession();
     return this.client
       .db('testing')
       .collection<TodoInstitution>('todoInstitutions')
-      .find()
+      .find(
+        {},
+        {
+          session,
+        },
+      )
       .toArray();
   }
 
@@ -250,6 +256,37 @@ export class MongoDbService
           searchString: institution.searchString,
         },
         { upsert: true },
+      );
+  }
+
+  /**
+   * Update the timestamp of a todo insitution
+   * @param uuid The institution uuid
+   */
+  async updateTodoInstitutionTs(uuid: string): Promise<void> {
+    this.logger.log(
+      `Updating timestamp og the institution with the uuid ${uuid}.`,
+    );
+    this.client
+      .db('testing')
+      .collection('todoInstitutions')
+      .updateOne({ uuid: uuid }, { $set: { ts: new Date() } });
+  }
+
+  /**
+   * Update all orgs of a todo institution
+   * @param institution The todo insitution object
+   */
+  async updateOrgTimestamp(institution: TodoInstitution): Promise<void> {
+    this.logger.log(
+      `Updating timestamp of all orgs of the instituion ${institution.uuid}`,
+    );
+    this.client
+      .db('testing')
+      .collection('todoInstitutions')
+      .updateOne(
+        { uuid: institution.uuid },
+        { $set: { orgs: institution.orgs } },
       );
   }
 
@@ -443,7 +480,8 @@ export class MongoDbService
 
   private async getInstitutions(): Promise<Institution[]> {
     const session = this.client.startSession();
-    let insts = this.client
+
+    const insts = this.client
       .db('statistics')
       .collection<Institution>('institutions')
       .find({ num_orgs: { $ne: 0 } }, { session: session })
