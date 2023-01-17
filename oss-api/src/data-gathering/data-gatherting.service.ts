@@ -36,12 +36,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 // TODO - get more than one page from github
 // TODO - big object from all data
-// TODO - var for the database, as it is in plain text
 // TODO - wrap all github calls in try catch HTTP errors
 // TODO - Repo add: commit activity
-// TODO - pino logger
 // TODO - raw responses into files
 // TODO - when all calls finished return
+
 @Injectable()
 export class DataGatheringService
   implements OnApplicationBootstrap, OnApplicationShutdown
@@ -70,11 +69,12 @@ export class DataGatheringService
       if (!b.ts) return -1;
       return b.ts.getTime() - a.ts.getTime();
     });
-    for (const todoInstituition of todoInstituitions) {
+    /*for (const todoInstituition of todoInstituitions) {
       await this.handleInstitution(todoInstituition, todoInstituition.sector);
       await this.mongoService.updateTodoInstitutionTs(todoInstituition.uuid);
       break;
-    }
+    }*/
+    this.logger.log('Crawler finished');
   }
 
   /**

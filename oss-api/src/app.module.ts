@@ -7,8 +7,10 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { DataGatheringService } from './data-gathering/data-gatherting.service';
 import { GithubService } from './github/github.service';
+import { LoggerModule } from 'nestjs-pino';
 @Module({
   imports: [
+    LoggerModule.forRoot(),
     ConfigModule.forRoot(),
     ServeStaticModule.forRoot({
       exclude: ['api'],
