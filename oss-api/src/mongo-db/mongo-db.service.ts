@@ -39,9 +39,11 @@ export class MongoDbService
     }, 3600000);
   }
   async onModuleInit() {
+    this.database = process.env.MONGO_DATABASE || 'testing';
     await this.initializeConnection();
   }
 
+  private database: string;
   private client: MongoClient | undefined;
   private institutions: Institution[] | undefined;
   private repositories: Repository[] | undefined;
@@ -90,15 +92,18 @@ export class MongoDbService
         JSON.stringify(response).length
       }.`,
     );
-    this.client.db('testing').collection<RawResponse>('rawResponse').insertOne({
-      method: method,
-      ts: new Date(),
-      institutionName: institutionName,
-      orgName: orgName,
-      repoName: repoName,
-      userName: userName,
-      response: response,
-    });
+    this.client
+      .db(this.database)
+      .collection<RawResponse>('rawResponse')
+      .insertOne({
+        method: method,
+        ts: new Date(),
+        institutionName: institutionName,
+        orgName: orgName,
+        repoName: repoName,
+        userName: userName,
+        response: response,
+      });
   }
 
   /**
@@ -109,7 +114,7 @@ export class MongoDbService
     this.logger.log(
       `Adding new user with username ${user.login} to the database`,
     );
-    this.client.db('testing').collection<User>('usersNew').insertOne(user);
+    this.client.db(this.database).collection<User>('usersNew').insertOne(user);
   }
 
   /**
@@ -121,7 +126,7 @@ export class MongoDbService
       `Adding new Repository named ${repository.name} to the database`,
     );
     this.client
-      .db(`testing`)
+      .db(this.database)
       .collection<Repository>('repositoryNew')
       .insertOne(repository);
   }
@@ -138,7 +143,7 @@ export class MongoDbService
       `Searching the user with the username ${userName} in the database`,
     );
     return this.client
-      .db('testing')
+      .db(this.database)
       .collection<User>('usersNew')
       .findOne({ login: userName });
   }
@@ -151,7 +156,7 @@ export class MongoDbService
     this.logger.log(`Getting all the todo institutions from the database`);
     const session = await this.client.startSession();
     return this.client
-      .db('testing')
+      .db(this.database)
       .collection<TodoInstitution>('todoInstitutions')
       .find(
         {},
@@ -172,7 +177,7 @@ export class MongoDbService
       `Getting the institution with the uuid ${uuid} from the database`,
     );
     return this.client
-      .db('testing')
+      .db(this.database)
       .collection<Institution>('institutions')
       .findOne({ uuid: uuid });
   }
@@ -187,7 +192,7 @@ export class MongoDbService
     this.logger.log(
       `Updating user with the username ${user.login} in the database.`,
     );
-    this.client.db('testing').collection<User>('usersNew').replaceOne(
+    this.client.db(this.database).collection<User>('usersNew').replaceOne(
       { login: user.login },
       {
         login: user.login,
@@ -220,7 +225,7 @@ export class MongoDbService
       `Updating/Creating institution ${institution.name_de} in the database`,
     );
     this.client
-      .db('testing')
+      .db(this.database)
       .collection<Institution>('institutions')
       .replaceOne(
         { uuid: institution.uuid },
@@ -268,7 +273,7 @@ export class MongoDbService
       `Updating timestamp og the institution with the uuid ${uuid}.`,
     );
     this.client
-      .db('testing')
+      .db(this.database)
       .collection('todoInstitutions')
       .updateOne({ uuid: uuid }, { $set: { ts: new Date() } });
   }
@@ -282,7 +287,7 @@ export class MongoDbService
       `Updating timestamp of all orgs of the instituion ${institution.uuid}`,
     );
     this.client
-      .db('testing')
+      .db(this.database)
       .collection('todoInstitutions')
       .updateOne(
         { uuid: institution.uuid },

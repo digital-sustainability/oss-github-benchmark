@@ -4,8 +4,7 @@ import {
   OnApplicationShutdown,
 } from '@nestjs/common';
 import { Octokit } from '@octokit/rest';
-import { OctokitResponse, Endpoints } from '@octokit/types';
-import { GithubResponse, GithubUser } from 'src/interfaces';
+import { OctokitResponse } from '@octokit/types';
 
 @Injectable()
 export class GithubService
