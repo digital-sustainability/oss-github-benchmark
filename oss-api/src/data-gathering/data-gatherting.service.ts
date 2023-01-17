@@ -37,7 +37,6 @@ import { v4 as uuidv4 } from 'uuid';
 // TODO - get more than one page from github
 // TODO - big object from all data
 // TODO - wrap all github calls in try catch HTTP errors
-// TODO - Repo add: commit activity
 // TODO - raw responses into files
 // TODO - when all calls finished return
 
@@ -65,15 +64,15 @@ export class DataGatheringService
     const todoInstituitions = await this.mongoService.findAllTodoInstitutions();
     todoInstituitions.sort((a, b) => {
       if (!a.ts && !b.ts) return 0;
-      if (!a.ts) return 1;
-      if (!b.ts) return -1;
+      if (!a.ts) return -1;
+      if (!b.ts) return 1;
       return b.ts.getTime() - a.ts.getTime();
     });
-    /*for (const todoInstituition of todoInstituitions) {
+    for (const todoInstituition of todoInstituitions) {
       await this.handleInstitution(todoInstituition, todoInstituition.sector);
       await this.mongoService.updateTodoInstitutionTs(todoInstituition.uuid);
       break;
-    }*/
+    }
     this.logger.log('Crawler finished');
   }
 
@@ -96,8 +95,8 @@ export class DataGatheringService
     );
     institution.orgs.sort((a, b) => {
       if (!a.ts && !b.ts) return 0;
-      if (!a.ts) return 1;
-      if (!b.ts) return -1;
+      if (!a.ts) return -1;
+      if (!b.ts) return 1;
       return b.ts.getTime() - a.ts.getTime();
     });
     for (let i = 0; i < institution.orgs.length; i++) {
@@ -284,6 +283,7 @@ export class DataGatheringService
       closedPulls,
       commitComments,
       coders,
+      commitAcitivity,
     );
     await this.mongoService.createNewRepository(newRepo);
     return newRepo;
@@ -996,6 +996,7 @@ export class DataGatheringService
     closedPullRequests: GitHubPull[],
     comments: GitHubCommitComment[],
     coders: string[],
+    commitAcitivity: GithubCommitActivity[],
   ): Promise<Repository> {
     const repo: Repository = {
       name: githubRepo.name,
@@ -1011,6 +1012,7 @@ export class DataGatheringService
       num_commits: commits.length,
       num_stars: githubRepo.stargazers_count,
       num_watchers: githubRepo.subscribers_count,
+      commit_activities: commitAcitivity,
       has_own_commits: ahead_by,
       issues_closed: closedIssues.length,
       issues_all: allIssues.length,

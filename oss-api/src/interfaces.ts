@@ -2033,6 +2033,7 @@ export interface Repository {
   num_commits: number;
   num_stars: number;
   num_watchers: number;
+  commit_activities: GithubCommitActivity[];
   has_own_commits: number;
   issues_closed: number;
   issues_all: number;
