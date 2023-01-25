@@ -8,28 +8,17 @@ import { join } from 'path';
 import { DataGatheringService } from './data-gathering/data-gatherting.service';
 import { GithubService } from './github/github.service';
 import { LoggerModule } from 'nestjs-pino';
-import { createWriteStream } from 'fs';
-const log = createWriteStream(
-  /*process.env.ERROR_PATH +*/ '/Users/dsl/Documents/tmp/errors/test.json',
-  {
-    encoding: 'utf-8',
-  },
-);
-// TODO - Error Log to File
 @Module({
   imports: [
     LoggerModule.forRoot({
-      pinoHttp: [
-        {
-          transport: {
-            target: 'pino-pretty',
-            options: {
-              singleLine: true,
-            },
+      pinoHttp: {
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            singleLine: true,
           },
         },
-        log,
-      ],
+      },
     }),
     ConfigModule.forRoot(),
     ServeStaticModule.forRoot({

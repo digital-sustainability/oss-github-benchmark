@@ -79,10 +79,13 @@ export class GithubService
   async get_RepoContributors(
     owner: string,
     repoName: string,
+    page: number,
   ): Promise<OctokitResponse<any>> {
     return this.octokit.rest.repos.listContributors({
       owner: owner,
       repo: repoName,
+      per_page: 100,
+      page: page,
     });
   }
 
@@ -125,9 +128,12 @@ export class GithubService
    */
   async get_OrganisationRepositories(
     orgName: string,
+    page: number,
   ): Promise<OctokitResponse<any>> {
     return this.octokit.rest.repos.listForOrg({
       org: orgName,
+      per_page: 100,
+      page: page,
     });
   }
 
@@ -142,10 +148,13 @@ export class GithubService
   async get_RepoCommits(
     owner: string,
     repoName: string,
+    page: number,
   ): Promise<OctokitResponse<any>> {
     return this.octokit.rest.repos.listCommits({
       owner: owner,
       repo: repoName,
+      per_page: 100,
+      page: page,
     });
   }
 
@@ -158,10 +167,13 @@ export class GithubService
   async get_RepoCommitComments(
     owner: string,
     repoName: string,
+    page: number,
   ): Promise<OctokitResponse<any>> {
     return this.octokit.rest.repos.listCommitCommentsForRepo({
       owner: owner,
       repo: repoName,
+      per_page: 100,
+      page: page,
     });
   }
 
@@ -202,11 +214,14 @@ export class GithubService
     owner: string,
     repoName: string,
     state: 'open' | 'closed' | 'all',
+    page: number,
   ): Promise<OctokitResponse<any>> {
     return this.octokit.rest.pulls.list({
       owner: owner,
       repo: repoName,
       state: state,
+      per_page: 100,
+      page: page,
     });
   }
 
@@ -223,11 +238,14 @@ export class GithubService
     owner: string,
     repoName: string,
     state: 'open' | 'closed' | 'all',
+    page: number,
   ): Promise<OctokitResponse<any>> {
     return this.octokit.rest.issues.listForRepo({
       owner: owner,
       repo: repoName,
       state: state,
+      per_page: 100,
+      page: page,
     });
   }
 
@@ -253,9 +271,12 @@ export class GithubService
    */
   async get_OrganisationMembers(
     orgName: string,
+    page: number,
   ): Promise<OctokitResponse<any>> {
     return this.octokit.rest.orgs.listMembers({
       org: orgName,
+      per_page: 100,
+      page: page,
     });
   }
 }
