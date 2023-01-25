@@ -5,6 +5,7 @@ import {
   OnApplicationShutdown,
 } from '@nestjs/common';
 import { OctokitResponse } from '@octokit/types';
+import { RequestError } from '@octokit/request-error';
 import { GithubService } from 'src/github/github.service';
 import {
   Contributions,
@@ -24,21 +25,21 @@ import {
   Languages,
   OrganisationContributions,
   Organization,
+  RawResponse,
   Repository,
   RepositoryContributions,
   Statistic,
-  TodoIndustry,
   TodoInstitution,
   User,
 } from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { v4 as uuidv4 } from 'uuid';
+import * as fs from 'fs';
 
 // TODO - get more than one page from github
 // TODO - big object from all data
-// TODO - wrap all github calls in try catch HTTP errors
-// TODO - raw responses into files
-// TODO - when all calls finished return
+// TODO - maybe min days old, else do not crawl
+// TODO - maybe mongo refactor
 
 @Injectable()
 export class DataGatheringService
@@ -51,15 +52,21 @@ export class DataGatheringService
 
   async onApplicationShutdown(signal?: string) {}
   async onApplicationBootstrap() {
+    this.logPath = process.env.LOG_PATH || '/logs';
+    this.errorPath = process.env.ERROR_PATH || '/errors';
     await this.prepareInstitutions();
   }
 
   private readonly logger = new Logger(DataGatheringService.name);
+  private logPath: string;
+  private errorPath: string;
+  private reachedGithubCallLimit: boolean;
 
   /**
    * Prepare all the insitutions and call handle institution
    */
   private async prepareInstitutions() {
+    this.reachedGithubCallLimit = false;
     this.logger.log(`Prepairing all institutions to be crawled`);
     const todoInstituitions = await this.mongoService.findAllTodoInstitutions();
     todoInstituitions.sort((a, b) => {
@@ -69,9 +76,12 @@ export class DataGatheringService
       return b.ts.getTime() - a.ts.getTime();
     });
     for (const todoInstituition of todoInstituitions) {
-      await this.handleInstitution(todoInstituition, todoInstituition.sector);
-      await this.mongoService.updateTodoInstitutionTs(todoInstituition.uuid);
-      break;
+      // TODO - Remove this check
+      if (todoInstituition.shortname == '3ap') {
+        await this.handleInstitution(todoInstituition, todoInstituition.sector);
+        await this.mongoService.updateTodoInstitutionTs(todoInstituition.uuid);
+        break;
+      }
     }
     this.logger.log('Crawler finished');
   }
@@ -100,6 +110,7 @@ export class DataGatheringService
       return b.ts.getTime() - a.ts.getTime();
     });
     for (let i = 0; i < institution.orgs.length; i++) {
+      if (this.reachedGithubCallLimit) break;
       const organisation = institution.orgs[i];
       const newOrganisation = await this.handleOrg(
         organisation.name,
@@ -137,20 +148,24 @@ export class DataGatheringService
       institutionName,
       orgName,
     );
+    if (!gitOrganisation) return null;
     const members = await this.getGithubOrganisationMembers(
       orgName,
       institutionName,
     );
+    if (!members) return null;
     const repositories = await this.getGitHubOrganisationRepositories(
       orgName,
       institutionName,
     );
+    if (!repositories) return null;
     let organisation = await this.createOrganisationObject(
       gitOrganisation,
       members.length,
       orgName,
     );
     for (const repository of repositories) {
+      if (this.reachedGithubCallLimit) return organisation;
       const newRepo = await this.handleRepo(
         repository,
         institutionName,
@@ -265,6 +280,7 @@ export class DataGatheringService
     }
     const contributorNames: string[] = [];
     for (const contributor of contributors) {
+      if (this.reachedGithubCallLimit) return null;
       contributorNames.push(contributor.login);
       await this.handleUser(contributor, repo.name, orgName, institutionName);
     }
@@ -350,25 +366,42 @@ export class DataGatheringService
     repoName: string,
   ): Promise<null | GithubUser> {
     this.logger.log(`Getting userdata from github from user ${userName}`);
-    const gitUserResponse = await this.githubService.get_User(userName);
-    this.logger.log(
-      `Alredy made ${gitUserResponse.headers['x-ratelimit-used']}/${gitUserResponse.headers['x-ratelimit-limit']} calls.`,
-    );
-    this.mongoService.createRawResponse(
-      'get_github_user',
-      institutionName,
-      orgName,
-      repoName,
-      userName,
-      gitUserResponse,
-    );
-    if (gitUserResponse.status != 200) {
-      this.logger.error(
-        `Error while getting userdata from github from user ${userName}. Status is ${gitUserResponse.status}`,
-      );
-      return null;
-    }
-    return gitUserResponse.data as GithubUser;
+    return this.githubService
+      .get_User(userName)
+      .then((gitUserResponse) => {
+        this.logger.log(
+          `Alredy made ${gitUserResponse.headers['x-ratelimit-used']}/${gitUserResponse.headers['x-ratelimit-limit']} calls.`,
+        );
+        this.writeRawResponseToFile(
+          'get_github_user',
+          institutionName,
+          orgName,
+          repoName,
+          userName,
+          gitUserResponse,
+        );
+        if (gitUserResponse?.status != 200) {
+          this.logger.error(
+            `Error while getting userdata from github from user ${userName}. Status is ${gitUserResponse.status}`,
+          );
+          return null;
+        }
+        return gitUserResponse.data as GithubUser;
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+          return null;
+        }
+        this.logger.error(error);
+        return null;
+      });
   }
 
   /**
@@ -386,28 +419,42 @@ export class DataGatheringService
     orgName: string,
   ): Promise<null | GithubRepo> {
     this.logger.log(`Getting all the data from the repository ${repoName}`);
-    const gitRepoResponse = await this.githubService.get_Repository(
-      owner,
-      repoName,
-    );
-    this.logger.log(
-      `Alredy made ${gitRepoResponse.headers['x-ratelimit-used']}/${gitRepoResponse.headers['x-ratelimit-limit']} calls.`,
-    );
-    this.mongoService.createRawResponse(
-      'get_github_repo',
-      institutionName,
-      orgName,
-      repoName,
-      '',
-      gitRepoResponse,
-    );
-    if (gitRepoResponse.status != 200) {
-      this.logger.error(
-        `Error while getting repo data from github from repository ${repoName}. Status is ${gitRepoResponse.status}`,
-      );
-      return null;
-    }
-    return gitRepoResponse.data as GithubRepo;
+    return this.githubService
+      .get_Repository(owner, repoName)
+      .then((gitRepoResponse) => {
+        this.logger.log(
+          `Alredy made ${gitRepoResponse.headers['x-ratelimit-used']}/${gitRepoResponse.headers['x-ratelimit-limit']} calls.`,
+        );
+        this.writeRawResponseToFile(
+          'get_github_repo',
+          institutionName,
+          orgName,
+          repoName,
+          '',
+          gitRepoResponse,
+        );
+        if (gitRepoResponse?.status != 200) {
+          this.logger.error(
+            `Error while getting repo data from github from repository ${repoName}. Status is ${gitRepoResponse.status}`,
+          );
+          return null;
+        }
+        return gitRepoResponse.data as GithubRepo;
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+          return null;
+        }
+        this.logger.error(error);
+        return null;
+      });
   }
 
   /**
@@ -427,26 +474,42 @@ export class DataGatheringService
     this.logger.log(
       `Getting all the contributors from the repository ${repoName}`,
     );
-    const gitRepoContributorsResponse =
-      await this.githubService.get_RepoContributors(owner, repoName);
-    this.logger.log(
-      `Alredy made ${gitRepoContributorsResponse.headers['x-ratelimit-used']}/${gitRepoContributorsResponse.headers['x-ratelimit-limit']} calls.`,
-    );
-    this.mongoService.createRawResponse(
-      'get_github_contributors',
-      institutionName,
-      orgName,
-      repoName,
-      '',
-      gitRepoContributorsResponse,
-    );
-    if (gitRepoContributorsResponse.status != 200) {
-      this.logger.error(
-        `Error while getting contributor data from github from repository ${repoName}. Status is ${gitRepoContributorsResponse.status}`,
-      );
-      return null;
-    }
-    return gitRepoContributorsResponse.data as GithubContributor[];
+    return this.githubService
+      .get_RepoContributors(owner, repoName)
+      .then((gitRepoContributorsResponse) => {
+        this.logger.log(
+          `Alredy made ${gitRepoContributorsResponse.headers['x-ratelimit-used']}/${gitRepoContributorsResponse.headers['x-ratelimit-limit']} calls.`,
+        );
+        this.writeRawResponseToFile(
+          'get_github_contributors',
+          institutionName,
+          orgName,
+          repoName,
+          '',
+          gitRepoContributorsResponse,
+        );
+        if (gitRepoContributorsResponse?.status != 200) {
+          this.logger.error(
+            `Error while getting contributors data from github from repository ${repoName}. Status is ${gitRepoContributorsResponse.status}`,
+          );
+          return null;
+        }
+        return gitRepoContributorsResponse.data as GithubContributor[];
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+          return null;
+        }
+        this.logger.error(error);
+        return null;
+      });
   }
 
   /**
@@ -464,28 +527,42 @@ export class DataGatheringService
     orgName: string,
   ): Promise<null | GithubCommit[]> {
     this.logger.log(`Getting all the commits from the repository ${repoName}`);
-    const getRepoCommitsReponse = await this.githubService.get_RepoCommits(
-      owner,
-      repoName,
-    );
-    this.logger.log(
-      `Alredy made ${getRepoCommitsReponse.headers['x-ratelimit-used']}/${getRepoCommitsReponse.headers['x-ratelimit-limit']} calls.`,
-    );
-    this.mongoService.createRawResponse(
-      'get_github_commits',
-      institutionName,
-      orgName,
-      repoName,
-      '',
-      getRepoCommitsReponse,
-    );
-    if (getRepoCommitsReponse.status != 200) {
-      this.logger.error(
-        `Error while getting commit data from github from repository ${repoName}. Status is ${getRepoCommitsReponse.status}`,
-      );
-      return null;
-    }
-    return getRepoCommitsReponse.data as GithubCommit[];
+    return this.githubService
+      .get_RepoCommits(owner, repoName)
+      .then((getRepoCommitsReponse) => {
+        this.logger.log(
+          `Alredy made ${getRepoCommitsReponse.headers['x-ratelimit-used']}/${getRepoCommitsReponse.headers['x-ratelimit-limit']} calls.`,
+        );
+        this.writeRawResponseToFile(
+          'get_github_commits',
+          institutionName,
+          orgName,
+          repoName,
+          '',
+          getRepoCommitsReponse,
+        );
+        if (getRepoCommitsReponse?.status != 200) {
+          this.logger.error(
+            `Error while getting commit data from github from repository ${repoName}. Status is ${getRepoCommitsReponse.status}`,
+          );
+          return null;
+        }
+        return getRepoCommitsReponse.data as GithubCommit[];
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+          return null;
+        }
+        this.logger.error(error);
+        return null;
+      });
   }
 
   /**
@@ -507,29 +584,42 @@ export class DataGatheringService
     this.logger.log(
       `Getting all the pull requests with the state ${state} from the repository ${repoName}`,
     );
-    const getRepoPullRequestsResponse = await this.githubService.get_RepoPulls(
-      owner,
-      repoName,
-      state,
-    );
-    this.logger.log(
-      `Alredy made ${getRepoPullRequestsResponse.headers['x-ratelimit-used']}/${getRepoPullRequestsResponse.headers['x-ratelimit-limit']} calls.`,
-    );
-    this.mongoService.createRawResponse(
-      'get_github_pull_requests',
-      institutionName,
-      orgName,
-      repoName,
-      '',
-      getRepoPullRequestsResponse,
-    );
-    if (getRepoPullRequestsResponse.status != 200) {
-      this.logger.error(
-        `Error while getting pull request data from github from repository ${repoName}. Status is ${getRepoPullRequestsResponse.status}`,
-      );
-      return null;
-    }
-    return getRepoPullRequestsResponse.data as GitHubPull[];
+    return this.githubService
+      .get_RepoPulls(owner, repoName, state)
+      .then((getRepoPullRequestsResponse) => {
+        this.logger.log(
+          `Alredy made ${getRepoPullRequestsResponse.headers['x-ratelimit-used']}/${getRepoPullRequestsResponse.headers['x-ratelimit-limit']} calls.`,
+        );
+        this.writeRawResponseToFile(
+          'get_github_pull_requests',
+          institutionName,
+          orgName,
+          repoName,
+          '',
+          getRepoPullRequestsResponse,
+        );
+        if (getRepoPullRequestsResponse?.status != 200) {
+          this.logger.error(
+            `Error while getting pull request data from github from repository ${repoName}. Status is ${getRepoPullRequestsResponse.status}`,
+          );
+          return null;
+        }
+        return getRepoPullRequestsResponse.data as GitHubPull[];
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+          return null;
+        }
+        this.logger.error(error);
+        return null;
+      });
   }
 
   /**
@@ -551,29 +641,42 @@ export class DataGatheringService
     this.logger.log(
       `Getting all the issues with the state ${state} from the repository ${repoName}`,
     );
-    const getRepoIssuesResponse = await this.githubService.get_RepoIssues(
-      owner,
-      repoName,
-      state,
-    );
-    this.logger.log(
-      `Alredy made ${getRepoIssuesResponse.headers['x-ratelimit-used']}/${getRepoIssuesResponse.headers['x-ratelimit-limit']} calls.`,
-    );
-    this.mongoService.createRawResponse(
-      'get_github_issues',
-      institutionName,
-      orgName,
-      repoName,
-      '',
-      getRepoIssuesResponse,
-    );
-    if (getRepoIssuesResponse.status != 200) {
-      this.logger.error(
-        `Error while getting issues data from github from repository ${repoName}. Status is ${getRepoIssuesResponse.status}`,
-      );
-      return null;
-    }
-    return getRepoIssuesResponse.data as GitHubIssue[];
+    return this.githubService
+      .get_RepoIssues(owner, repoName, state)
+      .then((getRepoIssuesResponse) => {
+        this.logger.log(
+          `Alredy made ${getRepoIssuesResponse.headers['x-ratelimit-used']}/${getRepoIssuesResponse.headers['x-ratelimit-limit']} calls.`,
+        );
+        this.writeRawResponseToFile(
+          'get_github_issues',
+          institutionName,
+          orgName,
+          repoName,
+          '',
+          getRepoIssuesResponse,
+        );
+        if (getRepoIssuesResponse?.status != 200) {
+          this.logger.error(
+            `Error while getting issues data from github from repository ${repoName}. Status is ${getRepoIssuesResponse.status}`,
+          );
+          return null;
+        }
+        return getRepoIssuesResponse.data as GitHubIssue[];
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+          return null;
+        }
+        this.logger.error(error);
+        return null;
+      });
   }
 
   /**
@@ -593,26 +696,42 @@ export class DataGatheringService
     this.logger.log(
       `Getting all the commit comments from the repository ${repoName}`,
     );
-    const getRepoCommitCommentsResult =
-      await this.githubService.get_RepoCommitComments(owner, repoName);
-    this.logger.log(
-      `Alredy made ${getRepoCommitCommentsResult.headers['x-ratelimit-used']}/${getRepoCommitCommentsResult.headers['x-ratelimit-limit']} calls.`,
-    );
-    this.mongoService.createRawResponse(
-      'get_github_commit_comments',
-      institutionName,
-      orgName,
-      repoName,
-      '',
-      getRepoCommitCommentsResult,
-    );
-    if (getRepoCommitCommentsResult.status != 200) {
-      this.logger.error(
-        `Error while getting commit comments data from github from repository ${repoName}. Status is ${getRepoCommitCommentsResult.status}`,
-      );
-      return null;
-    }
-    return getRepoCommitCommentsResult.data as GitHubCommitComment[];
+    return this.githubService
+      .get_RepoCommitComments(owner, repoName)
+      .then((getRepoCommitCommentsResult) => {
+        this.logger.log(
+          `Alredy made ${getRepoCommitCommentsResult.headers['x-ratelimit-used']}/${getRepoCommitCommentsResult.headers['x-ratelimit-limit']} calls.`,
+        );
+        this.writeRawResponseToFile(
+          'get_github_commit_comments',
+          institutionName,
+          orgName,
+          repoName,
+          '',
+          getRepoCommitCommentsResult,
+        );
+        if (getRepoCommitCommentsResult?.status != 200) {
+          this.logger.error(
+            `Error while getting commit comments data from github from repository ${repoName}. Status is ${getRepoCommitCommentsResult.status}`,
+          );
+          return null;
+        }
+        return getRepoCommitCommentsResult.data as GitHubCommitComment[];
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+          return null;
+        }
+        this.logger.error(error);
+        return null;
+      });
   }
 
   /**
@@ -632,28 +751,42 @@ export class DataGatheringService
     this.logger.log(
       `Getting all the programming languages from the repository ${repoName}`,
     );
-    const getRepoLanguagesResult = await this.githubService.get_RepoLanguages(
-      owner,
-      repoName,
-    );
-    this.logger.log(
-      `Alredy made ${getRepoLanguagesResult.headers['x-ratelimit-used']}/${getRepoLanguagesResult.headers['x-ratelimit-limit']} calls.`,
-    );
-    this.mongoService.createRawResponse(
-      'get_github_langauges',
-      institutionName,
-      orgName,
-      repoName,
-      '',
-      getRepoLanguagesResult,
-    );
-    if (getRepoLanguagesResult.status != 200) {
-      this.logger.error(
-        `Error while getting commit comments data from github from repository ${repoName}. Status is ${getRepoLanguagesResult.status}`,
-      );
-      return null;
-    }
-    return getRepoLanguagesResult.data as Languages;
+    return this.githubService
+      .get_RepoLanguages(owner, repoName)
+      .then((getRepoLanguagesResult) => {
+        this.logger.log(
+          `Alredy made ${getRepoLanguagesResult.headers['x-ratelimit-used']}/${getRepoLanguagesResult.headers['x-ratelimit-limit']} calls.`,
+        );
+        this.writeRawResponseToFile(
+          'get_github_langauges',
+          institutionName,
+          orgName,
+          repoName,
+          '',
+          getRepoLanguagesResult,
+        );
+        if (getRepoLanguagesResult?.status != 200) {
+          this.logger.error(
+            `Error while getting commit comments data from github from repository ${repoName}. Status is ${getRepoLanguagesResult.status}`,
+          );
+          return null;
+        }
+        return getRepoLanguagesResult.data as Languages;
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+          return null;
+        }
+        this.logger.error(error);
+        return null;
+      });
   }
 
   /**
@@ -675,33 +808,43 @@ export class DataGatheringService
     );
     let getRepoCommitActivityResult: OctokitResponse<any>;
     while (true) {
-      getRepoCommitActivityResult =
-        await this.githubService.get_RepoCommitActivity(owner, repoName);
-      this.logger.log(
-        `Alredy made ${getRepoCommitActivityResult.headers['x-ratelimit-used']}/${getRepoCommitActivityResult.headers['x-ratelimit-limit']} calls.`,
-      );
-      this.mongoService.createRawResponse(
-        'get_github_commit_acitivity',
-        institutionName,
-        orgName,
-        repoName,
-        '',
-        getRepoCommitActivityResult,
-      );
-      if (
-        getRepoCommitActivityResult.status != 202 &&
-        getRepoCommitActivityResult.status != 204
-      ) {
-        break;
+      const res = await this.githubService
+        .get_RepoCommitActivity(owner, repoName)
+        .then((res) => {
+          getRepoCommitActivityResult = res;
+          this.logger.log(
+            `Alredy made ${res.headers['x-ratelimit-used']}/${res.headers['x-ratelimit-limit']} calls.`,
+          );
+          this.writeRawResponseToFile(
+            'get_github_commit_acitivity',
+            institutionName,
+            orgName,
+            repoName,
+            '',
+            res,
+          );
+          return res;
+        })
+        .catch((error) => {
+          this.logger.log(
+            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+          );
+          if (
+            parseInt(error.response.headers['x-ratelimit-used']) >=
+            parseInt(error.response.headers['x-ratelimit-limit'])
+          ) {
+            this.reachedGithubCallLimit = true;
+            return null;
+          }
+          this.logger.error(error);
+          return null;
+        });
+      if (!res) return null;
+      getRepoCommitActivityResult = res as OctokitResponse<any>;
+      if ((getRepoCommitActivityResult.status = 200)) {
+        return getRepoCommitActivityResult.data as GithubCommitActivity[];
       }
     }
-    if (getRepoCommitActivityResult.status != 200) {
-      this.logger.error(
-        `Error while getting commit activity data from github from repository ${repoName}. Status is ${getRepoCommitActivityResult.status}`,
-      );
-      return null;
-    }
-    return getRepoCommitActivityResult.data as GithubCommitActivity[];
   }
 
   /**
@@ -715,27 +858,42 @@ export class DataGatheringService
     orgName: string,
   ): Promise<null | GithubOrganisation> {
     this.logger.log(`Getting all the data of the organisation ${orgName}`);
-    const getOrganisationResult = await this.githubService.get_Organisation(
-      orgName,
-    );
-    this.logger.log(
-      `Alredy made ${getOrganisationResult.headers['x-ratelimit-used']}/${getOrganisationResult.headers['x-ratelimit-limit']} calls.`,
-    );
-    this.mongoService.createRawResponse(
-      'get_github_organisation',
-      institutionName,
-      orgName,
-      '',
-      '',
-      getOrganisationResult,
-    );
-    if (getOrganisationResult.status != 200) {
-      this.logger.error(
-        `Error while getting organisation data from github from the organisation ${orgName}. Status is ${getOrganisationResult.status}`,
-      );
-      return null;
-    }
-    return getOrganisationResult.data as GithubOrganisation;
+    return this.githubService
+      .get_Organisation(orgName)
+      .then((getOrganisationResult) => {
+        this.logger.log(
+          `Alredy made ${getOrganisationResult.headers['x-ratelimit-used']}/${getOrganisationResult.headers['x-ratelimit-limit']} calls.`,
+        );
+        this.writeRawResponseToFile(
+          'get_github_organisation',
+          institutionName,
+          orgName,
+          '',
+          '',
+          getOrganisationResult,
+        );
+        if (getOrganisationResult?.status != 200) {
+          this.logger.error(
+            `Error while getting organisation data from github from the organisation ${orgName}. Status is ${getOrganisationResult.status}`,
+          );
+          return null;
+        }
+        return getOrganisationResult.data as GithubOrganisation;
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+          return null;
+        }
+        this.logger.error(error);
+        return null;
+      });
   }
 
   /**
@@ -749,26 +907,42 @@ export class DataGatheringService
     institutionName: string,
   ): Promise<null | GithubOrganisationMember[]> {
     this.logger.log(`Getting all the members of the organisation ${orgName}`);
-    const getOrganisationMembersResult =
-      await this.githubService.get_OrganisationMembers(orgName);
-    this.logger.log(
-      `Alredy made ${getOrganisationMembersResult.headers['x-ratelimit-used']}/${getOrganisationMembersResult.headers['x-ratelimit-limit']} calls.`,
-    );
-    this.mongoService.createRawResponse(
-      'get_github_organisation_members',
-      institutionName,
-      orgName,
-      '',
-      '',
-      getOrganisationMembersResult,
-    );
-    if (getOrganisationMembersResult.status != 200) {
-      this.logger.error(
-        `Error while getting organisation members data from github from the organisation ${orgName}. Status is ${getOrganisationMembersResult.status}`,
-      );
-      return null;
-    }
-    return getOrganisationMembersResult.data as GithubOrganisationMember[];
+    return this.githubService
+      .get_OrganisationMembers(orgName)
+      .then((getOrganisationMembersResult) => {
+        this.logger.log(
+          `Alredy made ${getOrganisationMembersResult.headers['x-ratelimit-used']}/${getOrganisationMembersResult.headers['x-ratelimit-limit']} calls.`,
+        );
+        this.writeRawResponseToFile(
+          'get_github_organisation_members',
+          institutionName,
+          orgName,
+          '',
+          '',
+          getOrganisationMembersResult,
+        );
+        if (getOrganisationMembersResult?.status != 200) {
+          this.logger.error(
+            `Error while getting organisation members data from github from the organisation ${orgName}. Status is ${getOrganisationMembersResult.status}`,
+          );
+          return null;
+        }
+        return getOrganisationMembersResult.data as GithubOrganisationMember[];
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+          return null;
+        }
+        this.logger.error(error);
+        return null;
+      });
   }
 
   /**
@@ -784,26 +958,42 @@ export class DataGatheringService
     this.logger.log(
       `Getting all the repositories of the organisation ${orgName}`,
     );
-    const getOrganisationRepositoriesResult =
-      await this.githubService.get_OrganisationRepositories(orgName);
-    this.logger.log(
-      `Alredy made ${getOrganisationRepositoriesResult.headers['x-ratelimit-used']}/${getOrganisationRepositoriesResult.headers['x-ratelimit-limit']} calls.`,
-    );
-    this.mongoService.createRawResponse(
-      'get_github_organisation_repositories',
-      institutionName,
-      orgName,
-      '',
-      '',
-      getOrganisationRepositoriesResult,
-    );
-    if (getOrganisationRepositoriesResult.status != 200) {
-      this.logger.error(
-        `Error while getting organisation repositories data from github from the organisation ${orgName}. Status is ${getOrganisationRepositoriesResult.status}`,
-      );
-      return null;
-    }
-    return getOrganisationRepositoriesResult.data as GithubOrganisationRepository[];
+    return this.githubService
+      .get_OrganisationRepositories(orgName)
+      .then((getOrganisationRepositoriesResult) => {
+        this.logger.log(
+          `Alredy made ${getOrganisationRepositoriesResult.headers['x-ratelimit-used']}/${getOrganisationRepositoriesResult.headers['x-ratelimit-limit']} calls.`,
+        );
+        this.writeRawResponseToFile(
+          'get_github_organisation_repositories',
+          institutionName,
+          orgName,
+          '',
+          '',
+          getOrganisationRepositoriesResult,
+        );
+        if (getOrganisationRepositoriesResult?.status != 200) {
+          this.logger.error(
+            `Error while getting organisation repositories data from github from the organisation ${orgName}. Status is ${getOrganisationRepositoriesResult.status}`,
+          );
+          return null;
+        }
+        return getOrganisationRepositoriesResult.data as GithubOrganisationRepository[];
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+          return null;
+        }
+        this.logger.error(error);
+        return null;
+      });
   }
 
   /**
@@ -829,32 +1019,48 @@ export class DataGatheringService
     this.logger.log(
       `Comparing two commits between :${defaultBranch} and ${parentOwner}:${parentDefaultBranch}.`,
     );
-    const compareTwoCommitsResult = await this.githubService.compare_Commits(
-      owner,
-      repoName,
-      parentOwner,
-      parentDefaultBranch,
-      defaultBranch,
-    );
-    this.logger.log(
-      `Alredy made ${compareTwoCommitsResult.headers['x-ratelimit-used']}/${compareTwoCommitsResult.headers['x-ratelimit-limit']} calls.`,
-    );
-    this.mongoService.createRawResponse(
-      'compare_github_commits',
-      institutionName,
-      orgName,
-      repoName,
-      '',
-      compareTwoCommitsResult,
-    );
-
-    if (compareTwoCommitsResult.status != 200) {
-      this.logger.error(
-        `Error while comparing :${defaultBranch} and ${parentOwner}:${parentDefaultBranch}. Status is ${compareTwoCommitsResult.status}`,
-      );
-      return null;
-    }
-    return compareTwoCommitsResult.data as GithubCommitComparison;
+    return this.githubService
+      .compare_Commits(
+        owner,
+        repoName,
+        parentOwner,
+        parentDefaultBranch,
+        defaultBranch,
+      )
+      .then((compareTwoCommitsResult) => {
+        this.logger.log(
+          `Alredy made ${compareTwoCommitsResult.headers['x-ratelimit-used']}/${compareTwoCommitsResult.headers['x-ratelimit-limit']} calls.`,
+        );
+        this.writeRawResponseToFile(
+          'compare_github_commits',
+          institutionName,
+          orgName,
+          repoName,
+          '',
+          compareTwoCommitsResult,
+        );
+        if (compareTwoCommitsResult?.status != 200) {
+          this.logger.error(
+            `Error while comparing :${defaultBranch} and ${parentOwner}:${parentDefaultBranch}. Status is ${compareTwoCommitsResult.status}`,
+          );
+          return null;
+        }
+        return compareTwoCommitsResult.data as GithubCommitComparison;
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+          return null;
+        }
+        this.logger.error(error);
+        return null;
+      });
   }
 
   /**
@@ -1215,4 +1421,49 @@ export class DataGatheringService
 
     return institution;
   }
+
+  /**
+   * Writes a git response to a file
+   * @param method The github method used
+   * @param institutionName The name of the institution
+   * @param orgName The organisation Name
+   * @param repoName The name of the repository
+   * @param userName The name of the user
+   * @param response The response object
+   */
+  writeRawResponseToFile = async (
+    method: string,
+    institutionName: string,
+    orgName?: string,
+    repoName?: string,
+    userName?: string,
+    response?: OctokitResponse<any>,
+  ): Promise<void> => {
+    if (!fs.existsSync(this.logPath)) await fs.mkdirSync(this.logPath);
+    const rawResponse: RawResponse = {
+      method: method,
+      ts: new Date(),
+      institutionName: institutionName,
+      orgName: orgName,
+      repoName: repoName,
+      userName: userName,
+      response: response,
+    };
+    await fs.writeFileSync(
+      `${this.logPath}/raw_git_response_${rawResponse.ts.getTime()}.json`,
+      JSON.stringify(rawResponse),
+    );
+  };
+
+  /**
+   * Writes an error to a file
+   * @param error The error object
+   */
+  writeErrorToFile = async (error: any): Promise<void> => {
+    if (!fs.existsSync(this.errorPath)) await fs.mkdirSync(this.errorPath);
+    await fs.writeFileSync(
+      `${this.errorPath}/error_${new Date().getTime()}.json`,
+      error,
+    );
+  };
 }

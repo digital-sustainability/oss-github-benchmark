@@ -2,20 +2,24 @@ import {
   Injectable,
   OnApplicationBootstrap,
   OnApplicationShutdown,
+  OnModuleInit,
 } from '@nestjs/common';
 import { Octokit } from '@octokit/rest';
 import { OctokitResponse } from '@octokit/types';
 
 @Injectable()
 export class GithubService
-  implements OnApplicationBootstrap, OnApplicationShutdown
+  implements OnApplicationBootstrap, OnApplicationShutdown, OnModuleInit
 {
   async onApplicationBootstrap() {
-    await this.intializeConnection();
+    //await this.intializeConnection();
   }
   async onApplicationShutdown(signal?: string) {
     await this.destroyConnection();
   }
+  onModuleInit = async () => {
+    await this.intializeConnection();
+  };
 
   private octokit: Octokit;
 
