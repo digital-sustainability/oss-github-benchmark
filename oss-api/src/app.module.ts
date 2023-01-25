@@ -8,9 +8,7 @@ import { join } from 'path';
 import { DataGatheringService } from './data-gathering/data-gatherting.service';
 import { GithubService } from './github/github.service';
 import { LoggerModule } from 'nestjs-pino';
-import { FileService } from './file/file.service';
 import { createWriteStream } from 'fs';
-import pino from 'pino';
 const log = createWriteStream(
   /*process.env.ERROR_PATH +*/ '/Users/dsl/Documents/tmp/errors/test.json',
   {
@@ -44,7 +42,6 @@ const log = createWriteStream(
     DataGathering,
     DataGatheringService,
     GithubService,
-    FileService,
   ],
 })
 export class AppModule {}
