@@ -15,6 +15,7 @@ const log = createWriteStream(
     encoding: 'utf-8',
   },
 );
+// TODO - Error Log to File
 @Module({
   imports: [
     LoggerModule.forRoot({

@@ -38,8 +38,8 @@ import * as fs from 'fs';
 
 // TODO - get more than one page from github
 // TODO - big object from all data
-// TODO - maybe min days old, else do not crawl
 // TODO - maybe mongo refactor
+// TODO - As not all orgs are crawled in the same go it could happen that an institution has wrong numbers, maybe also save the organisation for later use?
 
 @Injectable()
 export class DataGatheringService
@@ -61,6 +61,7 @@ export class DataGatheringService
   private logPath: string;
   private errorPath: string;
   private reachedGithubCallLimit: boolean;
+  private daysToWait = 7 * 24 * 60 * 60 * 1000; // Days * 24 hours * 60 minutes * 60 seconds * 1000 miliseconds
 
   /**
    * Prepare all the insitutions and call handle institution
@@ -76,6 +77,12 @@ export class DataGatheringService
       return b.ts.getTime() - a.ts.getTime();
     });
     for (const todoInstituition of todoInstituitions) {
+      if (todoInstituition.ts?.getTime() > Date.now() - this.daysToWait) {
+        this.logger.log(
+          `The institution ${todoInstituition.name_de} was alredy crawled in the defined time`,
+        );
+        continue;
+      }
       // TODO - Remove this check
       if (todoInstituition.shortname == '3ap') {
         await this.handleInstitution(todoInstituition, todoInstituition.sector);
@@ -112,6 +119,12 @@ export class DataGatheringService
     for (let i = 0; i < institution.orgs.length; i++) {
       if (this.reachedGithubCallLimit) break;
       const organisation = institution.orgs[i];
+      if (organisation.ts?.getTime() > Date.now() - this.daysToWait) {
+        this.logger.log(
+          `The organisation ${organisation.name} was alredy crawled in the last defined time`,
+        );
+        continue;
+      }
       const newOrganisation = await this.handleOrg(
         organisation.name,
         institution.shortname,
