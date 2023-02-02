@@ -31,7 +31,7 @@
     "@angular/platform-server": "~11.2.14",
     "@angular/router": "~11.2.14",
     "@nguniversal/express-engine": "^10.1.0",
-    "@scullyio/init": "^1.1.4",
+    "@scullyio/init": "^2.1.41",
     "@scullyio/ng-lib": "^1.0.0",
     "@scullyio/scully": "^1.0.0",
     "chart.js": "^3.4.0",
