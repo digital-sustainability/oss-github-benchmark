@@ -51,3 +51,5 @@ express-angular.deploy:
   needs:
     - job: express-angular.dokku-create-app
     - job: express-angular.build
+  only:
+    - new-crawler
