@@ -1,4 +1,4 @@
-FROM node:16-alpine as backendBuild
+FROM node:18 as backendBuild
 LABEL stage=build
 
 COPY oss-api/ ./
@@ -20,7 +20,7 @@ RUN npm install
 
 RUN npm run build:prod
 
-FROM node:16-alpine as prod
+FROM node:18 as prod
 
 COPY --from=backendBuild dist dist
 
