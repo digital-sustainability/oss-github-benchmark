@@ -28,10 +28,6 @@ COPY --from=backendBuild node_modules/ dist/node_modules
 
 COPY --from=frontendBuild client client
 
-COPY oss-api/requirements.txt .
-RUN apk add --no-cache py3-pip
-RUN pip install -r requirements.txt
-
 ENV PORT=5000
 
 ENV NODE_ENV=PRODUCTION

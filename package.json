@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "@nestjs/common": "^9.2.1",
-    "@octokit/types": "^8.0.0",
     "mongodb": "^4.12.1",
     "uuid": "^9.0.0"
   },
