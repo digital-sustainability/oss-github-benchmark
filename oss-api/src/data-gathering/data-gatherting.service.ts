@@ -23,7 +23,7 @@ import {
   Institution,
   Languages,
   OrganisationContributions,
-  Organization,
+  Organisation,
   RawResponse,
   Repository,
   RepositoryContributions,
@@ -38,7 +38,6 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 
 // TODO - big object from all data
 // TODO - maybe mongo refactor
-// TODO - As not all orgs are crawled in the same go it could happen that an institution has wrong numbers, maybe also save the organisation for later use?
 
 @Injectable()
 export class DataGatheringService
@@ -127,6 +126,7 @@ export class DataGatheringService
         newOrganisation,
         newInstitution,
       );
+      this.mongoService.upsertOrg(newOrganisation);
       organisation.ts = new Date();
       institution.orgs[i] = organisation;
       await this.mongoService.updateOrgTimestamp(institution);
@@ -148,8 +148,9 @@ export class DataGatheringService
   private async handleOrg(
     orgName: string,
     institutionName: string,
-  ): Promise<Organization> {
+  ): Promise<Organisation> {
     this.logger.log(`Handling Organisation ${orgName}`);
+    const dbOrganisation = await this.mongoService.findOrganisation(orgName);
     const gitOrganisation = await this.getGitHubOrganisation(
       institutionName,
       orgName,
@@ -165,11 +166,17 @@ export class DataGatheringService
       institutionName,
     );
     if (!repositories) return null;
-    let organisation = await this.createOrganisationObject(
-      gitOrganisation,
-      members.length,
-      orgName,
-    );
+    let organisation = dbOrganisation
+      ? await this.updateOrganisationObject(
+          dbOrganisation,
+          gitOrganisation,
+          members.length,
+        )
+      : await this.createOrganisationObject(
+          gitOrganisation,
+          members.length,
+          orgName,
+        );
     for (const repository of repositories) {
       if (this.reachedGithubCallLimit) return organisation;
       const newRepo = await this.handleRepo(
@@ -1313,14 +1320,15 @@ export class DataGatheringService
    * Create a organisation Object
    * @param organisation A Github Organisation Object
    * @param memberCount The number of members in the organisation
+   * @param orgName The name of the organisation
    * @returns A Organisation Object
    */
   private async createOrganisationObject(
     organisation: GithubOrganisation,
     memberCount: number,
     orgName: string,
-  ): Promise<Organization> {
-    const newOrg: Organization = {
+  ): Promise<Organisation> {
+    const newOrg: Organisation = {
       num_repos: organisation.public_repos,
       num_members: memberCount,
       total_num_contributors: 0,
@@ -1351,15 +1359,56 @@ export class DataGatheringService
   }
 
   /**
+   * Update a organisation Object
+   * @param organisation A Github Organisation Object
+   * @param memberCount The number of members in the organisation
+   * @returns A Organisation Object
+   */
+  private async updateOrganisationObject(
+    dbOrganisation: Organisation,
+    organisation: GithubOrganisation,
+    memberCount: number,
+  ): Promise<Organisation> {
+    const newOrg: Organisation = {
+      num_repos: dbOrganisation.num_repos + organisation.public_repos,
+      num_members: dbOrganisation.num_members + memberCount,
+      total_num_contributors: dbOrganisation.total_num_contributors,
+      total_num_own_repo_forks: dbOrganisation.total_num_own_repo_forks,
+      total_num_forks_in_repos: dbOrganisation.total_num_forks_in_repos,
+      total_num_commits: dbOrganisation.total_num_commits,
+      total_pull_requests: dbOrganisation.total_pull_requests,
+      total_issues: dbOrganisation.total_issues,
+      total_num_stars: dbOrganisation.total_num_stars,
+      total_num_watchers: dbOrganisation.total_num_watchers,
+      total_pull_requests_all: dbOrganisation.total_pull_requests_all,
+      total_pull_requests_closed: dbOrganisation.total_pull_requests_closed,
+      total_issues_all: dbOrganisation.total_issues_all,
+      total_issues_closed: dbOrganisation.total_issues_closed,
+      total_comments: dbOrganisation.total_comments,
+      name: dbOrganisation.name,
+      url: dbOrganisation.url,
+      description: dbOrganisation.description,
+      avatar: dbOrganisation.avatar,
+      created_at: dbOrganisation.created_at,
+      location: dbOrganisation.location,
+      email: dbOrganisation.email,
+      repos: dbOrganisation.repos,
+      repo_names: dbOrganisation.repo_names,
+      total_licenses: dbOrganisation.total_licenses,
+    };
+    return newOrg;
+  }
+
+  /**
    * Update the Organisation with repository Data
    * @param organisation The organisation object
    * @param repository The repository object
    * @returns The updated organisation object
    */
   private async updateOrganisationData(
-    organisation: Organization,
+    organisation: Organisation,
     repository: Repository,
-  ): Promise<Organization> {
+  ): Promise<Organisation> {
     if (repository.fork) {
       organisation.total_num_forks_in_repos++;
       organisation.total_num_commits += repository.has_own_commits;
@@ -1464,7 +1513,7 @@ export class DataGatheringService
    * @returns The updated institution
    */
   private async updateInstitutionWithOrgData(
-    organisation: Organization,
+    organisation: Organisation,
     institution: Institution,
   ): Promise<Institution> {
     institution.orgs.push(organisation);

@@ -17,6 +17,7 @@ import {
   RepositoryQueryConfig,
   RawResponse,
   TodoInstitution,
+  Organisation,
 } from 'src/interfaces';
 import { OctokitResponse } from '@octokit/types';
 
@@ -182,6 +183,21 @@ export class MongoDbService
       .findOne({ uuid: uuid });
   }
 
+  /**
+   * Get the organisation with the given name
+   * @param name The name of the organisation
+   * @returns A Organsation object
+   */
+  async findOrganisation(name: string): Promise<Organisation> {
+    this.logger.log(
+      `Gettign the organisation with the name ${name} from the database`,
+    );
+    return this.client
+      .db(this.database)
+      .collection<Organisation>('organisation')
+      .findOne({ name: name });
+  }
+
   /***********************************Update************************************************/
 
   /**
@@ -292,6 +308,50 @@ export class MongoDbService
       .updateOne(
         { uuid: institution.uuid },
         { $set: { orgs: institution.orgs } },
+      );
+  }
+
+  /**
+   * Update or Create a Organisation
+   * @param organisation the Organisation Object
+   */
+  async upsertOrg(organisation: Organisation): Promise<void> {
+    this.logger.log(`Updating organsisation ${organisation.name}`);
+    this.client
+      .db(this.database)
+      .collection('organisation')
+      .replaceOne(
+        { name: organisation.name },
+        {
+          $set: {
+            num_repos: organisation.num_repos,
+            num_members: organisation.num_members,
+            total_num_contributors: organisation.total_num_contributors,
+            total_num_own_repo_forks: organisation.total_num_own_repo_forks,
+            total_num_forks_in_repos: organisation.total_num_forks_in_repos,
+            total_num_commits: organisation.total_num_commits,
+            total_pull_requests: organisation.total_pull_requests,
+            total_issues: organisation.total_issues,
+            total_num_stars: organisation.total_num_stars,
+            total_num_watchers: organisation.total_num_watchers,
+            total_pull_requests_all: organisation.total_pull_requests_all,
+            total_pull_requests_closed: organisation.total_pull_requests_closed,
+            total_issues_all: organisation.total_issues_all,
+            total_issues_closed: organisation.total_issues_closed,
+            total_comments: organisation.total_comments,
+            name: organisation.name,
+            url: organisation.url,
+            description: organisation.description,
+            avatar: organisation.avatar,
+            created_at: organisation.created_at,
+            location: organisation.location,
+            email: organisation.email,
+            repos: organisation.repos,
+            repo_names: organisation.repo_names,
+            total_licenses: organisation.total_licenses,
+          },
+        },
+        { upsert: true },
       );
   }
 

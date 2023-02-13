@@ -1951,7 +1951,7 @@ export interface RepositoryInfo {
   };
 }
 
-export interface Organization {
+export interface Organisation {
   num_repos: number;
   num_members: number;
   total_num_contributors: number;
@@ -2080,7 +2080,7 @@ export interface Institution {
   total_issues_closed: number;
   total_comments: number;
   org_names: string[];
-  orgs: Organization[];
+  orgs: Organisation[];
   num_orgs: number;
   avatar: string[];
   repos: string[];
