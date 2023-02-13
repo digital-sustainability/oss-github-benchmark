@@ -80,6 +80,8 @@ export class DataGatheringService
         );
         continue;
       }
+      await this.handleInstitution(todoInstituition, todoInstituition.sector);
+      await this.mongoService.updateTodoInstitutionTs(todoInstituition.uuid);
     }
     this.logger.log('Crawler finished');
   }
