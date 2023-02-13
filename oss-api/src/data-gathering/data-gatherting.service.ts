@@ -5,7 +5,6 @@ import {
   OnApplicationShutdown,
 } from '@nestjs/common';
 import { OctokitResponse } from '@octokit/types';
-import { RequestError } from '@octokit/request-error';
 import { GithubService } from 'src/github/github.service';
 import {
   Contributions,
@@ -35,6 +34,7 @@ import {
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'fs';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 // TODO - big object from all data
 // TODO - maybe mongo refactor
@@ -52,19 +52,17 @@ export class DataGatheringService
   async onApplicationShutdown(signal?: string) {}
   async onApplicationBootstrap() {
     this.logPath = process.env.LOG_PATH || '/logs';
-    this.errorPath = process.env.ERROR_PATH || '/errors';
-    this.prepareInstitutions();
   }
 
   private readonly logger = new Logger(DataGatheringService.name);
   private logPath: string;
-  private errorPath: string;
   private reachedGithubCallLimit: boolean;
   private daysToWait = 7 * 24 * 60 * 60 * 1000; // Days * 24 hours * 60 minutes * 60 seconds * 1000 miliseconds
 
   /**
    * Prepare all the insitutions and call handle institution
    */
+  @Cron(CronExpression.EVERY_HOUR)
   private async prepareInstitutions() {
     this.reachedGithubCallLimit = false;
     this.logger.log(`Prepairing all institutions to be crawled`);
@@ -81,12 +79,6 @@ export class DataGatheringService
           `The institution ${todoInstituition.name_de} was alredy crawled in the defined time`,
         );
         continue;
-      }
-      // TODO - Remove this check
-      if (todoInstituition.shortname == '3ap') {
-        await this.handleInstitution(todoInstituition, todoInstituition.sector);
-        await this.mongoService.updateTodoInstitutionTs(todoInstituition.uuid);
-        break;
       }
     }
     this.logger.log('Crawler finished');
@@ -1529,18 +1521,6 @@ export class DataGatheringService
     await fs.writeFileSync(
       `${this.logPath}/raw_git_response_${rawResponse.ts.getTime()}.json`,
       JSON.stringify(rawResponse),
-    );
-  };
-
-  /**
-   * Writes an error to a file
-   * @param error The error object
-   */
-  writeErrorToFile = async (error: any): Promise<void> => {
-    if (!fs.existsSync(this.errorPath)) await fs.mkdirSync(this.errorPath);
-    await fs.writeFileSync(
-      `${this.errorPath}/error_${new Date().getTime()}.json`,
-      error,
     );
   };
 }

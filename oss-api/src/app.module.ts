@@ -8,8 +8,10 @@ import { join } from 'path';
 import { DataGatheringService } from './data-gathering/data-gatherting.service';
 import { GithubService } from './github/github.service';
 import { LoggerModule } from 'nestjs-pino';
+import { ScheduleModule } from '@nestjs/schedule';
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     LoggerModule.forRoot({
       pinoHttp: {
         transport: {
