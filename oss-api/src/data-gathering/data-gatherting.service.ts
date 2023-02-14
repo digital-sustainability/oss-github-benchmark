@@ -37,7 +37,7 @@ import * as fs from 'fs';
 import { Cron, CronExpression } from '@nestjs/schedule';
 
 // TODO - big object from all data
-// TODO - maybe mongo refactor
+// TODO - maybe mongo refactor, app crashes because of the old implementation
 
 @Injectable()
 export class DataGatheringService

@@ -198,6 +198,16 @@ export class MongoDbService
       .findOne({ name: name });
   }
 
+  async findAllInstitutions(): Promise<Institution[]> {
+    this.logger.log('Getting all institutions from the database');
+    const session = this.client.startSession();
+    return this.client
+      .db('statistics')
+      .collection<Institution>('institutions')
+      .find({ num_orgs: { $ne: 0 } }, { session: session })
+      .toArray();
+  }
+
   /***********************************Update************************************************/
 
   /**
@@ -357,9 +367,9 @@ export class MongoDbService
 
   /***********************************Delete************************************************/
 
-  async findAllInstitutions() {
+  /*async findAllInstitutions() {
     return this.institutions;
-  }
+  }*/
   async findAllRepositories() {
     return this.repositories;
   }
