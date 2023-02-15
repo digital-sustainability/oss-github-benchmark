@@ -12,6 +12,7 @@ import {
   User,
   Status,
   InstitutionQueryConfig,
+  RepositoryQueryConfig,
 } from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { UserQueryPipe } from 'src/user-query.pipe';
@@ -53,13 +54,17 @@ export class ApiController {
   async findAllRepositories(): Promise<Repository[]> {
     return this.mongoDbService.findAllRepositories();
   }
+  /***********************************Old************************************************/
+
   @Get('paginatedRepositories')
   @UsePipes(new RepositoryQueryPipe(), new ValidationPipe({ transform: true }))
   async findRepositories(
     @Query() queryDto: RepositoryQueryDto,
   ): Promise<{ repositories: Repository[]; total: number }> {
     const queryConfig = queryDto;
-    return this.mongoDbService.findRepositories(queryConfig);
+    //this.mongoDbService.findRepositories(queryConfig);
+    const repositories = await this.handleRepositories(queryConfig);
+    return { repositories: repositories, total: repositories.length };
   }
   @Get('users')
   async findAllUsers(): Promise<User[]> {
@@ -103,6 +108,24 @@ export class ApiController {
     }
     institutions = await this.sortInstutitons(institutions, queryConfig);
     return institutions;
+  }
+
+  /**
+   * Handle the repositories and the queries
+   * @param params The queries
+   * @returns The filtered and sorted repository list
+   */
+  private async handleRepositories(
+    params: RepositoryQueryConfig,
+  ): Promise<Repository[]> {
+    let repositories = await this.mongoDbService.findRepository(params.search);
+    if (!params.includeForks) {
+      repositories = repositories.filter((repository: Repository, index) => {
+        return !repository.fork;
+      });
+    }
+    repositories = await this.sortRepositories(repositories, params);
+    return repositories;
   }
 
   /**
@@ -162,6 +185,37 @@ export class ApiController {
               (params.includeForksInSort ? 0 : a.total_num_forks_in_repos) -
               a[params.sort] -
               (params.includeForksInSort ? 0 : a.total_num_forks_in_repos);
+      }
+    });
+  }
+
+  /**
+   * Sort the repositories corresponding with the params
+   * @param repositories The repositories to be sorted
+   * @param params The params to sort
+   * @returns The sorted repositories array
+   */
+  private async sortRepositories(
+    repositories: Repository[],
+    params: RepositoryQueryConfig,
+  ): Promise<Repository[]> {
+    return [...repositories].sort((a, b) => {
+      try {
+        if (typeof a[params.sort] == 'string') {
+          return params.direction == 'ASC'
+            ? b[params.sort]
+                .toLowerCase()
+                .localeCompare(a[params.sort].toLowerCase())
+            : a[params.sort]
+                .toLowerCase()
+                .localeCompare(b[params.sort].toLowerCase());
+        } else {
+          return params.direction == 'ASC'
+            ? a[params.sort] - b[params.sort]
+            : b[params.sort] - a[params.sort];
+        }
+      } catch {
+        return !b[params.sort];
       }
     });
   }

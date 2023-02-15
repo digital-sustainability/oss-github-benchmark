@@ -62,6 +62,10 @@ export class MongoDbService
       .db('statistics')
       .collection('institutions')
       .createIndex({ '$**': 'text' });
+    this.client
+      .db('statistics')
+      .collection('repositories')
+      .createIndex({ '$**': 'text' });
   }
   private async destroyConnection() {
     if (!this.client) return;
@@ -213,7 +217,7 @@ export class MongoDbService
   }
 
   /**
-   * Find Institution by a search term
+   * Find Institutions by a search term
    * @param searchTerm The search term
    * @returns The found institutions as an array
    */
@@ -226,16 +230,35 @@ export class MongoDbService
       .toArray();
   }
 
-  async findInsitutionsBySector(sectors: string[]): Promise<Institution[]> {
-    this.logger.log(`Get all institutions from these sectors: ${sectors}`);
-
+  /**
+   * Get all the repositories
+   * @returns The repository array
+   */
+  async findAllRepositories(): Promise<Repository[]> {
+    this.logger.log('Get all Repositories from the database');
+    const session = this.client.startSession();
     return this.client
       .db('statistics')
-      .collection<Institution>('institutions')
-      .find({ sector: 'IT' })
+      .collection<Repository>('repositories')
+      .find()
       .toArray();
   }
 
+  /**
+   * Find Repositories by a search term
+   * @param searchTerm The search term
+   * @returns The found repositories as an array
+   */
+  async findRepository(searchTerm: string): Promise<Repository[]> {
+    this.logger.log(
+      `Getting all the repositories with the search term: ${searchTerm}`,
+    );
+    return this.client
+      .db('statistics')
+      .collection<Repository>('repositories')
+      .find({ $text: { $search: searchTerm } })
+      .toArray();
+  }
   /***********************************Update************************************************/
 
   /**
@@ -400,9 +423,9 @@ export class MongoDbService
   /*async findAllInstitutions() {
     return this.institutions;
   }*/
-  async findAllRepositories() {
+  /*async findAllRepositories() {
     return this.repositories;
-  }
+  }*/
   async findAllUsers() {
     return this.users;
   }
