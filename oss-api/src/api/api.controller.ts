@@ -6,7 +6,13 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { InstitutionQueryPipe } from 'src/institution-query.pipe';
-import { Institution, Repository, User, Status } from 'src/interfaces';
+import {
+  Institution,
+  Repository,
+  User,
+  Status,
+  InstitutionQueryConfig,
+} from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { UserQueryPipe } from 'src/user-query.pipe';
 import { InstitutionQueryDto } from './dto/institution-query.dto';
@@ -32,25 +38,13 @@ export class ApiController {
     | Institution
   > {
     const queryConfig = queryDto;
-    let institutions: Institution[] = [];
-    if (queryConfig.search.length > 0) {
-      institutions = await this.mongoDbService.findInstitutions(
-        queryConfig.search,
-      );
-    } else {
-      institutions = await this.mongoDbService.findAllInstitutions();
-    }
-    if (queryConfig.sector.length > 0) {
-      institutions = await this.sortbySector(queryConfig.sector, institutions);
-    }
-    let sectors = {};
-    institutions.forEach((institution) => {
-      sectors[institution.sector] = (sectors[institution.sector] ?? 0) + 1;
-    });
-    // TODO: Remove old Code
-    //return this.mongoDbService.findInstitutionsOld(queryConfig);
+    const institutions = await this.handleInstitutions(queryConfig);
+    const sectors = await this.getAllSectorsFromInstitutions(institutions);
     return {
-      institutions: institutions,
+      institutions: institutions.slice(
+        queryConfig.page * queryConfig.count,
+        (queryConfig.page + 1) * queryConfig.count,
+      ),
       total: institutions.length,
       sectors: sectors,
     };
@@ -85,12 +79,90 @@ export class ApiController {
   }
 
   /***********************************Helper************************************************/
-  private async sortbySector(
+  /**
+   * Handle the request and the institution data
+   * @param queryConfig The queries of the request
+   * @returns An institution array corresponding to the request
+   */
+  private async handleInstitutions(
+    queryConfig: InstitutionQueryConfig,
+  ): Promise<Institution[]> {
+    let institutions: Institution[] = [];
+    if (queryConfig.search.length > 0) {
+      institutions = await this.mongoDbService.findInstitutions(
+        queryConfig.search,
+      );
+    } else {
+      institutions = await this.mongoDbService.findAllInstitutions();
+    }
+    if (queryConfig.sector.length > 0) {
+      institutions = await this.filterInstitutionsBySector(
+        queryConfig.sector,
+        institutions,
+      );
+    }
+    institutions = await this.sortInstutitons(institutions, queryConfig);
+    return institutions;
+  }
+
+  /**
+   * Filter the instiutions by sector
+   * @param sectors The selected sectors
+   * @param institutitons The institutions to be filtered
+   * @returns The filtered Institutions
+   */
+  private async filterInstitutionsBySector(
     sectors: string[],
     institutitons,
   ): Promise<Institution[]> {
     return (institutitons = institutitons.filter((institution: Institution) => {
       return sectors.includes(institution.sector);
     }));
+  }
+
+  /**
+   * Get all the sectors from the institutions
+   * @param institutions The institutions
+   * @returns An array with the sectors and the count
+   */
+  private async getAllSectorsFromInstitutions(institutions: Institution[]) {
+    let sectors = {};
+    institutions.forEach((institution) => {
+      sectors[institution.sector] = (sectors[institution.sector] ?? 0) + 1;
+    });
+    return sectors;
+  }
+
+  /**
+   * Sort the Institutions by the the given parameters
+   * @param insts The insitutions
+   * @param params The parameters
+   * @returns The sorted institution list
+   */
+  private async sortInstutitons(
+    insts: Institution[],
+    params: InstitutionQueryConfig,
+  ): Promise<Institution[]> {
+    return [...insts].sort((a, b) => {
+      if (typeof a[params.sort] == 'string') {
+        return params.direction == 'ASC'
+          ? b[params.sort]
+              .toLowerCase()
+              .localeCompare(a[params.sort].toLowerCase())
+          : a[params.sort]
+              .toLowerCase()
+              .localeCompare(b[params.sort].toLowerCase());
+      } else {
+        return params.direction == 'ASC'
+          ? a[params.sort] -
+              (params.includeForksInSort ? 0 : a.total_num_forks_in_repos) -
+              b[params.sort] -
+              (params.includeForksInSort ? 0 : a.total_num_forks_in_repos)
+          : b[params.sort] -
+              (params.includeForksInSort ? 0 : a.total_num_forks_in_repos) -
+              a[params.sort] -
+              (params.includeForksInSort ? 0 : a.total_num_forks_in_repos);
+      }
+    });
   }
 }

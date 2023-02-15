@@ -30,10 +30,6 @@ export class MongoDbService
     await this.destroyConnection();
   }
   async onApplicationBootstrap() {
-    this.getCrawlerStatus().then(() => console.log('Loaded crawler status'));
-    setInterval(() => {
-      this.getCrawlerStatus().then(() => console.log('Loaded crawler status'));
-    }, 180000);
     this.getData().then(() => console.log('Loaded data'));
     setInterval(() => {
       this.getData().then(() => console.log('Reloaded data'));
@@ -46,11 +42,11 @@ export class MongoDbService
 
   private database: string;
   private client: MongoClient | undefined;
-  private institutions: Institution[] | undefined;
+  //private institutions: Institution[] | undefined;
   private repositories: Repository[] | undefined;
   private users: User[] | undefined;
   private status: Status | undefined;
-  private institutionSearchStrings: string[];
+  //private institutionSearchStrings: string[];
   private repositorySearchStrings: string[];
   private userSearchStrings: string[];
   private updateDate: Date = new Date();
@@ -414,7 +410,7 @@ export class MongoDbService
     return this.status;
   }
 
-  async findInstitutionsOld(params: InstitutionQueryConfig) {
+  /*async findInstitutionsOld(params: InstitutionQueryConfig) {
     // this if is not used
     if (params.findName) {
       return this.institutions.find((inst) => {
@@ -440,6 +436,7 @@ export class MongoDbService
       insts = insts.filter((institution: Institution) => {
         return params.sector.includes(institution.sector);
       });
+    // Sort institutions
     insts = [...insts].sort((a, b) => {
       if (typeof a[params.sort] == 'string') {
         return params.direction == 'ASC'
@@ -488,7 +485,7 @@ export class MongoDbService
         sectors: sectors,
       };
     }
-  }
+  }*/
   async findRepositories(params: RepositoryQueryConfig) {
     let repositories = this.repositories;
     if (params.search.length > 0)
@@ -564,7 +561,7 @@ export class MongoDbService
     };
   }
 
-  private async getProgress(): Promise<undefined | Progress> {
+  /*private async getProgress(): Promise<undefined | Progress> {
     const session = this.client.startSession();
     return this.client
       .db('statistics')
@@ -591,9 +588,9 @@ export class MongoDbService
       .db('statistics')
       .collection('running')
       .findOne({}, { session: session }));
-  }
+  }*/
 
-  private async getInstitutions(): Promise<Institution[]> {
+  /*private async getInstitutions(): Promise<Institution[]> {
     const session = this.client.startSession();
 
     const insts = this.client
@@ -605,7 +602,7 @@ export class MongoDbService
       return JSON.stringify(value);
     });
     return insts;
-  }
+  }*/
   private async getRepositories(): Promise<Repository[]> {
     const session = this.client.startSession();
     let repositories = this.client
@@ -648,46 +645,11 @@ export class MongoDbService
 
   private async getData() {
     console.log('Loading data...');
-    this.institutions = await this.getInstitutions();
-    console.log('Loaded institutions');
+    /*this.institutions = await this.getInstitutions();
+    console.log('Loaded institutions');*/
     this.repositories = await this.getRepositories();
     console.log('Loaded repositories');
     this.users = await this.getUsers();
     console.log('Loaded users');
-  }
-  private async getCrawlerStatus() {
-    const progress = await this.getProgress();
-    const todos = await this.getTodoInstitutions();
-    const running = await this.checkIfRunning();
-    const currentInstitution: string =
-      todos.githubrepos[progress.currentSector][1].institutions[
-        progress.currentInstitution - 1
-      ].name_de;
-    let orgs: string[] = [];
-    todos.githubrepos.forEach((sector) => {
-      sector[1].institutions.forEach((institution) => {
-        institution.orgs.forEach((org) => {
-          orgs.push(org);
-        });
-      });
-    });
-    const percentile =
-      Math.round(
-        (orgs.indexOf(
-          todos.githubrepos[progress.currentSector][1].institutions[
-            progress.currentInstitution - 1
-          ].orgs[0],
-        ) /
-          orgs.length) *
-          10000,
-      ) / 100;
-    this.status = {
-      currentSectorNO: progress.currentSector,
-      currentInstitutionNO: progress.currentInstitution - 1,
-      currentInstitutionName: currentInstitution,
-      running: running,
-      progress: percentile,
-      lastUpdated: this.updateDate,
-    };
   }
 }
