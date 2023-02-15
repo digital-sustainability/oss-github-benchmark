@@ -43,13 +43,13 @@ export class MongoDbService
   private database: string;
   private client: MongoClient | undefined;
   //private institutions: Institution[] | undefined;
-  private repositories: Repository[] | undefined;
+  //private repositories: Repository[] | undefined;
   private users: User[] | undefined;
   private status: Status | undefined;
   //private institutionSearchStrings: string[];
-  private repositorySearchStrings: string[];
+  //private repositorySearchStrings: string[];
   private userSearchStrings: string[];
-  private updateDate: Date = new Date();
+  //private updateDate: Date = new Date();
   private readonly logger = new Logger(MongoDbService.name);
 
   private async initializeConnection() {
@@ -509,7 +509,7 @@ export class MongoDbService
       };
     }
   }*/
-  async findRepositories(params: RepositoryQueryConfig) {
+  /*async findRepositories(params: RepositoryQueryConfig) {
     let repositories = this.repositories;
     if (params.search.length > 0)
       repositories = repositories.filter((repository: Repository, index) => {
@@ -547,7 +547,7 @@ export class MongoDbService
       ),
       total: repositories.length,
     };
-  }
+  }*/
   async findUsers(params: UserQueryConfig) {
     let users = this.users;
     if (params.search.length > 0)
@@ -626,7 +626,7 @@ export class MongoDbService
     });
     return insts;
   }*/
-  private async getRepositories(): Promise<Repository[]> {
+  /*private async getRepositories(): Promise<Repository[]> {
     const session = this.client.startSession();
     let repositories = this.client
       .db('statistics')
@@ -652,7 +652,7 @@ export class MongoDbService
       return JSON.stringify(value);
     });
     return repositories;
-  }
+  }*/
   private async getUsers(): Promise<User[]> {
     const session = this.client.startSession();
     let users = this.client
@@ -669,9 +669,9 @@ export class MongoDbService
   private async getData() {
     console.log('Loading data...');
     /*this.institutions = await this.getInstitutions();
-    console.log('Loaded institutions');*/
+    console.log('Loaded institutions');
     this.repositories = await this.getRepositories();
-    console.log('Loaded repositories');
+    console.log('Loaded repositories');*/
     this.users = await this.getUsers();
     console.log('Loaded users');
   }
