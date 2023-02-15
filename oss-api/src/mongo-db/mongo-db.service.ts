@@ -62,6 +62,10 @@ export class MongoDbService
       useNewUrlParser: true,
       useUnifiedTopology: true,
     } as ConnectOptions).connect();
+    this.client
+      .db('statistics')
+      .collection('institutions')
+      .createIndex({ '$**': 'text' });
   }
   private async destroyConnection() {
     if (!this.client) return;
@@ -198,6 +202,10 @@ export class MongoDbService
       .findOne({ name: name });
   }
 
+  /**
+   * Get all Institutions
+   * @returns A Institution array
+   */
   async findAllInstitutions(): Promise<Institution[]> {
     this.logger.log('Getting all institutions from the database');
     const session = this.client.startSession();
@@ -205,6 +213,30 @@ export class MongoDbService
       .db('statistics')
       .collection<Institution>('institutions')
       .find({ num_orgs: { $ne: 0 } }, { session: session })
+      .toArray();
+  }
+
+  /**
+   * Find Institution by a search term
+   * @param searchTerm The search term
+   * @returns The found institutions as an array
+   */
+  async findInstitutions(searchTerm: string): Promise<Institution[]> {
+    this.logger.log(`Searching for institutions containing ${searchTerm}`);
+    return this.client
+      .db('statistics')
+      .collection<Institution>('institutions')
+      .find({ $text: { $search: searchTerm } })
+      .toArray();
+  }
+
+  async findInsitutionsBySector(sectors: string[]): Promise<Institution[]> {
+    this.logger.log(`Get all institutions from these sectors: ${sectors}`);
+
+    return this.client
+      .db('statistics')
+      .collection<Institution>('institutions')
+      .find({ sector: 'IT' })
       .toArray();
   }
 
@@ -367,6 +399,8 @@ export class MongoDbService
 
   /***********************************Delete************************************************/
 
+  /***********************************Old************************************************/
+
   /*async findAllInstitutions() {
     return this.institutions;
   }*/
@@ -380,22 +414,28 @@ export class MongoDbService
     return this.status;
   }
 
-  async findInstitutions(params: InstitutionQueryConfig) {
+  async findInstitutionsOld(params: InstitutionQueryConfig) {
+    // this if is not used
     if (params.findName) {
       return this.institutions.find((inst) => {
         return inst.shortname === params.findName;
       });
     }
+    // The sectors of the institutions
     let sectors: { [key: string]: number } = {};
     let insts = this.institutions;
+    // Search for all institutions
     if (params.search.length > 0)
       insts = insts.filter((institution: Institution, index) => {
         const search: string = this.institutionSearchStrings[index];
         return search.toLowerCase().includes(params.search.toLowerCase());
       });
+    // Get all the sectors
     insts.forEach((institution) => {
       sectors[institution.sector] = (sectors[institution.sector] ?? 0) + 1;
     });
+
+    // Check for the sector
     if (params.sector.length > 0)
       insts = insts.filter((institution: Institution) => {
         return params.sector.includes(institution.sector);

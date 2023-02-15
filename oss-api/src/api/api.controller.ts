@@ -32,7 +32,28 @@ export class ApiController {
     | Institution
   > {
     const queryConfig = queryDto;
-    return this.mongoDbService.findInstitutions(queryConfig);
+    let institutions: Institution[] = [];
+    if (queryConfig.search.length > 0) {
+      institutions = await this.mongoDbService.findInstitutions(
+        queryConfig.search,
+      );
+    } else {
+      institutions = await this.mongoDbService.findAllInstitutions();
+    }
+    if (queryConfig.sector.length > 0) {
+      institutions = await this.sortbySector(queryConfig.sector, institutions);
+    }
+    let sectors = {};
+    institutions.forEach((institution) => {
+      sectors[institution.sector] = (sectors[institution.sector] ?? 0) + 1;
+    });
+    // TODO: Remove old Code
+    //return this.mongoDbService.findInstitutionsOld(queryConfig);
+    return {
+      institutions: institutions,
+      total: institutions.length,
+      sectors: sectors,
+    };
   }
   @Get('repositories')
   async findAllRepositories(): Promise<Repository[]> {
@@ -61,5 +82,15 @@ export class ApiController {
   @Get('progress')
   async findStatus(): Promise<Status> {
     return this.mongoDbService.findStatus();
+  }
+
+  /***********************************Helper************************************************/
+  private async sortbySector(
+    sectors: string[],
+    institutitons,
+  ): Promise<Institution[]> {
+    return (institutitons = institutitons.filter((institution: Institution) => {
+      return sectors.includes(institution.sector);
+    }));
   }
 }
