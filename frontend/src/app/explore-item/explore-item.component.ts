@@ -266,7 +266,7 @@ export class ExploreItemComponent implements OnInit {
         page: this.page.toString(),
         count: this.count.toString(),
         includeForks: this.includeForks.toString(),
-        search: `"institution":"${this.data.institution.shortname}"`,
+        search: this.data.institution.shortname,
       })
       .then((data) => {
         let repoData: any[] = data.jsonData;
