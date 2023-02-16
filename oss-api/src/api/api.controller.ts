@@ -13,6 +13,7 @@ import {
   Status,
   InstitutionQueryConfig,
   RepositoryQueryConfig,
+  UserQueryConfig,
 } from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { UserQueryPipe } from 'src/user-query.pipe';
@@ -54,17 +55,20 @@ export class ApiController {
   async findAllRepositories(): Promise<Repository[]> {
     return this.mongoDbService.findAllRepositories();
   }
-  /***********************************Old************************************************/
-
   @Get('paginatedRepositories')
   @UsePipes(new RepositoryQueryPipe(), new ValidationPipe({ transform: true }))
   async findRepositories(
     @Query() queryDto: RepositoryQueryDto,
   ): Promise<{ repositories: Repository[]; total: number }> {
     const queryConfig = queryDto;
-    //this.mongoDbService.findRepositories(queryConfig);
     const repositories = await this.handleRepositories(queryConfig);
-    return { repositories: repositories, total: repositories.length };
+    return {
+      repositories: repositories.slice(
+        queryConfig.page * queryConfig.count,
+        (queryConfig.page + 1) * queryConfig.count,
+      ),
+      total: repositories.length,
+    };
   }
   @Get('users')
   async findAllUsers(): Promise<User[]> {
@@ -76,8 +80,17 @@ export class ApiController {
     @Query() queryDto: UserQueryDto,
   ): Promise<{ users: User[]; total: number }> {
     const queryConfig = queryDto;
-    return this.mongoDbService.findUsers(queryConfig);
+    const users = await this.handleUsers(queryConfig);
+    return {
+      users: users.slice(
+        queryConfig.page * queryConfig.count,
+        (queryConfig.page + 1) * queryConfig.count,
+      ),
+      total: users.length,
+    };
   }
+  /***********************************Old************************************************/
+
   @Get('progress')
   async findStatus(): Promise<Status> {
     return this.mongoDbService.findStatus();
@@ -118,7 +131,12 @@ export class ApiController {
   private async handleRepositories(
     params: RepositoryQueryConfig,
   ): Promise<Repository[]> {
-    let repositories = await this.mongoDbService.findRepository(params.search);
+    let repositories: Repository[] = [];
+    if (params.search.length > 0) {
+      repositories = await this.mongoDbService.findRepository(params.search);
+    } else {
+      repositories = await this.mongoDbService.findAllRepositories();
+    }
     if (!params.includeForks) {
       repositories = repositories.filter((repository: Repository, index) => {
         return !repository.fork;
@@ -126,6 +144,22 @@ export class ApiController {
     }
     repositories = await this.sortRepositories(repositories, params);
     return repositories;
+  }
+
+  /**
+   * Handle the users paginate api calls
+   * @param params The query parameters
+   * @returns A Users array
+   */
+  private async handleUsers(params: UserQueryConfig): Promise<User[]> {
+    let users: User[] = [];
+    if (params.search.length > 0) {
+      users = await this.mongoDbService.findPeople(params.search);
+    } else {
+      users = await this.mongoDbService.findAllUsers();
+    }
+    users = await this.sortUsers(params, users);
+    return users;
   }
 
   /**
@@ -200,6 +234,37 @@ export class ApiController {
     params: RepositoryQueryConfig,
   ): Promise<Repository[]> {
     return [...repositories].sort((a, b) => {
+      try {
+        if (typeof a[params.sort] == 'string') {
+          return params.direction == 'ASC'
+            ? b[params.sort]
+                .toLowerCase()
+                .localeCompare(a[params.sort].toLowerCase())
+            : a[params.sort]
+                .toLowerCase()
+                .localeCompare(b[params.sort].toLowerCase());
+        } else {
+          return params.direction == 'ASC'
+            ? a[params.sort] - b[params.sort]
+            : b[params.sort] - a[params.sort];
+        }
+      } catch {
+        return !b[params.sort];
+      }
+    });
+  }
+
+  /**
+   * Sort the users
+   * @param params The query params
+   * @param users The user array
+   * @returns A sorted user array
+   */
+  private async sortUsers(
+    params: UserQueryConfig,
+    users: User[],
+  ): Promise<User[]> {
+    return [...users].sort((a, b) => {
       try {
         if (typeof a[params.sort] == 'string') {
           return params.direction == 'ASC'

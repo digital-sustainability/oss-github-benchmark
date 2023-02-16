@@ -1551,14 +1551,14 @@ export class DataGatheringService
    * @param userName The name of the user
    * @param response The response object
    */
-  writeRawResponseToFile = async (
+  private async writeRawResponseToFile(
     method: string,
     institutionName: string,
     orgName?: string,
     repoName?: string,
     userName?: string,
     response?: OctokitResponse<any>,
-  ): Promise<void> => {
+  ): Promise<void> {
     if (!fs.existsSync(this.logPath)) await fs.mkdirSync(this.logPath);
     const rawResponse: RawResponse = {
       method: method,
@@ -1573,5 +1573,5 @@ export class DataGatheringService
       `${this.logPath}/raw_git_response_${rawResponse.ts.getTime()}.json`,
       JSON.stringify(rawResponse),
     );
-  };
+  }
 }

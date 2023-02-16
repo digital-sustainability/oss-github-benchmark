@@ -30,10 +30,10 @@ export class MongoDbService
     await this.destroyConnection();
   }
   async onApplicationBootstrap() {
-    this.getData().then(() => console.log('Loaded data'));
+    /*this.getData().then(() => console.log('Loaded data'));
     setInterval(() => {
       this.getData().then(() => console.log('Reloaded data'));
-    }, 3600000);
+    }, 3600000);*/
   }
   async onModuleInit() {
     this.database = process.env.MONGO_DATABASE || 'testing';
@@ -44,11 +44,11 @@ export class MongoDbService
   private client: MongoClient | undefined;
   //private institutions: Institution[] | undefined;
   //private repositories: Repository[] | undefined;
-  private users: User[] | undefined;
+  //private users: User[] | undefined;
   private status: Status | undefined;
   //private institutionSearchStrings: string[];
   //private repositorySearchStrings: string[];
-  private userSearchStrings: string[];
+  //private userSearchStrings: string[];
   //private updateDate: Date = new Date();
   private readonly logger = new Logger(MongoDbService.name);
 
@@ -65,6 +65,10 @@ export class MongoDbService
     this.client
       .db('statistics')
       .collection('repositories')
+      .createIndex({ '$**': 'text' });
+    this.client
+      .db('statistics')
+      .collection('users')
       .createIndex({ '$**': 'text' });
   }
   private async destroyConnection() {
@@ -240,7 +244,15 @@ export class MongoDbService
     return this.client
       .db('statistics')
       .collection<Repository>('repositories')
-      .find()
+      .find(
+        {},
+        {
+          projection: {
+            commit_activities: 0,
+          },
+          session: session,
+        },
+      )
       .toArray();
   }
 
@@ -256,6 +268,36 @@ export class MongoDbService
     return this.client
       .db('statistics')
       .collection<Repository>('repositories')
+      .find({ $text: { $search: searchTerm } })
+      .toArray();
+  }
+
+  /**
+   * Get all users from the database
+   * @returns The users in a array
+   */
+  async findAllUsers(): Promise<User[]> {
+    this.logger.log('Getting all users from the database');
+    const session = this.client.startSession();
+    return this.client
+      .db('statistics')
+      .collection<User>('users')
+      .find({}, { session: session })
+      .toArray();
+  }
+
+  /**
+   * Find people with the given search term
+   * @param searchTerm The search term
+   * @returns A users array
+   */
+  async findPeople(searchTerm: string): Promise<User[]> {
+    this.logger.log(
+      `Searching for Users in the database with the search term: ${searchTerm}`,
+    );
+    return this.client
+      .db('statistics')
+      .collection<User>('users')
       .find({ $text: { $search: searchTerm } })
       .toArray();
   }
@@ -425,10 +467,10 @@ export class MongoDbService
   }*/
   /*async findAllRepositories() {
     return this.repositories;
-  }*/
+  }
   async findAllUsers() {
     return this.users;
-  }
+  }*/
   async findStatus() {
     return this.status;
   }
@@ -548,7 +590,7 @@ export class MongoDbService
       total: repositories.length,
     };
   }*/
-  async findUsers(params: UserQueryConfig) {
+  /*async findUsers(params: UserQueryConfig) {
     let users = this.users;
     if (params.search.length > 0)
       users = users.filter((user: User, index) => {
@@ -582,7 +624,7 @@ export class MongoDbService
       ),
       total: users.length,
     };
-  }
+  }*/
 
   /*private async getProgress(): Promise<undefined | Progress> {
     const session = this.client.startSession();
@@ -653,7 +695,7 @@ export class MongoDbService
     });
     return repositories;
   }*/
-  private async getUsers(): Promise<User[]> {
+  /*private async getUsers(): Promise<User[]> {
     const session = this.client.startSession();
     let users = this.client
       .db('statistics')
@@ -664,15 +706,15 @@ export class MongoDbService
       return JSON.stringify(value);
     });
     return users;
-  }
+  }*/
 
-  private async getData() {
+  /*private async getData() {
     console.log('Loading data...');
-    /*this.institutions = await this.getInstitutions();
+    this.institutions = await this.getInstitutions();
     console.log('Loaded institutions');
     this.repositories = await this.getRepositories();
-    console.log('Loaded repositories');*/
+    console.log('Loaded repositories');
     this.users = await this.getUsers();
     console.log('Loaded users');
-  }
+  }*/
 }
