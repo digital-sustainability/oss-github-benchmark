@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ApiController } from './api/api.controller';
 import { MongoDbService } from './mongo-db/mongo-db.service';
 import { ConfigModule } from '@nestjs/config';
-import { DataGathering } from './data-gathering/data-gathering';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { DataGatheringService } from './data-gathering/data-gatherting.service';
@@ -31,7 +30,6 @@ import { ScheduleModule } from '@nestjs/schedule';
   controllers: [ApiController],
   providers: [
     MongoDbService,
-    DataGathering,
     DataGatheringService,
     GithubService,
   ],
