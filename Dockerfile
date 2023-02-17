@@ -16,9 +16,7 @@ RUN cd /frontend/
 
 WORKDIR /frontend/
 
-RUN npm install
-
-RUN npm run build:prod
+RUN npm install --legacy-peer-deps && npm run build:prod
 
 FROM node:18 as prod
 
