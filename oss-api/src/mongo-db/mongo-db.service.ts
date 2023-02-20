@@ -212,12 +212,21 @@ export class MongoDbService
    */
   async findAllInstitutions(): Promise<Institution[]> {
     this.logger.log('Getting all institutions from the database');
-    const session = this.client.startSession();
+    //const session = this.client.startSession();
     return this.client
       .db('statistics')
       .collection<Institution>('institutions')
-      .find({ num_orgs: { $ne: 0 } }, { session: session })
-      .toArray();
+      .find()
+      .project({
+        name_de: 1,
+        num_members: 1,
+        num_repos: 1,
+        sector: 1,
+        location: 1,
+        created_at: 1,
+        repo_names: 1,
+      })
+      .toArray() as Promise<Institution[]>;
   }
 
   /**
@@ -231,7 +240,16 @@ export class MongoDbService
       .db('statistics')
       .collection<Institution>('institutions')
       .find({ $text: { $search: searchTerm } })
-      .toArray();
+      .project({
+        name_de: 1,
+        num_members: 1,
+        num_repos: 1,
+        sector: 1,
+        location: 1,
+        created_at: 1,
+        repo_names: 1,
+      })
+      .toArray() as Promise<Institution[]>;
   }
 
   /**
