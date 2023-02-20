@@ -106,23 +106,23 @@ export class RankingComponent implements OnInit {
 
   private setInstitutionLocation(): void {
     this.institutions.forEach((institution, index) => {
-      if (institution.orgs.length)
+      /*if (institution.orgs.length)
         this.institutions[index].created_at = institution.orgs.sort(
           (b: any, a: any) => {
             return Date.parse(b.created_at) - Date.parse(a.created_at);
           }
-        )[0].created_at;
-      else this.institutions[index].created_at = new Date(0);
+        )[0].created_at;*/
+      //else this.institutions[index].created_at = new Date(0);
       if (!institution.orgs[0]) this.institutions[index].location = '';
-      else this.institutions[index].location = institution.orgs[0].location;
-      let i = 0;
+      else this.institutions[index].location = ""; //institution.orgs[0].location;
+      /*let i = 0;
       while (
         !this.institutions[index].location &&
         i < institution.orgs.length
       ) {
         this.institutions[index].location = institution.orgs[i].location;
         i += 1;
-      }
+      }*/
     });
   }
 
