@@ -212,7 +212,6 @@ export class MongoDbService
    */
   async findAllInstitutions(): Promise<Institution[]> {
     this.logger.log('Getting all institutions from the database');
-    //const session = this.client.startSession();
     return this.client
       .db('statistics')
       .collection<Institution>('institutions')
@@ -225,6 +224,7 @@ export class MongoDbService
         location: 1,
         created_at: 1,
         repo_names: 1,
+        orgs: 1,
       })
       .toArray() as Promise<Institution[]>;
   }
@@ -248,6 +248,7 @@ export class MongoDbService
         location: 1,
         created_at: 1,
         repo_names: 1,
+        orgs: 1,
       })
       .toArray() as Promise<Institution[]>;
   }
