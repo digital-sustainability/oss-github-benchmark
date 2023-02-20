@@ -200,7 +200,9 @@ export class ApiController {
     insts: Institution[],
     params: InstitutionQueryConfig,
   ): Promise<Institution[]> {
-    return [...insts].sort((a, b) => {
+    console.log(insts.map((entry) => entry.num_repos));
+
+    let test = insts.sort((a, b) => {
       if (typeof a[params.sort] == 'string') {
         return params.direction == 'ASC'
           ? b[params.sort]
@@ -210,17 +212,21 @@ export class ApiController {
               .toLowerCase()
               .localeCompare(b[params.sort].toLowerCase());
       } else {
+        console.log(`${a[params.sort] - b[params.sort]}`);
         return params.direction == 'ASC'
           ? a[params.sort] -
               (params.includeForksInSort ? 0 : a.total_num_forks_in_repos) -
               b[params.sort] -
-              (params.includeForksInSort ? 0 : a.total_num_forks_in_repos)
+              (params.includeForksInSort ? 0 : b.total_num_forks_in_repos)
           : b[params.sort] -
-              (params.includeForksInSort ? 0 : a.total_num_forks_in_repos) -
+              (params.includeForksInSort ? 0 : b.total_num_forks_in_repos) -
               a[params.sort] -
               (params.includeForksInSort ? 0 : a.total_num_forks_in_repos);
       }
     });
+    console.log(test.map((entry) => entry.num_repos));
+
+    return test;
   }
 
   /**

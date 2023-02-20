@@ -226,6 +226,7 @@ export class MongoDbService
         repo_names: 1,
         avatar: 1,
         shortname: 1,
+        total_num_forks_in_repos: 1,
       })
       .toArray() as Promise<Institution[]>;
   }
