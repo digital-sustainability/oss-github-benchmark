@@ -224,7 +224,8 @@ export class MongoDbService
         location: 1,
         created_at: 1,
         repo_names: 1,
-        orgs: 1,
+        avatar: 1,
+        shortname: 1,
       })
       .toArray() as Promise<Institution[]>;
   }
@@ -248,7 +249,8 @@ export class MongoDbService
         location: 1,
         created_at: 1,
         repo_names: 1,
-        orgs: 1,
+        avatar: 1,
+        shortname: 1,
       })
       .toArray() as Promise<Institution[]>;
   }
