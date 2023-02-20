@@ -218,35 +218,7 @@ export class MongoDbService
     return this.client
       .db('statistics')
       .collection<Institution>('institutions')
-      .find()
-      .project({
-        name_de: 1,
-        num_members: 1,
-        num_repos: 1,
-        sector: 1,
-        location: 1,
-        created_at: 1,
-        repo_names: 1,
-        avatar: 1,
-        shortname: 1,
-        total_num_forks_in_repos: 1,
-      })
-      .sort({ [key]: direction })
-      .limit(30)
-      .toArray() as Promise<Institution[]>;
-  }
-
-  async test(
-    key: string,
-    direction: 1 | -1,
-    page: number,
-    limit: number,
-  ): Promise<Institution[]> {
-    return this.client
-      .db('statistics')
-      .collection<Institution>('institutions')
       .aggregate([
-        //{ $match: { $text: { $search: searchTerm } } },
         {
           $group: {
             _id: '$_id',
@@ -265,8 +237,6 @@ export class MongoDbService
         {
           $sort: { [key]: direction },
         },
-        /*{ $skip: page * limit },
-        { $limit: limit },*/
         {
           $addFields: {
             repo_names: { $slice: ['$repo_names', 0, 10] },
@@ -281,23 +251,41 @@ export class MongoDbService
    * @param searchTerm The search term
    * @returns The found institutions as an array
    */
-  async findInstitutions(searchTerm: string): Promise<Institution[]> {
+  async findInstitutions(
+    searchTerm: string,
+    key: string,
+    direction: 1 | -1,
+  ): Promise<Institution[]> {
     this.logger.log(`Searching for institutions containing ${searchTerm}`);
     return this.client
       .db('statistics')
       .collection<Institution>('institutions')
-      .find({ $text: { $search: searchTerm } })
-      .project({
-        name_de: 1,
-        num_members: 1,
-        num_repos: 1,
-        sector: 1,
-        location: 1,
-        created_at: 1,
-        repo_names: 1,
-        avatar: 1,
-        shortname: 1,
-      })
+      .aggregate([
+        { $match: { $text: { $search: searchTerm } } },
+        {
+          $group: {
+            _id: '$_id',
+            name_de: { $first: '$name_de' },
+            num_members: { $first: '$num_members' },
+            num_repos: { $first: '$num_repos' },
+            sector: { $first: '$sector' },
+            location: { $first: '$location' },
+            created_at: { $first: '$created_at' },
+            avatar: { $first: '$avatar' },
+            shortname: { $first: '$shortname' },
+            repo_names: { $first: '$repo_names' },
+            total_num_forks_in_repos: { $first: '$total_num_forks_in_repos' },
+          },
+        },
+        {
+          $sort: { [key]: direction },
+        },
+        {
+          $addFields: {
+            repo_names: { $slice: ['$repo_names', 0, 10] },
+          },
+        },
+      ])
       .toArray() as Promise<Institution[]>;
   }
 

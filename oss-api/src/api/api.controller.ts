@@ -115,13 +115,13 @@ export class ApiController {
     if (queryConfig.search.length > 0) {
       institutions = await this.mongoDbService.findInstitutions(
         queryConfig.search,
-      );
-    } else {
-      institutions = await this.mongoDbService.test(
         queryConfig.sort,
         queryConfig.direction == 'ASC' ? 1 : -1,
-        queryConfig.page,
-        queryConfig.count,
+      );
+    } else {
+      institutions = await this.mongoDbService.findAllInstitutions(
+        queryConfig.sort,
+        queryConfig.direction == 'ASC' ? 1 : -1,
       );
     }
     if (queryConfig.sector.length > 0) {
@@ -130,10 +130,7 @@ export class ApiController {
         institutions,
       );
     }
-    //institutions = await this.sortInstutitons(institutions, queryConfig);
     return institutions;
-
-    //return await this.mongoDbService.test(queryConfig.search);
   }
 
   /**
