@@ -15,6 +15,7 @@ export class DataService {
     .pipe(shareReplay(1));
 
   constructor(private http: HttpClient) {}
+  private institutionData = null;
 
   async loadInstitutionData(config: {
     search?: string;
@@ -27,21 +28,23 @@ export class DataService {
     sendStats?: string;
     findName?: string;
   }): Promise<any> {
-    const institutionData = await this.http
+    if(this.institutionData) this.institutionData.unsubscribe();
+    this.institutionData = await this.http
       .get<any>(`${environment.api}paginatedInstitutions`, {
         params: config,
       })
       .toPromise();
+      
     if (config.findName)
       return {
-        csvData: this.parseJSON2CSV(institutionData),
-        jsonData: institutionData,
+        csvData: this.parseJSON2CSV(this.institutionData),
+        jsonData: this.institutionData,
       };
     return {
-      csvData: this.parseJSON2CSV(institutionData.institutions),
-      jsonData: institutionData.institutions,
-      total: institutionData.total,
-      sectors: institutionData.sectors,
+      csvData: this.parseJSON2CSV(this.institutionData.institutions),
+      jsonData: this.institutionData.institutions,
+      total: this.institutionData.total,
+      sectors: this.institutionData.sectors,
     };
   }
 
