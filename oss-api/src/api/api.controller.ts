@@ -26,8 +26,14 @@ import { RepositoryQueryPipe } from 'src/repository-query.pipe';
 export class ApiController {
   constructor(private mongoDbService: MongoDbService) {}
   @Get('institutions')
-  async findAllInstitutions(): Promise<Institution[]> {
-    return this.mongoDbService.findAllInstitutions();
+  async findAllInstitutions(
+    @Query() queryDto: InstitutionQueryDto,
+  ): Promise<Institution[]> {
+    const queryConfig = queryDto;
+    return this.mongoDbService.findAllInstitutions(
+      queryConfig.sort,
+      queryConfig.direction == 'ASC' ? 1 : -1,
+    );
   }
   @Get('paginatedInstitutions')
   @UsePipes(new InstitutionQueryPipe(), new ValidationPipe({ transform: true }))
@@ -111,7 +117,12 @@ export class ApiController {
         queryConfig.search,
       );
     } else {
-      institutions = await this.mongoDbService.findAllInstitutions();
+      institutions = await this.mongoDbService.test(
+        queryConfig.sort,
+        queryConfig.direction == 'ASC' ? 1 : -1,
+        queryConfig.page,
+        queryConfig.count,
+      );
     }
     if (queryConfig.sector.length > 0) {
       institutions = await this.filterInstitutionsBySector(
@@ -119,8 +130,10 @@ export class ApiController {
         institutions,
       );
     }
-    institutions = await this.sortInstutitons(institutions, queryConfig);
+    //institutions = await this.sortInstutitons(institutions, queryConfig);
     return institutions;
+
+    //return await this.mongoDbService.test(queryConfig.search);
   }
 
   /**

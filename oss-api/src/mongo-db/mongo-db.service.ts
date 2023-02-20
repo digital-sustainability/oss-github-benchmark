@@ -210,7 +210,10 @@ export class MongoDbService
    * Get all Institutions
    * @returns A Institution array
    */
-  async findAllInstitutions(): Promise<Institution[]> {
+  async findAllInstitutions(
+    key: string,
+    direction: 1 | -1,
+  ): Promise<Institution[]> {
     this.logger.log('Getting all institutions from the database');
     return this.client
       .db('statistics')
@@ -228,6 +231,48 @@ export class MongoDbService
         shortname: 1,
         total_num_forks_in_repos: 1,
       })
+      .sort({ [key]: direction })
+      .limit(30)
+      .toArray() as Promise<Institution[]>;
+  }
+
+  async test(
+    key: string,
+    direction: 1 | -1,
+    page: number,
+    limit: number,
+  ): Promise<Institution[]> {
+    return this.client
+      .db('statistics')
+      .collection<Institution>('institutions')
+      .aggregate([
+        //{ $match: { $text: { $search: searchTerm } } },
+        {
+          $group: {
+            _id: '$_id',
+            name_de: { $first: '$name_de' },
+            num_members: { $first: '$num_members' },
+            num_repos: { $first: '$num_repos' },
+            sector: { $first: '$sector' },
+            location: { $first: '$location' },
+            created_at: { $first: '$created_at' },
+            avatar: { $first: '$avatar' },
+            shortname: { $first: '$shortname' },
+            repo_names: { $first: '$repo_names' },
+            total_num_forks_in_repos: { $first: '$total_num_forks_in_repos' },
+          },
+        },
+        {
+          $sort: { [key]: direction },
+        },
+        /*{ $skip: page * limit },
+        { $limit: limit },*/
+        {
+          $addFields: {
+            repo_names: { $slice: ['$repo_names', 0, 10] },
+          },
+        },
+      ])
       .toArray() as Promise<Institution[]>;
   }
 
