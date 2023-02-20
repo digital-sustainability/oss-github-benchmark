@@ -28,12 +28,19 @@ export class DataService {
     sendStats?: string;
     findName?: string;
   }): Promise<any> {
-    if(this.institutionData) this.institutionData.unsubscribe();
-    this.institutionData = await this.http
+
+    this.http.get<any>(`${environment.api}paginatedInstitutions`, {
+      params: config,
+    }).subscribe((res) => {
+      this.institutionData = res;
+    })
+
+
+    /*this.institutionData = await this.http
       .get<any>(`${environment.api}paginatedInstitutions`, {
         params: config,
       })
-      .toPromise();
+      .toPromise();*/
       
     if (config.findName)
       return {
