@@ -28,20 +28,11 @@ export class DataService {
     sendStats?: string;
     findName?: string;
   }): Promise<any> {
-
-    this.http.get<any>(`${environment.api}paginatedInstitutions`, {
-      params: config,
-    }).subscribe((res) => {
-      this.institutionData = res;
-    })
-
-
-    /*this.institutionData = await this.http
+    this.institutionData = await this.http
       .get<any>(`${environment.api}paginatedInstitutions`, {
         params: config,
       })
-      .toPromise();*/
-      
+      .toPromise();  
     if (config.findName)
       return {
         csvData: this.parseJSON2CSV(this.institutionData),
