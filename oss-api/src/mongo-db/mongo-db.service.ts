@@ -207,32 +207,42 @@ export class MongoDbService
   }
 
   /**
-   * Get all Institutions
+   * Get all Institutions corresponding to the sectors
    * @returns A Institution array
    */
   async findAllInstitutions(
     key: string,
     direction: 1 | -1,
+    sectors: string[],
+    limit: number,
+    page: number,
   ): Promise<Institution[]> {
     this.logger.log('Getting all institutions from the database');
     return this.client
       .db('statistics')
       .collection<Institution>('institutions')
       .aggregate([
+        { $match: { sector: { $in: sectors } } },
         {
-          $group: {
-            _id: '$_id',
-            name_de: { $first: '$name_de' },
-            num_members: { $first: '$num_members' },
-            num_repos: { $first: '$num_repos' },
-            sector: { $first: '$sector' },
-            location: { $first: '$location' },
-            created_at: { $first: '$created_at' },
-            avatar: { $first: '$avatar' },
-            shortname: { $first: '$shortname' },
-            repo_names: { $first: '$repo_names' },
-            total_num_forks_in_repos: { $first: '$total_num_forks_in_repos' },
+          $project: {
+            _id: 0,
+            name_de: 1,
+            num_members: 1,
+            num_repos: 1,
+            sector: 1,
+            location: 1,
+            created_at: 1,
+            avatar: 1,
+            shortname: 1,
+            repo_names: 1,
+            total_num_forks_in_repos: 1,
           },
+        },
+        {
+          $skip: limit * page,
+        },
+        {
+          $limit: limit,
         },
         {
           $sort: { [key]: direction },
@@ -247,6 +257,59 @@ export class MongoDbService
   }
 
   /**
+   * Count how many institutions there are with the given sectors
+   * @param sectors An array with the sectors
+   * @returns An Object array with the sector names and how many there are
+   */
+  async countAllInstitutions(sectors: string[]) {
+    return this.client
+      .db('statistics')
+      .collection<Institution>('institutions')
+      .aggregate([
+        { $match: { sector: { $in: sectors } } },
+        {
+          $group: {
+            _id: '$sector',
+            total: { $count: {} },
+          },
+        },
+      ])
+      .toArray();
+  }
+
+  /**
+   * Count all the Institutions with the given sectors and serch term
+   * @param searchTerm The searchterm
+   * @param sectors An array with the sectors
+   * @returns An Object array with the sector names and how many there are
+   */
+  async countAllInstitutionsWithSearchTerm(
+    searchTerm: string,
+    sectors: string[],
+  ) {
+    return this.client
+      .db('statistics')
+      .collection<Institution>('institutions')
+      .aggregate([
+        {
+          $match: {
+            $and: [
+              { $text: { $search: searchTerm } },
+              { sector: { $in: sectors } },
+            ],
+          },
+        },
+        {
+          $group: {
+            _id: '$sector',
+            total: { $count: {} },
+          },
+        },
+      ])
+      .toArray();
+  }
+
+  /**
    * Find Institutions by a search term
    * @param searchTerm The search term
    * @returns The found institutions as an array
@@ -255,27 +318,43 @@ export class MongoDbService
     searchTerm: string,
     key: string,
     direction: 1 | -1,
+    sectors: string[],
+    limit: number,
+    page: number,
   ): Promise<Institution[]> {
     this.logger.log(`Searching for institutions containing ${searchTerm}`);
     return this.client
       .db('statistics')
       .collection<Institution>('institutions')
       .aggregate([
-        { $match: { $text: { $search: searchTerm } } },
         {
-          $group: {
-            _id: '$_id',
-            name_de: { $first: '$name_de' },
-            num_members: { $first: '$num_members' },
-            num_repos: { $first: '$num_repos' },
-            sector: { $first: '$sector' },
-            location: { $first: '$location' },
-            created_at: { $first: '$created_at' },
-            avatar: { $first: '$avatar' },
-            shortname: { $first: '$shortname' },
-            repo_names: { $first: '$repo_names' },
-            total_num_forks_in_repos: { $first: '$total_num_forks_in_repos' },
+          $match: {
+            $and: [
+              { $text: { $search: searchTerm } },
+              { sector: { $in: sectors } },
+            ],
           },
+        },
+        {
+          $project: {
+            _id: 0,
+            name_de: 1,
+            num_members: 1,
+            num_repos: 1,
+            sector: 1,
+            location: 1,
+            created_at: 1,
+            avatar: 1,
+            shortname: 1,
+            repo_names: 1,
+            total_num_forks_in_repos: 1,
+          },
+        },
+        {
+          $skip: limit * page,
+        },
+        {
+          $limit: limit,
         },
         {
           $sort: { [key]: direction },

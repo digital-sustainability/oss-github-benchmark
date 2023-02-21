@@ -25,6 +25,22 @@ import { RepositoryQueryPipe } from 'src/repository-query.pipe';
 @Controller('api')
 export class ApiController {
   constructor(private mongoDbService: MongoDbService) {}
+  private sectors = [
+    'IT',
+    'Communities',
+    'Insurances',
+    'Banking',
+    'Media',
+    'Others',
+    'Gov_Companies',
+    'Gov_Federal',
+    'Gov_Cantons',
+    'Gov_Cities',
+    'ResearchAndEducation',
+    'NGOs',
+    'Pharma',
+    'FoodBeverage',
+  ];
   @Get('institutions')
   async findAllInstitutions(
     @Query() queryDto: InstitutionQueryDto,
@@ -33,29 +49,29 @@ export class ApiController {
     return this.mongoDbService.findAllInstitutions(
       queryConfig.sort,
       queryConfig.direction == 'ASC' ? 1 : -1,
+      this.sectors,
+      200,
+      0,
     );
   }
   @Get('paginatedInstitutions')
   @UsePipes(new InstitutionQueryPipe(), new ValidationPipe({ transform: true }))
-  async findInstitutions(@Query() queryDto: InstitutionQueryDto): Promise<
-    | {
-        institutions: Institution[];
-        total: number;
-        sectors: { [key: string]: number };
-      }
-    | Institution
-  > {
+  async findInstitutions(@Query() queryDto: InstitutionQueryDto): Promise<{
+    institutions: Institution[];
+    total: number;
+    sectors: { [key: string]: number };
+  }> {
     const queryConfig = queryDto;
-    const institutions = await this.handleInstitutions(queryConfig);
-    const sectors = await this.getAllSectorsFromInstitutions(institutions);
-    return {
+    /*const institutions =*/ return await this.handleInstitutions(queryConfig);
+    //const sectors = await this.getAllSectorsFromInstitutions(institutions);
+    /*return {
       institutions: institutions.slice(
         queryConfig.page * queryConfig.count,
         (queryConfig.page + 1) * queryConfig.count,
       ),
       total: institutions.length,
       sectors: sectors,
-    };
+    };*/
   }
   @Get('repositories')
   async findAllRepositories(): Promise<Repository[]> {
@@ -108,29 +124,47 @@ export class ApiController {
    * @param queryConfig The queries of the request
    * @returns An institution array corresponding to the request
    */
-  private async handleInstitutions(
-    queryConfig: InstitutionQueryConfig,
-  ): Promise<Institution[]> {
+  private async handleInstitutions(queryConfig: InstitutionQueryConfig) {
+    let sectorList = this.sectors;
+    if (queryConfig.sector.length > 0) {
+      sectorList = this.sectors.filter((sector: string) => {
+        return queryConfig.sector.includes(sector);
+      });
+    }
     let institutions: Institution[] = [];
+    let foundSectors = [];
     if (queryConfig.search.length > 0) {
       institutions = await this.mongoDbService.findInstitutions(
         queryConfig.search,
         queryConfig.sort,
         queryConfig.direction == 'ASC' ? 1 : -1,
+        sectorList,
+        queryConfig.count,
+        queryConfig.page,
       );
+      foundSectors = await this.mongoDbService.countAllInstitutions(sectorList);
+      foundSectors =
+        await this.mongoDbService.countAllInstitutionsWithSearchTerm(
+          queryConfig.search,
+          sectorList,
+        );
     } else {
       institutions = await this.mongoDbService.findAllInstitutions(
         queryConfig.sort,
         queryConfig.direction == 'ASC' ? 1 : -1,
+        sectorList,
+        queryConfig.count,
+        queryConfig.page,
       );
+      foundSectors = await this.mongoDbService.countAllInstitutions(sectorList);
     }
-    if (queryConfig.sector.length > 0) {
-      institutions = await this.filterInstitutionsBySector(
-        queryConfig.sector,
-        institutions,
-      );
-    }
-    return institutions;
+    let total = 0;
+    let sectorcount = {};
+    foundSectors.forEach((foundSector) => {
+      total += foundSector.total;
+      sectorcount[foundSector._id] = foundSector.total;
+    });
+    return { institutions: institutions, total: total, sectors: sectorcount };
   }
 
   /**
