@@ -441,19 +441,82 @@ export class MongoDbService
       .toArray();
   }
 
-  /**
-   * Find Repositories by a search term
-   * @param searchTerm The search term
-   * @returns The found repositories as an array
-   */
-  async findRepository(searchTerm: string): Promise<Repository[]> {
+  async findRepository(
+    searchTerm: string,
+    includeForks: boolean[],
+    key: string,
+    direction: 1 | -1,
+    limit: number,
+    page: number,
+  ) {
     this.logger.log(
       `Getting all the repositories with the search term: ${searchTerm}`,
     );
     return this.client
       .db('statistics')
       .collection<Repository>('repositories')
-      .find({ $text: { $search: searchTerm } })
+      .aggregate([
+        {
+          $match: {
+            $and: [
+              { $text: { $search: searchTerm } },
+              { fork: { $in: includeForks } },
+            ],
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            name: 1,
+            institution: 1,
+            organisation: 1,
+            comments: 1,
+            issues_all: 1,
+            pull_requests_all: 1,
+            num_commits: 1,
+            num_contributors: 1,
+            num_forks: 1,
+            num_stars: 1,
+            has_own_commits: 1,
+            createdTimestamp: 1,
+            updatedTimestamp: 1,
+            fork: 1,
+            license: 1,
+          },
+        },
+        {
+          $sort: { [key]: direction },
+        },
+        {
+          $skip: limit * page,
+        },
+        {
+          $limit: limit,
+        },
+      ])
+      .toArray() as Promise<Repository[]>;
+  }
+
+  async countAllRepositoriesWithSearchTerm(
+    searchTerm: string,
+    includeForks: boolean[],
+  ) {
+    return this.client
+      .db('statistics')
+      .collection<Repository>('repositories')
+      .aggregate([
+        {
+          $match: {
+            $and: [
+              { $text: { $search: searchTerm } },
+              { fork: { $in: includeForks } },
+            ],
+          },
+        },
+        {
+          $count: 'total',
+        },
+      ])
       .toArray();
   }
 
