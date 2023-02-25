@@ -207,8 +207,13 @@ export class MongoDbService
   }
 
   /**
-   * Get all Institutions corresponding to the sectors
-   * @returns A Institution array
+   * Get all insitutions from the database
+   * @param key The sort key
+   * @param direction The sort direction
+   * @param sectors The chosen sectors
+   * @param limit The limit
+   * @param page The page
+   * @returns THe sorted repositories corresponding to the inputs
    */
   async findAllInstitutions(
     key: string,
@@ -377,11 +382,9 @@ export class MongoDbService
     direction: 1 | -1,
     limit: number,
     page: number,
-    includeForks: [false] | [false, true],
+    includeForks: boolean[],
   ) {
     this.logger.log('Get all Repositories from the database');
-    console.log(includeForks);
-
     return this.client
       .db('statistics')
       .collection<Repository>('repositories')
@@ -407,26 +410,6 @@ export class MongoDbService
             license: 1,
           },
         },
-        /*{
-          $group: {
-            _id: '$_id',
-            name: { $first: '$name' },
-            institution: { $first: '$institution' },
-            organisation: { $first: '$organisation' },
-            comments: { $first: '$comments' },
-            issues_all: { $first: '$issues_all' },
-            pull_requests_all: { $first: '$pull_requests_all' },
-            num_commits: { $first: '$num_commits' },
-            num_contributors: { $first: '$num_contributors' },
-            num_forks: { $first: '$num_forks' },
-            num_stars: { $first: '$num_stars' },
-            has_own_commits: { $first: '$has_own_commits' },
-            createdTimestamp: { $first: '$createdTimestamp' },
-            updatedTimestamp: { $first: '$updatedTimestamp' },
-            fork: { $first: '$fork' },
-            //license: { $first: '$license' },
-          },
-        },*/
         {
           $sort: { [key]: direction },
         },
@@ -438,6 +421,24 @@ export class MongoDbService
         },
       ])
       .toArray() as Promise<Repository[]>;
+  }
+
+  /**
+   * Count all the repos
+   * @param includeForks If forks should be included
+   * @returns The total count of repos
+   */
+  async countAllRepositories(includeForks: boolean[]) {
+    return this.client
+      .db('statistics')
+      .collection<Repository>('repositories')
+      .aggregate([
+        { $match: { fork: { $in: includeForks } } },
+        {
+          $count: 'total',
+        },
+      ])
+      .toArray();
   }
 
   /**

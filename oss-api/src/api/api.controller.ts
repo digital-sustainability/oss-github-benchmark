@@ -85,14 +85,7 @@ export class ApiController {
     @Query() queryDto: RepositoryQueryDto,
   ): Promise<{ repositories: Repository[]; total: number }> {
     const queryConfig = queryDto;
-    const repositories = await this.handleRepositories(queryConfig);
-    return {
-      repositories: repositories.slice(
-        queryConfig.page * queryConfig.count,
-        (queryConfig.page + 1) * queryConfig.count,
-      ),
-      total: repositories.length,
-    };
+    return await this.handleRepositories(queryConfig);
   }
   @Get('users')
   async findAllUsers(): Promise<User[]> {
@@ -174,10 +167,9 @@ export class ApiController {
    * @param queryConfig The queries
    * @returns The filtered and sorted repository list
    */
-  private async handleRepositories(
-    queryConfig: RepositoryQueryConfig,
-  ): Promise<Repository[]> {
+  private async handleRepositories(queryConfig: RepositoryQueryConfig) {
     let repositories: Repository[] = [];
+    const includeForks = queryConfig.includeForks ? [false, true] : [false];
     if (queryConfig.search.length > 0) {
       repositories = await this.mongoDbService.findRepository(
         queryConfig.search,
@@ -188,10 +180,18 @@ export class ApiController {
         queryConfig.direction == 'ASC' ? 1 : -1,
         queryConfig.count,
         queryConfig.page,
-        queryConfig.includeForks ? [false, true] : [false],
+        includeForks,
       );
     }
-    return repositories;
+    let countedRepos = await this.mongoDbService.countAllRepositories(
+      includeForks,
+    );
+    console.log(countedRepos);
+
+    return {
+      repositories: repositories,
+      total: countedRepos[0]['total'],
+    };
   }
 
   /**
