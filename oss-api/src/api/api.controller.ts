@@ -75,7 +75,9 @@ export class ApiController {
   }
   @Get('repositories')
   async findAllRepositories(): Promise<Repository[]> {
-    return this.mongoDbService.findAllRepositories();
+    let temp: Repository[] = [];
+    return temp;
+    //return this.mongoDbService.findAllRepositories();
   }
   @Get('paginatedRepositories')
   @UsePipes(new RepositoryQueryPipe(), new ValidationPipe({ transform: true }))
@@ -169,24 +171,26 @@ export class ApiController {
 
   /**
    * Handle the repositories and the queries
-   * @param params The queries
+   * @param queryConfig The queries
    * @returns The filtered and sorted repository list
    */
   private async handleRepositories(
-    params: RepositoryQueryConfig,
+    queryConfig: RepositoryQueryConfig,
   ): Promise<Repository[]> {
     let repositories: Repository[] = [];
-    if (params.search.length > 0) {
-      repositories = await this.mongoDbService.findRepository(params.search);
+    if (queryConfig.search.length > 0) {
+      repositories = await this.mongoDbService.findRepository(
+        queryConfig.search,
+      );
     } else {
-      repositories = await this.mongoDbService.findAllRepositories();
+      repositories = await this.mongoDbService.findAllRepositories(
+        queryConfig.sort,
+        queryConfig.direction == 'ASC' ? 1 : -1,
+        queryConfig.count,
+        queryConfig.page,
+        queryConfig.includeForks ? [false, true] : [false],
+      );
     }
-    if (!params.includeForks) {
-      repositories = repositories.filter((repository: Repository, index) => {
-        return !repository.fork;
-      });
-    }
-    repositories = await this.sortRepositories(repositories, params);
     return repositories;
   }
 

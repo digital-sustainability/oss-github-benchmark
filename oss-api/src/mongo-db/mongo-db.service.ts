@@ -239,13 +239,13 @@ export class MongoDbService
           },
         },
         {
+          $sort: { [key]: direction },
+        },
+        {
           $skip: limit * page,
         },
         {
           $limit: limit,
-        },
-        {
-          $sort: { [key]: direction },
         },
         {
           $addFields: {
@@ -372,22 +372,72 @@ export class MongoDbService
    * Get all the repositories
    * @returns The repository array
    */
-  async findAllRepositories(): Promise<Repository[]> {
+  async findAllRepositories(
+    key: string,
+    direction: 1 | -1,
+    limit: number,
+    page: number,
+    includeForks: [false] | [false, true],
+  ) {
     this.logger.log('Get all Repositories from the database');
-    const session = this.client.startSession();
+    console.log(includeForks);
+
     return this.client
       .db('statistics')
       .collection<Repository>('repositories')
-      .find(
-        {},
+      .aggregate([
+        { $match: { fork: { $in: includeForks } } },
         {
-          projection: {
-            commit_activities: 0,
+          $project: {
+            _id: 0,
+            name: 1,
+            institution: 1,
+            organisation: 1,
+            comments: 1,
+            issues_all: 1,
+            pull_requests_all: 1,
+            num_commits: 1,
+            num_contributors: 1,
+            num_forks: 1,
+            num_stars: 1,
+            has_own_commits: 1,
+            createdTimestamp: 1,
+            updatedTimestamp: 1,
+            fork: 1,
+            license: 1,
           },
-          session: session,
         },
-      )
-      .toArray();
+        /*{
+          $group: {
+            _id: '$_id',
+            name: { $first: '$name' },
+            institution: { $first: '$institution' },
+            organisation: { $first: '$organisation' },
+            comments: { $first: '$comments' },
+            issues_all: { $first: '$issues_all' },
+            pull_requests_all: { $first: '$pull_requests_all' },
+            num_commits: { $first: '$num_commits' },
+            num_contributors: { $first: '$num_contributors' },
+            num_forks: { $first: '$num_forks' },
+            num_stars: { $first: '$num_stars' },
+            has_own_commits: { $first: '$has_own_commits' },
+            createdTimestamp: { $first: '$createdTimestamp' },
+            updatedTimestamp: { $first: '$updatedTimestamp' },
+            fork: { $first: '$fork' },
+            //license: { $first: '$license' },
+          },
+        },*/
+        {
+          $sort: { [key]: direction },
+        },
+        {
+          $skip: limit * page,
+        },
+        {
+          $limit: limit,
+        },
+      ])
+      .toArray() as Promise<Repository[]>;
   }
 
   /**
