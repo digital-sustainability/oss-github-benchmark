@@ -51,7 +51,6 @@ export class DataGatheringService
   async onApplicationShutdown(signal?: string) {}
   async onApplicationBootstrap() {
     this.logPath = process.env.LOG_PATH || '/logs';
-    this.prepareInstitutions();
   }
 
   private readonly logger = new Logger(DataGatheringService.name);
@@ -74,12 +73,6 @@ export class DataGatheringService
       return b.ts.getTime() - a.ts.getTime();
     });
     for (const todoInstituition of todoInstituitions) {
-      /*if (todoInstituition.ts?.getTime() > Date.now() - this.daysToWait) {
-        this.logger.log(
-          `The institution ${todoInstituition.name_de} was alredy crawled in the defined time`,
-        );
-        continue;
-      }*/
       await this.handleInstitution(todoInstituition, todoInstituition.sector);
       await this.mongoService.updateTodoInstitutionTimestamp(
         todoInstituition.uuid,
