@@ -235,12 +235,22 @@ export class MongoDbService
             num_members: 1,
             num_repos: 1,
             sector: 1,
-            location: 1,
-            created_at: 1,
             avatar: 1,
             shortname: 1,
-            repo_names: 1,
+            repo_names: { $slice: ['$repo_names', 0, 10] },
             total_num_forks_in_repos: 1,
+            location: {
+              $getField: {
+                field: 'location',
+                input: { $arrayElemAt: ['$orgs', 0] },
+              },
+            },
+            created_at: {
+              $getField: {
+                field: 'created_at',
+                input: { $arrayElemAt: ['$orgs', 0] },
+              },
+            },
           },
         },
         {
@@ -251,11 +261,6 @@ export class MongoDbService
         },
         {
           $limit: limit,
-        },
-        {
-          $addFields: {
-            repo_names: { $slice: ['$repo_names', 0, 10] },
-          },
         },
       ])
       .toArray() as Promise<Institution[]>;
@@ -347,12 +352,22 @@ export class MongoDbService
             num_members: 1,
             num_repos: 1,
             sector: 1,
-            location: 1,
-            created_at: 1,
             avatar: 1,
             shortname: 1,
-            repo_names: 1,
+            repo_names: { $slice: ['$repo_names', 0, 10] },
             total_num_forks_in_repos: 1,
+            location: {
+              $getField: {
+                field: 'location',
+                input: { $arrayElemAt: ['$orgs', 0] },
+              },
+            },
+            created_at: {
+              $getField: {
+                field: 'created_at',
+                input: { $arrayElemAt: ['$orgs', 0] },
+              },
+            },
           },
         },
         {
@@ -363,11 +378,6 @@ export class MongoDbService
         },
         {
           $sort: { [key]: direction },
-        },
-        {
-          $addFields: {
-            repo_names: { $slice: ['$repo_names', 0, 10] },
-          },
         },
       ])
       .toArray() as Promise<Institution[]>;
