@@ -116,6 +116,7 @@ export class ApiController {
         sectorList,
         queryConfig.count,
         queryConfig.page,
+        true,
       );
       return institution[0];
     }
@@ -134,6 +135,7 @@ export class ApiController {
         sectorList,
         queryConfig.count,
         queryConfig.page,
+        false,
       );
       foundSectors = await this.mongoDbService.countAllInstitutions(sectorList);
       foundSectors =

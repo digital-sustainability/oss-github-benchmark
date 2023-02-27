@@ -328,6 +328,7 @@ export class MongoDbService
     sectors: string[],
     limit: number,
     page: number,
+    getStats: boolean,
   ): Promise<Institution[]> {
     this.logger.log(`Searching for institutions containing ${searchTerm}`);
     return this.client
@@ -365,6 +366,7 @@ export class MongoDbService
                 input: { $arrayElemAt: ['$orgs', 0] },
               },
             },
+            stats: getStats,
           },
         },
         {
