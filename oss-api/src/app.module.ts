@@ -8,18 +8,23 @@ import { DataGatheringService } from './data-gathering/data-gatherting.service';
 import { GithubService } from './github/github.service';
 import { LoggerModule } from 'nestjs-pino';
 import { ScheduleModule } from '@nestjs/schedule';
+import * as fs from 'fs';
+let stream = fs.createWriteStream(process.env.LOG_PATH);
 @Module({
   imports: [
     ScheduleModule.forRoot(),
     LoggerModule.forRoot({
-      pinoHttp: {
-        transport: {
-          target: 'pino-pretty',
-          options: {
-            singleLine: true,
-          },
-        },
-      },
+      pinoHttp:
+        process.env.NODE_ENV === 'production'
+          ? { stream }
+          : {
+              transport: {
+                target: 'pino-pretty',
+                options: {
+                  singleLine: true,
+                },
+              },
+            },
     }),
     ConfigModule.forRoot(),
     ServeStaticModule.forRoot({
@@ -28,10 +33,6 @@ import { ScheduleModule } from '@nestjs/schedule';
     }),
   ],
   controllers: [ApiController],
-  providers: [
-    MongoDbService,
-    DataGatheringService,
-    GithubService,
-  ],
+  providers: [MongoDbService, DataGatheringService, GithubService],
 })
 export class AppModule {}
