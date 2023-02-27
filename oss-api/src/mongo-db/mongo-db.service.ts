@@ -496,7 +496,7 @@ export class MongoDbService
             _id: 0,
             name: 1,
             institution: 1,
-            organisation: 1,
+            organization: 1,
             comments: 1,
             issues_all: 1,
             pull_requests_all: 1,
@@ -509,6 +509,7 @@ export class MongoDbService
             updatedTimestamp: 1,
             fork: 1,
             license: 1,
+            logo: 1,
           },
         },
         {
