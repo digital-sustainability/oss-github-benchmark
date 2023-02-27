@@ -183,7 +183,7 @@
           (click)="navigateTo(repo.url)"
           [matTooltip]="repo.description"
         >
-          {{ repo.created_at | date: "MMMM d, yyyy 'at' H:mm" }}
+          {{ repo.createdTimestamp | date: "MMMM d, yyyy 'at' H:mm" }}
         </td>
       </ng-container>
 
@@ -195,7 +195,7 @@
           (click)="navigateTo(repo.url)"
           [matTooltip]="repo.description"
         >
-          {{ repo.updated_at | date: "MMMM d, yyyy 'at' H:mm" }}
+          {{ repo.updatedTimestamp | date: "MMMM d, yyyy 'at' H:mm" }}
         </td>
       </ng-container>
 

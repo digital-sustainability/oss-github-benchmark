@@ -54,8 +54,8 @@ export class ExploreItemComponent implements OnInit {
     'fork',
     'num_stars',
     'num_forks',
-    'createdTimestamp',
-    'updatedTimestamp',
+    'created_at',
+    'updated_at',
   ];
   dataSource: any = 0;
   institutionStats: object[] = [
