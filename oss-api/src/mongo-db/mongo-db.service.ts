@@ -10,14 +10,14 @@ import {
   Institution,
   Repository,
   User,
-  Status,
-  Progress,
-  InstitutionQueryConfig,
-  UserQueryConfig,
-  RepositoryQueryConfig,
   RawResponse,
   TodoInstitution,
   Organisation,
+  ApiInstitution,
+  GroupCount,
+  ApiRepository,
+  ObjectCount,
+  ApiUser,
 } from 'src/interfaces';
 import { OctokitResponse } from '@octokit/types';
 
@@ -29,12 +29,7 @@ export class MongoDbService
   async onApplicationShutdown(signal?: string) {
     await this.destroyConnection();
   }
-  async onApplicationBootstrap() {
-    /*this.getData().then(() => console.log('Loaded data'));
-    setInterval(() => {
-      this.getData().then(() => console.log('Reloaded data'));
-    }, 3600000);*/
-  }
+  async onApplicationBootstrap() {}
   async onModuleInit() {
     this.database = process.env.MONGO_DATABASE || 'testing';
     await this.initializeConnection();
@@ -42,14 +37,6 @@ export class MongoDbService
 
   private database: string;
   private client: MongoClient | undefined;
-  //private institutions: Institution[] | undefined;
-  //private repositories: Repository[] | undefined;
-  //private users: User[] | undefined;
-  private status: Status | undefined;
-  //private institutionSearchStrings: string[];
-  //private repositorySearchStrings: string[];
-  //private userSearchStrings: string[];
-  //private updateDate: Date = new Date();
   private readonly logger = new Logger(MongoDbService.name);
 
   private async initializeConnection() {
@@ -147,7 +134,7 @@ export class MongoDbService
    * @param userName The username of the user
    * @returns A User object
    */
-  async findUser(userName: string): Promise<User> {
+  async findUserWithUserName(userName: string): Promise<User> {
     this.logger.log(
       `Searching the user with the username ${userName} in the database`,
     );
@@ -181,7 +168,7 @@ export class MongoDbService
    * @param uuid The uuid of the institution
    * @returns A Insitution object
    */
-  async findInstitution(uuid: string): Promise<Institution> {
+  async findInstitutionWithUUID(uuid: string): Promise<Institution> {
     this.logger.log(
       `Getting the institution with the uuid ${uuid} from the database`,
     );
@@ -196,9 +183,9 @@ export class MongoDbService
    * @param name The name of the organisation
    * @returns A Organsation object
    */
-  async findOrganisation(name: string): Promise<Organisation> {
+  async findOrganisationWithName(name: string): Promise<Organisation> {
     this.logger.log(
-      `Gettign the organisation with the name ${name} from the database`,
+      `Getting the organisation with the name ${name} from the database`,
     );
     return this.client
       .db(this.database)
@@ -207,22 +194,24 @@ export class MongoDbService
   }
 
   /**
-   * Get all insitutions from the database
+   * Get all institutions from the database
    * @param key The sort key
    * @param direction The sort direction
    * @param sectors The chosen sectors
    * @param limit The limit
    * @param page The page
-   * @returns THe sorted repositories corresponding to the inputs
+   * @returns The sorted repositories corresponding to the inputs
    */
-  async findAllInstitutions(
+  async findInstitutionsLimitedSorted(
     key: string,
     direction: 1 | -1,
     sectors: string[],
     limit: number,
     page: number,
-  ): Promise<Institution[]> {
-    this.logger.log('Getting all institutions from the database');
+  ): Promise<ApiInstitution[]> {
+    this.logger.log(
+      `Getting ${limit} institutions from the database. Sorted by ${key} in ${direction} direction`,
+    );
     return this.client
       .db('statistics')
       .collection<Institution>('institutions')
@@ -260,68 +249,21 @@ export class MongoDbService
           $limit: limit,
         },
       ])
-      .toArray() as Promise<Institution[]>;
+      .toArray() as Promise<ApiInstitution[]>;
   }
 
   /**
-   * Count how many institutions there are with the given sectors
-   * @param sectors An array with the sectors
-   * @returns An Object array with the sector names and how many there are
-   */
-  async countAllInstitutions(sectors: string[]) {
-    return this.client
-      .db('statistics')
-      .collection<Institution>('institutions')
-      .aggregate([
-        { $match: { sector: { $in: sectors } } },
-        {
-          $group: {
-            _id: '$sector',
-            total: { $count: {} },
-          },
-        },
-      ])
-      .toArray();
-  }
-
-  /**
-   * Count all the Institutions with the given sectors and serch term
-   * @param searchTerm The searchterm
-   * @param sectors An array with the sectors
-   * @returns An Object array with the sector names and how many there are
-   */
-  async countAllInstitutionsWithSearchTerm(
-    searchTerm: string,
-    sectors: string[],
-  ) {
-    return this.client
-      .db('statistics')
-      .collection<Institution>('institutions')
-      .aggregate([
-        {
-          $match: {
-            $and: [
-              { $text: { $search: searchTerm } },
-              { sector: { $in: sectors } },
-            ],
-          },
-        },
-        {
-          $group: {
-            _id: '$sector',
-            total: { $count: {} },
-          },
-        },
-      ])
-      .toArray();
-  }
-
-  /**
-   * Find Institutions by a search term
+   * Get all the instituions corresponding to the search term
    * @param searchTerm The search term
-   * @returns The found institutions as an array
+   * @param key The sort key
+   * @param direction The sort direction
+   * @param sectors The chosen sectors
+   * @param limit The limit
+   * @param page The page
+   * @param getStats A boolean showing if the statistics should also be queried
+   * @returns The sorted repositories corresponding to the inputs
    */
-  async findInstitutions(
+  async findInstitutionsWithSearchTerm(
     searchTerm: string,
     key: string,
     direction: 1 | -1,
@@ -329,7 +271,7 @@ export class MongoDbService
     limit: number,
     page: number,
     getStats: boolean,
-  ): Promise<Institution[]> {
+  ): Promise<ApiInstitution[]> {
     this.logger.log(`Searching for institutions containing ${searchTerm}`);
     return this.client
       .db('statistics')
@@ -396,21 +338,87 @@ export class MongoDbService
           $sort: { [key]: direction },
         },
       ])
-      .toArray() as Promise<Institution[]>;
+      .toArray() as Promise<ApiInstitution[]>;
   }
 
   /**
-   * Get all the repositories
-   * @returns The repository array
+   * Count how many institutions there are with the given sectors
+   * @param sectors An array with the sectors
+   * @returns An Group count array with the sector names and how many there are
    */
-  async findAllRepositories(
+  async countAllInstitutions(sectors: string[]): Promise<GroupCount[]> {
+    this.logger.log(
+      `Counting institutions corresponding to these sectors: ${sectors}`,
+    );
+    return this.client
+      .db('statistics')
+      .collection<Institution>('institutions')
+      .aggregate([
+        { $match: { sector: { $in: sectors } } },
+        {
+          $group: {
+            _id: '$sector',
+            total: { $count: {} },
+          },
+        },
+      ])
+      .toArray() as Promise<GroupCount[]>;
+  }
+
+  /**
+   * Count all the Institutions with the given sectors and search term
+   * @param searchTerm The search term
+   * @param sectors An array with the sectors
+   * @returns An Group count array with the sector names and how many there are
+   */
+  async countAllInstitutionsWithSearchTerm(
+    searchTerm: string,
+    sectors: string[],
+  ): Promise<GroupCount[]> {
+    this.logger.log(
+      `Counting institutions corresponding to this search term: ${searchTerm} and these sectors: ${sectors}`,
+    );
+    return this.client
+      .db('statistics')
+      .collection<Institution>('institutions')
+      .aggregate([
+        {
+          $match: {
+            $and: [
+              { $text: { $search: searchTerm } },
+              { sector: { $in: sectors } },
+            ],
+          },
+        },
+        {
+          $group: {
+            _id: '$sector',
+            total: { $count: {} },
+          },
+        },
+      ])
+      .toArray() as Promise<GroupCount[]>;
+  }
+
+  /**
+   * Get all the repositories corresponding to the inputs
+   * @param key The sort key
+   * @param direction The sort direction
+   * @param limit The limit
+   * @param page The page
+   * @param includeForks If forks should also be included
+   * @returns An array of ApiRepositories
+   */
+  async findAllRepositoriesLimitedSorted(
     key: string,
     direction: 1 | -1,
     limit: number,
     page: number,
     includeForks: boolean[],
-  ) {
-    this.logger.log('Get all Repositories from the database');
+  ): Promise<ApiRepository[]> {
+    this.logger.log(
+      `Getting ${limit} repositories from the database. Sorted by ${key} in ${direction} direction`,
+    );
     return this.client
       .db('statistics')
       .collection<Repository>('repositories')
@@ -454,28 +462,20 @@ export class MongoDbService
           $limit: limit,
         },
       ])
-      .toArray() as Promise<Repository[]>;
+      .toArray() as Promise<ApiRepository[]>;
   }
 
   /**
-   * Count all the repos
-   * @param includeForks If forks should be included
-   * @returns The total count of repos
+   * Get all the repositories corresponding to the inputs
+   * @param searchTerm The search term
+   * @param key The sort key
+   * @param direction The sort direction
+   * @param limit The limit
+   * @param page The page
+   * @param includeForks If forks should also be included
+   * @returns An array of ApiRepositories
    */
-  async countAllRepositories(includeForks: boolean[]) {
-    return this.client
-      .db('statistics')
-      .collection<Repository>('repositories')
-      .aggregate([
-        { $match: { fork: { $in: includeForks } } },
-        {
-          $count: 'total',
-        },
-      ])
-      .toArray();
-  }
-
-  async findRepository(
+  async findRepositoryWithSearchTerm(
     searchTerm: string,
     includeForks: boolean[],
     key: string,
@@ -539,10 +539,40 @@ export class MongoDbService
       .toArray() as Promise<Repository[]>;
   }
 
+  /**
+   * Count all the repos
+   * @param includeForks If forks should be included
+   * @returns An Object count array
+   */
+  async countAllRepositories(includeForks: boolean[]): Promise<ObjectCount[]> {
+    this.logger.log(
+      `Counting repositories corresponding with these fork values: ${includeForks}`,
+    );
+    return this.client
+      .db('statistics')
+      .collection<Repository>('repositories')
+      .aggregate([
+        { $match: { fork: { $in: includeForks } } },
+        {
+          $count: 'total',
+        },
+      ])
+      .toArray() as Promise<ObjectCount[]>;
+  }
+
+  /**
+   * Count all the repos corresponding to the search term
+   * @param searchTerm The search term
+   * @param includeForks If forks should be included
+   * @returns An Object count array
+   */
   async countAllRepositoriesWithSearchTerm(
     searchTerm: string,
     includeForks: boolean[],
-  ) {
+  ): Promise<ObjectCount[]> {
+    this.logger.log(
+      `Counting repositories corresponding with these fork values: ${includeForks} and this search term: ${searchTerm}`,
+    );
     return this.client
       .db('statistics')
       .collection<Repository>('repositories')
@@ -559,20 +589,26 @@ export class MongoDbService
           $count: 'total',
         },
       ])
-      .toArray();
+      .toArray() as Promise<ObjectCount[]>;
   }
 
   /**
-   * Get all users from the database
-   * @returns The users in a array
+   * Get all the users corresponding to the inputs
+   * @param key The sort key
+   * @param direction The sort direction
+   * @param limit The limit
+   * @param page The page
+   * @returns An ApiUser array
    */
-  async findAllUsers(
+  async findAllUsersLimitedSorted(
     key: string,
     direction: 1 | -1,
     limit: number,
     page: number,
-  ) {
-    this.logger.log('Getting all users from the database');
+  ): Promise<ApiUser[]> {
+    this.logger.log(
+      `Getting ${limit} users from the database. Sorted by ${key} in ${direction} direction`,
+    );
     return this.client
       .db('statistics')
       .collection<User>('users')
@@ -604,35 +640,27 @@ export class MongoDbService
           $limit: limit,
         },
       ])
-      .toArray() as Promise<User[]>;
-  }
-
-  async countAllUsers() {
-    return this.client
-      .db('statistics')
-      .collection<User>('users')
-      .aggregate([
-        {
-          $count: 'total',
-        },
-      ])
-      .toArray();
+      .toArray() as Promise<ApiUser[]>;
   }
 
   /**
-   * Find people with the given search term
-   * @param searchTerm The search term
-   * @returns A users array
+   * Get all the users corresponding to the inputs
+   * @param searchTerm
+   * @param key The sort key
+   * @param direction The sort direction
+   * @param limit The limit
+   * @param page The page
+   * @returns An ApiUser array
    */
-  async findPeople(
+  async findUsersWithSearchTerm(
     searchTerm: string,
     key: string,
     direction: 1 | -1,
     limit: number,
     page: number,
-  ): Promise<User[]> {
+  ): Promise<ApiUser[]> {
     this.logger.log(
-      `Searching for Users in the database with the search term: ${searchTerm}`,
+      `Searching for users in the database with the search term: ${searchTerm}`,
     );
     return this.client
       .db('statistics')
@@ -668,10 +696,37 @@ export class MongoDbService
           $limit: limit,
         },
       ])
-      .toArray() as Promise<User[]>;
+      .toArray() as Promise<ApiUser[]>;
   }
 
-  async countAllUsersWithSearchTerm(searchTerm: string) {
+  /**
+   * Count all users in the database
+   * @returns An ObjectCount array
+   */
+  async countAllUsers(): Promise<ObjectCount[]> {
+    this.logger.log(`Counting all Users`);
+    return this.client
+      .db('statistics')
+      .collection<User>('users')
+      .aggregate([
+        {
+          $count: 'total',
+        },
+      ])
+      .toArray() as Promise<ObjectCount[]>;
+  }
+
+  /**
+   * Count all users corresponding to the search term
+   * @param searchTerm The search term
+   * @returns An ObjectCount array
+   */
+  async countAllUsersWithSearchTerm(
+    searchTerm: string,
+  ): Promise<ObjectCount[]> {
+    this.logger.log(
+      `Counting users corresponding with this search term: ${searchTerm}`,
+    );
     return this.client
       .db('statistics')
       .collection<User>('users')
@@ -683,7 +738,7 @@ export class MongoDbService
           $count: 'total',
         },
       ])
-      .toArray();
+      .toArray() as Promise<ObjectCount[]>;
   }
   /***********************************Update************************************************/
 
@@ -723,9 +778,9 @@ export class MongoDbService
    * Create or update a institution in the database
    * @param institution A institution object
    */
-  async updateInstitution(institution: Institution): Promise<void> {
+  async upsertInstitution(institution: Institution): Promise<void> {
     this.logger.log(
-      `Updating/Creating institution ${institution.name_de} in the database`,
+      `Upserting institution ${institution.name_de} in the database`,
     );
     this.client
       .db(this.database)
@@ -771,18 +826,18 @@ export class MongoDbService
    * Update the timestamp of a todo insitution
    * @param uuid The institution uuid
    */
-  async updateTodoInstitutionTs(uuid: string): Promise<void> {
+  async updateTodoInstitutionTimestamp(uuid: string): Promise<void> {
     this.logger.log(
-      `Updating timestamp og the institution with the uuid ${uuid}.`,
+      `Updating timestamp of the institution with the uuid ${uuid}.`,
     );
     this.client
       .db(this.database)
-      .collection('todoInstitutions')
+      .collection<TodoInstitution>('todoInstitutions')
       .updateOne({ uuid: uuid }, { $set: { ts: new Date() } });
   }
 
   /**
-   * Update all orgs of a todo institution
+   * Update all org timestamps of a todo institution
    * @param institution The todo insitution object
    */
   async updateOrgTimestamp(institution: TodoInstitution): Promise<void> {
@@ -791,7 +846,7 @@ export class MongoDbService
     );
     this.client
       .db(this.database)
-      .collection('todoInstitutions')
+      .collection<TodoInstitution>('todoInstitutions')
       .updateOne(
         { uuid: institution.uuid },
         { $set: { orgs: institution.orgs } },
@@ -799,306 +854,46 @@ export class MongoDbService
   }
 
   /**
-   * Update or Create a Organisation
+   * Upsert an Organisation
    * @param organisation the Organisation Object
    */
   async upsertOrg(organisation: Organisation): Promise<void> {
-    this.logger.log(`Updating organsisation ${organisation.name}`);
+    this.logger.log(`Upserting organsisation ${organisation.name}`);
     this.client
       .db(this.database)
-      .collection('organisation')
+      .collection<Organisation>('organisation')
       .replaceOne(
         { name: organisation.name },
         {
-          $set: {
-            num_repos: organisation.num_repos,
-            num_members: organisation.num_members,
-            total_num_contributors: organisation.total_num_contributors,
-            total_num_own_repo_forks: organisation.total_num_own_repo_forks,
-            total_num_forks_in_repos: organisation.total_num_forks_in_repos,
-            total_num_commits: organisation.total_num_commits,
-            total_pull_requests: organisation.total_pull_requests,
-            total_issues: organisation.total_issues,
-            total_num_stars: organisation.total_num_stars,
-            total_num_watchers: organisation.total_num_watchers,
-            total_pull_requests_all: organisation.total_pull_requests_all,
-            total_pull_requests_closed: organisation.total_pull_requests_closed,
-            total_issues_all: organisation.total_issues_all,
-            total_issues_closed: organisation.total_issues_closed,
-            total_comments: organisation.total_comments,
-            name: organisation.name,
-            url: organisation.url,
-            description: organisation.description,
-            avatar: organisation.avatar,
-            created_at: organisation.created_at,
-            location: organisation.location,
-            email: organisation.email,
-            repos: organisation.repos,
-            repo_names: organisation.repo_names,
-            total_licenses: organisation.total_licenses,
-          },
+          num_repos: organisation.num_repos,
+          num_members: organisation.num_members,
+          total_num_contributors: organisation.total_num_contributors,
+          total_num_own_repo_forks: organisation.total_num_own_repo_forks,
+          total_num_forks_in_repos: organisation.total_num_forks_in_repos,
+          total_num_commits: organisation.total_num_commits,
+          total_pull_requests: organisation.total_pull_requests,
+          total_issues: organisation.total_issues,
+          total_num_stars: organisation.total_num_stars,
+          total_num_watchers: organisation.total_num_watchers,
+          total_pull_requests_all: organisation.total_pull_requests_all,
+          total_pull_requests_closed: organisation.total_pull_requests_closed,
+          total_issues_all: organisation.total_issues_all,
+          total_issues_closed: organisation.total_issues_closed,
+          total_comments: organisation.total_comments,
+          name: organisation.name,
+          url: organisation.url,
+          description: organisation.description,
+          avatar: organisation.avatar,
+          created_at: organisation.created_at,
+          location: organisation.location,
+          email: organisation.email,
+          repos: organisation.repos,
+          repo_names: organisation.repo_names,
+          total_licenses: organisation.total_licenses,
         },
         { upsert: true },
       );
   }
 
   /***********************************Delete************************************************/
-
-  /***********************************Old************************************************/
-
-  /*async findAllInstitutions() {
-    return this.institutions;
-  }*/
-  /*async findAllRepositories() {
-    return this.repositories;
-  }
-  async findAllUsers() {
-    return this.users;
-  }*/
-  async findStatus() {
-    return this.status;
-  }
-
-  /*async findInstitutionsOld(params: InstitutionQueryConfig) {
-    // this if is not used
-    if (params.findName) {
-      return this.institutions.find((inst) => {
-        return inst.shortname === params.findName;
-      });
-    }
-    // The sectors of the institutions
-    let sectors: { [key: string]: number } = {};
-    let insts = this.institutions;
-    // Search for all institutions
-    if (params.search.length > 0)
-      insts = insts.filter((institution: Institution, index) => {
-        const search: string = this.institutionSearchStrings[index];
-        return search.toLowerCase().includes(params.search.toLowerCase());
-      });
-    // Get all the sectors
-    insts.forEach((institution) => {
-      sectors[institution.sector] = (sectors[institution.sector] ?? 0) + 1;
-    });
-
-    // Check for the sector
-    if (params.sector.length > 0)
-      insts = insts.filter((institution: Institution) => {
-        return params.sector.includes(institution.sector);
-      });
-    // Sort institutions
-    insts = [...insts].sort((a, b) => {
-      if (typeof a[params.sort] == 'string') {
-        return params.direction == 'ASC'
-          ? b[params.sort]
-              .toLowerCase()
-              .localeCompare(a[params.sort].toLowerCase())
-          : a[params.sort]
-              .toLowerCase()
-              .localeCompare(b[params.sort].toLowerCase());
-      } else {
-        return params.direction == 'ASC'
-          ? a[params.sort] -
-              (params.includeForksInSort ? 0 : a.total_num_forks_in_repos) -
-              b[params.sort] -
-              (params.includeForksInSort ? 0 : a.total_num_forks_in_repos)
-          : b[params.sort] -
-              (params.includeForksInSort ? 0 : a.total_num_forks_in_repos) -
-              a[params.sort] -
-              (params.includeForksInSort ? 0 : a.total_num_forks_in_repos);
-      }
-    });
-    let total = insts.length;
-    if (params.sendStats) {
-      return {
-        institutions: insts.slice(
-          params.page * params.count,
-          (params.page + 1) * params.count,
-        ),
-        total: total,
-        sectors: sectors,
-      };
-    } else {
-      insts = insts.slice(
-        params.page * params.count,
-        (params.page + 1) * params.count,
-      );
-      const institutionsWithoutStats: Institution[] = insts.map(
-        (inst: Institution) => {
-          const { stats, ...institutionWithoutStats } = inst;
-          return institutionWithoutStats;
-        },
-      );
-      return {
-        institutions: institutionsWithoutStats,
-        total: total,
-        sectors: sectors,
-      };
-    }
-  }*/
-  /*async findRepositories(params: RepositoryQueryConfig) {
-    let repositories = this.repositories;
-    if (params.search.length > 0)
-      repositories = repositories.filter((repository: Repository, index) => {
-        const search: string = this.repositorySearchStrings[index];
-        if (!search) return false;
-        return search.toLowerCase().includes(params.search.toLowerCase());
-      });
-    if (!params.includeForks)
-      repositories = repositories.filter((repository: Repository, index) => {
-        return !repository.fork;
-      });
-    repositories = [...repositories].sort((a, b) => {
-      try {
-        if (typeof a[params.sort] == 'string') {
-          return params.direction == 'ASC'
-            ? b[params.sort]
-                .toLowerCase()
-                .localeCompare(a[params.sort].toLowerCase())
-            : a[params.sort]
-                .toLowerCase()
-                .localeCompare(b[params.sort].toLowerCase());
-        } else {
-          return params.direction == 'ASC'
-            ? a[params.sort] - b[params.sort]
-            : b[params.sort] - a[params.sort];
-        }
-      } catch {
-        return !b[params.sort];
-      }
-    });
-    return {
-      repositories: repositories.slice(
-        params.page * params.count,
-        (params.page + 1) * params.count,
-      ),
-      total: repositories.length,
-    };
-  }*/
-  /*async findUsers(params: UserQueryConfig) {
-    let users = this.users;
-    if (params.search.length > 0)
-      users = users.filter((user: User, index) => {
-        const search: string = this.userSearchStrings[index];
-        if (!search) return true;
-        return search.toLowerCase().includes(params.search.toLowerCase());
-      });
-    users = [...users].sort((a, b) => {
-      try {
-        if (typeof a[params.sort] == 'string') {
-          return params.direction == 'ASC'
-            ? b[params.sort]
-                .toLowerCase()
-                .localeCompare(a[params.sort].toLowerCase())
-            : a[params.sort]
-                .toLowerCase()
-                .localeCompare(b[params.sort].toLowerCase());
-        } else {
-          return params.direction == 'ASC'
-            ? a[params.sort] - b[params.sort]
-            : b[params.sort] - a[params.sort];
-        }
-      } catch {
-        return !b[params.sort];
-      }
-    });
-    return {
-      users: users.slice(
-        params.page * params.count,
-        (params.page + 1) * params.count,
-      ),
-      total: users.length,
-    };
-  }*/
-
-  /*private async getProgress(): Promise<undefined | Progress> {
-    const session = this.client.startSession();
-    return this.client
-      .db('statistics')
-      .collection<Progress>('progress')
-      .findOne({}, { session: session });
-  }
-  private async getTodoInstitutions(): Promise<any> {
-    const session = this.client.startSession();
-    return this.client
-      .db('statistics')
-      .collection('todoInstitutions')
-      .findOne({}, { session: session });
-  }
-  private async checkIfRunning(): Promise<boolean> {
-    const session = this.client.startSession();
-    await this.client
-      .db('statistics')
-      .collection('running')
-      .deleteOne({}, { session: session });
-    const awaitTimeout = (delay: number) =>
-      new Promise((resolve) => setTimeout(resolve, delay));
-    await awaitTimeout(5000);
-    return !!(await this.client
-      .db('statistics')
-      .collection('running')
-      .findOne({}, { session: session }));
-  }*/
-
-  /*private async getInstitutions(): Promise<Institution[]> {
-    const session = this.client.startSession();
-
-    const insts = this.client
-      .db('statistics')
-      .collection<Institution>('institutions')
-      .find({ num_orgs: { $ne: 0 } }, { session: session })
-      .toArray();
-    this.institutionSearchStrings = (await insts).map((value) => {
-      return JSON.stringify(value);
-    });
-    return insts;
-  }*/
-  /*private async getRepositories(): Promise<Repository[]> {
-    const session = this.client.startSession();
-    let repositories = this.client
-      .db('statistics')
-      .collection<Repository>('repositories')
-      .find(
-        {},
-        {
-          projection: {
-            commit_activities: 0,
-          },
-          session: session,
-        },
-      )
-      .toArray();
-    (await repositories).forEach((repository) => {
-      repository.logo = `https://github.com/${repository.organization}.png`;
-      this.updateDate =
-        this.updateDate.getTime() > repository.timestamp.getTime()
-          ? repository.timestamp
-          : repository.timestamp;
-    });
-    this.repositorySearchStrings = (await repositories).map((value) => {
-      return JSON.stringify(value);
-    });
-    return repositories;
-  }*/
-  /*private async getUsers(): Promise<User[]> {
-    const session = this.client.startSession();
-    let users = this.client
-      .db('statistics')
-      .collection<User>('users')
-      .find({}, { session: session })
-      .toArray();
-    this.userSearchStrings = (await users).map((value) => {
-      return JSON.stringify(value);
-    });
-    return users;
-  }*/
-
-  /*private async getData() {
-    console.log('Loading data...');
-    this.institutions = await this.getInstitutions();
-    console.log('Loaded institutions');
-    this.repositories = await this.getRepositories();
-    console.log('Loaded repositories');
-    this.users = await this.getUsers();
-    console.log('Loaded users');
-  }*/
 }

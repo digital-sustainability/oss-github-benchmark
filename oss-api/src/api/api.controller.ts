@@ -10,7 +10,6 @@ import {
   Institution,
   Repository,
   User,
-  Status,
   InstitutionQueryConfig,
   RepositoryQueryConfig,
   UserQueryConfig,
@@ -95,10 +94,10 @@ export class ApiController {
   }
   /***********************************Old************************************************/
 
-  @Get('progress')
+  /*@Get('progress')
   async findStatus(): Promise<Status> {
     return this.mongoDbService.findStatus();
-  }
+  }*/
 
   /***********************************Helper************************************************/
   /**
@@ -109,15 +108,16 @@ export class ApiController {
   private async handleInstitutions(queryConfig: InstitutionQueryConfig) {
     let sectorList = this.sectors;
     if (queryConfig.findName.length > 0) {
-      const institution = await this.mongoDbService.findInstitutions(
-        queryConfig.findName,
-        queryConfig.sort,
-        queryConfig.direction == 'ASC' ? 1 : -1,
-        sectorList,
-        queryConfig.count,
-        queryConfig.page,
-        true,
-      );
+      const institution =
+        await this.mongoDbService.findInstitutionsWithSearchTerm(
+          queryConfig.findName,
+          queryConfig.sort,
+          queryConfig.direction == 'ASC' ? 1 : -1,
+          sectorList,
+          queryConfig.count,
+          queryConfig.page,
+          true,
+        );
       return institution[0];
     }
     if (queryConfig.sector.length > 0) {
@@ -128,7 +128,7 @@ export class ApiController {
     let institutions: Institution[] = [];
     let foundSectors = [];
     if (queryConfig.search.length > 0) {
-      institutions = await this.mongoDbService.findInstitutions(
+      institutions = await this.mongoDbService.findInstitutionsWithSearchTerm(
         queryConfig.search,
         queryConfig.sort,
         queryConfig.direction == 'ASC' ? 1 : -1,
@@ -144,7 +144,7 @@ export class ApiController {
           sectorList,
         );
     } else {
-      institutions = await this.mongoDbService.findAllInstitutions(
+      institutions = await this.mongoDbService.findInstitutionsLimitedSorted(
         queryConfig.sort,
         queryConfig.direction == 'ASC' ? 1 : -1,
         sectorList,
@@ -172,7 +172,7 @@ export class ApiController {
     let countedRepos = {};
     const includeForks = queryConfig.includeForks ? [false, true] : [false];
     if (queryConfig.search.length > 0) {
-      repositories = await this.mongoDbService.findRepository(
+      repositories = await this.mongoDbService.findRepositoryWithSearchTerm(
         queryConfig.search,
         includeForks,
         queryConfig.sort,
@@ -186,7 +186,7 @@ export class ApiController {
           includeForks,
         );
     } else {
-      repositories = await this.mongoDbService.findAllRepositories(
+      repositories = await this.mongoDbService.findAllRepositoriesLimitedSorted(
         queryConfig.sort,
         queryConfig.direction == 'ASC' ? 1 : -1,
         queryConfig.count,
@@ -212,7 +212,7 @@ export class ApiController {
     let users: User[] = [];
     let total = {};
     if (queryConfig.search.length > 0) {
-      users = await this.mongoDbService.findPeople(
+      users = await this.mongoDbService.findUsersWithSearchTerm(
         queryConfig.search,
         queryConfig.sort,
         queryConfig.direction == 'ASC' ? 1 : -1,
@@ -223,7 +223,7 @@ export class ApiController {
         queryConfig.search,
       );
     } else {
-      users = await this.mongoDbService.findAllUsers(
+      users = await this.mongoDbService.findAllUsersLimitedSorted(
         queryConfig.sort,
         queryConfig.direction == 'ASC' ? 1 : -1,
         queryConfig.count,

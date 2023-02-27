@@ -1835,6 +1835,87 @@ export interface UserQueryConfig {
   count: number;
 }
 
+export interface ApiInstitution {
+  name_de: string;
+  num_members: number;
+  num_repos: number;
+  sector: string;
+  avatar: string;
+  shortname: string;
+  repo_names: string[];
+  total_num_forks_in_repos: number;
+  location: string;
+  created_at: Date;
+  description: string;
+  email: string;
+  total_num_contributors: number;
+  total_num_own_repo_forks: number;
+  total_num_commits: number;
+  total_pull_requests: number;
+  total_issues: number;
+  total_num_stars: number;
+  total_num_watchers: number;
+  total_commits_last_year: number;
+  total_pull_requests_all: number;
+  total_pull_requests_closed: number;
+  total_issues_all: number;
+  total_issues_closed: number;
+  total_comments: number;
+  num_orgs: number;
+  orgs: Organisation[];
+  stats: Statistic[];
+}
+
+export interface GroupCount {
+  _id: string;
+  total: number;
+}
+
+export interface ObjectCount {
+  total: number;
+}
+
+export interface ApiRepository {
+  uuid: string;
+  name: string;
+  url: string;
+  description: string;
+  timestamp: Date;
+  institution: string;
+  organization: string;
+  comments: number;
+  issues_all: number;
+  pull_requests_all: number;
+  pull_requests_closed: number;
+  issues_closed: number;
+  num_commits: number;
+  num_contributors: number;
+  num_watchers: number;
+  num_forks: number;
+  num_stars: number;
+  has_own_commits: boolean;
+  createdTimestamp: Date;
+  updatedTimestamp: Date;
+  fork: boolean;
+  license: Licenses;
+  logo: string;
+}
+
+export interface ApiUser {
+  avatar_url: string;
+  name: string;
+  login: string;
+  company: string;
+  location: string;
+  twitter_username: string;
+  public_repos: number;
+  public_gists: number;
+  followers: number;
+  created_at: Date;
+  updated_at: Date;
+  contributions: Contributions;
+}
+
 /************************************Code Types*******************************************/
 export interface RepositoryInfo {
   id: number;

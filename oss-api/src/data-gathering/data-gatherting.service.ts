@@ -37,8 +37,9 @@ import * as fs from 'fs';
 import { Cron, CronExpression } from '@nestjs/schedule';
 
 // TODO - big object from all data
-// TODO - maybe mongo refactor, app crashes because of the old implementation
 // TODO - write organisation to database
+// TODO - frontend values are not accessed correctly
+// TODO - write logs into files
 
 @Injectable()
 export class DataGatheringService
@@ -81,7 +82,9 @@ export class DataGatheringService
         continue;
       }
       await this.handleInstitution(todoInstituition, todoInstituition.sector);
-      await this.mongoService.updateTodoInstitutionTs(todoInstituition.uuid);
+      await this.mongoService.updateTodoInstitutionTimestamp(
+        todoInstituition.uuid,
+      );
     }
     this.logger.log('Crawler finished');
   }
@@ -100,7 +103,7 @@ export class DataGatheringService
       institution,
       sector,
     );
-    const oldInstitution = await this.mongoService.findInstitution(
+    const oldInstitution = await this.mongoService.findInstitutionWithUUID(
       institution.uuid,
     );
     institution.orgs.sort((a, b) => {
@@ -137,7 +140,7 @@ export class DataGatheringService
     const newStatistic = await this.createStatistics(newInstitution);
     stats.push(newStatistic);
     newInstitution.stats = stats;
-    await this.mongoService.updateInstitution(newInstitution);
+    await this.mongoService.upsertInstitution(newInstitution);
   }
 
   /**
@@ -151,7 +154,9 @@ export class DataGatheringService
     institutionName: string,
   ): Promise<Organisation> {
     this.logger.log(`Handling Organisation ${orgName}`);
-    const dbOrganisation = await this.mongoService.findOrganisation(orgName);
+    const dbOrganisation = await this.mongoService.findOrganisationWithName(
+      orgName,
+    );
     const gitOrganisation = await this.getGitHubOrganisation(
       institutionName,
       orgName,
@@ -1151,7 +1156,7 @@ export class DataGatheringService
     this.logger.log(
       `Getting the userdata from the database with the username ${userName}.`,
     );
-    const databaseUser = await this.mongoService.findUser(userName);
+    const databaseUser = await this.mongoService.findUserWithUserName(userName);
     if (!databaseUser) return null;
     return databaseUser;
   }
