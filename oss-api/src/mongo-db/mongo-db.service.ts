@@ -419,6 +419,7 @@ export class MongoDbService
         {
           $project: {
             _id: 0,
+            uuid: 1,
             name: 1,
             institution: 1,
             organization: 1,
@@ -427,6 +428,7 @@ export class MongoDbService
             pull_requests_all: 1,
             num_commits: 1,
             num_contributors: 1,
+            num_watchers: 1,
             num_forks: 1,
             num_stars: 1,
             has_own_commits: 1,
@@ -502,6 +504,7 @@ export class MongoDbService
             pull_requests_all: 1,
             num_commits: 1,
             num_contributors: 1,
+            num_watchers: 1,
             num_forks: 1,
             num_stars: 1,
             has_own_commits: 1,
