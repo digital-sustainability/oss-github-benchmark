@@ -383,6 +383,7 @@ export class MongoDbService
             total_comments: 1,
             num_orgs: 1,
             orgs: 1,
+            stats: getStats,
           },
         },
         {
