@@ -99,7 +99,7 @@ export class RankingComponent implements OnInit {
       }
     });
     this.institutions = institutions;
-    this.setInstitutionLocation();
+    //this.setInstitutionLocation();
     this.dataSource = new MatTableDataSource(this.institutions);
     this.numInstitutions = institutionData.total;
   }
