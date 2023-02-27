@@ -13,6 +13,11 @@ import {
   InstitutionQueryConfig,
   RepositoryQueryConfig,
   UserQueryConfig,
+  ApiInstitution,
+  ApiRepository,
+  GroupCount,
+  ObjectCount,
+  ApiUser,
 } from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { UserQueryPipe } from 'src/user-query.pipe';
@@ -40,64 +45,36 @@ export class ApiController {
     'Pharma',
     'FoodBeverage',
   ];
-  /*@Get('institutions')
-  async findAllInstitutions(
-    @Query() queryDto: InstitutionQueryDto,
-  ): Promise<Institution[]> {
-    const queryConfig = queryDto;
-    return this.mongoDbService.findAllInstitutions(
-      queryConfig.sort,
-      queryConfig.direction == 'ASC' ? 1 : -1,
-      this.sectors,
-      200,
-      0,
-    );
-  }*/
+
   @Get('paginatedInstitutions')
   @UsePipes(new InstitutionQueryPipe(), new ValidationPipe({ transform: true }))
   async findInstitutions(@Query() queryDto: InstitutionQueryDto): Promise<
     | {
-        institutions: Institution[];
+        institutions: ApiInstitution[];
         total: number;
         sectors: { [key: string]: number };
       }
-    | Institution
+    | ApiInstitution
   > {
     const queryConfig = queryDto;
     return await this.handleInstitutions(queryConfig);
   }
-  /*@Get('repositories')
-  async findAllRepositories(): Promise<Repository[]> {
-    let temp: Repository[] = [];
-    return temp;
-    //return this.mongoDbService.findAllRepositories();
-  }*/
   @Get('paginatedRepositories')
   @UsePipes(new RepositoryQueryPipe(), new ValidationPipe({ transform: true }))
   async findRepositories(
     @Query() queryDto: RepositoryQueryDto,
-  ): Promise<{ repositories: Repository[]; total: number }> {
+  ): Promise<{ repositories: ApiRepository[]; total: number }> {
     const queryConfig = queryDto;
     return await this.handleRepositories(queryConfig);
   }
-  /*@Get('users')
-  async findAllUsers(): Promise<User[]> {
-    return this.mongoDbService.findAllUsers();
-  }*/
   @Get('paginatedUsers')
   @UsePipes(new UserQueryPipe(), new ValidationPipe({ transform: true }))
   async findUsers(
     @Query() queryDto: UserQueryDto,
-  ): Promise<{ users: User[]; total: number }> {
+  ): Promise<{ users: ApiUser[]; total: number }> {
     const queryConfig = queryDto;
     return await this.handleUsers(queryConfig);
   }
-  /***********************************Old************************************************/
-
-  /*@Get('progress')
-  async findStatus(): Promise<Status> {
-    return this.mongoDbService.findStatus();
-  }*/
 
   /***********************************Helper************************************************/
   /**
@@ -105,7 +82,16 @@ export class ApiController {
    * @param queryConfig The queries of the request
    * @returns An institution array corresponding to the request
    */
-  private async handleInstitutions(queryConfig: InstitutionQueryConfig) {
+  private async handleInstitutions(
+    queryConfig: InstitutionQueryConfig,
+  ): Promise<
+    | {
+        institutions: ApiInstitution[];
+        total: number;
+        sectors: { [key: string]: number };
+      }
+    | ApiInstitution
+  > {
     let sectorList = this.sectors;
     if (queryConfig.findName.length > 0) {
       const institution =
@@ -125,8 +111,8 @@ export class ApiController {
         return queryConfig.sector.includes(sector);
       });
     }
-    let institutions: Institution[] = [];
-    let foundSectors = [];
+    let institutions: ApiInstitution[] = [];
+    let foundSectors: GroupCount[] = [];
     if (queryConfig.search.length > 0) {
       institutions = await this.mongoDbService.findInstitutionsWithSearchTerm(
         queryConfig.search,
@@ -137,7 +123,6 @@ export class ApiController {
         queryConfig.page,
         false,
       );
-      foundSectors = await this.mongoDbService.countAllInstitutions(sectorList);
       foundSectors =
         await this.mongoDbService.countAllInstitutionsWithSearchTerm(
           queryConfig.search,
@@ -167,9 +152,11 @@ export class ApiController {
    * @param queryConfig The queries
    * @returns The filtered and sorted repository list
    */
-  private async handleRepositories(queryConfig: RepositoryQueryConfig) {
-    let repositories: Repository[] = [];
-    let countedRepos = {};
+  private async handleRepositories(
+    queryConfig: RepositoryQueryConfig,
+  ): Promise<{ repositories: ApiRepository[]; total: number }> {
+    let repositories: ApiRepository[] = [];
+    let countedRepos: ObjectCount[] = [];
     const includeForks = queryConfig.includeForks ? [false, true] : [false];
     if (queryConfig.search.length > 0) {
       repositories = await this.mongoDbService.findRepositoryWithSearchTerm(
@@ -199,18 +186,20 @@ export class ApiController {
     }
     return {
       repositories: repositories,
-      total: countedRepos[0]['total'],
+      total: countedRepos[0].total,
     };
   }
 
   /**
    * Handle the users paginate api calls
-   * @param params The query parameters
+   * @param queryConfig The query parameters
    * @returns A Users array
    */
-  private async handleUsers(queryConfig: UserQueryConfig) {
-    let users: User[] = [];
-    let total = {};
+  private async handleUsers(
+    queryConfig: UserQueryConfig,
+  ): Promise<{ users: ApiUser[]; total: number }> {
+    let users: ApiUser[] = [];
+    let total: ObjectCount[] = [];
     if (queryConfig.search.length > 0) {
       users = await this.mongoDbService.findUsersWithSearchTerm(
         queryConfig.search,
@@ -231,11 +220,9 @@ export class ApiController {
       );
       total = await this.mongoDbService.countAllUsers();
     }
-    console.log(total);
-
     return {
       users: users,
-      total: total[0]['total'],
+      total: total[0].total,
     };
   }
 }

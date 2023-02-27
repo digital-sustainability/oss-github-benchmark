@@ -288,6 +288,7 @@ export class MongoDbService
         {
           $project: {
             _id: 0,
+            stats: 1,
             name_de: 1,
             num_members: 1,
             num_repos: 1,
@@ -325,7 +326,6 @@ export class MongoDbService
             total_comments: 1,
             num_orgs: 1,
             orgs: 1,
-            stats: getStats,
           },
         },
         {
@@ -482,7 +482,7 @@ export class MongoDbService
     direction: 1 | -1,
     limit: number,
     page: number,
-  ) {
+  ): Promise<ApiRepository[]> {
     this.logger.log(
       `Getting all the repositories with the search term: ${searchTerm}`,
     );
@@ -536,7 +536,7 @@ export class MongoDbService
           $limit: limit,
         },
       ])
-      .toArray() as Promise<Repository[]>;
+      .toArray() as Promise<ApiRepository[]>;
   }
 
   /**
