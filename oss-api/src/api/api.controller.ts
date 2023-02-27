@@ -41,7 +41,7 @@ export class ApiController {
     'Pharma',
     'FoodBeverage',
   ];
-  @Get('institutions')
+  /*@Get('institutions')
   async findAllInstitutions(
     @Query() queryDto: InstitutionQueryDto,
   ): Promise<Institution[]> {
@@ -53,7 +53,7 @@ export class ApiController {
       200,
       0,
     );
-  }
+  }*/
   @Get('paginatedInstitutions')
   @UsePipes(new InstitutionQueryPipe(), new ValidationPipe({ transform: true }))
   async findInstitutions(@Query() queryDto: InstitutionQueryDto): Promise<{
@@ -73,12 +73,12 @@ export class ApiController {
       sectors: sectors,
     };*/
   }
-  @Get('repositories')
+  /*@Get('repositories')
   async findAllRepositories(): Promise<Repository[]> {
     let temp: Repository[] = [];
     return temp;
     //return this.mongoDbService.findAllRepositories();
-  }
+  }*/
   @Get('paginatedRepositories')
   @UsePipes(new RepositoryQueryPipe(), new ValidationPipe({ transform: true }))
   async findRepositories(
@@ -87,24 +87,17 @@ export class ApiController {
     const queryConfig = queryDto;
     return await this.handleRepositories(queryConfig);
   }
-  @Get('users')
+  /*@Get('users')
   async findAllUsers(): Promise<User[]> {
     return this.mongoDbService.findAllUsers();
-  }
+  }*/
   @Get('paginatedUsers')
   @UsePipes(new UserQueryPipe(), new ValidationPipe({ transform: true }))
   async findUsers(
     @Query() queryDto: UserQueryDto,
   ): Promise<{ users: User[]; total: number }> {
     const queryConfig = queryDto;
-    const users = await this.handleUsers(queryConfig);
-    return {
-      users: users.slice(
-        queryConfig.page * queryConfig.count,
-        (queryConfig.page + 1) * queryConfig.count,
-      ),
-      total: users.length,
-    };
+    return await this.handleUsers(queryConfig);
   }
   /***********************************Old************************************************/
 
@@ -208,113 +201,35 @@ export class ApiController {
    * @param params The query parameters
    * @returns A Users array
    */
-  private async handleUsers(params: UserQueryConfig): Promise<User[]> {
+  private async handleUsers(queryConfig: UserQueryConfig) {
     let users: User[] = [];
-    if (params.search.length > 0) {
-      users = await this.mongoDbService.findPeople(params.search);
+    let total = {};
+    if (queryConfig.search.length > 0) {
+      users = await this.mongoDbService.findPeople(
+        queryConfig.search,
+        queryConfig.sort,
+        queryConfig.direction == 'ASC' ? 1 : -1,
+        queryConfig.count,
+        queryConfig.page,
+      );
+      total = await this.mongoDbService.countAllUsersWithSearchTerm(
+        queryConfig.search,
+      );
     } else {
-      users = await this.mongoDbService.findAllUsers();
+      users = await this.mongoDbService.findAllUsers(
+        queryConfig.sort,
+        queryConfig.direction == 'ASC' ? 1 : -1,
+        queryConfig.count,
+        queryConfig.page,
+      );
+      total = await this.mongoDbService.countAllUsers();
     }
-    users = await this.sortUsers(params, users);
-    return users;
-  }
+    console.log(total);
 
-  /**
-   * Filter the instiutions by sector
-   * @param sectors The selected sectors
-   * @param institutitons The institutions to be filtered
-   * @returns The filtered Institutions
-   */
-  private async filterInstitutionsBySector(
-    sectors: string[],
-    institutitons,
-  ): Promise<Institution[]> {
-    return (institutitons = institutitons.filter((institution: Institution) => {
-      return sectors.includes(institution.sector);
-    }));
-  }
-
-  /**
-   * Get all the sectors from the institutions
-   * @param institutions The institutions
-   * @returns An array with the sectors and the count
-   */
-  private async getAllSectorsFromInstitutions(institutions: Institution[]) {
-    let sectors = {};
-    institutions.forEach((institution) => {
-      sectors[institution.sector] = (sectors[institution.sector] ?? 0) + 1;
-    });
-    return sectors;
-  }
-
-  /**
-   * Sort the Institutions by the the given parameters
-   * @param insts The insitutions
-   * @param params The parameters
-   * @returns The sorted institution list
-   */
-  private async sortInstutitons(
-    insts: Institution[],
-    params: InstitutionQueryConfig,
-  ): Promise<Institution[]> {
-    console.log(insts.map((entry) => entry.num_repos));
-
-    let test = insts.sort((a, b) => {
-      if (typeof a[params.sort] == 'string') {
-        return params.direction == 'ASC'
-          ? b[params.sort]
-              .toLowerCase()
-              .localeCompare(a[params.sort].toLowerCase())
-          : a[params.sort]
-              .toLowerCase()
-              .localeCompare(b[params.sort].toLowerCase());
-      } else {
-        console.log(`${a[params.sort] - b[params.sort]}`);
-        return params.direction == 'ASC'
-          ? a[params.sort] -
-              (params.includeForksInSort ? 0 : a.total_num_forks_in_repos) -
-              b[params.sort] -
-              (params.includeForksInSort ? 0 : b.total_num_forks_in_repos)
-          : b[params.sort] -
-              (params.includeForksInSort ? 0 : b.total_num_forks_in_repos) -
-              a[params.sort] -
-              (params.includeForksInSort ? 0 : a.total_num_forks_in_repos);
-      }
-    });
-    console.log(test.map((entry) => entry.num_repos));
-
-    return test;
-  }
-
-  /**
-   * Sort the repositories corresponding with the params
-   * @param repositories The repositories to be sorted
-   * @param params The params to sort
-   * @returns The sorted repositories array
-   */
-  private async sortRepositories(
-    repositories: Repository[],
-    params: RepositoryQueryConfig,
-  ): Promise<Repository[]> {
-    return [...repositories].sort((a, b) => {
-      try {
-        if (typeof a[params.sort] == 'string') {
-          return params.direction == 'ASC'
-            ? b[params.sort]
-                .toLowerCase()
-                .localeCompare(a[params.sort].toLowerCase())
-            : a[params.sort]
-                .toLowerCase()
-                .localeCompare(b[params.sort].toLowerCase());
-        } else {
-          return params.direction == 'ASC'
-            ? a[params.sort] - b[params.sort]
-            : b[params.sort] - a[params.sort];
-        }
-      } catch {
-        return !b[params.sort];
-      }
-    });
+    return {
+      users: users,
+      total: total[0]['total'],
+    };
   }
 
   /**

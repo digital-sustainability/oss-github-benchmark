@@ -532,13 +532,56 @@ export class MongoDbService
    * Get all users from the database
    * @returns The users in a array
    */
-  async findAllUsers(): Promise<User[]> {
+  async findAllUsers(
+    key: string,
+    direction: 1 | -1,
+    limit: number,
+    page: number,
+  ) {
     this.logger.log('Getting all users from the database');
-    const session = this.client.startSession();
     return this.client
       .db('statistics')
       .collection<User>('users')
-      .find({}, { session: session })
+      .aggregate([
+        {
+          $project: {
+            _id: 0,
+            avatar_url: 1,
+            name: 1,
+            login: 1,
+            company: 1,
+            location: 1,
+            twitter_username: 1,
+            public_repos: 1,
+            public_gists: 1,
+            followers: 1,
+            created_at: 1,
+            updated_at: 1,
+            contributions: 1,
+          },
+        },
+        {
+          $sort: { [key]: direction },
+        },
+        {
+          $skip: limit * page,
+        },
+        {
+          $limit: limit,
+        },
+      ])
+      .toArray() as Promise<User[]>;
+  }
+
+  async countAllUsers() {
+    return this.client
+      .db('statistics')
+      .collection<User>('users')
+      .aggregate([
+        {
+          $count: 'total',
+        },
+      ])
       .toArray();
   }
 
@@ -547,14 +590,65 @@ export class MongoDbService
    * @param searchTerm The search term
    * @returns A users array
    */
-  async findPeople(searchTerm: string): Promise<User[]> {
+  async findPeople(
+    searchTerm: string,
+    key: string,
+    direction: 1 | -1,
+    limit: number,
+    page: number,
+  ): Promise<User[]> {
     this.logger.log(
       `Searching for Users in the database with the search term: ${searchTerm}`,
     );
     return this.client
       .db('statistics')
       .collection<User>('users')
-      .find({ $text: { $search: searchTerm } })
+      .aggregate([
+        {
+          $match: { $text: { $search: searchTerm } },
+        },
+        {
+          $project: {
+            _id: 0,
+            avatar_url: 1,
+            name: 1,
+            login: 1,
+            company: 1,
+            location: 1,
+            twitter_username: 1,
+            public_repos: 1,
+            public_gists: 1,
+            followers: 1,
+            created_at: 1,
+            updated_at: 1,
+            contributions: 1,
+          },
+        },
+        {
+          $sort: { [key]: direction },
+        },
+        {
+          $skip: limit * page,
+        },
+        {
+          $limit: limit,
+        },
+      ])
+      .toArray() as Promise<User[]>;
+  }
+
+  async countAllUsersWithSearchTerm(searchTerm: string) {
+    return this.client
+      .db('statistics')
+      .collection<User>('users')
+      .aggregate([
+        {
+          $match: { $text: { $search: searchTerm } },
+        },
+        {
+          $count: 'total',
+        },
+      ])
       .toArray();
   }
   /***********************************Update************************************************/
