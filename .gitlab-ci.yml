@@ -18,7 +18,7 @@ include:
 variables:
   IMAGE_NAME: "oss-benchmark-api"
   IMAGE_TAGS: "$CI_COMMIT_SHA latest"
-  DOKKU_APP_NAME: "oss-api-new"
+  DOKKU_APP_NAME: "oss-api"
   DOCKERFILE_PATH: "./"
   HOST_KEYS: "$CS_DEBIAN_SSH_HOST_KEY"
   PRIVATE_KEYS: "$CS_DEBIAN_SSH_PRIVATE_KEY"
@@ -43,6 +43,7 @@ express-angular.dokku-create-app:
   needs: []
   only:
     refs:
+      - master
       - new-crawler
 
 # DEPLOY THE APP
@@ -56,4 +57,5 @@ express-angular.deploy:
     - job: express-angular.build
   only:
     refs:
+      - master
       - new-crawler
