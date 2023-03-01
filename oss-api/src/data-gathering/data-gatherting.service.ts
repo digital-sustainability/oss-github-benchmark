@@ -38,6 +38,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 
 // TODO - big object from all data
 // TODO - frontend values are not accessed correctly
+// TODO - Break stop on call limit
 
 @Injectable()
 export class DataGatheringService
@@ -73,6 +74,7 @@ export class DataGatheringService
       return b.ts.getTime() - a.ts.getTime();
     });
     for (const todoInstituition of todoInstituitions) {
+      if (this.reachedGithubCallLimit) break;
       await this.handleInstitution(todoInstituition, todoInstituition.sector);
       await this.mongoService.updateTodoInstitutionTimestamp(
         todoInstituition.uuid,
@@ -105,7 +107,7 @@ export class DataGatheringService
       return b.ts.getTime() - a.ts.getTime();
     });
     for (let i = 0; i < institution.orgs.length; i++) {
-      if (this.reachedGithubCallLimit) break;
+      if (this.reachedGithubCallLimit) return;
       const organisation = institution.orgs[i];
       if (organisation.ts?.getTime() > Date.now() - this.daysToWait) {
         this.logger.log(
