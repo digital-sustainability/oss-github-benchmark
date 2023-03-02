@@ -109,15 +109,16 @@ export class DataGatheringService
     for (let i = 0; i < institution.orgs.length; i++) {
       if (this.reachedGithubCallLimit) return;
       const organisation = institution.orgs[i];
-      if (organisation.ts?.getTime() > Date.now() - this.daysToWait) {
+      /*if (organisation.ts?.getTime() > Date.now() - this.daysToWait) {
         this.logger.log(
           `The organisation ${organisation.name} was alredy crawled in the last defined time`,
         );
         continue;
-      }
+      }*/
       const newOrganisation = await this.handleOrg(
         organisation.name,
         institution.shortname,
+        organisation.ts,
       );
       if (!newOrganisation) continue;
       newInstitution = await this.updateInstitutionWithOrgData(
@@ -146,11 +147,18 @@ export class DataGatheringService
   private async handleOrg(
     orgName: string,
     institutionName: string,
+    lastCrawl: Date,
   ): Promise<Organisation> {
     this.logger.log(`Handling Organisation ${orgName}`);
     const dbOrganisation = await this.mongoService.findOrganisationWithName(
       orgName,
     );
+    if (lastCrawl?.getTime() > Date.now() - this.daysToWait) {
+      this.logger.log(
+        `The organisation ${dbOrganisation.name} was alredy crawled in the last defined time`,
+      );
+      return dbOrganisation;
+    }
     const gitOrganisation = await this.getGitHubOrganisation(
       institutionName,
       orgName,
