@@ -52,6 +52,7 @@ export class DataGatheringService
   async onApplicationShutdown(signal?: string) {}
   async onApplicationBootstrap() {
     this.logPath = process.env.LOG_PATH || '/logs';
+    this.prepareInstitutions();
   }
 
   private readonly logger = new Logger(DataGatheringService.name);
@@ -73,6 +74,7 @@ export class DataGatheringService
       if (!b.ts) return 1;
       return b.ts.getTime() - a.ts.getTime();
     });
+    this.logger.log(`Dumping all the todo institutions ${todoInstituitions}`);
     for (const todoInstituition of todoInstituitions) {
       if (this.reachedGithubCallLimit) break;
       await this.handleInstitution(todoInstituition, todoInstituition.sector);
@@ -155,7 +157,7 @@ export class DataGatheringService
     );
     if (lastCrawl?.getTime() > Date.now() - this.daysToWait) {
       this.logger.log(
-        `The organisation ${dbOrganisation.name} was alredy crawled in the last defined time`,
+        `The organisation ${orgName} was alredy crawled in the last defined time`,
       );
       return dbOrganisation;
     }
