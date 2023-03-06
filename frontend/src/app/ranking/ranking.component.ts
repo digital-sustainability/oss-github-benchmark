@@ -76,9 +76,7 @@ export class RankingComponent implements OnInit {
       sendStats: 'false',
       sector: this.checkboxes,
     });
-    this.dataService.loadLatestUpdate().subscribe((res: any) =>{
-      this.latestUdpate = res;
-    });
+    this.latestUdpate = await this.dataService.loadLatestUpdate()
     let institutions = institutionData.jsonData;
     this.sectorFilters = [];
     for (const sector in institutionData.sectors) {

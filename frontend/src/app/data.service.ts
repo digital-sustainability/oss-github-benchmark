@@ -47,7 +47,8 @@ export class DataService {
   }
 
   async loadLatestUpdate(){
-    return this.http.get<any>(`${environment.api}latestUpdate`, {})
+     let latestUpdate = await this.http.get<any>(`${environment.api}latestUpdate`, {}).toPromise();
+     return latestUpdate.updatedDate;
   }
 
   async loadRepoData(config: {
