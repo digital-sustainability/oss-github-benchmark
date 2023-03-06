@@ -75,6 +75,10 @@ export class ApiController {
     const queryConfig = queryDto;
     return await this.handleUsers(queryConfig);
   }
+  @Get('latestUpdate')
+  async findLatestUpdate() {
+    return (await this.mongoDbService.latestUpdate())[0];
+  }
 
   /***********************************Helper************************************************/
   /**

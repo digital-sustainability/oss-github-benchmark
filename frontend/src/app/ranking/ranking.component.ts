@@ -42,6 +42,7 @@ export class RankingComponent implements OnInit {
   count: number = 30;
   activeSort: string = 'num_repos';
   sortDirection: 'ASC' | 'DESC' = 'DESC';
+  latestUdpate: any;
 
   resetPaginator() {
     this.paginator.pageIndex = 0;
@@ -74,6 +75,9 @@ export class RankingComponent implements OnInit {
       includeForks: this.includeForks.toString(),
       sendStats: 'false',
       sector: this.checkboxes,
+    });
+    this.dataService.loadLatestUpdate().subscribe((res: any) =>{
+      this.latestUdpate = res;
     });
     let institutions = institutionData.jsonData;
     this.sectorFilters = [];

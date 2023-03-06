@@ -46,6 +46,10 @@ export class DataService {
     };
   }
 
+  async loadLatestUpdate(){
+    return this.http.get<any>(`${environment.api}latestUpdate`, {})
+  }
+
   async loadRepoData(config: {
     search?: string;
     sort?: string;

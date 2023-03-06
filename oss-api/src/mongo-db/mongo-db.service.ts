@@ -740,6 +740,28 @@ export class MongoDbService
       ])
       .toArray() as Promise<ObjectCount[]>;
   }
+
+  async latestUpdate() {
+    this.logger.log('Getting the latest crawl run date');
+    return this.client
+      .db(this.database)
+      .collection('institutions')
+      .aggregate([
+        {
+          $project: {
+            _id: 0,
+            updatedDate: { $max: '$timestamp' },
+          },
+        },
+        {
+          $sort: { updatedDate: -1 },
+        },
+        {
+          $limit: 1,
+        },
+      ])
+      .toArray();
+  }
   /***********************************Update************************************************/
 
   /**

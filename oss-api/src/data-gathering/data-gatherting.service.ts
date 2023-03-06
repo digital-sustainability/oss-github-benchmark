@@ -52,7 +52,6 @@ export class DataGatheringService
   async onApplicationShutdown(signal?: string) {}
   async onApplicationBootstrap() {
     this.logPath = process.env.LOG_PATH || '/logs';
-    this.prepareInstitutions();
   }
 
   private readonly logger = new Logger(DataGatheringService.name);
