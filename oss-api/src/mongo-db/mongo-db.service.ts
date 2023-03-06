@@ -46,15 +46,15 @@ export class MongoDbService
       useUnifiedTopology: true,
     } as ConnectOptions).connect();
     this.client
-      .db('statistics')
+      .db(this.database)
       .collection('institutions')
       .createIndex({ '$**': 'text' });
     this.client
-      .db('statistics')
+      .db(this.database)
       .collection('repositories')
       .createIndex({ '$**': 'text' });
     this.client
-      .db('statistics')
+      .db(this.database)
       .collection('users')
       .createIndex({ '$**': 'text' });
   }
@@ -213,7 +213,7 @@ export class MongoDbService
       `Getting ${limit} institutions from the database. Sorted by ${key} in ${direction} direction`,
     );
     return this.client
-      .db('statistics')
+      .db(this.database)
       .collection<Institution>('institutions')
       .aggregate([
         { $match: { sector: { $in: sectors } } },
@@ -274,7 +274,7 @@ export class MongoDbService
   ): Promise<ApiInstitution[]> {
     this.logger.log(`Searching for institutions containing ${searchTerm}`);
     return this.client
-      .db('statistics')
+      .db(this.database)
       .collection<Institution>('institutions')
       .aggregate([
         {
@@ -351,7 +351,7 @@ export class MongoDbService
       `Counting institutions corresponding to these sectors: ${sectors}`,
     );
     return this.client
-      .db('statistics')
+      .db(this.database)
       .collection<Institution>('institutions')
       .aggregate([
         { $match: { sector: { $in: sectors } } },
@@ -379,7 +379,7 @@ export class MongoDbService
       `Counting institutions corresponding to this search term: ${searchTerm} and these sectors: ${sectors}`,
     );
     return this.client
-      .db('statistics')
+      .db(this.database)
       .collection<Institution>('institutions')
       .aggregate([
         {
@@ -420,7 +420,7 @@ export class MongoDbService
       `Getting ${limit} repositories from the database. Sorted by ${key} in ${direction} direction`,
     );
     return this.client
-      .db('statistics')
+      .db(this.database)
       .collection<Repository>('repositoriesNew')
       .aggregate([
         { $match: { fork: { $in: includeForks } } },
@@ -487,7 +487,7 @@ export class MongoDbService
       `Getting all the repositories with the search term: ${searchTerm}`,
     );
     return this.client
-      .db('statistics')
+      .db(this.database)
       .collection<Repository>('repositoriesNew')
       .aggregate([
         {
@@ -549,7 +549,7 @@ export class MongoDbService
       `Counting repositories corresponding with these fork values: ${includeForks}`,
     );
     return this.client
-      .db('statistics')
+      .db(this.database)
       .collection<Repository>('repositoriesNew')
       .aggregate([
         { $match: { fork: { $in: includeForks } } },
@@ -574,7 +574,7 @@ export class MongoDbService
       `Counting repositories corresponding with these fork values: ${includeForks} and this search term: ${searchTerm}`,
     );
     return this.client
-      .db('statistics')
+      .db(this.database)
       .collection<Repository>('repositoriesNew')
       .aggregate([
         {
@@ -610,7 +610,7 @@ export class MongoDbService
       `Getting ${limit} users from the database. Sorted by ${key} in ${direction} direction`,
     );
     return this.client
-      .db('statistics')
+      .db(this.database)
       .collection<User>('users')
       .aggregate([
         {
@@ -663,7 +663,7 @@ export class MongoDbService
       `Searching for users in the database with the search term: ${searchTerm}`,
     );
     return this.client
-      .db('statistics')
+      .db(this.database)
       .collection<User>('users')
       .aggregate([
         {
@@ -706,7 +706,7 @@ export class MongoDbService
   async countAllUsers(): Promise<ObjectCount[]> {
     this.logger.log(`Counting all Users`);
     return this.client
-      .db('statistics')
+      .db(this.database)
       .collection<User>('users')
       .aggregate([
         {
@@ -728,7 +728,7 @@ export class MongoDbService
       `Counting users corresponding with this search term: ${searchTerm}`,
     );
     return this.client
-      .db('statistics')
+      .db(this.database)
       .collection<User>('users')
       .aggregate([
         {
