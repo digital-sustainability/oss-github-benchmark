@@ -123,7 +123,7 @@ export class MongoDbService
     );
     this.client
       .db(this.database)
-      .collection<Repository>('repositoryNew')
+      .collection<Repository>('repositoriesNew')
       .insertOne(repository);
   }
 
@@ -421,7 +421,7 @@ export class MongoDbService
     );
     return this.client
       .db('statistics')
-      .collection<Repository>('repositories')
+      .collection<Repository>('repositoriesNew')
       .aggregate([
         { $match: { fork: { $in: includeForks } } },
         {
@@ -488,7 +488,7 @@ export class MongoDbService
     );
     return this.client
       .db('statistics')
-      .collection<Repository>('repositories')
+      .collection<Repository>('repositoriesNew')
       .aggregate([
         {
           $match: {
@@ -550,7 +550,7 @@ export class MongoDbService
     );
     return this.client
       .db('statistics')
-      .collection<Repository>('repositories')
+      .collection<Repository>('repositoriesNew')
       .aggregate([
         { $match: { fork: { $in: includeForks } } },
         {
@@ -575,7 +575,7 @@ export class MongoDbService
     );
     return this.client
       .db('statistics')
-      .collection<Repository>('repositories')
+      .collection<Repository>('repositoriesNew')
       .aggregate([
         {
           $match: {
