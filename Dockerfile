@@ -5,7 +5,9 @@ COPY oss-api/ ./
 
 WORKDIR /oss-api
 
-RUN npm install && npm run build
+RUN npm install
+
+RUN npm run build
 
 FROM node:16 as frontendBuild
 LABEL stage=build
@@ -16,7 +18,9 @@ RUN cd /frontend/
 
 WORKDIR /frontend/
 
-RUN npm install --legacy-peer-deps && npm run build:prod
+RUN npm install --force
+
+RUN npm run build:prod
 
 FROM node:18 as prod
 
