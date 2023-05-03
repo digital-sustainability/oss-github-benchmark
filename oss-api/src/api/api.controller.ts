@@ -7,9 +7,6 @@ import {
 } from '@nestjs/common';
 import { InstitutionQueryPipe } from 'src/institution-query.pipe';
 import {
-  Institution,
-  Repository,
-  User,
   InstitutionQueryConfig,
   RepositoryQueryConfig,
   UserQueryConfig,

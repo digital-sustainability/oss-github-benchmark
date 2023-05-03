@@ -10,7 +10,6 @@ import {
   Institution,
   Repository,
   User,
-  RawResponse,
   TodoInstitution,
   Organisation,
   ApiInstitution,
@@ -19,7 +18,14 @@ import {
   ObjectCount,
   ApiUser,
 } from 'src/interfaces';
-import { OctokitResponse } from '@octokit/types';
+
+enum Tables {
+  instituions = 'institution',
+  organisations = 'organisation',
+  repositories = 'repositoriesNew',
+  todoInstituions = 'todoInstitutions',
+  users = 'usersNew',
+}
 
 @Injectable()
 export class MongoDbService
@@ -67,42 +73,6 @@ export class MongoDbService
   /***********************************Create************************************************/
 
   /**
-   * Create a raw response entry in the database
-   * @param method The github method used
-   * @param institutionName The name of the institution
-   * @param orgName The organisation Name
-   * @param repoName The name of the repository
-   * @param userName The name of the user
-   * @param response The response object
-   */
-  async createRawResponse(
-    method: string,
-    institutionName: string,
-    orgName?: string,
-    repoName?: string,
-    userName?: string,
-    response?: OctokitResponse<any>,
-  ): Promise<void> {
-    this.logger.log(
-      `Adding raw response to the database, sized ${
-        JSON.stringify(response).length
-      }.`,
-    );
-    this.client
-      .db(this.database)
-      .collection<RawResponse>('rawResponse')
-      .insertOne({
-        method: method,
-        ts: new Date(),
-        institutionName: institutionName,
-        orgName: orgName,
-        repoName: repoName,
-        userName: userName,
-        response: response,
-      });
-  }
-
-  /**
    * Create a new user in the database
    * @param user The user object
    */
@@ -110,7 +80,10 @@ export class MongoDbService
     this.logger.log(
       `Adding new user with username ${user.login} to the database`,
     );
-    this.client.db(this.database).collection<User>('usersNew').insertOne(user);
+    this.client
+      .db(this.database)
+      .collection<User>(Tables.users)
+      .insertOne(user);
   }
 
   /**
@@ -123,7 +96,7 @@ export class MongoDbService
     );
     this.client
       .db(this.database)
-      .collection<Repository>('repositoriesNew')
+      .collection<Repository>(Tables.repositories)
       .insertOne(repository);
   }
 
@@ -140,7 +113,7 @@ export class MongoDbService
     );
     return this.client
       .db(this.database)
-      .collection<User>('usersNew')
+      .collection<User>(Tables.users)
       .findOne({ login: userName });
   }
 
@@ -153,7 +126,7 @@ export class MongoDbService
     const session = await this.client.startSession();
     return this.client
       .db(this.database)
-      .collection<TodoInstitution>('todoInstitutions')
+      .collection<TodoInstitution>(Tables.todoInstituions)
       .find(
         {},
         {
@@ -174,7 +147,7 @@ export class MongoDbService
     );
     return this.client
       .db(this.database)
-      .collection<Institution>('institutions')
+      .collection<Institution>(Tables.instituions)
       .findOne({ uuid: uuid });
   }
 
@@ -189,7 +162,7 @@ export class MongoDbService
     );
     return this.client
       .db(this.database)
-      .collection<Organisation>('organisation')
+      .collection<Organisation>(Tables.organisations)
       .findOne({ name: name });
   }
 
@@ -214,7 +187,7 @@ export class MongoDbService
     );
     return this.client
       .db(this.database)
-      .collection<Institution>('institutions')
+      .collection<Institution>(Tables.instituions)
       .aggregate([
         { $match: { sector: { $in: sectors } } },
         {
@@ -275,7 +248,7 @@ export class MongoDbService
     this.logger.log(`Searching for institutions containing ${searchTerm}`);
     return this.client
       .db(this.database)
-      .collection<Institution>('institutions')
+      .collection<Institution>(Tables.instituions)
       .aggregate([
         {
           $match: {
@@ -352,7 +325,7 @@ export class MongoDbService
     );
     return this.client
       .db(this.database)
-      .collection<Institution>('institutions')
+      .collection<Institution>(Tables.instituions)
       .aggregate([
         { $match: { sector: { $in: sectors } } },
         {
@@ -380,7 +353,7 @@ export class MongoDbService
     );
     return this.client
       .db(this.database)
-      .collection<Institution>('institutions')
+      .collection<Institution>(Tables.instituions)
       .aggregate([
         {
           $match: {
@@ -421,7 +394,7 @@ export class MongoDbService
     );
     return this.client
       .db(this.database)
-      .collection<Repository>('repositoriesNew')
+      .collection<Repository>(Tables.repositories)
       .aggregate([
         { $match: { fork: { $in: includeForks } } },
         {
@@ -488,7 +461,7 @@ export class MongoDbService
     );
     return this.client
       .db(this.database)
-      .collection<Repository>('repositoriesNew')
+      .collection<Repository>(Tables.repositories)
       .aggregate([
         {
           $match: {
@@ -550,7 +523,7 @@ export class MongoDbService
     );
     return this.client
       .db(this.database)
-      .collection<Repository>('repositoriesNew')
+      .collection<Repository>(Tables.repositories)
       .aggregate([
         { $match: { fork: { $in: includeForks } } },
         {
@@ -575,7 +548,7 @@ export class MongoDbService
     );
     return this.client
       .db(this.database)
-      .collection<Repository>('repositoriesNew')
+      .collection<Repository>(Tables.repositories)
       .aggregate([
         {
           $match: {
@@ -611,7 +584,7 @@ export class MongoDbService
     );
     return this.client
       .db(this.database)
-      .collection<User>('users')
+      .collection<User>(Tables.users)
       .aggregate([
         {
           $project: {
@@ -664,7 +637,7 @@ export class MongoDbService
     );
     return this.client
       .db(this.database)
-      .collection<User>('users')
+      .collection<User>(Tables.users)
       .aggregate([
         {
           $match: { $text: { $search: searchTerm } },
@@ -707,7 +680,7 @@ export class MongoDbService
     this.logger.log(`Counting all Users`);
     return this.client
       .db(this.database)
-      .collection<User>('users')
+      .collection<User>(Tables.users)
       .aggregate([
         {
           $count: 'total',
@@ -729,7 +702,7 @@ export class MongoDbService
     );
     return this.client
       .db(this.database)
-      .collection<User>('users')
+      .collection<User>(Tables.users)
       .aggregate([
         {
           $match: { $text: { $search: searchTerm } },
@@ -745,7 +718,7 @@ export class MongoDbService
     this.logger.log('Getting the latest crawl run date');
     return this.client
       .db(this.database)
-      .collection('institutions')
+      .collection(Tables.instituions)
       .aggregate([
         {
           $project: {
@@ -772,7 +745,7 @@ export class MongoDbService
     this.logger.log(
       `Updating user with the username ${user.login} in the database.`,
     );
-    this.client.db(this.database).collection<User>('usersNew').replaceOne(
+    this.client.db(this.database).collection<User>(Tables.users).replaceOne(
       { login: user.login },
       {
         login: user.login,
@@ -806,7 +779,7 @@ export class MongoDbService
     );
     this.client
       .db(this.database)
-      .collection<Institution>('institutions')
+      .collection<Institution>(Tables.instituions)
       .replaceOne(
         { uuid: institution.uuid },
         {
@@ -854,7 +827,7 @@ export class MongoDbService
     );
     this.client
       .db(this.database)
-      .collection<TodoInstitution>('todoInstitutions')
+      .collection<TodoInstitution>(Tables.todoInstituions)
       .updateOne({ uuid: uuid }, { $set: { ts: new Date() } });
   }
 
@@ -868,7 +841,7 @@ export class MongoDbService
     );
     this.client
       .db(this.database)
-      .collection<TodoInstitution>('todoInstitutions')
+      .collection<TodoInstitution>(Tables.todoInstituions)
       .updateOne(
         { uuid: institution.uuid },
         { $set: { orgs: institution.orgs } },
@@ -883,7 +856,7 @@ export class MongoDbService
     this.logger.log(`Upserting organsisation ${organisation.name}`);
     this.client
       .db(this.database)
-      .collection<Organisation>('organisation')
+      .collection<Organisation>(Tables.organisations)
       .replaceOne(
         { name: organisation.name },
         {
