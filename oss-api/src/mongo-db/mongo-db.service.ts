@@ -20,7 +20,7 @@ import {
 } from 'src/interfaces';
 
 enum Tables {
-  instituions = 'institution',
+  instituions = 'institutions',
   organisations = 'organisation',
   repositories = 'repositoriesNew',
   todoInstituions = 'todoInstitutions',
