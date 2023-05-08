@@ -1568,7 +1568,8 @@ export class DataGatheringService
     userName?: string,
     response?: OctokitResponse<any>,
   ): Promise<void> {
-    if (!fs.existsSync(this.logPath)) await fs.mkdirSync(this.logPath);
+    this.logger.warn('Writing logs to file disabled temporary');
+    /*if (!fs.existsSync(this.logPath)) await fs.mkdirSync(this.logPath);
     const rawResponse: RawResponse = {
       method: method,
       ts: new Date(),
@@ -1581,6 +1582,6 @@ export class DataGatheringService
     await fs.writeFileSync(
       `${this.logPath}/raw_git_response_${rawResponse.ts.getTime()}.json`,
       JSON.stringify(rawResponse),
-    );
+    );*/
   }
 }
