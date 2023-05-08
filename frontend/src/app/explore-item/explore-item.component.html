@@ -64,6 +64,7 @@
       class="mat-elevation-z8"
       matSortActive="num_commits"
       matSortDirection="desc"
+      (matSortChange)="sortingUpdate($event)"
     >
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
