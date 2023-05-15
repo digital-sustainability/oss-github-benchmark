@@ -18,7 +18,7 @@ RUN cd /frontend/
 
 WORKDIR /frontend/
 
-RUN npm install --force
+RUN npm install
 
 RUN npm run build:prod
 
