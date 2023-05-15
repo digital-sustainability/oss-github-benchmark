@@ -22,7 +22,7 @@ import {
 enum Tables {
   instituions = 'institutions',
   organisations = 'organisation',
-  repositories = 'repositories',
+  repositories = 'repositoriesNew',
   todoInstituions = 'todoInstitutions',
   users = 'usersNew',
 }
