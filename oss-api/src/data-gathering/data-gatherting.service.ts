@@ -24,7 +24,6 @@ import {
   Languages,
   OrganisationContributions,
   Organisation,
-  RawResponse,
   Repository,
   RepositoryContributions,
   Statistic,
@@ -35,10 +34,6 @@ import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'fs';
 import { Cron, CronExpression } from '@nestjs/schedule';
-
-// TODO - big object from all data
-// TODO - frontend values are not accessed correctly
-// TODO - Break stop on call limit
 
 @Injectable()
 export class DataGatheringService
@@ -52,6 +47,7 @@ export class DataGatheringService
   async onApplicationShutdown(signal?: string) {}
   async onApplicationBootstrap() {
     this.logPath = process.env.LOG_PATH || '/logs';
+    this.prepareInstitutions();
   }
 
   private readonly logger = new Logger(DataGatheringService.name);
@@ -76,7 +72,13 @@ export class DataGatheringService
     this.logger.log(`Dumping all the todo institutions ${todoInstituitions}`);
     for (const todoInstituition of todoInstituitions) {
       if (this.reachedGithubCallLimit) break;
-      await this.handleInstitution(todoInstituition, todoInstituition.sector);
+      if (
+        todoInstituition.ts &&
+        todoInstituition.ts.getTime() > Date.now() - this.daysToWait
+      ) {
+        continue;
+      }
+      await this.handleInstitution(todoInstituition);
       await this.mongoService.updateTodoInstitutionTimestamp(
         todoInstituition.uuid,
       );
@@ -87,16 +89,12 @@ export class DataGatheringService
   /**
    * Handle all the insitution data
    * @param institution The institution todo
-   * @param sector The sector of the insitution
    */
-  private async handleInstitution(
-    institution: TodoInstitution,
-    sector: string,
-  ) {
+  private async handleInstitution(institution: TodoInstitution) {
     this.logger.log(`Handling institution ${institution.name_de}`);
     let newInstitution = await this.createInstitutionObject(
       institution,
-      sector,
+      institution.sector,
     );
     const oldInstitution = await this.mongoService.findInstitutionWithUUID(
       institution.uuid,
@@ -107,6 +105,7 @@ export class DataGatheringService
       if (!b.ts) return 1;
       return b.ts.getTime() - a.ts.getTime();
     });
+    let orgCount = 0;
     for (let i = 0; i < institution.orgs.length; i++) {
       if (this.reachedGithubCallLimit) return;
       const organisation = institution.orgs[i];
@@ -121,13 +120,13 @@ export class DataGatheringService
         institution.shortname,
         organisation.ts,
       );
+      orgCount++;
       if (!newOrganisation) continue;
+      organisation.ts = newOrganisation.timestamp;
       newInstitution = await this.updateInstitutionWithOrgData(
         newOrganisation,
         newInstitution,
       );
-      this.mongoService.upsertOrg(newOrganisation);
-      organisation.ts = new Date();
       institution.orgs[i] = organisation;
       await this.mongoService.updateOrgTimestamp(institution);
       i = institution.orgs.length;
@@ -136,6 +135,9 @@ export class DataGatheringService
     const newStatistic = await this.createStatistics(newInstitution);
     stats.push(newStatistic);
     newInstitution.stats = stats;
+    if (orgCount === institution.orgs.length) {
+      newInstitution.timestamp = new Date();
+    }
     await this.mongoService.upsertInstitution(newInstitution);
   }
 
@@ -186,6 +188,7 @@ export class DataGatheringService
           members.length,
           orgName,
         );
+    let repoCount = 0;
     for (const repository of repositories) {
       if (this.reachedGithubCallLimit) return organisation;
       const newRepo = await this.handleRepo(
@@ -193,8 +196,13 @@ export class DataGatheringService
         institutionName,
         orgName,
       );
+      repoCount++;
       if (!newRepo) continue;
       organisation = await this.updateOrganisationData(organisation, newRepo);
+    }
+    this.mongoService.upsertOrg(organisation);
+    if (repoCount === repositories.length) {
+      organisation.timestamp = new Date();
     }
     return organisation;
   }
@@ -212,6 +220,16 @@ export class DataGatheringService
     orgName: string,
   ): Promise<null | Repository> {
     this.logger.log(`Handling repo ${repo.name}`);
+    const dbRepository = await this.mongoService.findRepository(
+      repo.name,
+      institutionName,
+    );
+    if (
+      dbRepository &&
+      dbRepository.timestamp.getTime() > Date.now() - this.daysToWait
+    ) {
+      return;
+    }
     const gitRepository = await this.getGitHubRepository(
       repo.name,
       repo.owner.login,
@@ -323,7 +341,7 @@ export class DataGatheringService
       coders,
       commitAcitivity,
     );
-    await this.mongoService.createNewRepository(newRepo);
+    await this.mongoService.upsertRepository(newRepo);
     return newRepo;
   }
 
@@ -1321,7 +1339,6 @@ export class DataGatheringService
       license: githubRepo.license ? githubRepo.license.name : 'none',
       logo: githubRepo.owner.avatar_url,
     };
-
     return repo;
   }
 
@@ -1363,6 +1380,7 @@ export class DataGatheringService
       repos: [],
       repo_names: [],
       total_licenses: {},
+      timestamp: null,
     };
     return newOrg;
   }
@@ -1379,8 +1397,8 @@ export class DataGatheringService
     memberCount: number,
   ): Promise<Organisation> {
     const newOrg: Organisation = {
-      num_repos: dbOrganisation.num_repos + organisation.public_repos,
-      num_members: dbOrganisation.num_members + memberCount,
+      num_repos: /*dbOrganisation.num_repos +*/ organisation.public_repos,
+      num_members: /*dbOrganisation.num_members +*/ memberCount,
       total_num_contributors: dbOrganisation.total_num_contributors,
       total_num_own_repo_forks: dbOrganisation.total_num_own_repo_forks,
       total_num_forks_in_repos: dbOrganisation.total_num_forks_in_repos,
@@ -1404,6 +1422,7 @@ export class DataGatheringService
       repos: dbOrganisation.repos,
       repo_names: dbOrganisation.repo_names,
       total_licenses: dbOrganisation.total_licenses,
+      timestamp: null,
     };
     return newOrg;
   }
@@ -1439,8 +1458,12 @@ export class DataGatheringService
         organisation.total_licenses[repository.license] = 1;
       }
     }
-    organisation.repos.push(repository.uuid);
-    organisation.repo_names.push(repository.name);
+    if (!organisation.repos.includes(repository.uuid)) {
+      organisation.repos.push(repository.uuid);
+    }
+    if (!organisation.repo_names.includes(repository.name)) {
+      organisation.repo_names.push(repository.name);
+    }
     return organisation;
   }
 

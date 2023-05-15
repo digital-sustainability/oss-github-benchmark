@@ -9,7 +9,9 @@ import { GithubService } from './github/github.service';
 import { LoggerModule } from 'nestjs-pino';
 import { ScheduleModule } from '@nestjs/schedule';
 import * as fs from 'fs';
-let stream = fs.createWriteStream(process.env.LOG_PATH + '/logs.json');
+let stream = fs.createWriteStream(
+  `${process.env.LOG_PATH}/${Date.now()}_logs.json`,
+);
 @Module({
   imports: [
     ScheduleModule.forRoot(),

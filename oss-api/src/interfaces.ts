@@ -2058,6 +2058,7 @@ export interface Organisation {
   repos: string[];
   repo_names: string[];
   total_licenses: Licenses;
+  timestamp: Date;
 }
 
 export interface Languages {

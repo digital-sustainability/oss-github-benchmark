@@ -5,7 +5,7 @@ import {
   OnApplicationShutdown,
   OnModuleInit,
 } from '@nestjs/common';
-import { MongoClient, ConnectOptions } from 'mongodb';
+import { MongoClient, ConnectOptions, ObjectId } from 'mongodb';
 import {
   Institution,
   Repository,
@@ -22,7 +22,7 @@ import {
 enum Tables {
   instituions = 'institutions',
   organisations = 'organisation',
-  repositories = 'repositoriesNew',
+  repositories = 'repositories',
   todoInstituions = 'todoInstitutions',
   users = 'usersNew',
 }
@@ -115,6 +115,25 @@ export class MongoDbService
       .db(this.database)
       .collection<User>(Tables.users)
       .findOne({ login: userName });
+  }
+
+  /**
+   * Find a repository
+   * @param repoName the name of the repository
+   * @param instiutitonName the name of the owning institution
+   * @returns The found repository
+   */
+  async findRepository(
+    repoName: string,
+    instiutitonName: string,
+  ): Promise<Repository> {
+    this.logger.log(
+      `Searching the repository with the name ${repoName} from the institution ${instiutitonName}`,
+    );
+    return this.client
+      .db(this.database)
+      .collection<Repository>(Tables.repositories)
+      .findOne({ name: repoName, institution: instiutitonName });
   }
 
   /**
@@ -233,7 +252,7 @@ export class MongoDbService
    * @param sectors The chosen sectors
    * @param limit The limit
    * @param page The page
-   * @param getStats A boolean showing if the statistics should also be queried
+   * @param includeForks A boolean to indicate if forked repos should also be included
    * @returns The sorted repositories corresponding to the inputs
    */
   async findInstitutionsWithSearchTerm(
@@ -243,7 +262,7 @@ export class MongoDbService
     sectors: string[],
     limit: number,
     page: number,
-    getStats: boolean,
+    includeForks: boolean,
   ): Promise<ApiInstitution[]> {
     this.logger.log(`Searching for institutions containing ${searchTerm}`);
     return this.client
@@ -714,6 +733,10 @@ export class MongoDbService
       .toArray() as Promise<ObjectCount[]>;
   }
 
+  /**
+   * Get the latest crawl date
+   * @returns The latest crawl date as array
+   */
   async latestUpdate() {
     this.logger.log('Getting the latest crawl run date');
     return this.client
@@ -808,7 +831,7 @@ export class MongoDbService
           repos: institution.repos,
           repo_names: institution.repo_names,
           total_licenses: institution.total_licenses,
-          timestamp: new Date(),
+          timestamp: institution.timestamp,
           sector: institution.sector,
           stats: institution.stats,
           searchString: institution.searchString,
@@ -885,7 +908,25 @@ export class MongoDbService
           repos: organisation.repos,
           repo_names: organisation.repo_names,
           total_licenses: organisation.total_licenses,
+          timestamp: organisation.timestamp,
         },
+        { upsert: true },
+      );
+  }
+
+  /**
+   * Upsert a repository
+   * @param repo the repository object
+   * @param id the id of the old database entry
+   */
+  async upsertRepository(repo: Repository): Promise<void> {
+    this.logger.log(`Upserting repository ${repo.name}`);
+    this.client
+      .db(this.database)
+      .collection<Repository>(Tables.repositories)
+      .replaceOne(
+        { name: repo.name, institution: repo.institution },
+        { ...repo },
         { upsert: true },
       );
   }
