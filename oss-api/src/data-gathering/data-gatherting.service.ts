@@ -47,7 +47,7 @@ export class DataGatheringService
   async onApplicationShutdown(signal?: string) {}
   async onApplicationBootstrap() {
     this.logPath = process.env.LOG_PATH || '/logs';
-    this.prepareInstitutions();
+    //this.prepareInstitutions();
   }
 
   private readonly logger = new Logger(DataGatheringService.name);
@@ -1332,8 +1332,8 @@ export class DataGatheringService
       comments: comments.length,
       languages: languages,
       timestamp: new Date(),
-      createdTimestamp: new Date(githubRepo.created_at),
-      updatedTimestamp: new Date(githubRepo.updated_at),
+      created_at: new Date(githubRepo.created_at),
+      updated_at: new Date(githubRepo.updated_at),
       contributors: contributorNames,
       coders: coders,
       license: githubRepo.license ? githubRepo.license.name : 'none',

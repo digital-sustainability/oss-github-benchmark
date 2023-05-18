@@ -17,6 +17,10 @@ import {
   ApiRepository,
   ObjectCount,
   ApiUser,
+  Contributor,
+  RepositoryRevised,
+  OrganisationRevised,
+  InstituionRevised,
 } from 'src/interfaces';
 
 enum Tables {
@@ -25,6 +29,7 @@ enum Tables {
   repositories = 'repositoriesNew',
   todoInstituions = 'todoInstitutions',
   users = 'usersNew',
+  contributors = 'contributors',
 }
 
 @Injectable()
@@ -38,10 +43,12 @@ export class MongoDbService
   async onApplicationBootstrap() {}
   async onModuleInit() {
     this.database = process.env.MONGO_DATABASE || 'testing';
+    this.databaseTesting = process.env.MONGO_DATABASE_TESTING || 'testing';
     await this.initializeConnection();
   }
 
   private database: string;
+  private databaseTesting: string;
   private client: MongoClient | undefined;
   private readonly logger = new Logger(MongoDbService.name);
 
@@ -758,6 +765,118 @@ export class MongoDbService
       ])
       .toArray();
   }
+
+  /**
+   * Get all users from the database
+   * @returns A array with all the users
+   */
+  async getAllUsers(): Promise<User[]> {
+    this.logger.log('Getting all the users');
+    return this.client
+      .db(this.database)
+      .collection<User>(Tables.users)
+      .find({})
+      .toArray();
+  }
+
+  /**
+   * Get all the repositories from the database
+   * @returns A array with all the repositories
+   */
+  async getAllRepositories(): Promise<Repository[]> {
+    this.logger.log('Getting all the repositories');
+    return this.client
+      .db(this.database)
+      .collection<Repository>(Tables.repositories)
+      .find({})
+      .toArray();
+  }
+
+  /**
+   * Get the revised repository entry with the uuid
+   * @param uuid The uuid of the repository
+   * @returns The found repository
+   */
+  async getRevisedRepositoryWithUuid(uuid: string): Promise<RepositoryRevised> {
+    this.logger.log(`Getting the data of the revised repository ${uuid}`);
+    return this.client
+      .db(this.databaseTesting)
+      .collection<RepositoryRevised>(Tables.repositories)
+      .findOne({ uuid: uuid });
+  }
+
+  /**
+   * Get all the contributors of a repository
+   * @param contributorLogins The logins of all contributors
+   * @returns A list with all the found contributors
+   */
+  async findRepositoryContributors(
+    contributorLogins: string[],
+  ): Promise<Contributor[]> {
+    this.logger.log('Getting all the contributors of the repository');
+    return this.client
+      .db(this.databaseTesting)
+      .collection<Contributor>(Tables.contributors)
+      .find({ login: { $in: contributorLogins } })
+      .toArray();
+  }
+
+  /**
+   * Get all organisations from the database
+   * @returns An array with all the organisations
+   */
+  async getAllOrganisations(): Promise<Organisation[]> {
+    this.logger.log('Getting all the organisations from the database');
+    return this.client
+      .db(this.database)
+      .collection<Organisation>(Tables.organisations)
+      .find({})
+      .toArray();
+  }
+
+  /**
+   * Get all the organisation repositories
+   * @param repositoryUuid The repositories uuid
+   * @returns All the found repositories
+   */
+  async findOrganisationRepositories(
+    repositoryUuid: string[],
+  ): Promise<RepositoryRevised[]> {
+    this.logger.log('Getting the all the repositories of the organisation');
+    return this.client
+      .db(this.databaseTesting)
+      .collection<RepositoryRevised>(Tables.repositories)
+      .find({ uuid: { $in: repositoryUuid } })
+      .toArray();
+  }
+
+  /**
+   * Get all the institutions from the database
+   * @returns An array with all institutions
+   */
+  async getAllInstitutions(): Promise<Institution[]> {
+    this.logger.log('Getting all the institutions');
+    return this.client
+      .db(this.database)
+      .collection<Institution>(Tables.instituions)
+      .find({})
+      .toArray();
+  }
+
+  /**
+   *
+   * @param organisationNames
+   */
+  async findInstitutionOrganisations(
+    organisationNames: string[],
+  ): Promise<OrganisationRevised[]> {
+    this.logger.log('Getting all the organisations of the institution');
+    return this.client
+      .db(this.databaseTesting)
+      .collection<OrganisationRevised>(Tables.instituions)
+      .find({ name: { $in: organisationNames } })
+      .toArray();
+  }
   /***********************************Update************************************************/
 
   /**
@@ -927,6 +1046,68 @@ export class MongoDbService
       .replaceOne(
         { name: repo.name, institution: repo.institution },
         { ...repo },
+        { upsert: true },
+      );
+  }
+
+  /**
+   * Upsert a contributor
+   * @param contributor The contributor object
+   */
+  async upsertContributor(contributor: Contributor): Promise<void> {
+    this.logger.log(`Upserting contributor ${contributor.login}`);
+    this.client
+      .db(this.databaseTesting)
+      .collection<Contributor>(Tables.contributors)
+      .replaceOne(
+        { login: contributor.login },
+        { ...contributor },
+        { upsert: true },
+      );
+  }
+
+  /**
+   * Upsert the revised repository
+   * @param repo The revised repository object
+   */
+  async upsertRevisedRepository(repo: RepositoryRevised): Promise<void> {
+    this.logger.log(`Upserting repository ${repo.name}`);
+    this.client
+      .db(this.databaseTesting)
+      .collection<RepositoryRevised>(Tables.repositories)
+      .replaceOne({ uuid: repo.uuid }, { ...repo }, { upsert: true });
+  }
+
+  /**
+   * Upsert a organisation with the new data
+   * @param organisation The organistion to upsert
+   */
+  async upsertRevisedOrganisation(
+    organisation: OrganisationRevised,
+  ): Promise<void> {
+    this.logger.log(`Upserting organisation ${organisation.name}`);
+    this.client
+      .db(this.databaseTesting)
+      .collection<OrganisationRevised>(Tables.organisations)
+      .replaceOne(
+        { name: organisation.name },
+        { ...organisation },
+        { upsert: true },
+      );
+  }
+
+  /**
+   * Upsert a institution
+   * @param instituion The institution to upsert
+   */
+  async upsertRevisedInstitution(instituion: InstituionRevised): Promise<void> {
+    this.logger.log(`Upserting institution ${instituion.name_de}`);
+    this.client
+      .db(this.databaseTesting)
+      .collection<InstituionRevised>(Tables.instituions)
+      .replaceOne(
+        { uuid: instituion.uuid },
+        { ...instituion },
         { upsert: true },
       );
   }

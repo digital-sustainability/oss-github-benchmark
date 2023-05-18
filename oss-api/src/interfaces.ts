@@ -1,4 +1,5 @@
 import { OctokitResponse } from '@octokit/types';
+import { ObjectId } from 'mongodb';
 
 /************************************Github Types*******************************************/
 export interface GithubResponse {
@@ -1916,6 +1917,24 @@ export interface ApiUser {
   contributions: Contributions;
 }
 
+export interface Contributor {
+  login: string;
+  name: string;
+  avatar_url: string;
+  bio: string;
+  blog: string;
+  company: string;
+  email: string;
+  twitter_username: string;
+  location: string;
+  created_at: Date;
+  updated_at: Date;
+  public_repos: number;
+  public_gists: number;
+  followers: number;
+  following: number;
+}
+
 /************************************Code Types*******************************************/
 export interface RepositoryInfo {
   id: number;
@@ -2124,8 +2143,8 @@ export interface Repository {
   comments: number;
   languages: Languages;
   timestamp: Date;
-  createdTimestamp: Date;
-  updatedTimestamp: Date;
+  created_at: Date;
+  updated_at: Date;
   contributors: string[];
   coders: string[];
   license: string;
@@ -2192,6 +2211,61 @@ export interface Statistic {
   total_issues_all: number;
   total_issues_closed: number;
   total_comments: number;
+}
+
+export interface RepositoryRevised {
+  name: string;
+  uuid: string;
+  url: string;
+  institution: string;
+  organization: string;
+  description: string;
+  fork: boolean;
+  archived: boolean;
+  timestamp: Date;
+  created_at: Date;
+  updated_at: Date;
+  contributors: ObjectId[];
+  coders: string[];
+  license: string;
+  stats: RepositoryStats[];
+  logo?: string;
+}
+
+export interface RepositoryStats {
+  num_forks: number;
+  num_contributors: number;
+  num_commits: number;
+  num_stars: number;
+  num_watchers: number;
+  has_own_commits: number;
+  issues_closed: number;
+  issues_all: number;
+  pull_requests_closed: number;
+  pull_requests_all: number;
+  comments: number;
+  languages: Languages;
+}
+
+export interface OrganisationRevised {
+  name: string;
+  url: string;
+  description: string;
+  avatar: string;
+  created_at: Date;
+  locations: string;
+  email: string;
+  repos: ObjectId[];
+}
+
+export interface InstituionRevised {
+  uuid: string;
+  shortname: string;
+  name_de: string;
+  orgs: ObjectId[];
+  avatar: string[];
+  timestamp: Date;
+  sector: string;
 }
 
 /************************************Old Types*******************************************/
