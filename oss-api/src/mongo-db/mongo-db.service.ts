@@ -873,7 +873,7 @@ export class MongoDbService
     this.logger.log('Getting all the organisations of the institution');
     return this.client
       .db(this.databaseTesting)
-      .collection<OrganisationRevised>(Tables.instituions)
+      .collection<OrganisationRevised>(Tables.organisations)
       .find({ name: { $in: organisationNames } })
       .toArray();
   }
