@@ -1,0 +1,1029 @@
+import { Injectable, Logger } from '@nestjs/common';
+import {
+  GitHubCommitComment,
+  GitHubIssue,
+  GitHubPull,
+  GithubCommit,
+  GithubContributor,
+  GithubOrganisationMember,
+  GithubOrganisationRepository,
+  GithubRepo,
+  RawResponse,
+  TodoInstitution,
+} from '../interfaces';
+import { GithubService } from '../github/github.service';
+import { OctokitResponse } from '@octokit/types';
+import * as fs from 'fs';
+import { MongoDbService } from '../mongo-db/mongo-db.service';
+
+@Injectable()
+export class GithubCrawlerService {
+  constructor(
+    private githubService: GithubService,
+    private mongoService: MongoDbService,
+  ) {}
+
+  private readonly logger = new Logger(GithubCrawlerService.name);
+  private reachedGithubCallLimit: boolean;
+  private logPath: string;
+  private daysToWait = 7 * 24 * 60 * 60 * 1000; // Days * 24 hours * 60 minutes * 60 seconds * 1000 miliseconds
+
+  /**
+   * Prepare all the institution data
+   */
+  private async prepareInstitutions() {
+    this.logger.log(`Prepairing all institutions to be crawled`);
+    this.reachedGithubCallLimit = false;
+    const todoInstituitions = await this.mongoService.findAllTodoInstitutions();
+    todoInstituitions.sort((a, b) => {
+      if (!a.ts && !b.ts) return 0;
+      if (!a.ts) return -1;
+      if (!b.ts) return 1;
+      return b.ts.getTime() - a.ts.getTime();
+    });
+    for (const todoInstituition of todoInstituitions) {
+      if (this.reachedGithubCallLimit) break;
+      if (
+        todoInstituition.ts &&
+        todoInstituition.ts.getTime() > Date.now() - this.daysToWait
+      ) {
+        continue;
+      }
+      await this.handleInstitution(todoInstituition);
+    }
+    this.logger.log('Crawler finished');
+  }
+
+  /**
+   * Handle the institution data
+   * @param institution The insitution data
+   */
+  private async handleInstitution(institution: TodoInstitution): Promise<void> {
+    this.logger.log(`Handling institution ${institution.name_de}`);
+    institution.orgs.sort((a, b) => {
+      if (!a.ts && !b.ts) return 0;
+      if (!a.ts) return -1;
+      if (!b.ts) return 1;
+      return b.ts.getTime() - a.ts.getTime();
+    });
+    for (const organisation of institution.orgs) {
+      if (this.reachedGithubCallLimit) break;
+      if (organisation.ts?.getTime() > Date.now() - this.daysToWait) {
+        this.logger.log(
+          `The organisation ${organisation.name} was alredy crawled in the last defined time`,
+        );
+        continue;
+      }
+      await this.handleOrganisation(organisation.name, institution.shortname);
+    }
+  }
+
+  /**
+   * Handle all organisation data
+   * @param orgName The organisation name
+   * @param institutionName The institution name
+   * @returns Void
+   */
+  private async handleOrganisation(
+    orgName: string,
+    institutionName: string,
+  ): Promise<void> {
+    this.logger.log(`Handling Organisation ${orgName}`);
+    await this.getGitHubOrganisation(institutionName, orgName);
+    await this.getGithubOrganisationMembers(orgName, institutionName);
+    const repositories = await this.getGitHubOrganisationRepositories(
+      orgName,
+      institutionName,
+    );
+    if (!repositories) return null;
+
+    for (const repository of repositories) {
+      if (this.reachedGithubCallLimit) return;
+      await this.handleRepository(repository, institutionName, orgName);
+    }
+    return;
+  }
+
+  /**
+   * Handle the repository data
+   * @param repo The repository objext
+   * @param institutionName The name of the institution
+   * @param orgName The name of the organisation
+   * @returns Void
+   */
+  private async handleRepository(
+    repo: GithubOrganisationRepository,
+    institutionName: string,
+    orgName: string,
+  ): Promise<void> {
+    this.logger.log(`Handling repository ${repo.name}`);
+    const dbRepository = await this.mongoService.findRepository(
+      repo.name,
+      institutionName,
+    );
+    if (
+      dbRepository &&
+      dbRepository.timestamp.getTime() > Date.now() - this.daysToWait
+    ) {
+      return;
+    }
+    const gitRepository = await this.getGitHubRepository(
+      repo.name,
+      repo.owner.login,
+      institutionName,
+      orgName,
+    );
+    if (gitRepository) return;
+    const contributors = await this.getGitHubRepositoryContibutors(
+      repo.name,
+      repo.owner.login,
+      institutionName,
+      orgName,
+    );
+    if (!contributors) return;
+    await this.getGitHubRepositoryCommits(
+      repo.name,
+      repo.owner.login,
+      institutionName,
+      orgName,
+    );
+    await this.getGitHubPullRequests(
+      repo.name,
+      repo.owner.login,
+      institutionName,
+      orgName,
+      'all',
+    );
+    await this.getGitHubPullRequests(
+      repo.name,
+      repo.owner.login,
+      institutionName,
+      orgName,
+      'closed',
+    );
+    await this.getGitHubIssues(
+      repo.name,
+      repo.owner.login,
+      institutionName,
+      orgName,
+      'all',
+    );
+    await this.getGitHubIssues(
+      repo.name,
+      repo.owner.login,
+      institutionName,
+      orgName,
+      'closed',
+    );
+    await this.getGitHubRepoCommitComments(
+      repo.name,
+      repo.owner.login,
+      institutionName,
+      orgName,
+    );
+    await this.getGitHubRepoLanguages(
+      repo.name,
+      repo.owner.login,
+      institutionName,
+      orgName,
+    );
+    await this.getGitHubCommitActivity(
+      repo.name,
+      repo.owner.login,
+      institutionName,
+      orgName,
+    );
+    if (gitRepository.parent) {
+      await this.compareTwoGitHubCommits(
+        repo.name,
+        repo.owner.login,
+        institutionName,
+        orgName,
+        gitRepository.parent.owner.login,
+        gitRepository.source.default_branch,
+        gitRepository.default_branch,
+      );
+    }
+    for (const contributor of contributors) {
+      if (this.reachedGithubCallLimit) return;
+      await this.handleContributorData(
+        contributor,
+        repo.name,
+        orgName,
+        institutionName,
+      );
+    }
+  }
+
+  /**
+   * Handle all the contributor Data
+   * @param contributor The contributor object
+   * @param repoName The repository name
+   * @param orgName The organisation name
+   * @param institutioName The institution name
+   */
+  private async handleContributorData(
+    contributor: GithubContributor,
+    repoName: string,
+    orgName: string,
+    institutioName: string,
+  ): Promise<void> {
+    this.logger.log(`Handling Contributor${contributor.login}`);
+    await this.getGitHubUser(
+      contributor.login,
+      institutioName,
+      orgName,
+      repoName,
+    );
+  }
+
+  /******************************************Helper Functions*******************************************************/
+
+  /**
+   * Write a github response to a json file
+   * @param method The method calling
+   * @param institutionName The name of the institution
+   * @param type The type of the data
+   * @param orgName The name of the organisation
+   * @param repoName The name of the repository
+   * @param userName The name of the user
+   * @param response The github response
+   */
+  private async writeRawResponseToFile(
+    method: string,
+    institutionName: string,
+    type: 'user' | 'repository' | 'organisation',
+    orgName?: string,
+    repoName?: string,
+    userName?: string,
+    response?: OctokitResponse<any>,
+  ): Promise<void> {
+    this.logger.log(`Writing a github file of the type ${type}`);
+    if (!fs.existsSync(this.logPath)) await fs.mkdirSync(this.logPath);
+    const rawResponse: RawResponse = {
+      method: method,
+      ts: new Date(),
+      institutionName: institutionName,
+      orgName: orgName,
+      repoName: repoName,
+      userName: userName,
+      response: response,
+    };
+    await fs.writeFileSync(
+      `${this.logPath}/${type}_${rawResponse.ts.getTime()}.json`,
+      JSON.stringify(rawResponse),
+    );
+  }
+
+  /**
+   * Get all the data of an user
+   * @param userName The name of the user
+   * @param institutionName The name of the institution
+   * @param orgName The name of the organisation
+   * @param repoName The name of the repository
+   */
+  private async getGitHubUser(
+    userName: string,
+    institutionName: string,
+    orgName: string,
+    repoName: string,
+  ): Promise<void> {
+    this.logger.log(`Getting userdata from github from user ${userName}`);
+    await this.githubService
+      .get_User(userName)
+      .then((gitUserResponse) => {
+        this.logger.log(
+          `Alredy made ${gitUserResponse.headers['x-ratelimit-used']}/${gitUserResponse.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (gitUserResponse?.status != 200) {
+          this.logger.error(
+            `Error while getting userdata from github from user ${userName}. Status is ${gitUserResponse.status}`,
+          );
+        }
+        this.writeRawResponseToFile(
+          'get_github_user',
+          institutionName,
+          'user',
+          orgName,
+          repoName,
+          userName,
+          gitUserResponse,
+        );
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+        }
+        this.logger.error(error);
+      });
+  }
+
+  /**
+   * Get all the repository data
+   * @param repoName The name of the repository
+   * @param owner The name of the owner
+   * @param institutionName The name of the institution
+   * @param orgName The name of the organisation
+   * @returns Null if an error occured or the repo data
+   */
+  private async getGitHubRepository(
+    repoName: string,
+    owner: string,
+    institutionName: string,
+    orgName: string,
+  ): Promise<null | GithubRepo> {
+    this.logger.log(`Getting all the data from the repository ${repoName}`);
+    return this.githubService
+      .get_Repository(owner, repoName)
+      .then((gitRepoResponse) => {
+        this.logger.log(
+          `Alredy made ${gitRepoResponse.headers['x-ratelimit-used']}/${gitRepoResponse.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (gitRepoResponse?.status != 200) {
+          this.logger.error(
+            `Error while getting repo data from github from repository ${repoName}. Status is ${gitRepoResponse.status}`,
+          );
+          return null;
+        }
+        this.writeRawResponseToFile(
+          'get_github_repo',
+          institutionName,
+          'repository',
+          orgName,
+          repoName,
+          '',
+          gitRepoResponse,
+        );
+        return gitRepoResponse.data as GithubRepo;
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+        }
+        this.logger.error(error);
+        return null;
+      });
+  }
+
+  /**
+   * Get all the contributors of the repository
+   * @param repoName The name of the repository
+   * @param owner The owner of the repository
+   * @param institutionName The name of the institution
+   * @param orgName The name of the organisation
+   * @returns Null if an error occured or an array with all contributors
+   */
+  private async getGitHubRepositoryContibutors(
+    repoName: string,
+    owner: string,
+    institutionName: string,
+    orgName: string,
+  ): Promise<null | GithubContributor[]> {
+    this.logger.log(
+      `Getting all the contributors from the repository ${repoName}`,
+    );
+    let response: GithubContributor[] = [];
+    let page = 0;
+    while (1) {
+      const res: null | GithubContributor[] = await this.githubService
+        .get_RepoContributors(owner, repoName, page)
+        .then((gitRepoContributorsResponse) => {
+          this.logger.log(
+            `Alredy made ${gitRepoContributorsResponse.headers['x-ratelimit-used']}/${gitRepoContributorsResponse.headers['x-ratelimit-limit']} calls.`,
+          );
+          if (gitRepoContributorsResponse?.status != 200) {
+            this.logger.error(
+              `Error while getting contributors data from github from repository ${repoName}. Status is ${gitRepoContributorsResponse.status}`,
+            );
+            return null;
+          }
+          this.writeRawResponseToFile(
+            'get_github_contributors',
+            institutionName,
+            'repository',
+            orgName,
+            repoName,
+            '',
+            gitRepoContributorsResponse,
+          );
+          return gitRepoContributorsResponse.data as GithubContributor[];
+        })
+        .catch((error) => {
+          this.logger.log(
+            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+          );
+          if (
+            parseInt(error.response.headers['x-ratelimit-used']) >=
+            parseInt(error.response.headers['x-ratelimit-limit'])
+          ) {
+            this.reachedGithubCallLimit = true;
+            return;
+          }
+          this.logger.error(error);
+          return null;
+        });
+      if (!res) return null;
+      response = response.concat(res);
+      if (res.length < 100) break;
+      page++;
+    }
+    return response;
+  }
+
+  /**
+   * Get all commits from repository
+   * @param repoName The name of the repository
+   * @param owner The owner of the repository
+   * @param institutionName The name of the institution
+   * @param orgName The name of the organisation
+   * @returns Void
+   */
+  private async getGitHubRepositoryCommits(
+    repoName: string,
+    owner: string,
+    institutionName: string,
+    orgName: string,
+  ): Promise<void> {
+    this.logger.log(`Getting all the commits from the repository ${repoName}`);
+    let page = 0;
+    while (1) {
+      const res: void | GithubCommit[] = await this.githubService
+        .get_RepoCommits(owner, repoName, page)
+        .then((getRepoCommitsReponse) => {
+          this.logger.log(
+            `Alredy made ${getRepoCommitsReponse.headers['x-ratelimit-used']}/${getRepoCommitsReponse.headers['x-ratelimit-limit']} calls.`,
+          );
+          if (getRepoCommitsReponse?.status != 200) {
+            this.logger.error(
+              `Error while getting commit data from github from repository ${repoName}. Status is ${getRepoCommitsReponse.status}`,
+            );
+            return;
+          }
+          this.writeRawResponseToFile(
+            'get_github_commits',
+            institutionName,
+            'repository',
+            orgName,
+            repoName,
+            '',
+            getRepoCommitsReponse,
+          );
+          return getRepoCommitsReponse.data as GithubCommit[];
+        })
+        .catch((error) => {
+          this.logger.log(
+            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+          );
+          if (
+            parseInt(error.response.headers['x-ratelimit-used']) >=
+            parseInt(error.response.headers['x-ratelimit-limit'])
+          ) {
+            this.reachedGithubCallLimit = true;
+          }
+          this.logger.error(error);
+          return;
+        });
+      if (!res) return;
+      if (res.length < 100) break;
+      page++;
+    }
+  }
+
+  /**
+   * Get all the pull requests from a repository
+   * @param repoName The name of the repository
+   * @param owner The name of the owner
+   * @param institutionName The name of the institution
+   * @param orgName The name of the organisation
+   * @param state The state of the pull request
+   */
+  private async getGitHubPullRequests(
+    repoName: string,
+    owner: string,
+    institutionName: string,
+    orgName: string,
+    state: 'all' | 'open' | 'closed',
+  ): Promise<void> {
+    this.logger.log(
+      `Getting all the pull requests with the state ${state} from the repository ${repoName}`,
+    );
+    let page = 0;
+    while (1) {
+      const res: null | GitHubPull[] = await this.githubService
+        .get_RepoPulls(owner, repoName, state, page)
+        .then((getRepoPullRequestsResponse) => {
+          this.logger.log(
+            `Alredy made ${getRepoPullRequestsResponse.headers['x-ratelimit-used']}/${getRepoPullRequestsResponse.headers['x-ratelimit-limit']} calls.`,
+          );
+          if (getRepoPullRequestsResponse?.status != 200) {
+            this.logger.error(
+              `Error while getting pull request data from github from repository ${repoName}. Status is ${getRepoPullRequestsResponse.status}`,
+            );
+            return null;
+          }
+          this.writeRawResponseToFile(
+            'get_github_pull_requests',
+            institutionName,
+            'repository',
+            orgName,
+            repoName,
+            '',
+            getRepoPullRequestsResponse,
+          );
+        })
+        .catch((error) => {
+          this.logger.log(
+            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+          );
+          if (
+            parseInt(error.response.headers['x-ratelimit-used']) >=
+            parseInt(error.response.headers['x-ratelimit-limit'])
+          ) {
+            this.reachedGithubCallLimit = true;
+          }
+          this.logger.error(error);
+          return null;
+        });
+      if (!res) break;
+      if (res.length < 100) break;
+      page++;
+    }
+  }
+
+  /**
+   * Get all the issues of the repository
+   * @param repoName The name of the repository
+   * @param owner The name of the owner
+   * @param institutionName The name of the insitution
+   * @param orgName The name of the name of the organisation
+   * @param state The state of the of the issue
+   * @returns Void
+   */
+  private async getGitHubIssues(
+    repoName: string,
+    owner: string,
+    institutionName: string,
+    orgName: string,
+    state: 'all' | 'open' | 'closed',
+  ): Promise<void> {
+    this.logger.log(
+      `Getting all the issues with the state ${state} from the repository ${repoName}`,
+    );
+    let page = 0;
+    while (1) {
+      const res: null | GitHubIssue[] = await this.githubService
+        .get_RepoIssues(owner, repoName, state, page)
+        .then((getRepoIssuesResponse) => {
+          this.logger.log(
+            `Alredy made ${getRepoIssuesResponse.headers['x-ratelimit-used']}/${getRepoIssuesResponse.headers['x-ratelimit-limit']} calls.`,
+          );
+          if (getRepoIssuesResponse?.status != 200) {
+            this.logger.error(
+              `Error while getting issues data from github from repository ${repoName}. Status is ${getRepoIssuesResponse.status}`,
+            );
+            return null;
+          }
+          this.writeRawResponseToFile(
+            'get_github_issues',
+            institutionName,
+            'repository',
+            orgName,
+            repoName,
+            '',
+            getRepoIssuesResponse,
+          );
+          return getRepoIssuesResponse.data as GitHubIssue[];
+        })
+        .catch((error) => {
+          this.logger.log(
+            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+          );
+          if (
+            parseInt(error.response.headers['x-ratelimit-used']) >=
+            parseInt(error.response.headers['x-ratelimit-limit'])
+          ) {
+            this.reachedGithubCallLimit = true;
+          }
+          this.logger.error(error);
+          return null;
+        });
+      if (!res) return null;
+      if (res.length < 100) break;
+      page++;
+    }
+  }
+
+  /**
+   * Get all the comments of the commits
+   * @param repoName The name of the repository
+   * @param owner The name of the owner
+   * @param institutionName The name of the institution
+   * @param orgName The name of the organisation
+   * @returns Void
+   */
+  private async getGitHubRepoCommitComments(
+    repoName: string,
+    owner: string,
+    institutionName: string,
+    orgName: string,
+  ): Promise<void> {
+    this.logger.log(
+      `Getting all the commit comments from the repository ${repoName}`,
+    );
+    let page = 0;
+    while (1) {
+      const res: null | GitHubCommitComment[] = await this.githubService
+        .get_RepoCommitComments(owner, repoName, page)
+        .then((getRepoCommitCommentsResult) => {
+          this.logger.log(
+            `Alredy made ${getRepoCommitCommentsResult.headers['x-ratelimit-used']}/${getRepoCommitCommentsResult.headers['x-ratelimit-limit']} calls.`,
+          );
+          if (getRepoCommitCommentsResult?.status != 200) {
+            this.logger.error(
+              `Error while getting commit comments data from github from repository ${repoName}. Status is ${getRepoCommitCommentsResult.status}`,
+            );
+            return null;
+          }
+          this.writeRawResponseToFile(
+            'get_github_commit_comments',
+            institutionName,
+            'repository',
+            orgName,
+            repoName,
+            '',
+            getRepoCommitCommentsResult,
+          );
+          return getRepoCommitCommentsResult.data as GitHubCommitComment[];
+        })
+        .catch((error) => {
+          this.logger.log(
+            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+          );
+          if (
+            parseInt(error.response.headers['x-ratelimit-used']) >=
+            parseInt(error.response.headers['x-ratelimit-limit'])
+          ) {
+            this.reachedGithubCallLimit = true;
+          }
+          this.logger.error(error);
+          return null;
+        });
+      if (!res) return null;
+      if (res.length < 100) break;
+      page++;
+    }
+  }
+
+  /**
+   * Get the programming languges of the repository
+   * @param repoName The name of the repository
+   * @param owner The name of the owner
+   * @param institutionName The name of the instituion
+   * @param orgName The name of the organisation
+   */
+  private async getGitHubRepoLanguages(
+    repoName: string,
+    owner: string,
+    institutionName: string,
+    orgName: string,
+  ): Promise<void> {
+    this.logger.log(
+      `Getting all the programming languages from the repository ${repoName}`,
+    );
+    await this.githubService
+      .get_RepoLanguages(owner, repoName)
+      .then((getRepoLanguagesResult) => {
+        this.logger.log(
+          `Alredy made ${getRepoLanguagesResult.headers['x-ratelimit-used']}/${getRepoLanguagesResult.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (getRepoLanguagesResult?.status != 200) {
+          this.logger.error(
+            `Error while getting commit comments data from github from repository ${repoName}. Status is ${getRepoLanguagesResult.status}`,
+          );
+          return;
+        }
+        this.writeRawResponseToFile(
+          'get_github_langauges',
+          institutionName,
+          'repository',
+          orgName,
+          repoName,
+          '',
+          getRepoLanguagesResult,
+        );
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+        }
+        this.logger.error(error);
+        return;
+      });
+  }
+
+  /**
+   * Get the commit activity of the repository
+   * @param repoName The name of the repository
+   * @param owner The owner of the repository
+   * @param institutionName The name of the institution
+   * @param orgName The name of the organisation
+   * @returns Void
+   */
+  private async getGitHubCommitActivity(
+    repoName: string,
+    owner: string,
+    institutionName: string,
+    orgName: string,
+  ): Promise<void> {
+    this.logger.log(
+      `Getting the commit activity from the repository ${repoName}`,
+    );
+    let getRepoCommitActivityResult: OctokitResponse<any>;
+    while (true) {
+      const res = await this.githubService
+        .get_RepoCommitActivity(owner, repoName)
+        .then((res) => {
+          getRepoCommitActivityResult = res;
+          this.logger.log(
+            `Alredy made ${res.headers['x-ratelimit-used']}/${res.headers['x-ratelimit-limit']} calls.`,
+          );
+          this.writeRawResponseToFile(
+            'get_github_commit_acitivity',
+            institutionName,
+            'repository',
+            orgName,
+            repoName,
+            '',
+            res,
+          );
+          return res;
+        })
+        .catch((error) => {
+          this.logger.log(
+            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+          );
+          if (
+            parseInt(error.response.headers['x-ratelimit-used']) >=
+            parseInt(error.response.headers['x-ratelimit-limit'])
+          ) {
+            this.reachedGithubCallLimit = true;
+          }
+          this.logger.error(error);
+          return null;
+        });
+      if (!res) return null;
+      getRepoCommitActivityResult = res as OctokitResponse<any>;
+      if ((getRepoCommitActivityResult.status = 200)) {
+        return;
+      }
+    }
+  }
+
+  /**
+   * Compare two commits two know which is newer
+   * @param repoName The name of the repository
+   * @param owner The owner of that repository
+   * @param institutionName The name of the institution
+   * @param orgName The name of the organisation
+   * @param parentOwner The owner of the parent repo
+   * @param parentDefaultBranch The name of the default branch in the parent repository
+   * @param defaultBranch The name of the default branch in the repository
+   */
+  private async compareTwoGitHubCommits(
+    repoName: string,
+    owner: string,
+    institutionName: string,
+    orgName: string,
+    parentOwner: string,
+    parentDefaultBranch: string,
+    defaultBranch: string,
+  ): Promise<void> {
+    this.logger.log(
+      `Comparing two commits between :${defaultBranch} and ${parentOwner}:${parentDefaultBranch}.`,
+    );
+    await this.githubService
+      .compare_Commits(
+        owner,
+        repoName,
+        parentOwner,
+        parentDefaultBranch,
+        defaultBranch,
+      )
+      .then((compareTwoCommitsResult) => {
+        this.logger.log(
+          `Alredy made ${compareTwoCommitsResult.headers['x-ratelimit-used']}/${compareTwoCommitsResult.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (compareTwoCommitsResult?.status != 200) {
+          this.logger.error(
+            `Error while comparing :${defaultBranch} and ${parentOwner}:${parentDefaultBranch}. Status is ${compareTwoCommitsResult.status}`,
+          );
+          return;
+        }
+        this.writeRawResponseToFile(
+          'compare_github_commits',
+          institutionName,
+          'repository',
+          orgName,
+          repoName,
+          '',
+          compareTwoCommitsResult,
+        );
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+        }
+        this.logger.error(error);
+        return;
+      });
+  }
+
+  /**
+   * Get the organisation data from Github
+   * @param institutionName The name of the institution
+   * @param orgName The name of the organisation
+   * @returns Void
+   */
+  private async getGitHubOrganisation(
+    institutionName: string,
+    orgName: string,
+  ): Promise<void> {
+    this.logger.log(`Getting all the data of the organisation ${orgName}`);
+    return this.githubService
+      .get_Organisation(orgName)
+      .then((getOrganisationResult) => {
+        this.logger.log(
+          `Alredy made ${getOrganisationResult.headers['x-ratelimit-used']}/${getOrganisationResult.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (getOrganisationResult?.status != 200) {
+          this.logger.error(
+            `Error while getting organisation data from github from the organisation ${orgName}. Status is ${getOrganisationResult.status}`,
+          );
+          return;
+        }
+        this.writeRawResponseToFile(
+          'get_github_organisation',
+          institutionName,
+          'organisation',
+          orgName,
+          '',
+          '',
+          getOrganisationResult,
+        );
+      })
+      .catch((error) => {
+        this.logger.log(
+          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        );
+        if (
+          parseInt(error.response.headers['x-ratelimit-used']) >=
+          parseInt(error.response.headers['x-ratelimit-limit'])
+        ) {
+          this.reachedGithubCallLimit = true;
+        }
+        this.logger.error(error);
+        return;
+      });
+  }
+
+  /**
+   * Get all the members of an organisation
+   * @param orgName The name of the organisation
+   * @param institutionName The name of the institution
+   * @returns Void
+   */
+  private async getGithubOrganisationMembers(
+    orgName: string,
+    institutionName: string,
+  ): Promise<void> {
+    this.logger.log(`Getting all the members of the organisation ${orgName}`);
+    let response: GithubOrganisationMember[] = [];
+    let page = 0;
+    while (1) {
+      const res: null | GithubOrganisationMember[] = await this.githubService
+        .get_OrganisationMembers(orgName, page)
+        .then((getOrganisationMembersResult) => {
+          this.logger.log(
+            `Alredy made ${getOrganisationMembersResult.headers['x-ratelimit-used']}/${getOrganisationMembersResult.headers['x-ratelimit-limit']} calls.`,
+          );
+          if (getOrganisationMembersResult?.status != 200) {
+            this.logger.error(
+              `Error while getting organisation members data from github from the organisation ${orgName}. Status is ${getOrganisationMembersResult.status}`,
+            );
+            return null;
+          }
+          this.writeRawResponseToFile(
+            'get_github_organisation_members',
+            institutionName,
+            'organisation',
+            orgName,
+            '',
+            '',
+            getOrganisationMembersResult,
+          );
+          return getOrganisationMembersResult.data as GithubOrganisationMember[];
+        })
+        .catch((error) => {
+          this.logger.log(
+            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+          );
+          if (
+            parseInt(error.response.headers['x-ratelimit-used']) >=
+            parseInt(error.response.headers['x-ratelimit-limit'])
+          ) {
+            this.reachedGithubCallLimit = true;
+          }
+          this.logger.error(error);
+          return null;
+        });
+      if (!res) return;
+      if (res.length < 100) return;
+      page++;
+    }
+  }
+
+  /**
+   * Get all the repositories of a given organisation
+   * @param orgName The name of the organisation
+   * @param institutionName The name of the insitution
+   * @returns Null if an error occured or an array with gith github organisations
+   */
+  private async getGitHubOrganisationRepositories(
+    orgName: string,
+    institutionName: string,
+  ): Promise<null | GithubOrganisationRepository[]> {
+    this.logger.log(
+      `Getting all the repositories of the organisation ${orgName}`,
+    );
+    let response: GithubOrganisationRepository[] = [];
+    let page = 0;
+    while (1) {
+      const res: null | GithubOrganisationRepository[] =
+        await this.githubService
+          .get_OrganisationRepositories(orgName, page)
+          .then((getOrganisationRepositoriesResult) => {
+            this.logger.log(
+              `Alredy made ${getOrganisationRepositoriesResult.headers['x-ratelimit-used']}/${getOrganisationRepositoriesResult.headers['x-ratelimit-limit']} calls.`,
+            );
+            if (getOrganisationRepositoriesResult?.status != 200) {
+              this.logger.error(
+                `Error while getting organisation repositories data from github from the organisation ${orgName}. Status is ${getOrganisationRepositoriesResult.status}`,
+              );
+              return null;
+            }
+            this.writeRawResponseToFile(
+              'get_github_organisation_repositories',
+              institutionName,
+              'organisation',
+              orgName,
+              '',
+              '',
+              getOrganisationRepositoriesResult,
+            );
+            return getOrganisationRepositoriesResult.data as GithubOrganisationRepository[];
+          })
+          .catch((error) => {
+            this.logger.log(
+              `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+            );
+            if (
+              parseInt(error.response.headers['x-ratelimit-used']) >=
+              parseInt(error.response.headers['x-ratelimit-limit'])
+            ) {
+              this.reachedGithubCallLimit = true;
+            }
+            this.logger.error(error);
+            return null;
+          });
+      if (!res) return null;
+      response = response.concat(res);
+      if (res.length < 100) break;
+      page++;
+    }
+    return response;
+  }
+}

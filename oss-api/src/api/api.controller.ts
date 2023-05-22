@@ -140,7 +140,7 @@ export class ApiController {
       foundSectors = await this.mongoDbService.countAllInstitutions(sectorList);
     }
     let total = 0;
-    let sectorcount = {};
+    const sectorcount = {};
     foundSectors.forEach((foundSector) => {
       total += foundSector.total;
       sectorcount[foundSector._id] = foundSector.total;

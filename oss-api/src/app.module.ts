@@ -9,8 +9,9 @@ import { GithubService } from './github/github.service';
 import { LoggerModule } from 'nestjs-pino';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TransformerService } from './transformer/transformer.service';
+import { GithubCrawlerService } from './github-crawler/github-crawler.service';
 import * as fs from 'fs';
-let stream = fs.createWriteStream(
+const stream = fs.createWriteStream(
   `${process.env.LOG_PATH}/${Date.now()}_logs.json`,
 );
 @Module({
@@ -36,6 +37,12 @@ let stream = fs.createWriteStream(
     }),
   ],
   controllers: [ApiController],
-  providers: [MongoDbService, DataGatheringService, GithubService, TransformerService],
+  providers: [
+    MongoDbService,
+    DataGatheringService,
+    GithubService,
+    TransformerService,
+    GithubCrawlerService,
+  ],
 })
 export class AppModule {}

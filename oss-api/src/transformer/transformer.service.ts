@@ -93,7 +93,7 @@ export class TransformerService {
   private async handleRepository(repo: Repository) {
     this.logger.log(`Handling repository ${repo.name}`);
     const dbRepo = await this.mongo.getRevisedRepositoryWithUuid(repo.uuid);
-    let stats: RepositoryStats[] = dbRepo ? dbRepo.stats : [];
+    const stats: RepositoryStats[] = dbRepo ? dbRepo.stats : [];
     stats.push(this.createRepositoryStats(repo));
     const contributors: Contributor[] =
       await this.mongo.findRepositoryContributors(repo.contributors);
