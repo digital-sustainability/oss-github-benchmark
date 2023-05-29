@@ -2,12 +2,6 @@ import { OctokitResponse } from '@octokit/types';
 import { ObjectId } from 'mongodb';
 
 /************************************Github Types*******************************************/
-export interface GithubResponse {
-  status: number;
-  url: string;
-  headers: any[];
-  data: GithubUser;
-}
 
 export interface GithubUser {
   login: string;
@@ -1828,14 +1822,6 @@ export interface TodoOrganisation {
   ts: Date;
 }
 
-export interface UserQueryConfig {
-  search?: string;
-  sort: string;
-  direction: 'ASC' | 'DESC';
-  page: number;
-  count: number;
-}
-
 export interface ApiInstitution {
   name_de: string;
   num_members: number;
@@ -1936,120 +1922,6 @@ export interface Contributor {
 }
 
 /************************************Code Types*******************************************/
-export interface RepositoryInfo {
-  id: number;
-  uuid: string;
-  node_id: string;
-  name: string;
-  full_name: string;
-  private: boolean;
-  owner: {
-    login: string;
-    id: number;
-    node_id: string;
-    avatar_url: string;
-    gravatar_id: string;
-    url: string;
-    html_url: string;
-    followers_url: string;
-    following_url: string;
-    gists_url: string;
-    starred_url: string;
-    subscriptions_url: string;
-    organizations_url: string;
-    repos_url: string;
-    events_url: string;
-    received_events_url: string;
-    type: string;
-    site_admin: boolean;
-  };
-  html_url: string;
-  description: string;
-  fork: boolean;
-  url: string;
-  forks_url: string;
-  keys_url: string;
-  collaborators_url: string;
-  teams_url: string;
-  hooks_url: string;
-  issue_events_url: string;
-  events_url: string;
-  assignees_url: string;
-  branches_url: string;
-  tags_url: string;
-  blobs_url: string;
-  git_tags_url: string;
-  git_refs_url: string;
-  trees_url: string;
-  statuses_url: string;
-  languages_url: string;
-  stargazers_url: string;
-  contributors_url: string;
-  subscribers_url: string;
-  subscription_url: string;
-  commits_url: string;
-  git_commits_url: string;
-  comments_url: string;
-  issue_comment_url: string;
-  contents_url: string;
-  compare_url: string;
-  merges_url: string;
-  archive_url: string;
-  downloads_url: string;
-  issues_url: string;
-  pulls_url: string;
-  milestones_url: string;
-  notifications_url: string;
-  labels_url: string;
-  releases_url: string;
-  deployments_url: string;
-  created_at: Date;
-  updated_at: Date;
-  pushed_at: Date;
-  git_url: string;
-  ssh_url: string;
-  clone_url: string;
-  svn_url: string;
-  homepage: string;
-  size: number;
-  stargazers_count: number;
-  watchers_count: number;
-  language: string;
-  has_issues: boolean;
-  has_projects: boolean;
-  has_downloads: boolean;
-  has_wiki: boolean;
-  has_pages: boolean;
-  has_discussions: boolean;
-  forks_count: number;
-  mirror_url: number;
-  archived: boolean;
-  disabled: boolean;
-  open_issues_count: number;
-  license: {
-    key: string;
-    name: string;
-    spdx_id: string;
-    url: string;
-    node_id: string;
-  };
-  allow_forking: boolean;
-  is_template: boolean;
-  web_commit_signoff_required: boolean;
-  topics: string[];
-  visibility: string;
-  forks: number;
-  open_issues: number;
-  watchers: number;
-  default_branch: string;
-  permissions: {
-    admin: boolean;
-    maintain: boolean;
-    push: boolean;
-    triage: boolean;
-    pull: boolean;
-  };
-}
 
 export interface Organisation {
   num_repos: number;
@@ -2116,7 +1988,7 @@ export interface RepositoryContributions {
   [key: string]: number;
 }
 
-export interface Licenses {
+interface Licenses {
   [key: string]: number;
 }
 
@@ -2149,16 +2021,6 @@ export interface Repository {
   coders: string[];
   license: string;
   logo?: string;
-}
-
-export interface TodoIndustry {
-  name_de: string;
-  institutions: TodoInstitution[];
-}
-
-export interface Industry {
-  name: string;
-  institutions: TodoIndustry;
 }
 
 export interface Institution {
@@ -2268,83 +2130,7 @@ export interface InstituionRevised {
   sector: string;
 }
 
-/************************************Old Types*******************************************/
-
-export interface Commit {
-  url: string;
-  sha: string;
-  node_id: string;
-  html_url: string;
-  comments_url: string;
-  commit: object;
-  author: {
-    login: string;
-    id: number;
-    node_id: string;
-    avatar_url: string;
-    gravatar_id: string;
-    url: string;
-    html_url: string;
-    followers_url: string;
-    following_url: string;
-    gists_url: string;
-    starred_url: string;
-    subscriptions_url: string;
-    organizations_url: string;
-    repos_url: string;
-    events_url: string;
-    received_events_url: string;
-    type: string;
-    site_admin: boolean;
-  };
-  committer: object;
-  parents: object;
-}
-
-export interface RepositoryNew {
-  name: string;
-  uuid: string;
-  url: string;
-  institution: string;
-  organization: string;
-  description: string;
-  fork: boolean;
-  archived: boolean;
-  num_forks: number;
-  num_contributors: number;
-  num_commits: number;
-  num_stars: number;
-  num_watchers: number;
-  commit_activities: number;
-  has_own_commits: number;
-  issues_closed: number;
-  issues_all: number;
-  pull_requests_closed: number;
-  pull_requests_all: number;
-  comments: number;
-  languages: Languages;
-  timestamp: Date;
-  createdTimestamp: Date;
-  updatedTimestamp: Date;
-  contributors: string[];
-  coders: string[];
-  license: string;
-  logo?: string;
-}
-
-export interface Status {
-  currentSectorNO: number;
-  currentInstitutionNO: number;
-  currentInstitutionName: string;
-  running: boolean;
-  progress: number;
-  lastUpdated: Date;
-}
-
-export interface Progress {
-  currentSector: number;
-  currentInstitution: number;
-}
+/************************************Query Types*******************************************/
 
 export interface InstitutionQueryConfig {
   sector: string[];
@@ -2365,4 +2151,29 @@ export interface RepositoryQueryConfig {
   page: number;
   count: number;
   includeForks: boolean;
+}
+
+export interface UserQueryConfig {
+  search?: string;
+  sort: string;
+  direction: 'ASC' | 'DESC';
+  page: number;
+  count: number;
+}
+
+/************************************Enums*******************************************/
+
+export enum Method {
+  User = 'get_github_user',
+  Repository = 'get_github_repo',
+  Contributor = 'get_github_contributors',
+  Commit = 'get_github_commits',
+  PullRequest = 'get_github_pull_requests',
+  Issue = 'get_github_issues',
+  Comment = 'get_github_commit_comments',
+  Language = 'get_github_langauges',
+  CompareCommit = 'compare_github_commits',
+  Organisation = 'get_github_organisation',
+  Member = 'get_github_organisation_members',
+  OrganisationRepository = 'get_github_organisation_repositories',
 }

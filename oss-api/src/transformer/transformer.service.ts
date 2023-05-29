@@ -20,12 +20,12 @@ export class TransformerService {
 
   constructor(private mongo: MongoDbService) {}
   async onApplicationBootstrap() {
-    this.prepareData();
+    //this.prepareData();
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   private async prepareData() {
-    /*this.logger.log('Preparing all the user data');
+    this.logger.log('Preparing all the user data');
     const users = await this.mongo.getAllUsers();
     for (const user of users) {
       await this.handleUser(user);
@@ -39,7 +39,7 @@ export class TransformerService {
     const organisations = await this.mongo.getAllOrganisations();
     for (const organisation of organisations) {
       await this.handleOrganisation(organisation);
-    }*/
+    }
     this.logger.log('Preparing all the institution data');
     const institutitions = await this.mongo.getAllInstitutions();
     for (const insitution of institutitions) {

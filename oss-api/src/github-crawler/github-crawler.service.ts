@@ -8,6 +8,7 @@ import {
   GithubOrganisationMember,
   GithubOrganisationRepository,
   GithubRepo,
+  Method,
   RawResponse,
   TodoInstitution,
 } from '../interfaces';
@@ -21,12 +22,18 @@ export class GithubCrawlerService {
   constructor(
     private githubService: GithubService,
     private mongoService: MongoDbService,
-  ) {}
+  ) {
+    this.dataPath = process.env.DATA_PATH;
+  }
 
   private readonly logger = new Logger(GithubCrawlerService.name);
   private reachedGithubCallLimit: boolean;
-  private logPath: string;
+  private dataPath: string;
   private daysToWait = 7 * 24 * 60 * 60 * 1000; // Days * 24 hours * 60 minutes * 60 seconds * 1000 miliseconds
+
+  async onApplicationBootstrap() {
+    //this.prepareInstitutions();
+  }
 
   /**
    * Prepare all the institution data
@@ -43,6 +50,7 @@ export class GithubCrawlerService {
     });
     for (const todoInstituition of todoInstituitions) {
       if (this.reachedGithubCallLimit) break;
+      if (todoInstituition.shortname !== 'bfh') continue;
       if (
         todoInstituition.ts &&
         todoInstituition.ts.getTime() > Date.now() - this.daysToWait
@@ -66,6 +74,7 @@ export class GithubCrawlerService {
       if (!b.ts) return 1;
       return b.ts.getTime() - a.ts.getTime();
     });
+
     for (const organisation of institution.orgs) {
       if (this.reachedGithubCallLimit) break;
       if (organisation.ts?.getTime() > Date.now() - this.daysToWait) {
@@ -88,7 +97,7 @@ export class GithubCrawlerService {
     orgName: string,
     institutionName: string,
   ): Promise<void> {
-    this.logger.log(`Handling Organisation ${orgName}`);
+    this.logger.log(`Handling organisation ${orgName}`);
     await this.getGitHubOrganisation(institutionName, orgName);
     await this.getGithubOrganisationMembers(orgName, institutionName);
     const repositories = await this.getGitHubOrganisationRepositories(
@@ -96,7 +105,6 @@ export class GithubCrawlerService {
       institutionName,
     );
     if (!repositories) return null;
-
     for (const repository of repositories) {
       if (this.reachedGithubCallLimit) return;
       await this.handleRepository(repository, institutionName, orgName);
@@ -133,7 +141,7 @@ export class GithubCrawlerService {
       institutionName,
       orgName,
     );
-    if (gitRepository) return;
+    if (!gitRepository) return;
     const contributors = await this.getGitHubRepositoryContibutors(
       repo.name,
       repo.owner.login,
@@ -187,12 +195,6 @@ export class GithubCrawlerService {
       institutionName,
       orgName,
     );
-    await this.getGitHubCommitActivity(
-      repo.name,
-      repo.owner.login,
-      institutionName,
-      orgName,
-    );
     if (gitRepository.parent) {
       await this.compareTwoGitHubCommits(
         repo.name,
@@ -228,7 +230,7 @@ export class GithubCrawlerService {
     orgName: string,
     institutioName: string,
   ): Promise<void> {
-    this.logger.log(`Handling Contributor${contributor.login}`);
+    this.logger.log(`Handling Contributor ${contributor.login}`);
     await this.getGitHubUser(
       contributor.login,
       institutioName,
@@ -259,7 +261,7 @@ export class GithubCrawlerService {
     response?: OctokitResponse<any>,
   ): Promise<void> {
     this.logger.log(`Writing a github file of the type ${type}`);
-    if (!fs.existsSync(this.logPath)) await fs.mkdirSync(this.logPath);
+    if (!fs.existsSync(this.dataPath)) await fs.mkdirSync(this.dataPath);
     const rawResponse: RawResponse = {
       method: method,
       ts: new Date(),
@@ -270,7 +272,7 @@ export class GithubCrawlerService {
       response: response,
     };
     await fs.writeFileSync(
-      `${this.logPath}/${type}_${rawResponse.ts.getTime()}.json`,
+      `${this.dataPath}/${type}_${rawResponse.ts.getTime()}.json`,
       JSON.stringify(rawResponse),
     );
   }
@@ -301,7 +303,7 @@ export class GithubCrawlerService {
           );
         }
         this.writeRawResponseToFile(
-          'get_github_user',
+          Method.User,
           institutionName,
           'user',
           orgName,
@@ -352,7 +354,7 @@ export class GithubCrawlerService {
           return null;
         }
         this.writeRawResponseToFile(
-          'get_github_repo',
+          Method.Repository,
           institutionName,
           'repository',
           orgName,
@@ -410,7 +412,7 @@ export class GithubCrawlerService {
             return null;
           }
           this.writeRawResponseToFile(
-            'get_github_contributors',
+            Method.Contributor,
             institutionName,
             'repository',
             orgName,
@@ -472,7 +474,7 @@ export class GithubCrawlerService {
             return;
           }
           this.writeRawResponseToFile(
-            'get_github_commits',
+            Method.Commit,
             institutionName,
             'repository',
             orgName,
@@ -534,7 +536,7 @@ export class GithubCrawlerService {
             return null;
           }
           this.writeRawResponseToFile(
-            'get_github_pull_requests',
+            Method.PullRequest,
             institutionName,
             'repository',
             orgName,
@@ -596,7 +598,7 @@ export class GithubCrawlerService {
             return null;
           }
           this.writeRawResponseToFile(
-            'get_github_issues',
+            Method.Issue,
             institutionName,
             'repository',
             orgName,
@@ -657,7 +659,7 @@ export class GithubCrawlerService {
             return null;
           }
           this.writeRawResponseToFile(
-            'get_github_commit_comments',
+            Method.Comment,
             institutionName,
             'repository',
             orgName,
@@ -715,7 +717,7 @@ export class GithubCrawlerService {
           return;
         }
         this.writeRawResponseToFile(
-          'get_github_langauges',
+          Method.Language,
           institutionName,
           'repository',
           orgName,
@@ -737,64 +739,6 @@ export class GithubCrawlerService {
         this.logger.error(error);
         return;
       });
-  }
-
-  /**
-   * Get the commit activity of the repository
-   * @param repoName The name of the repository
-   * @param owner The owner of the repository
-   * @param institutionName The name of the institution
-   * @param orgName The name of the organisation
-   * @returns Void
-   */
-  private async getGitHubCommitActivity(
-    repoName: string,
-    owner: string,
-    institutionName: string,
-    orgName: string,
-  ): Promise<void> {
-    this.logger.log(
-      `Getting the commit activity from the repository ${repoName}`,
-    );
-    let getRepoCommitActivityResult: OctokitResponse<any>;
-    while (true) {
-      const res = await this.githubService
-        .get_RepoCommitActivity(owner, repoName)
-        .then((res) => {
-          getRepoCommitActivityResult = res;
-          this.logger.log(
-            `Alredy made ${res.headers['x-ratelimit-used']}/${res.headers['x-ratelimit-limit']} calls.`,
-          );
-          this.writeRawResponseToFile(
-            'get_github_commit_acitivity',
-            institutionName,
-            'repository',
-            orgName,
-            repoName,
-            '',
-            res,
-          );
-          return res;
-        })
-        .catch((error) => {
-          this.logger.log(
-            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
-          );
-          if (
-            parseInt(error.response.headers['x-ratelimit-used']) >=
-            parseInt(error.response.headers['x-ratelimit-limit'])
-          ) {
-            this.reachedGithubCallLimit = true;
-          }
-          this.logger.error(error);
-          return null;
-        });
-      if (!res) return null;
-      getRepoCommitActivityResult = res as OctokitResponse<any>;
-      if ((getRepoCommitActivityResult.status = 200)) {
-        return;
-      }
-    }
   }
 
   /**
@@ -838,7 +782,7 @@ export class GithubCrawlerService {
           return;
         }
         this.writeRawResponseToFile(
-          'compare_github_commits',
+          Method.CompareCommit,
           institutionName,
           'repository',
           orgName,
@@ -886,7 +830,7 @@ export class GithubCrawlerService {
           return;
         }
         this.writeRawResponseToFile(
-          'get_github_organisation',
+          Method.Organisation,
           institutionName,
           'organisation',
           orgName,
@@ -921,7 +865,7 @@ export class GithubCrawlerService {
     institutionName: string,
   ): Promise<void> {
     this.logger.log(`Getting all the members of the organisation ${orgName}`);
-    let response: GithubOrganisationMember[] = [];
+    const response: GithubOrganisationMember[] = [];
     let page = 0;
     while (1) {
       const res: null | GithubOrganisationMember[] = await this.githubService
@@ -937,7 +881,7 @@ export class GithubCrawlerService {
             return null;
           }
           this.writeRawResponseToFile(
-            'get_github_organisation_members',
+            Method.Member,
             institutionName,
             'organisation',
             orgName,
@@ -996,7 +940,7 @@ export class GithubCrawlerService {
               return null;
             }
             this.writeRawResponseToFile(
-              'get_github_organisation_repositories',
+              Method.OrganisationRepository,
               institutionName,
               'organisation',
               orgName,

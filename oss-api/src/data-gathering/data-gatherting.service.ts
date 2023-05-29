@@ -58,7 +58,7 @@ export class DataGatheringService
   /**
    * Prepare all the insitutions and call handle institution
    */
-  @Cron(CronExpression.EVERY_HOUR)
+  //@Cron(CronExpression.EVERY_HOUR)
   private async prepareInstitutions() {
     this.reachedGithubCallLimit = false;
     this.logger.log(`Prepairing all institutions to be crawled`);
