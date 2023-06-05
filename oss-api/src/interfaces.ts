@@ -2176,4 +2176,5 @@ export enum Method {
   Organisation = 'get_github_organisation',
   Member = 'get_github_organisation_members',
   OrganisationRepository = 'get_github_organisation_repositories',
+  CommitActivity = 'get_github_commit_acitivity',
 }

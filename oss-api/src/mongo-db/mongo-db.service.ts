@@ -877,6 +877,34 @@ export class MongoDbService
       .find({ name: { $in: organisationNames } })
       .toArray();
   }
+
+  /**
+   * Get all users from the database
+   * @returns A array with all the users
+   */
+  async searchContributors(
+    contributorLogins: string[],
+  ): Promise<Contributor[]> {
+    this.logger.log('Getting all the contributors');
+    return this.client
+      .db(this.databaseTesting)
+      .collection<Contributor>(Tables.contributors)
+      .find({ login: { $in: contributorLogins } })
+      .toArray();
+  }
+
+  async findRepositoryRevised(
+    repoName: string,
+    instiutitonName: string,
+  ): Promise<RepositoryRevised> {
+    this.logger.log(
+      `Searching the repository with the name ${repoName} from the institution ${instiutitonName}`,
+    );
+    return this.client
+      .db(this.databaseTesting)
+      .collection<RepositoryRevised>(Tables.repositories)
+      .findOne({ name: repoName, institution: instiutitonName });
+  }
   /***********************************Update************************************************/
 
   /**
@@ -1075,7 +1103,11 @@ export class MongoDbService
     this.client
       .db(this.databaseTesting)
       .collection<RepositoryRevised>(Tables.repositories)
-      .replaceOne({ uuid: repo.uuid }, { ...repo }, { upsert: true });
+      .replaceOne(
+        { name: repo.name, institution: repo.institution },
+        { ...repo },
+        { upsert: true },
+      );
   }
 
   /**

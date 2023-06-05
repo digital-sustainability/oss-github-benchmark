@@ -29,6 +29,7 @@ import {
   Statistic,
   TodoInstitution,
   User,
+  Method,
 } from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { v4 as uuidv4 } from 'uuid';
@@ -901,7 +902,7 @@ export class DataGatheringService
             `Alredy made ${res.headers['x-ratelimit-used']}/${res.headers['x-ratelimit-limit']} calls.`,
           );
           this.writeRawResponseToFile(
-            'get_github_commit_acitivity',
+            Method.CommitActivity,
             institutionName,
             orgName,
             repoName,
