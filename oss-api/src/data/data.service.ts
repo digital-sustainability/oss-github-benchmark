@@ -8,9 +8,11 @@ import {
   GithubCommitActivity,
   GithubCommitComparison,
   GithubContributor,
+  GithubOrganisation,
   GithubRepo,
   Languages,
   Method,
+  OrganisationRevised,
   RawResponse,
   RepositoryRevised,
   RepositoryStats,
@@ -37,8 +39,6 @@ interface RepoData {
   organisation: string;
   institution: string;
 }
-
-//TODO: Give repository the logo url
 
 @Injectable()
 export class DataService {
@@ -68,12 +68,30 @@ export class DataService {
     /*contributorFileNames.forEach((contributorFileName) => {
       this.handleContributor(contributorFileName);
     });*/
-    this.handleRepositories(repositoryFileNames);
-    // remove all repo files
-    // read all org files
+    //await this.handleRepositories(repositoryFileNames);
+    this.handleOrganisations(organisationFileNames);
     // handle org
     // remove all org files
     // update institution
+  }
+
+  private async handleOrganisations(organisationFileNames: string[]) {
+    this.logger.log('Handling all organisations');
+    for (const organisationFileName of organisationFileNames) {
+      const orgData: string = this.readFile(
+        this.dataPath.concat('/', organisationFileName),
+      );
+      if (!orgData) continue;
+      const parsedFile: RawResponse = JSON.parse(orgData);
+      const parsedData: GithubOrganisation = parsedFile.response['data'];
+      const organisationName: string = parsedFile.orgName;
+      if (parsedFile.method != Method.Organisation) continue;
+      const newOragnisation = await this.createOrganisation(
+        parsedData,
+        organisationName,
+      );
+      await this.mongo.upsertRevisedOrganisation(newOragnisation);
+    }
   }
 
   private async handleRepositories(
@@ -118,10 +136,22 @@ export class DataService {
           data.commits = data.commits.concat(parsedData);
           break;
         case Method.PullRequest:
-          data.allPulls = data.allPulls.concat(parsedData);
+          const pullData = parsedData as GitHubPull;
+          if (pullData.state == 'all') {
+            data.allPulls = data.allPulls.concat(parsedData);
+          }
+          if (pullData.state == 'closed') {
+            data.closedPulls = data.closedPulls.concat(parsedData);
+          }
           break;
         case Method.Issue:
-          data.allIssues = data.allIssues.concat(parsedData);
+          const issueData = parsedData as GitHubIssue;
+          if ((issueData.state = 'all')) {
+            data.allIssues.concat(parsedData);
+          }
+          if ((issueData.state = 'closed')) {
+            data.closedIssues.concat(parsedData);
+          }
           break;
         case Method.Comment:
           data.commitComments = data.commitComments.concat(parsedData);
@@ -239,6 +269,23 @@ export class DataService {
     return repository;
   }
 
+  private async createOrganisation(
+    organisationData: GithubOrganisation,
+    organisationName: string,
+  ): Promise<OrganisationRevised> {
+    const organisation: OrganisationRevised = {
+      name: organisationName,
+      url: organisationData.html_url,
+      description: organisationData.description,
+      avatar: organisationData.avatar_url,
+      created_at: organisationData.created_at,
+      locations: organisationData.location,
+      email: organisationData.email,
+      repos: await this.getRepositoriesFromDB(organisationName),
+    };
+    return organisation;
+  }
+
   /**
    * Get all the coders out of the repository commits
    * @param commits All the repository commits
@@ -264,5 +311,14 @@ export class DataService {
   ): Promise<ObjectId[]> {
     const res = await this.mongo.searchContributors(contributorLogins);
     return res.map((contributor) => contributor['_id']);
+  }
+
+  private async getRepositoriesFromDB(
+    organisationName: string,
+  ): Promise<ObjectId[]> {
+    const res = await this.mongo.findAllOrganisationrepository(
+      organisationName,
+    );
+    return res.map((repository) => repository['_id']);
   }
 }

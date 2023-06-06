@@ -905,6 +905,17 @@ export class MongoDbService
       .collection<RepositoryRevised>(Tables.repositories)
       .findOne({ name: repoName, institution: instiutitonName });
   }
+
+  async findAllOrganisationrepository(organisationName: string) {
+    this.logger.log(
+      `Find all repositories in the organisation ${organisationName}`,
+    );
+    return this.client
+      .db(this.databaseTesting)
+      .collection<RepositoryRevised>(Tables.repositories)
+      .find({ organization: organisationName })
+      .toArray();
+  }
   /***********************************Update************************************************/
 
   /**
