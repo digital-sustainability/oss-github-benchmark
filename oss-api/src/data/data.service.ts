@@ -65,14 +65,14 @@ export class DataService {
       return timestamp < currentTime.getTime();
     });
 
-    const contributorFileNames: string[] = fileNames.filter((fileName) =>
-      fileName.includes('user'),
+    const contributorFileNames: string[] = filteredFileNames.filter(
+      (fileName) => fileName.includes('user'),
     );
-    const repositoryFileNames: string[] = fileNames.filter((fileName) =>
+    const repositoryFileNames: string[] = filteredFileNames.filter((fileName) =>
       fileName.includes('repository'),
     );
-    const organisationFileNames: string[] = fileNames.filter((fileName) =>
-      fileName.includes('organisation'),
+    const organisationFileNames: string[] = filteredFileNames.filter(
+      (fileName) => fileName.includes('organisation'),
     );
     contributorFileNames.forEach((contributorFileName) => {
       this.handleContributor(contributorFileName);
@@ -80,7 +80,7 @@ export class DataService {
     await this.handleRepositories(repositoryFileNames);
     await this.handleOrganisations(organisationFileNames);
     await this.handleInstitutions();
-    for (const fileName of fileNames) {
+    for (const fileName of filteredFileNames) {
       fs.unlinkSync(this.dataPath.concat('/', fileName));
     }
     this.logger.log('Data service is finished');
