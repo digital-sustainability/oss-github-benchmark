@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { MongoDbService } from '../mongo-db/mongo-db.service';
 import {
   Contributor,
-  InstituionRevised,
+  InstitutionRevised,
   Institution,
   Organisation,
   OrganisationRevised,
@@ -222,8 +222,8 @@ export class TransformerService {
   private createInstitution(
     institution: Institution,
     orgaIds: ObjectId[],
-  ): InstituionRevised {
-    const newInstitution: InstituionRevised = {
+  ): InstitutionRevised {
+    const newInstitution: InstitutionRevised = {
       uuid: institution.uuid,
       shortname: institution.shortname,
       name_de: institution.name_de,

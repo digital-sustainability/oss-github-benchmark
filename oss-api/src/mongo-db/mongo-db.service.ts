@@ -20,7 +20,7 @@ import {
   Contributor,
   RepositoryRevised,
   OrganisationRevised,
-  InstituionRevised,
+  InstitutionRevised,
 } from 'src/interfaces';
 
 enum Tables {
@@ -906,7 +906,9 @@ export class MongoDbService
       .findOne({ name: repoName, institution: instiutitonName });
   }
 
-  async findAllOrganisationrepository(organisationName: string) {
+  async findAllOrganisationrepository(
+    organisationName: string,
+  ): Promise<RepositoryRevised[]> {
     this.logger.log(
       `Find all repositories in the organisation ${organisationName}`,
     );
@@ -916,6 +918,20 @@ export class MongoDbService
       .find({ organization: organisationName })
       .toArray();
   }
+
+  public async findOrganisationsWithNames(
+    organisationNames: string[],
+  ): Promise<OrganisationRevised[]> {
+    this.logger.log(
+      `Getting all organisations with the names: ${organisationNames}`,
+    );
+    return this.client
+      .db(this.databaseTesting)
+      .collection<OrganisationRevised>(Tables.organisations)
+      .find({ name: { $in: organisationNames } })
+      .toArray();
+  }
+
   /***********************************Update************************************************/
 
   /**
@@ -1143,11 +1159,13 @@ export class MongoDbService
    * Upsert a institution
    * @param instituion The institution to upsert
    */
-  async upsertRevisedInstitution(instituion: InstituionRevised): Promise<void> {
+  async upsertRevisedInstitution(
+    instituion: InstitutionRevised,
+  ): Promise<void> {
     this.logger.log(`Upserting institution ${instituion.name_de}`);
     this.client
       .db(this.databaseTesting)
-      .collection<InstituionRevised>(Tables.instituions)
+      .collection<InstitutionRevised>(Tables.instituions)
       .replaceOne(
         { uuid: instituion.uuid },
         { ...instituion },

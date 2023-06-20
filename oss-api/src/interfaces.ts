@@ -2120,7 +2120,7 @@ export interface OrganisationRevised {
   repos: ObjectId[];
 }
 
-export interface InstituionRevised {
+export interface InstitutionRevised {
   uuid: string;
   shortname: string;
   name_de: string;

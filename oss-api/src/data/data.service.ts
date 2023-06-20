@@ -10,12 +10,14 @@ import {
   GithubContributor,
   GithubOrganisation,
   GithubRepo,
+  InstitutionRevised,
   Languages,
   Method,
   OrganisationRevised,
   RawResponse,
   RepositoryRevised,
   RepositoryStats,
+  TodoInstitution,
 } from '../interfaces';
 import { GithubUser } from '../interfaces';
 import { Contributor } from '../interfaces';
@@ -69,13 +71,24 @@ export class DataService {
       this.handleContributor(contributorFileName);
     });*/
     //await this.handleRepositories(repositoryFileNames);
-    this.handleOrganisations(organisationFileNames);
+    //this.handleOrganisations(organisationFileNames);
+    this.handleInstitutions();
     // handle org
     // remove all org files
     // update institution
   }
 
-  private async handleOrganisations(organisationFileNames: string[]) {
+  private async handleInstitutions() {
+    const todoInstitutions = await this.mongo.findAllTodoInstitutions();
+    for (const todoInstitution of todoInstitutions) {
+      const institution = await this.createInsitution(todoInstitution);
+      await this.mongo.upsertRevisedInstitution(institution);
+    }
+  }
+
+  private async handleOrganisations(
+    organisationFileNames: string[],
+  ): Promise<void> {
     this.logger.log('Handling all organisations');
     for (const organisationFileName of organisationFileNames) {
       const orgData: string = this.readFile(
@@ -200,6 +213,25 @@ export class DataService {
       this.logger.error(err);
       return null;
     }
+  }
+
+  private async createInsitution(
+    todoInstitution: TodoInstitution,
+  ): Promise<InstitutionRevised> {
+    this.logger.log(`Creating institution ${todoInstitution.shortname}`);
+    const organisations = await this.mongo.findOrganisationsWithNames(
+      todoInstitution.orgs.map((organisation) => organisation.name),
+    );
+    const institution: InstitutionRevised = {
+      uuid: todoInstitution.uuid,
+      shortname: todoInstitution.shortname,
+      name_de: todoInstitution.name_de,
+      orgs: organisations.map((organisation) => organisation['_id']),
+      avatar: organisations.map((organisation) => organisation.avatar),
+      timestamp: new Date(),
+      sector: todoInstitution.sector,
+    };
+    return institution;
   }
 
   private createContributor(contributorData: GithubUser): Contributor {
