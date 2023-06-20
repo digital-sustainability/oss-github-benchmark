@@ -24,6 +24,7 @@ import { Contributor } from '../interfaces';
 import { MongoDbService } from '../mongo-db/mongo-db.service';
 import { v4 as uuidv4 } from 'uuid';
 import { ObjectId } from 'mongodb';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 interface RepoData {
   repository: GithubRepo;
@@ -47,16 +48,22 @@ export class DataService {
   constructor(private mongo: MongoDbService) {
     this.dataPath = process.env.DATA_PATH;
   }
-  async onApplicationBootstrap() {
-    this.handler();
-  }
+  async onApplicationBootstrap() {}
 
   private readonly logger = new Logger(DataService.name);
   private dataPath: string;
 
-  private handler(): void {
+  @Cron(CronExpression.EVERY_HOUR)
+  private async handler(): Promise<void> {
     this.logger.log('Handling all the new data');
+    const currentTime = new Date();
     const fileNames: string[] = fs.readdirSync(this.dataPath);
+    const filteredFileNames = fileNames.filter((fileName) => {
+      const timestamp = fileName
+        .split('_')[1]
+        .replace('.json', '') as unknown as number;
+      return timestamp < currentTime.getTime();
+    });
 
     const contributorFileNames: string[] = fileNames.filter((fileName) =>
       fileName.includes('user'),
@@ -70,9 +77,13 @@ export class DataService {
     contributorFileNames.forEach((contributorFileName) => {
       this.handleContributor(contributorFileName);
     });
-    this.handleRepositories(repositoryFileNames);
-    this.handleOrganisations(organisationFileNames);
-    this.handleInstitutions();
+    await this.handleRepositories(repositoryFileNames);
+    await this.handleOrganisations(organisationFileNames);
+    await this.handleInstitutions();
+    for (const fileName of fileNames) {
+      fs.unlinkSync(this.dataPath.concat('/', fileName));
+    }
+    this.logger.log('Data service is finished');
   }
 
   private async handleInstitutions() {
