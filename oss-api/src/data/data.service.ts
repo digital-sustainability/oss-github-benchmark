@@ -67,15 +67,12 @@ export class DataService {
     const organisationFileNames: string[] = fileNames.filter((fileName) =>
       fileName.includes('organisation'),
     );
-    /*contributorFileNames.forEach((contributorFileName) => {
+    contributorFileNames.forEach((contributorFileName) => {
       this.handleContributor(contributorFileName);
-    });*/
-    //await this.handleRepositories(repositoryFileNames);
-    //this.handleOrganisations(organisationFileNames);
+    });
+    this.handleRepositories(repositoryFileNames);
+    this.handleOrganisations(organisationFileNames);
     this.handleInstitutions();
-    // handle org
-    // remove all org files
-    // update institution
   }
 
   private async handleInstitutions() {

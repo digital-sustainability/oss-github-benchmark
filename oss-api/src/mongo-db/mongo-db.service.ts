@@ -43,12 +43,10 @@ export class MongoDbService
   async onApplicationBootstrap() {}
   async onModuleInit() {
     this.database = process.env.MONGO_DATABASE || 'testing';
-    this.databaseTesting = process.env.MONGO_DATABASE_TESTING || 'testing';
     await this.initializeConnection();
   }
 
   private database: string;
-  private databaseTesting: string;
   private client: MongoClient | undefined;
   private readonly logger = new Logger(MongoDbService.name);
 
@@ -800,7 +798,7 @@ export class MongoDbService
   async getRevisedRepositoryWithUuid(uuid: string): Promise<RepositoryRevised> {
     this.logger.log(`Getting the data of the revised repository ${uuid}`);
     return this.client
-      .db(this.databaseTesting)
+      .db(this.database)
       .collection<RepositoryRevised>(Tables.repositories)
       .findOne({ uuid: uuid });
   }
@@ -815,7 +813,7 @@ export class MongoDbService
   ): Promise<Contributor[]> {
     this.logger.log('Getting all the contributors of the repository');
     return this.client
-      .db(this.databaseTesting)
+      .db(this.database)
       .collection<Contributor>(Tables.contributors)
       .find({ login: { $in: contributorLogins } })
       .toArray();
@@ -844,7 +842,7 @@ export class MongoDbService
   ): Promise<RepositoryRevised[]> {
     this.logger.log('Getting the all the repositories of the organisation');
     return this.client
-      .db(this.databaseTesting)
+      .db(this.database)
       .collection<RepositoryRevised>(Tables.repositories)
       .find({ uuid: { $in: repositoryUuid } })
       .toArray();
@@ -872,7 +870,7 @@ export class MongoDbService
   ): Promise<OrganisationRevised[]> {
     this.logger.log('Getting all the organisations of the institution');
     return this.client
-      .db(this.databaseTesting)
+      .db(this.database)
       .collection<OrganisationRevised>(Tables.organisations)
       .find({ name: { $in: organisationNames } })
       .toArray();
@@ -887,7 +885,7 @@ export class MongoDbService
   ): Promise<Contributor[]> {
     this.logger.log('Getting all the contributors');
     return this.client
-      .db(this.databaseTesting)
+      .db(this.database)
       .collection<Contributor>(Tables.contributors)
       .find({ login: { $in: contributorLogins } })
       .toArray();
@@ -901,7 +899,7 @@ export class MongoDbService
       `Searching the repository with the name ${repoName} from the institution ${instiutitonName}`,
     );
     return this.client
-      .db(this.databaseTesting)
+      .db(this.database)
       .collection<RepositoryRevised>(Tables.repositories)
       .findOne({ name: repoName, institution: instiutitonName });
   }
@@ -913,7 +911,7 @@ export class MongoDbService
       `Find all repositories in the organisation ${organisationName}`,
     );
     return this.client
-      .db(this.databaseTesting)
+      .db(this.database)
       .collection<RepositoryRevised>(Tables.repositories)
       .find({ organization: organisationName })
       .toArray();
@@ -926,7 +924,7 @@ export class MongoDbService
       `Getting all organisations with the names: ${organisationNames}`,
     );
     return this.client
-      .db(this.databaseTesting)
+      .db(this.database)
       .collection<OrganisationRevised>(Tables.organisations)
       .find({ name: { $in: organisationNames } })
       .toArray();
@@ -1112,7 +1110,7 @@ export class MongoDbService
   async upsertContributor(contributor: Contributor): Promise<void> {
     this.logger.log(`Upserting contributor ${contributor.login}`);
     this.client
-      .db(this.databaseTesting)
+      .db(this.database)
       .collection<Contributor>(Tables.contributors)
       .replaceOne(
         { login: contributor.login },
@@ -1128,7 +1126,7 @@ export class MongoDbService
   async upsertRevisedRepository(repo: RepositoryRevised): Promise<void> {
     this.logger.log(`Upserting repository ${repo.name}`);
     this.client
-      .db(this.databaseTesting)
+      .db(this.database)
       .collection<RepositoryRevised>(Tables.repositories)
       .replaceOne(
         { name: repo.name, institution: repo.institution },
@@ -1146,7 +1144,7 @@ export class MongoDbService
   ): Promise<void> {
     this.logger.log(`Upserting organisation ${organisation.name}`);
     this.client
-      .db(this.databaseTesting)
+      .db(this.database)
       .collection<OrganisationRevised>(Tables.organisations)
       .replaceOne(
         { name: organisation.name },
@@ -1164,7 +1162,7 @@ export class MongoDbService
   ): Promise<void> {
     this.logger.log(`Upserting institution ${instituion.name_de}`);
     this.client
-      .db(this.databaseTesting)
+      .db(this.database)
       .collection<InstitutionRevised>(Tables.instituions)
       .replaceOne(
         { uuid: instituion.uuid },
