@@ -114,15 +114,6 @@ export type CommitActivity = {
   week: number;
 };
 
-export type InstitutionQueryConfig = {
-  sector: string[];
-  search?: string;
-  sort: string;
-  direction: 'ASC' | 'DESC';
-  page: number;
-  count: number;
-};
-
 enum SectorEnum {
   IT = 'IT',
   Communities = 'Communities',
