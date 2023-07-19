@@ -101,7 +101,15 @@ only include institutions in these sectors
 
 ### Response
 
-InstitutionSummary[]
+#### institutions: InstitutionSummary[];
+
+#### total: number;
+
+the number of institutions after filtering and searching and without pagination
+
+#### sectors: { [key: string]: number };
+
+How many institutions with a given sector exist. Count after searching, but before filtering.
 
 ## api/latestUpdate
 
@@ -113,4 +121,4 @@ no params
 
 ### Response
 
-updatedDate: string
+#### updatedDate: string
