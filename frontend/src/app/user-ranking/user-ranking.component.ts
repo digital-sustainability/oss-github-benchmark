@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
-import { DataService, IData } from 'src/app/data.service';
+import { DataService } from 'src/app/data.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { IInstitution } from 'src/app/interfaces/institution';
+import { Institution } from 'src/app/types';
 import { ActivatedRoute } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { IData } from '../visualizations/visualizations.component';
 
 @Component({
   selector: 'app-user-ranking',
@@ -13,7 +14,6 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./user-ranking.component.scss'],
 })
 export class UserRankingComponent implements OnInit {
-  item: IInstitution;
   displayedColumns: any[] = [
     ['avatar_url', '', false, 'img'],
     ['name', 'Name', false, 'string'],

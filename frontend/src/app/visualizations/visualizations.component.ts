@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IData, Metric } from '../data.service';
+import { Metric } from '../data.service';
+import { InstitutionSumary } from '../types';
 
 @Component({
   selector: 'app-visualizations',
@@ -18,3 +19,11 @@ export class VisualizationsComponent implements OnInit {
 
   ngOnInit(): void {}
 }
+
+export interface IData {
+  jsonData: Sector;
+  csvData: any[];
+}
+export type Sector = {
+  [sector: string]: InstitutionSumary[];
+};

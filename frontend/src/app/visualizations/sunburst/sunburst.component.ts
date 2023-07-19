@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnChanges, OnInit } from '@angular/core';
-import { IData } from 'src/app/data.service';
+import { IData } from 'src/app/visualizations/visualizations.component';
 import { Options } from '../options';
 import * as d3 from 'd3';
-import { ISector } from 'src/app/interfaces/institution';
+import { Sector } from 'src/app/visualizations/visualizations.component';
 
 @Component({
   selector: 'app-visualization-sunburst',
@@ -141,7 +141,7 @@ export class SunburstComponent implements OnInit, OnChanges {
         root.descendants().filter((d) => {
           // Don't draw the root node, and for efficiency, filter out nodes that would be too small to see
           return d.depth && d.x1 - d.x0 > 0.001;
-        })
+        }),
       )
       .join('path')
       .attr('fill', (d) => this.color(d.data.name))
@@ -163,7 +163,7 @@ export class SunburstComponent implements OnInit, OnChanges {
         root.descendants().filter((d) => {
           // Don't draw the root node, and for efficiency, filter out nodes that would be too small to see
           return d.depth && d.x1 - d.x0 > 0.001;
-        })
+        }),
       )
       .join('path')
       .attr('d', this.mousearc)
@@ -172,7 +172,7 @@ export class SunburstComponent implements OnInit, OnChanges {
         const sequence = d.ancestors().reverse().slice(1);
         // Highlight the ancestors
         path.attr('fill-opacity', (node) =>
-          sequence.indexOf(node) >= 0 ? 1.0 : 0.3
+          sequence.indexOf(node) >= 0 ? 1.0 : 0.3,
         );
         const percentage = ((100 * d.value) / root.value).toPrecision(3);
         this.label
@@ -192,25 +192,25 @@ export class SunburstComponent implements OnInit, OnChanges {
       d3
         .hierarchy(data)
         .sum((d) => (d.total ? d.total : d.value))
-        .sort((a, b) => b.value - a.value)
+        .sort((a, b) => b.value - a.value),
     );
   }
 
-  prepareData(data: ISector) {
+  prepareData(data: Sector) {
     const data1 = Object.keys(data).map((sector) => {
       return {
         name: sector,
         children: data[sector].map((inst) => {
           return {
-            name: inst.name,
-            total: inst['total_num_commits'],
-            children: inst.orgs.map((org) => {
+            name: inst.name_de,
+            total: inst['total_num_commits'], // TODO totally broken due to api change
+            children: (inst as any).orgs.map((org) => {
               return {
                 name: org.name,
                 total: org['total_num_commits'],
-                children: org.repos.map((repo) => {
+                children: org.repo_names.map((repo_name) => {
                   return {
-                    name: repo.name,
+                    name: repo_name,
                     total: org['num_commits'],
                   };
                 }),

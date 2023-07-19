@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ChartConfiguration, ChartType } from 'chart.js';
 import Chart from 'chart.js/auto';
+import { Institution } from '../types';
 @Component({
   selector: 'app-explore-item',
   templateUrl: './explore-item.component.html',
@@ -132,7 +133,11 @@ export class ExploreItemComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private dialogRef: MatDialogRef<ExploreItemComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      institution: Institution;
+      includeForks: boolean;
+    },
   ) {
     const charts: string[] = [
       'Repositories',

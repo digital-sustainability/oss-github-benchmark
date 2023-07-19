@@ -1,13 +1,14 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
-import { DataService, IData } from 'src/app/data.service';
+import { DataService } from 'src/app/data.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { IInstitution } from 'src/app/interfaces/institution';
+import { Institution } from 'src/app/types';
 import { MatDialog } from '@angular/material/dialog';
 import { RepositoryDetailViewComponent } from '../repository-detail-view/repository-detail-view.component';
 import { ActivatedRoute } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { IData } from '../visualizations/visualizations.component';
 
 @Component({
   selector: 'app-repositories-ranking',
@@ -15,7 +16,7 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./repositories-ranking.component.scss'],
 })
 export class RepositoriesRankingComponent implements OnInit {
-  item: IInstitution;
+  item: Institution;
   displayedColumns: any[] = [
     ['name', 'Name', false, 'string'],
     ['logo', '', false, 'img'],

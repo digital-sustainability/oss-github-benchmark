@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IInstitution, ISector } from './interfaces/institution';
+import { Institution, InstitutionSumary as InstitutionSummary } from './types';
 import * as d3 from 'd3';
 import { shareReplay, switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -17,19 +17,16 @@ export class DataService {
   constructor(private http: HttpClient) {}
   private institutionData = null;
 
-  async loadSingleInstitution(config: { name: string }): Promise<any> {
+  async loadSingleInstitution(config: { name: string }): Promise<Institution> {
     this.institutionData = await this.http
-      .get<any>(`${environment.api}singleInstitution`, {
+      .get<Institution>(`${environment.api}singleInstitution`, {
         params: config,
       })
       .toPromise();
-    return {
-      csvData: this.parseJSON2CSV(this.institutionData),
-      jsonData: this.institutionData,
-    };
+    return this.institutionData;
   }
 
-  async loadInstitutionData(config: {
+  async loadInstitutionSummaries(config: {
     search?: string;
     sort?: string;
     direction?: 'ASC' | 'DESC';
@@ -38,24 +35,17 @@ export class DataService {
     includeForks?: string;
     sector?: string[];
     sendStats?: string;
-    findName?: string;
-  }): Promise<any> {
+  }): Promise<{
+    institutions: InstitutionSummary[];
+    total: number;
+    sectors: { [key: string]: number };
+  }> {
     this.institutionData = await this.http
-      .get<any>(`${environment.api}paginatedInstitutions`, {
+      .get<InstitutionSummary[]>(`${environment.api}paginatedInstitutions`, {
         params: config,
       })
       .toPromise();
-    if (config.findName)
-      return {
-        csvData: this.parseJSON2CSV(this.institutionData),
-        jsonData: this.institutionData,
-      };
-    return {
-      csvData: this.parseJSON2CSV(this.institutionData.institutions),
-      jsonData: this.institutionData.institutions,
-      total: this.institutionData.total,
-      sectors: this.institutionData.sectors,
-    };
+    return this.institutionData;
   }
 
   async loadLatestUpdate() {
@@ -118,10 +108,6 @@ export class DataService {
   private parseJSON2CSV(data: any): any {
     return data as d3.DSVRowArray;
   }
-}
-export interface IData {
-  jsonData: ISector;
-  csvData: any[];
 }
 
 export interface Metric {

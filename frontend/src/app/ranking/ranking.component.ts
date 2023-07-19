@@ -1,14 +1,15 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
-import { DataService, IData } from 'src/app/data.service';
+import { DataService } from 'src/app/data.service';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { IInstitution } from 'src/app/interfaces/institution';
+import { Institution } from 'src/app/types';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../explore-item/explore-item.component';
 import { FormsModule } from '@angular/forms';
+import { IData } from '../visualizations/visualizations.component';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 
@@ -24,11 +25,10 @@ interface sectorFilter {
   styleUrls: ['./ranking.component.scss'],
 })
 export class RankingComponent implements OnInit {
-  item: IInstitution;
+  item: Institution;
   innerWidth: any;
   displayedColumns: string[] = ['logo', 'name_de', 'num_repos'];
   @Input() data: IData;
-  reposToDisplay = 6;
   dataSource: any = new MatTableDataSource();
   numInstitutions: number;
   checkboxes: string[] = [];
@@ -68,7 +68,7 @@ export class RankingComponent implements OnInit {
   }
 
   async reloadData() {
-    let institutionData = await this.dataService.loadInstitutionData({
+    let institutionData = await this.dataService.loadInstitutionSummaries({
       search: this.recordFilter,
       sort: this.activeSort,
       direction: this.sortDirection,
@@ -79,7 +79,7 @@ export class RankingComponent implements OnInit {
       sector: this.checkboxes,
     });
     this.latestUdpate = await this.dataService.loadLatestUpdate();
-    let institutions = institutionData.jsonData;
+    let institutions = institutionData.institutions;
     this.sectorFilters = [];
     for (const sector in institutionData.sectors) {
       if (
@@ -93,15 +93,6 @@ export class RankingComponent implements OnInit {
         });
       }
     }
-    institutions.forEach((institution, i) => {
-      const len = institution.repo_names.length;
-      institutions[i].repo_names = institution.repo_names
-        .slice(0, this.reposToDisplay)
-        .join(', ');
-      if (len >= this.reposToDisplay) {
-        institutions[i].repo_names += '...';
-      }
-    });
     this.institutions = institutions;
     //this.setInstitutionLocation();
     this.dataSource = new MatTableDataSource(this.institutions);
@@ -174,11 +165,9 @@ export class RankingComponent implements OnInit {
   }
 
   async openDialog(institutionName: string): Promise<void> {
-    const institution = (
-      await this.dataService.loadSingleInstitution({
-        name: institutionName,
-      })
-    ).jsonData;
+    const institution = await this.dataService.loadSingleInstitution({
+      name: institutionName,
+    });
     console.log(institution);
     this.changeURL('/institutions/' + institutionName);
     const dialogRef = this.dialog.open(ExploreItemComponent, {

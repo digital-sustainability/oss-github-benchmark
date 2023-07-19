@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { VisualizationComponent } from './visualization/visualization.component';
 import { NavComponent } from './nav/nav.component';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -27,8 +26,6 @@ import { RankingComponent } from './ranking/ranking.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { TreeComponent } from './explore/tree/tree.component';
-import { ExploreComponent } from './explore/explore.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -46,15 +43,12 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
 @NgModule({
   declarations: [
     AppComponent,
-    VisualizationComponent,
     NavComponent,
     DimensionSelectorComponent,
     ListComponent,
     ItemComponent,
     ExploreItemComponent,
     RankingComponent,
-    TreeComponent,
-    ExploreComponent,
     ToNiceNamePipe,
     RepositoriesRankingComponent,
     RepositoryDetailViewComponent,

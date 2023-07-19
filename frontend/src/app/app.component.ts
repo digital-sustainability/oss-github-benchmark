@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService, IData } from './data.service';
+import { DataService } from './data.service';
+import { IData } from './visualizations/visualizations.component';
 
 @Component({
   selector: 'app-root',

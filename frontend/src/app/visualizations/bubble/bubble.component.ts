@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ElementRef, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
-import { IData } from 'src/app/data.service';
+import { IData } from '../visualizations.component';
 import * as _ from 'lodash-es';
 import { Options } from '../options';
 import { MatDialog } from '@angular/material/dialog';
@@ -33,7 +33,7 @@ export class BubbleComponent implements OnInit, OnChanges {
     private hostElement: ElementRef,
     public dialog: MatDialog,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -79,7 +79,7 @@ export class BubbleComponent implements OnInit, OnChanges {
       .append('text')
       .attr(
         'transform',
-        'translate(' + width / 2 + ' ,' + (height - (1 / 4) * padding) + ')'
+        'translate(' + width / 2 + ' ,' + (height - (1 / 4) * padding) + ')',
       )
       .style('text-anchor', 'middle');
 
@@ -135,19 +135,22 @@ export class BubbleComponent implements OnInit, OnChanges {
     this.yscale.domain([
       d3.min(data.map(yDimension)),
       d3.max(data.map(yDimension)),
-    ]);
+    ] as any);
 
     this.xscale.domain([
       d3.min(data.map(xDimension)),
       d3.max(data.map(xDimension)),
-    ]);
+    ] as any);
 
     this.colorScale.domain(_.uniq(data.map(sector))).range(d3.schemePaired);
 
     const sizeScale = d3
       .scaleLinear()
       .range([4, 30])
-      .domain([d3.min(data.map(rDimension)), d3.max(data.map(rDimension))]);
+      .domain([
+        d3.min(data.map(rDimension)),
+        d3.max(data.map(rDimension)),
+      ] as any);
 
     this.g = this.svg.selectAll('g circle').data(data);
 
@@ -189,14 +192,14 @@ export class BubbleComponent implements OnInit, OnChanges {
             `<img src='${img}' height=25 ><br>
                     ${inst.name_de}<br>
                     ${this.options.dimension1.friendly_name}: ${xDimension(
-              inst
-            )}<br>
+                      inst,
+                    )}<br>
                     ${this.options.dimension2.friendly_name}: ${yDimension(
-              inst
-            )}<br>
+                      inst,
+                    )}<br>
                     ${this.options.dimension3.friendly_name}: ${rDimension(
-              inst
-            )}`
+                      inst,
+                    )}`,
           )
           // .style('display', 'block')
           .style('opacity', 0.8)

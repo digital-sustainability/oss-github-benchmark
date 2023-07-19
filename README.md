@@ -40,6 +40,22 @@ npm start
 There is a jupyter notebook that loads a [pickle](https://docs.python.org/3/library/pickle.html)-file of the data.
 It's located at `./data-gathering/github-data.pickle`
 
-## Deployment
+# Deployment
 
 git subtree push --prefix data-gathering prod master
+
+# API endpoints, request- and response types
+
+Relevant type aliases: ./frontend/src/app/types.ts
+
+## api/singleInstitution
+
+### Request
+
+#### name: string
+
+short_name of institution
+
+### Response
+
+Institution object
