@@ -9,7 +9,7 @@ import { ChartConfiguration, ChartType } from 'chart.js';
 import Chart from 'chart.js/auto';
 import { Institution } from '../types';
 @Component({
-  selector: 'app-explore-item',
+  selector: 'app-institution-detail-view',
   templateUrl: './institution-detail-view.component.html',
   styleUrls: ['./institution-detail-view.component.scss'],
 })
