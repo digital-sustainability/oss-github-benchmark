@@ -34,7 +34,6 @@ export class DataService {
     count?: string;
     includeForks?: string;
     sector?: string[];
-    sendStats?: string;
   }): Promise<{
     institutions: InstitutionSummary[];
     total: number;

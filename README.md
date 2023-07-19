@@ -25,7 +25,7 @@ pip install -r requirements.txt
 python OSS_github_benchmark.py
 ```
 
-# Start Visualization
+# Run Frontend
 
 **dependencies: `node`**
 
@@ -35,10 +35,15 @@ npm install
 npm start
 ```
 
-# Explore the data with jupyter notebook
+# Run Backend
 
-There is a jupyter notebook that loads a [pickle](https://docs.python.org/3/library/pickle.html)-file of the data.
-It's located at `./data-gathering/github-data.pickle`
+**dependencies: `node`**
+
+```
+cd oss-api
+npm install
+npm start
+```
 
 # Deployment
 
@@ -50,6 +55,8 @@ Relevant type aliases: ./frontend/src/app/types.ts
 
 ## api/singleInstitution
 
+Find a single institution by it's unique shortname property.
+
 ### Request
 
 #### name: string
@@ -58,4 +65,52 @@ short_name of institution
 
 ### Response
 
-Institution object
+Institution
+
+## api/paginatedInstitutions
+
+Get summaries of multiple institutions.
+
+### Request
+
+#### search?: string;
+
+a search term
+
+#### sort?: string;
+
+the column by which to sort the institutions
+
+#### direction?: 'ASC' | 'DESC';
+
+#### page?: string;
+
+page index
+
+#### count?: string;
+
+limit for institutions returned
+
+#### includeForks?: string;
+
+if forked repos should be included in repo count itself and sorting by it
+
+#### sector?: string[];
+
+only include institutions in these sectors
+
+### Response
+
+InstitutionSummary[]
+
+## api/latestUpdate
+
+get timestamp of latest update
+
+### Request
+
+no params
+
+### Response
+
+updatedDate: string

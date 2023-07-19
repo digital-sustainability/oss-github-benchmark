@@ -75,7 +75,6 @@ export class RankingComponent implements OnInit {
       page: this.page.toString(),
       count: this.count.toString(),
       includeForks: this.includeForks.toString(),
-      sendStats: 'false',
       sector: this.checkboxes,
     });
     this.latestUdpate = await this.dataService.loadLatestUpdate();
