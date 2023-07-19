@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ListComponent } from './metric/list/list.component';
-import { ExploreItemComponent } from './explore-item/explore-item.component';
+import { InstitutionDetailViewComponent } from './institution-detail-view/institution-detail-view.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { RepositoriesRankingComponent } from './repositories-ranking/repositories-ranking.component';
 import { RepositoryDetailViewComponent } from './repository-detail-view/repository-detail-view.component';

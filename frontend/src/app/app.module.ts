@@ -8,11 +8,8 @@ import { NavComponent } from './nav/nav.component';
 import { HttpClientModule } from '@angular/common/http';
 import { VisualizationsModule } from './visualizations/visualizations.module';
 import { CommonModule } from '@angular/common';
-import { DimensionSelectorComponent } from './dimension-selector/dimension-selector.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ListComponent } from './metric/list/list.component';
-import { ItemComponent } from './metric/item/item.component';
-import { ExploreItemComponent } from './explore-item/explore-item.component';
+import { InstitutionDetailViewComponent } from './institution-detail-view/institution-detail-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,7 +19,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
-import { RankingComponent } from './ranking/ranking.component';
+import { RankingComponent as InstitutionRankingComponent } from './ranking/ranking.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -44,12 +41,9 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
   declarations: [
     AppComponent,
     NavComponent,
-    DimensionSelectorComponent,
-    ListComponent,
-    ItemComponent,
-    ExploreItemComponent,
-    RankingComponent,
     ToNiceNamePipe,
+    InstitutionRankingComponent,
+    InstitutionDetailViewComponent,
     RepositoriesRankingComponent,
     RepositoryDetailViewComponent,
     UserRankingComponent,

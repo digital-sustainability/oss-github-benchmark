@@ -7,7 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Institution } from 'src/app/types';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { ExploreItemComponent } from '../explore-item/explore-item.component';
+import { InstitutionDetailViewComponent } from '../institution-detail-view/institution-detail-view.component';
 import { FormsModule } from '@angular/forms';
 import { IData } from '../visualizations/visualizations.component';
 
@@ -169,7 +169,7 @@ export class RankingComponent implements OnInit {
     });
     console.log(institution);
     this.changeURL('/institutions/' + institutionName);
-    const dialogRef = this.dialog.open(ExploreItemComponent, {
+    const dialogRef = this.dialog.open(InstitutionDetailViewComponent, {
       data: { institution, includeForks: this.includeForks },
       autoFocus: false,
     });

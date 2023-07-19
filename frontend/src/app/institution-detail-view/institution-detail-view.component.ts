@@ -10,10 +10,10 @@ import Chart from 'chart.js/auto';
 import { Institution } from '../types';
 @Component({
   selector: 'app-explore-item',
-  templateUrl: './explore-item.component.html',
-  styleUrls: ['./explore-item.component.scss'],
+  templateUrl: './institution-detail-view.component.html',
+  styleUrls: ['./institution-detail-view.component.scss'],
 })
-export class ExploreItemComponent implements OnInit {
+export class InstitutionDetailViewComponent implements OnInit {
   public lineChartData: ChartConfiguration['data'];
 
   public lineChartOptions = {
@@ -132,7 +132,7 @@ export class ExploreItemComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private dialogRef: MatDialogRef<ExploreItemComponent>,
+    private dialogRef: MatDialogRef<InstitutionDetailViewComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       institution: Institution;

@@ -4,7 +4,7 @@ import { IData } from '../visualizations.component';
 import * as _ from 'lodash-es';
 import { Options } from '../options';
 import { MatDialog } from '@angular/material/dialog';
-import { ExploreItemComponent } from '../../explore-item/explore-item.component';
+import { InstitutionDetailViewComponent } from '../../institution-detail-view/institution-detail-view.component';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 @Component({
@@ -226,7 +226,7 @@ export class BubbleComponent implements OnInit, OnChanges {
       return inst.shortname == institutionName;
     });
     this.changeURL('/visualization/' + institution.shortname);
-    const dialogRef = this.dialog.open(ExploreItemComponent, {
+    const dialogRef = this.dialog.open(InstitutionDetailViewComponent, {
       data: { institution: institution, includeForks: false },
       autoFocus: false,
     });
