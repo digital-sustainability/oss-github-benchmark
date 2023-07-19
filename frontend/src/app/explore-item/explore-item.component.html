@@ -4,14 +4,8 @@
       data.institution.name_de
     }}
   </h1>
-  <!-- 
-  <p style="color: gray">
-    Information on OSS Benchmark updated:
-    {{ data.institution.timestamp | date: "MMMM d, yyyy 'at' H:mm" }}
-  </p> -->
-
-  <h2>GitHub Organizations:</h2>
-  <div style="margin-bottom: 20px">
+  <section>
+    <h2>GitHub Organizations:</h2>
     <mat-accordion>
       <mat-expansion-panel *ngFor="let org of data.institution.orgs">
         <mat-expansion-panel-header>
@@ -34,191 +28,197 @@
         </a>
       </mat-expansion-panel>
     </mat-accordion>
-  </div>
+  </section>
 
-  <div class="dataContainer">
-    <section *ngFor="let stat of institutionStats">
-      <strong>{{ stat.text }}</strong>
-      {{
-        stat.toNiceName
-          ? (data.institution[stat.content] | toNiceName)
-          : stat.content == "timestamp"
-          ? (data.institution[stat.content] | date: "MMMM d, yyyy 'at' H:mm")
-          : data.institution[stat.content]
-      }}
-    </section>
-  </div>
+  <section>
+    <div class="dataContainer">
+      <span *ngFor="let stat of institutionStats">
+        <strong>{{ stat.text }}</strong>
+        {{
+          stat.toNiceName
+            ? (data.institution[stat.content] | toNiceName)
+            : stat.content == "timestamp"
+            ? (data.institution[stat.content] | date: "MMMM d, yyyy 'at' H:mm")
+            : data.institution[stat.content]
+        }}
+      </span>
+    </div>
+  </section>
 
-  <div *ngIf="dataSource">
-    <h2>Repos:</h2>
-    <mat-checkbox
-      color="primary"
-      style="vertical-align: super"
-      (change)="includeForksChange($event.checked)"
-      >Include forks</mat-checkbox
-    >
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      class="mat-elevation-z8"
-      matSortActive="num_commits"
-      matSortDirection="desc"
-      (matSortChange)="sortingUpdate($event)"
-    >
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-        <td
-          mat-cell
-          *matCellDef="let repo"
-          (click)="navigateTo(repo.url)"
-          [matTooltip]="repo.description"
-        >
-          {{ repo.name }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="organization">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Organization</th>
-        <td
-          mat-cell
-          *matCellDef="let repo"
-          (click)="navigateTo(repo.url)"
-          [matTooltip]="repo.description"
-        >
-          {{ repo.organization }}
-        </td>
-      </ng-container>
+  <section>
+    <div *ngIf="dataSource">
+      <h2>Repos:</h2>
+      <mat-checkbox
+        color="primary"
+        style="vertical-align: super"
+        (change)="includeForksChange($event.checked)"
+        >Include forks</mat-checkbox
+      >
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        class="mat-elevation-z8"
+        matSortActive="num_commits"
+        matSortDirection="desc"
+        (matSortChange)="sortingUpdate($event)"
+      >
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td
+            mat-cell
+            *matCellDef="let repo"
+            (click)="navigateTo(repo.url)"
+            [matTooltip]="repo.description"
+          >
+            {{ repo.name }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="organization">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Organization
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let repo"
+            (click)="navigateTo(repo.url)"
+            [matTooltip]="repo.description"
+          >
+            {{ repo.organization }}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="num_commits">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
-          Commits
-        </th>
-        <td
-          mat-cell
-          *matCellDef="let repo"
-          class="number"
-          (click)="navigateTo(repo.url)"
-          [matTooltip]="repo.description"
-        >
-          {{ repo.num_commits }}
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="num_commits">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
+            Commits
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let repo"
+            class="number"
+            (click)="navigateTo(repo.url)"
+            [matTooltip]="repo.description"
+          >
+            {{ repo.num_commits }}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="num_contributors">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
-          Contributors
-        </th>
-        <td
-          mat-cell
-          *matCellDef="let repo"
-          class="number"
-          (click)="navigateTo(repo.url)"
-          [matTooltip]="repo.description"
-        >
-          {{ repo.num_contributors }}
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="num_contributors">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
+            Contributors
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let repo"
+            class="number"
+            (click)="navigateTo(repo.url)"
+            [matTooltip]="repo.description"
+          >
+            {{ repo.num_contributors }}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="num_watchers">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
-          Watchers
-        </th>
-        <td
-          mat-cell
-          *matCellDef="let repo"
-          class="number"
-          (click)="navigateTo(repo.url)"
-          [matTooltip]="repo.description"
-        >
-          {{ repo.num_watchers }}
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="num_watchers">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
+            Watchers
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let repo"
+            class="number"
+            (click)="navigateTo(repo.url)"
+            [matTooltip]="repo.description"
+          >
+            {{ repo.num_watchers }}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="fork">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Is fork?</th>
-        <td
-          mat-cell
-          *matCellDef="let repo"
-          (click)="navigateTo(repo.url)"
-          [matTooltip]="repo.description"
-        >
-          {{ repo.fork | toNiceName }}
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="fork">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Is fork?</th>
+          <td
+            mat-cell
+            *matCellDef="let repo"
+            (click)="navigateTo(repo.url)"
+            [matTooltip]="repo.description"
+          >
+            {{ repo.fork | toNiceName }}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="num_stars">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
-          Stars
-        </th>
-        <td
-          mat-cell
-          *matCellDef="let repo"
-          class="number"
-          (click)="navigateTo(repo.url)"
-          [matTooltip]="repo.description"
-        >
-          {{ repo.num_stars }}
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="num_stars">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
+            Stars
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let repo"
+            class="number"
+            (click)="navigateTo(repo.url)"
+            [matTooltip]="repo.description"
+          >
+            {{ repo.num_stars }}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="num_forks">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
-          Forks
-        </th>
-        <td
-          mat-cell
-          *matCellDef="let repo"
-          class="number"
-          (click)="navigateTo(repo.url)"
-          [matTooltip]="repo.description"
-        >
-          {{ repo.num_forks }}
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="num_forks">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="number">
+            Forks
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let repo"
+            class="number"
+            (click)="navigateTo(repo.url)"
+            [matTooltip]="repo.description"
+          >
+            {{ repo.num_forks }}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="created_at">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Created at</th>
-        <td
-          mat-cell
-          *matCellDef="let repo"
-          (click)="navigateTo(repo.url)"
-          [matTooltip]="repo.description"
-        >
-          {{ repo.createdTimestamp | date: "MMMM d, yyyy 'at' H:mm" }}
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="created_at">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Created at</th>
+          <td
+            mat-cell
+            *matCellDef="let repo"
+            (click)="navigateTo(repo.url)"
+            [matTooltip]="repo.description"
+          >
+            {{ repo.createdTimestamp | date: "MMMM d, yyyy 'at' H:mm" }}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="updated_at">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated at</th>
-        <td
-          mat-cell
-          *matCellDef="let repo"
-          (click)="navigateTo(repo.url)"
-          [matTooltip]="repo.description"
-        >
-          {{ repo.updatedTimestamp | date: "MMMM d, yyyy 'at' H:mm" }}
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="updated_at">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated at</th>
+          <td
+            mat-cell
+            *matCellDef="let repo"
+            (click)="navigateTo(repo.url)"
+            [matTooltip]="repo.description"
+          >
+            {{ repo.updatedTimestamp | date: "MMMM d, yyyy 'at' H:mm" }}
+          </td>
+        </ng-container>
 
-      <tr
-        mat-header-row
-        *matHeaderRowDef="displayedColumns"
-        class="clickable"
-      ></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: displayedColumns"
-        class="clickable"
-      ></tr>
-    </table>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns"
+          class="clickable"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          class="clickable"
+        ></tr>
+      </table>
 
-    <mat-paginator
-      [pageSizeOptions]="[30, 50, 100, 200]"
-      [length]="numRepositories"
-      [pageSize]="30"
-      (page)="paginatorUpdate($event)"
-      aria-label="Select page"
-      showFirstLastButtons
-    ></mat-paginator>
-  </div>
+      <mat-paginator
+        [pageSizeOptions]="[30, 50, 100, 200]"
+        [length]="numRepositories"
+        [pageSize]="30"
+        (page)="paginatorUpdate($event)"
+        aria-label="Select page"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </section>
 </div>

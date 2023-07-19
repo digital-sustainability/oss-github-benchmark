@@ -8,7 +8,7 @@ import { IInstitution } from 'src/app/interfaces/institution';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ExploreItemComponent } from '../explore-item/explore-item.component';
-import { timeout } from 'd3';
+import { FormsModule } from '@angular/forms';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 
@@ -44,6 +44,8 @@ export class RankingComponent implements OnInit {
   sortDirection: 'ASC' | 'DESC' = 'DESC';
   latestUdpate: any;
 
+  searchTermRaw: string = '';
+
   resetPaginator() {
     this.paginator.pageIndex = 0;
     this.page = 0;
@@ -76,7 +78,7 @@ export class RankingComponent implements OnInit {
       sendStats: 'false',
       sector: this.checkboxes,
     });
-    this.latestUdpate = await this.dataService.loadLatestUpdate()
+    this.latestUdpate = await this.dataService.loadLatestUpdate();
     let institutions = institutionData.jsonData;
     this.sectorFilters = [];
     for (const sector in institutionData.sectors) {
@@ -116,7 +118,7 @@ export class RankingComponent implements OnInit {
         )[0].created_at;*/
       //else this.institutions[index].created_at = new Date(0);
       if (!institution.orgs[0]) this.institutions[index].location = '';
-      else this.institutions[index].location = ""; //institution.orgs[0].location;
+      else this.institutions[index].location = ''; //institution.orgs[0].location;
       /*let i = 0;
       while (
         !this.institutions[index].location &&
@@ -132,14 +134,14 @@ export class RankingComponent implements OnInit {
     private dataService: DataService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-    private location: Location
+    private location: Location,
   ) {
     this.sectorFilters.forEach(
       (sector: { sector: string; activated: boolean }) => {
         if (sector.activated) {
           this.checkboxes.push(sector.sector);
         }
-      }
+      },
     );
   }
 
@@ -173,9 +175,8 @@ export class RankingComponent implements OnInit {
 
   async openDialog(institutionName: string): Promise<void> {
     const institution = (
-      await this.dataService.loadInstitutionData({
-        findName: institutionName,
-        sendStats: 'true',
+      await this.dataService.loadSingleInstitution({
+        name: institutionName,
       })
     ).jsonData;
     console.log(institution);

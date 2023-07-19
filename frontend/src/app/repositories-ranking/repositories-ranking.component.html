@@ -1,76 +1,91 @@
-<h1>Ranking of {{ numRepositories }} Repositories.</h1>
-<mat-form-field appearance="fill">
-  <mat-label>Search</mat-label>
-  <input matInput (keyup)="doFilter($event.target.value)" />
-</mat-form-field>
+<div id="container">
+  <h1>Ranking of {{ numRepositories }} Repositories.</h1>
+  <mat-form-field appearance="fill">
+    <mat-label>Search</mat-label>
+    <input
+      matInput
+      (keyup)="doFilter($event.target.value)"
+      [(ngModel)]="searchTermRaw"
+    />
+    <button
+      *ngIf="searchTermRaw"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="searchTermRaw = ''; doFilter('')"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
 
-<mat-checkbox
-  color="primary"
-  style="vertical-align: super"
-  [checked]="includeForks"
-  (change)="includeForksChange($event.checked)"
-  >Include forks
-</mat-checkbox>
+  <mat-checkbox
+    color="primary"
+    style="vertical-align: super"
+    [checked]="includeForks"
+    (change)="includeForksChange($event.checked)"
+    >Include forks
+  </mat-checkbox>
 
-<!-- <p style="color: gray">
+  <!-- <p style="color: gray">
   Information on OSS Benchmark updated:
   {{ state | date: "MMMM d, yyyy 'at' H:mm" }}
 </p> -->
-<table
-  mat-table
-  [dataSource]="dataSource"
-  class="mat-elevation-z8"
-  matSort
-  matSortActive="num_commits"
-  matSortDirection="desc"
-  (matSortChange)="sortingUpdate($event)"
->
-  <span *ngFor="let column of displayedColumns">
-    <ng-container [matColumnDef]="column[0]">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ column[1] }}
-      </th>
-      <td
-        mat-cell
-        *matCellDef="let repository"
-        [ngClass]="{ number: column[3] == 'number' }"
-        (click)="openDialog(repository.uuid)"
-        [ngStyle]="{ fontWeight: column[0] == 'name' ? 'bold' : 'normal' }"
-        [matTooltip]="repository.description"
-      >
-        {{
-          column[3] == "img"
-            ? ""
-            : column[2]
-            ? (repository[column[0]] | toNiceName)
-            : column[3] == "date"
-            ? (repository[column[0]] | date: "MMMM d, yyyy 'at' H:mm")
-            : repository[column[0]]
-        }}
-        <img
-          *ngIf="column[3] == 'img'"
-          [src]="repository[column[0]]"
-          alt="logo"
-        />
-      </td>
-    </ng-container>
-  </span>
-  <tr
-    mat-header-row
-    *matHeaderRowDef="displayedColumnsOnlyNames"
-    class="clickable"
-  ></tr>
-  <tr
-    mat-row
-    *matRowDef="let row; columns: displayedColumnsOnlyNames"
-    class="clickable"
-  ></tr>
-</table>
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    class="mat-elevation-z8"
+    matSort
+    matSortActive="num_commits"
+    matSortDirection="desc"
+    (matSortChange)="sortingUpdate($event)"
+  >
+    <span *ngFor="let column of displayedColumns">
+      <ng-container [matColumnDef]="column[0]">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ column[1] }}
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let repository"
+          [ngClass]="{ number: column[3] == 'number' }"
+          (click)="openDialog(repository.uuid)"
+          [ngStyle]="{ fontWeight: column[0] == 'name' ? 'bold' : 'normal' }"
+          [matTooltip]="repository.description"
+        >
+          {{
+            column[3] == "img"
+              ? ""
+              : column[2]
+              ? (repository[column[0]] | toNiceName)
+              : column[3] == "date"
+              ? (repository[column[0]] | date: "MMMM d, yyyy 'at' H:mm")
+              : repository[column[0]]
+          }}
+          <img
+            *ngIf="column[3] == 'img'"
+            [src]="repository[column[0]]"
+            alt="logo"
+          />
+        </td>
+      </ng-container>
+    </span>
+    <tr
+      mat-header-row
+      *matHeaderRowDef="displayedColumnsOnlyNames"
+      class="clickable"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumnsOnlyNames"
+      class="clickable"
+    ></tr>
+  </table>
 
-<mat-paginator
-  [pageSizeOptions]="[30, 50, 100, 200]"
-  [length]="numRepositories"
-  [pageSize]="30"
-  (page)="paginatorUpdate($event)"
-  aria-label="Select page"
-></mat-paginator>
+  <mat-paginator
+    [pageSizeOptions]="[30, 50, 100, 200]"
+    [length]="numRepositories"
+    [pageSize]="30"
+    (page)="paginatorUpdate($event)"
+    aria-label="Select page"
+  ></mat-paginator>
+</div>

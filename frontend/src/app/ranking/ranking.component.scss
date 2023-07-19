@@ -6,25 +6,13 @@ img {
 }
 
 h1,
-.mat-form-field,
-table.mat-table {
-  margin: 2rem;
+.mat-mdc-form-field,
+table.mat-mdc-table {
   width: 96%;
 }
 
-.mat-checkbox {
-  margin: 2rem;
-}
-
-.mat-form-field {
-  margin-bottom: 2rem;
+.mat-mdc-form-field {
   width: auto;
-}
-
-p {
-  margin-left: 2rem;
-  margin-top: 0;
-  margin-bottom: 0;
 }
 
 a {
@@ -34,4 +22,11 @@ a {
   width: 100%;
   display: flex;
   place-items: center;
+}
+
+#container {
+  padding: 1rem;
+}
+.mat-mdc-form-field {
+  margin-right: 1rem;
 }

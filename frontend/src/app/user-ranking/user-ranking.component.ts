@@ -30,6 +30,7 @@ export class UserRankingComponent implements OnInit {
   ];
   displayedColumnsOnlyNames = this.displayedColumns.map((column) => column[0]);
   recordFilter = '';
+  searchTermRaw = '';
   @Input() data: IData;
   dataSource: any = new MatTableDataSource();
   numUsers: number;
@@ -88,7 +89,7 @@ export class UserRankingComponent implements OnInit {
                   }, 0)
                 );
               },
-              0
+              0,
             );
             let contributionsString = JSON.stringify(u.contributions, null, 2);
             u.contributions_sum = contributions_sum;
@@ -104,7 +105,7 @@ export class UserRankingComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {

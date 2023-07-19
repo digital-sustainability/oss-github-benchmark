@@ -23,7 +23,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { RankingComponent } from './ranking/ranking.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -42,7 +41,6 @@ import { RepositoriesRankingComponent } from './repositories-ranking/repositorie
 import { RepositoryDetailViewComponent } from './repository-detail-view/repository-detail-view.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
-import { ScullyLibModule } from '@scullyio/ng-lib';
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
 
 @NgModule({
@@ -78,7 +76,6 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
     MatSelectModule,
     MatInputModule,
     MatCardModule,
-    Ng2SearchPipeModule,
     MatTableModule,
     MatSortModule,
     MatFormFieldModule,
@@ -90,7 +87,6 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
     MatTooltipModule,
     MatExpansionModule,
     MatDividerModule,
-    ScullyLibModule,
     // NgChartsModule,
   ],
   providers: [],

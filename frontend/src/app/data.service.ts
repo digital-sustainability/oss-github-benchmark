@@ -17,6 +17,18 @@ export class DataService {
   constructor(private http: HttpClient) {}
   private institutionData = null;
 
+  async loadSingleInstitution(config: { name: string }): Promise<any> {
+    this.institutionData = await this.http
+      .get<any>(`${environment.api}singleInstitution`, {
+        params: config,
+      })
+      .toPromise();
+    return {
+      csvData: this.parseJSON2CSV(this.institutionData),
+      jsonData: this.institutionData,
+    };
+  }
+
   async loadInstitutionData(config: {
     search?: string;
     sort?: string;
@@ -32,7 +44,7 @@ export class DataService {
       .get<any>(`${environment.api}paginatedInstitutions`, {
         params: config,
       })
-      .toPromise();  
+      .toPromise();
     if (config.findName)
       return {
         csvData: this.parseJSON2CSV(this.institutionData),
@@ -46,9 +58,11 @@ export class DataService {
     };
   }
 
-  async loadLatestUpdate(){
-     let latestUpdate = await this.http.get<any>(`${environment.api}latestUpdate`, {}).toPromise();
-     return latestUpdate.updatedDate;
+  async loadLatestUpdate() {
+    let latestUpdate = await this.http
+      .get<any>(`${environment.api}latestUpdate`, {})
+      .toPromise();
+    return latestUpdate.updatedDate;
   }
 
   async loadRepoData(config: {
@@ -97,7 +111,7 @@ export class DataService {
           csvData: this.parseJSON2CSV(data),
           jsonData: data,
         });
-      })
+      }),
     );
   }
 

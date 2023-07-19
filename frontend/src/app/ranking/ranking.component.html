@@ -1,154 +1,176 @@
-<h1>
-  Ranking of {{ numInstitutions }} Swiss Institutions Releasing Open Source
-  Software
-</h1>
-<mat-form-field appearance="fill">
-  <mat-label>Search</mat-label>
-  <input matInput (keyup)="doFilter($event.target.value)" />
-</mat-form-field>
-<mat-form-field appearance="fill">
-  <mat-label>Sector</mat-label>
-  <mat-select
-    multiple
-    (selectionChange)="selectionChange($event)"
-    [value]="checkboxes"
-    #select
+<div id="container">
+  <h1>
+    Ranking of {{ numInstitutions }} Swiss Institutions Releasing Open Source
+    Software
+  </h1>
+  <mat-form-field appearance="fill">
+    <mat-label>Search</mat-label>
+    <input
+      matInput
+      (keyup)="doFilter($event.target.value)"
+      [(ngModel)]="searchTermRaw"
+    />
+    <button
+      *ngIf="searchTermRaw"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="searchTermRaw = ''; doFilter('')"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Sector</mat-label>
+    <mat-select
+      multiple
+      (selectionChange)="selectionChange($event)"
+      [value]="checkboxes"
+      #select
+    >
+      <mat-select-trigger>
+        <span *ngFor="let sec of select.value; index as i">
+          {{ sec | toNiceName
+          }}<span *ngIf="i < select.value.length - 1">,</span>
+        </span>
+      </mat-select-trigger>
+      <mat-option
+        *ngFor="let sectorObj of sectorFilters"
+        [value]="sectorObj.sector"
+        ><span>{{ sectorObj.sector | toNiceName }}</span>
+        <span style="float: right">{{ sectorObj.count }}</span></mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+  <mat-checkbox
+    color="primary"
+    style="vertical-align: super"
+    (change)="includeForksChange($event.checked)"
+    >Include forks</mat-checkbox
   >
-    <mat-select-trigger>
-      <span *ngFor="let sec of select.value; index as i">
-        {{ sec | toNiceName }}<span *ngIf="i < select.value.length - 1">,</span>
-      </span>
-    </mat-select-trigger>
-    <mat-option
-      *ngFor="let sectorObj of sectorFilters"
-      [value]="sectorObj.sector"
-      ><span>{{ sectorObj.sector | toNiceName }}</span>
-      <span style="float: right">{{ sectorObj.count }}</span></mat-option
-    >
-  </mat-select>
-</mat-form-field>
-<mat-checkbox
-  color="primary"
-  style="vertical-align: super"
-  (change)="includeForksChange($event.checked)"
-  >Include forks</mat-checkbox
->
-<p style="color: gray">
-  Information on OSS Benchmark updated: {{ latestUdpate | date }}
-</p>
-<table
-  mat-table
-  [dataSource]="dataSource"
-  class="mat-elevation-z8"
-  matSort
-  matSortActive="num_repos"
-  matSortDirection="desc"
-  (matSortChange)="sortingUpdate($event)"
->
-  <ng-container matColumnDef="logo">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td
-      mat-cell
-      *matCellDef="let institution"
-      (click)="openDialog(institution.shortname)"
-    >
-      <img [src]="institution.avatar[0]" alt="logo" />
-    </td>
-  </ng-container>
+  <p style="color: gray">
+    Information on OSS Benchmark updated: {{ latestUdpate | date }}
+  </p>
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    class="mat-elevation-z8"
+    matSort
+    matSortActive="num_repos"
+    matSortDirection="desc"
+    (matSortChange)="sortingUpdate($event)"
+  >
+    <ng-container matColumnDef="logo">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td
+        mat-cell
+        *matCellDef="let institution"
+        (click)="openDialog(institution.shortname)"
+      >
+        <img [src]="institution.avatar[0]" alt="logo" />
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="name_de">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Institution</th>
-    <td
-      mat-cell
-      *matCellDef="let institution"
-      (click)="openDialog(institution.shortname)"
-    >
-      <b>{{ institution.name_de }} </b>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="name_de">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Institution</th>
+      <td
+        mat-cell
+        *matCellDef="let institution"
+        (click)="openDialog(institution.shortname)"
+      >
+        <b>{{ institution.name_de }} </b>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="num_members">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Number of members</th>
-    <td
-      mat-cell
-      *matCellDef="let institution"
-      class="number"
-      (click)="openDialog(institution.shortname)"
-    >
-      {{ institution.num_members }}
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="num_members">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Number of members
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let institution"
+        class="number"
+        (click)="openDialog(institution.shortname)"
+      >
+        {{ institution.num_members }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="num_repos">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-      Number of repositories
-    </th>
-    <td
-      mat-cell
-      *matCellDef="let institution"
-      class="number"
-      (click)="openDialog(institution.shortname)"
-    >
-      {{ institution.num_repos }}
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="num_repos">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Number of repositories
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let institution"
+        class="number"
+        (click)="openDialog(institution.shortname)"
+      >
+        {{ institution.num_repos }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="sector">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sector</th>
-    <td
-      mat-cell
-      *matCellDef="let institution"
-      (click)="openDialog(institution.shortname)"
-    >
-      {{ institution.sector | toNiceName }}
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="sector">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Sector</th>
+      <td
+        mat-cell
+        *matCellDef="let institution"
+        (click)="openDialog(institution.shortname)"
+      >
+        {{ institution.sector | toNiceName }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="location">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
-    <td
-      mat-cell
-      *matCellDef="let institution"
-      (click)="openDialog(institution.shortname)"
-    >
-      {{ institution.location }}
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="location">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+      <td
+        mat-cell
+        *matCellDef="let institution"
+        (click)="openDialog(institution.shortname)"
+      >
+        {{ institution.location }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="created_at">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Created at</th>
-    <td
-      mat-cell
-      *matCellDef="let institution"
-      (click)="openDialog(institution.shortname)"
-    >
-      {{ institution.created_at | date: "MMMM d, yyyy 'at' H:mm" }}
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="created_at">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Created at</th>
+      <td
+        mat-cell
+        *matCellDef="let institution"
+        (click)="openDialog(institution.shortname)"
+      >
+        {{ institution.created_at | date: "MMMM d, yyyy 'at' H:mm" }}
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="repo_names">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Repositories</th>
-    <td
-      mat-cell
-      *matCellDef="let institution"
-      (click)="openDialog(institution.shortname)"
-    >
-      {{ institution.repo_names }}
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="repo_names">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Repositories</th>
+      <td
+        mat-cell
+        *matCellDef="let institution"
+        (click)="openDialog(institution.shortname)"
+      >
+        {{ institution.repo_names }}
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns" class="clickable"></tr>
-  <tr
-    mat-row
-    *matRowDef="let row; columns: displayedColumns"
-    class="clickable"
-  ></tr>
-</table>
+    <tr
+      mat-header-row
+      *matHeaderRowDef="displayedColumns"
+      class="clickable"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      class="clickable"
+    ></tr>
+  </table>
 
-<mat-paginator
-  [pageSizeOptions]="[30, 50, 100, 200]"
-  [length]="numInstitutions"
-  [pageSize]="30"
-  (page)="paginatorUpdate($event)"
-  aria-label="Select page"
-></mat-paginator>
+  <mat-paginator
+    [pageSizeOptions]="[30, 50, 100, 200]"
+    [length]="numInstitutions"
+    [pageSize]="30"
+    (page)="paginatorUpdate($event)"
+    aria-label="Select page"
+  ></mat-paginator>
+</div>

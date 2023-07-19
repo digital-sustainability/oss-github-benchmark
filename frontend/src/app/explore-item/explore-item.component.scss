@@ -9,6 +9,7 @@ img {
   max-width: 70rem;
   margin: auto;
   height: 40rem;
+  padding: 1rem;
 }
 
 table {
@@ -22,6 +23,10 @@ table {
   grid-auto-rows: auto;
   gap: 5px 20px;
   grid-auto-flow: dense;
+}
+
+section {
+  margin-bottom: 1rem;
 }
 
 @media only screen and (min-width: 1250px) {
@@ -40,10 +45,4 @@ table {
   .dataContainer {
     grid-template-columns: 1fr;
   }
-}
-
-h1,
-h2 {
-  margin-top: 15px;
-  margin-bottom: 5px;
 }

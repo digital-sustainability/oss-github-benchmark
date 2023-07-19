@@ -4,14 +4,13 @@ img {
   display: inline;
   vertical-align: middle;
 }
-table.mat-table {
-  margin: 2rem;
+table.mat-mdc-table {
   width: 96%;
 }
 
-p,
-mat-checkbox,
-.mat-form-field,
-h1 {
-  margin: 2rem;
+#container {
+  padding: 1rem;
+}
+.mat-mdc-form-field {
+  margin-right: 1rem;
 }

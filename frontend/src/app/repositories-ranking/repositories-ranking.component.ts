@@ -37,6 +37,7 @@ export class RepositoriesRankingComponent implements OnInit {
   ];
   displayedColumnsOnlyNames = this.displayedColumns.map((column) => column[0]);
   recordFilter = '';
+  searchTermRaw = '';
   @Input() data: IData;
   dataSource: any = new MatTableDataSource();
   numRepositories: number;
@@ -73,7 +74,7 @@ export class RepositoriesRankingComponent implements OnInit {
     private dataService: DataService,
     public dialog: MatDialog,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   reloadData() {
@@ -131,7 +132,7 @@ export class RepositoriesRankingComponent implements OnInit {
         '/repositories/' +
           repository.organisation_name_de +
           '/' +
-          repository.name
+          repository.name,
       );
       const dialogRef = this.dialog.open(RepositoryDetailViewComponent, {
         data: repository,
