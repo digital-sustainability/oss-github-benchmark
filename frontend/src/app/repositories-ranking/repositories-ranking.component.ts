@@ -8,7 +8,6 @@ import { RepositoryDetailViewComponent } from '../repository-detail-view/reposit
 import { ActivatedRoute } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { IData } from '../visualizations/visualizations.component';
 
 @Component({
   selector: 'app-repositories-ranking',
@@ -39,7 +38,6 @@ export class RepositoriesRankingComponent implements OnInit {
   displayedColumnsOnlyNames = this.displayedColumns.map((column) => column[0]);
   recordFilter = '';
   searchTermRaw = '';
-  @Input() data: IData;
   dataSource: any = new MatTableDataSource();
   numRepositories: number;
   state: Date;
@@ -89,7 +87,7 @@ export class RepositoriesRankingComponent implements OnInit {
         includeForks: this.includeForks.toString(),
       })
       .then((repoData) => {
-        let repos = repoData.jsonData;
+        let repos = repoData.repositories;
         console.log(repos);
         this.repositories = [];
         repos.forEach((repository: any) => {

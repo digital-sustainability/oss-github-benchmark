@@ -61,7 +61,7 @@ Find a single institution by it's unique shortname property.
 
 #### name: string
 
-short_name of institution
+short_name of institution.
 
 ### Response
 
@@ -75,29 +75,29 @@ Get summaries of multiple institutions.
 
 #### search?: string;
 
-a search term
+A search term.
 
 #### sort?: string;
 
-the column by which to sort the institutions
+The column by which to sort the institutions.
 
 #### direction?: 'ASC' | 'DESC';
 
 #### page?: string;
 
-page index
+Page index.
 
 #### count?: string;
 
-limit for institutions returned
+Limit for institutions returned.
 
 #### includeForks?: string;
 
-if forked repos should be included in repo count itself and sorting by it
+If forked repos should be included in repo count and sorting.
 
 #### sector?: string[];
 
-only include institutions in these sectors
+Only include institutions in these sectors.
 
 ### Response
 
@@ -105,7 +105,7 @@ only include institutions in these sectors
 
 #### total: number;
 
-the number of institutions after filtering and searching and without pagination
+The number of institutions after filtering and searching but without pagination.
 
 #### sectors: { [key: string]: number };
 
@@ -122,3 +122,29 @@ no params
 ### Response
 
 #### updatedDate: string
+
+## api/paginatedRepositories
+
+Get paginated list of repositories.
+
+### Request
+
+For more information look at api/paginatedInstitutions.
+
+#### search?: string;
+
+#### sort?: string;
+
+#### direction?: 'ASC' | 'DESC';
+
+#### page?: string;
+
+#### count?: string;
+
+#### includeForks?: string;
+
+### Response
+
+#### repositories: Repository[];
+
+#### total: number;

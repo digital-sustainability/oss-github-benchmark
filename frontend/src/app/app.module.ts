@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { VisualizationsModule } from './visualizations/visualizations.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InstitutionDetailViewComponent } from './institution-detail-view/institution-detail-view.component';
@@ -54,7 +53,6 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
     HttpClientModule,
     CommonModule,
     ReactiveFormsModule,
-    VisualizationsModule,
     FormsModule,
     BrowserAnimationsModule,
     MatToolbarModule,

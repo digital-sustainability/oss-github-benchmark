@@ -89,30 +89,53 @@ export type Organization = {
   timestamp: string;
 };
 
-export type Repo = {
+export type Repository = {
   name: string;
+  uuid: string;
   url: string;
-  fork: number;
+  institution: string;
+  organization: string;
+  description: string;
+  fork: boolean;
   num_forks: number;
   num_contributors: number;
   num_commits: number;
   num_stars: number;
   num_watchers: number;
-  last_years_commits: number;
   has_own_commits: number;
-  closed_issues: number;
-  issues_all: number;
   issues_closed: number;
+  issues_all: number;
   pull_requests_closed: number;
+  pull_requests_all: number;
   comments: number;
-  commit_activities: CommitActivity[];
+  timestamp: string;
+  license: string;
+  logo: string;
 };
 
-export type CommitActivity = {
-  days: number[];
-  total: number;
-  week: number;
+export type User = {
+  login: string;
+  name: string;
+  avatar_url: string;
+  bio: string;
+  blog: string;
+  company: string;
+  email: string;
+  twitter_username: string;
+  location: string;
+  created_at: string;
+  updated_at: string;
+  public_repos: number;
+  public_gists: number;
+  followers: number;
+  following: number;
 };
+
+// export type CommitActivity = {
+//   days: number[];
+//   total: number;
+//   week: number;
+// };
 
 enum SectorEnum {
   IT = 'IT',
