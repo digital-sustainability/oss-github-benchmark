@@ -16,12 +16,12 @@ import {
   GroupCount,
   ApiRepository,
   ObjectCount,
-  ApiUser,
   Contributor,
   RepositoryRevised,
   OrganisationRevised,
   InstitutionRevised,
   InstitutionSummary,
+  UserSummary,
 } from 'src/interfaces';
 
 enum Tables {
@@ -29,7 +29,6 @@ enum Tables {
   organisations = 'organisation',
   repositories = 'repositoriesNew',
   todoInstituions = 'todoInstitutions',
-  users = 'usersNew',
   contributors = 'contributors',
 }
 
@@ -88,7 +87,7 @@ export class MongoDbService
     );
     this.client
       .db(this.database)
-      .collection<User>(Tables.users)
+      .collection<User>(Tables.contributors)
       .insertOne(user);
   }
 
@@ -119,7 +118,7 @@ export class MongoDbService
     );
     return this.client
       .db(this.database)
-      .collection<User>(Tables.users)
+      .collection<User>(Tables.contributors)
       .findOne({ login: userName });
   }
 
@@ -614,13 +613,13 @@ export class MongoDbService
     direction: 1 | -1,
     limit: number,
     page: number,
-  ): Promise<ApiUser[]> {
+  ): Promise<UserSummary[]> {
     this.logger.log(
       `Getting ${limit} users from the database. Sorted by ${key} in ${direction} direction`,
     );
     return this.client
       .db(this.database)
-      .collection<User>(Tables.users)
+      .collection<User>(Tables.contributors)
       .aggregate([
         {
           $project: {
@@ -649,7 +648,7 @@ export class MongoDbService
           $limit: limit,
         },
       ])
-      .toArray() as Promise<ApiUser[]>;
+      .toArray() as Promise<UserSummary[]>;
   }
 
   /**
@@ -667,13 +666,13 @@ export class MongoDbService
     direction: 1 | -1,
     limit: number,
     page: number,
-  ): Promise<ApiUser[]> {
+  ): Promise<UserSummary[]> {
     this.logger.log(
       `Searching for users in the database with the search term: ${searchTerm}`,
     );
     return this.client
       .db(this.database)
-      .collection<User>(Tables.users)
+      .collection<User>(Tables.contributors)
       .aggregate([
         {
           $match: { $text: { $search: searchTerm } },
@@ -705,24 +704,26 @@ export class MongoDbService
           $limit: limit,
         },
       ])
-      .toArray() as Promise<ApiUser[]>;
+      .toArray() as Promise<UserSummary[]>;
   }
 
   /**
    * Count all users in the database
    * @returns An ObjectCount array
    */
-  async countAllUsers(): Promise<ObjectCount[]> {
+  async countAllUsers(): Promise<number> {
     this.logger.log(`Counting all Users`);
-    return this.client
-      .db(this.database)
-      .collection<User>(Tables.users)
-      .aggregate([
-        {
-          $count: 'total',
-        },
-      ])
-      .toArray() as Promise<ObjectCount[]>;
+    return (
+      await this.client
+        .db(this.database)
+        .collection<User>(Tables.contributors)
+        .aggregate([
+          {
+            $count: 'total',
+          },
+        ])
+        .toArray()
+    )[0].total as Promise<number>;
   }
 
   /**
@@ -730,24 +731,38 @@ export class MongoDbService
    * @param searchTerm The search term
    * @returns An ObjectCount array
    */
-  async countAllUsersWithSearchTerm(
-    searchTerm: string,
-  ): Promise<ObjectCount[]> {
+  async countAllUsersWithSearchTerm(searchTerm: string): Promise<number> {
     this.logger.log(
       `Counting users corresponding with this search term: ${searchTerm}`,
     );
-    return this.client
-      .db(this.database)
-      .collection<User>(Tables.users)
-      .aggregate([
-        {
-          $match: { $text: { $search: searchTerm } },
-        },
-        {
-          $count: 'total',
-        },
-      ])
-      .toArray() as Promise<ObjectCount[]>;
+    console.log(
+      await this.client
+        .db(this.database)
+        .collection<User>(Tables.contributors)
+        .aggregate([
+          {
+            $match: { $text: { $search: searchTerm } },
+          },
+          {
+            $count: 'total',
+          },
+        ])
+        .toArray(),
+    );
+    return (
+      await this.client
+        .db(this.database)
+        .collection<User>(Tables.contributors)
+        .aggregate([
+          {
+            $match: { $text: { $search: searchTerm } },
+          },
+          {
+            $count: 'total',
+          },
+        ])
+        .toArray()
+    )[0].total as Promise<number>;
   }
 
   /**
@@ -784,7 +799,7 @@ export class MongoDbService
     this.logger.log('Getting all the users');
     return this.client
       .db(this.database)
-      .collection<User>(Tables.users)
+      .collection<User>(Tables.contributors)
       .find({})
       .toArray();
   }
@@ -963,28 +978,31 @@ export class MongoDbService
     this.logger.log(
       `Updating user with the username ${user.login} in the database.`,
     );
-    this.client.db(this.database).collection<User>(Tables.users).replaceOne(
-      { login: user.login },
-      {
-        login: user.login,
-        name: user.name,
-        avatar_url: user.avatar_url,
-        bio: user.bio,
-        blog: user.blog,
-        company: user.company,
-        email: user.email,
-        twitter_username: user.twitter_username,
-        location: user.location,
-        created_at: user.created_at,
-        updated_at: user.updated_at,
-        contributions: user.contributions,
-        public_repos: user.public_repos,
-        public_gists: user.public_gists,
-        followers: user.followers,
-        following: user.following,
-        orgs: user.orgs,
-      },
-    );
+    this.client
+      .db(this.database)
+      .collection<User>(Tables.contributors)
+      .replaceOne(
+        { login: user.login },
+        {
+          login: user.login,
+          name: user.name,
+          avatar_url: user.avatar_url,
+          bio: user.bio,
+          blog: user.blog,
+          company: user.company,
+          email: user.email,
+          twitter_username: user.twitter_username,
+          location: user.location,
+          created_at: user.created_at,
+          updated_at: user.updated_at,
+          contributions: user.contributions,
+          public_repos: user.public_repos,
+          public_gists: user.public_gists,
+          followers: user.followers,
+          following: user.following,
+          orgs: user.orgs,
+        },
+      );
   }
 
   /**

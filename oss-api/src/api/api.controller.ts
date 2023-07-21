@@ -14,9 +14,9 @@ import {
   ApiRepository,
   GroupCount,
   ObjectCount,
-  ApiUser,
   InstitutionSummary,
   RepositoryRevised,
+  UserSummary,
 } from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { UserQueryPipe } from 'src/user-query.pipe';
@@ -59,6 +59,7 @@ export class ApiController {
     const queryConfig = queryDto;
     return await this.handleInstitutions(queryConfig);
   }
+
   @Get('paginatedRepositories')
   @UsePipes(new RepositoryQueryPipe(), new ValidationPipe({ transform: true }))
   async findRepositories(
@@ -67,14 +68,16 @@ export class ApiController {
     const queryConfig = queryDto;
     return await this.handleRepositories(queryConfig);
   }
+
   @Get('paginatedUsers')
   @UsePipes(new UserQueryPipe(), new ValidationPipe({ transform: true }))
   async findUsers(
     @Query() queryDto: UserQueryDto,
-  ): Promise<{ users: ApiUser[]; total: number }> {
+  ): Promise<{ users: UserSummary[]; total: number }> {
     const queryConfig = queryDto;
     return await this.handleUsers(queryConfig);
   }
+
   @Get('latestUpdate')
   async findLatestUpdate() {
     return (await this.mongoDbService.latestUpdate())[0];
@@ -245,9 +248,9 @@ export class ApiController {
    */
   private async handleUsers(
     queryConfig: UserQueryConfig,
-  ): Promise<{ users: ApiUser[]; total: number }> {
-    let users: ApiUser[] = [];
-    let total: ObjectCount[] = [];
+  ): Promise<{ users: UserSummary[]; total: number }> {
+    let users: UserSummary[] = [];
+    let total: number;
     if (queryConfig.search.length > 0) {
       users = await this.mongoDbService.findUsersWithSearchTerm(
         queryConfig.search,
@@ -267,10 +270,11 @@ export class ApiController {
         queryConfig.page,
       );
       total = await this.mongoDbService.countAllUsers();
+      console.log(total);
     }
     return {
       users: users,
-      total: total[0].total,
+      total: total,
     };
   }
 

@@ -1888,21 +1888,6 @@ export interface ApiRepository {
   logo: string;
 }
 
-export interface ApiUser {
-  avatar_url: string;
-  name: string;
-  login: string;
-  company: string;
-  location: string;
-  twitter_username: string;
-  public_repos: number;
-  public_gists: number;
-  followers: number;
-  created_at: Date;
-  updated_at: Date;
-  contributions: Contributions;
-}
-
 export interface Contributor {
   login: string;
   name: string;
@@ -2173,6 +2158,24 @@ export type InstitutionSummary = {
   repo_names: string[];
   location: string;
   created_at: string;
+};
+
+export type UserSummary = {
+  login: string;
+  name: string;
+  avatar_url: string;
+  bio: string;
+  blog: string;
+  company: string;
+  email: string;
+  twitter_username: string;
+  location: string;
+  created_at: string;
+  updated_at: string;
+  public_repos: number;
+  public_gists: number;
+  followers: number;
+  following: number;
 };
 
 /************************************Enums*******************************************/
