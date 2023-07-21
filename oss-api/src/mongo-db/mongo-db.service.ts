@@ -21,6 +21,7 @@ import {
   RepositoryRevised,
   OrganisationRevised,
   InstitutionRevised,
+  InstitutionSummary,
 } from 'src/interfaces';
 
 enum Tables {
@@ -205,7 +206,7 @@ export class MongoDbService
     sectors: string[],
     limit: number,
     page: number,
-  ): Promise<ApiInstitution[]> {
+  ): Promise<InstitutionSummary[]> {
     this.logger.log(
       `Getting ${limit} institutions from the database. Sorted by ${key} in ${direction} direction`,
     );
@@ -217,23 +218,10 @@ export class MongoDbService
         {
           $project: {
             _id: 0,
-            name_de: 1,
-            num_members: 1,
-            num_repos: 1,
-            sector: 1,
-            avatar: 1,
             shortname: 1,
-            repo_names: { $slice: ['$repo_names', 0, 10] },
-            total_num_forks_in_repos: 1,
-            location: {
-              $getField: {
-                field: 'location',
-                input: { $arrayElemAt: ['$orgs', 0] },
-              },
-            },
-            created_at: {
-              $min: '$orgs.created_at',
-            },
+            name_de: 1,
+            sector: 1,
+            orgs: 1,
           },
         },
         {
@@ -246,7 +234,20 @@ export class MongoDbService
           $limit: limit,
         },
       ])
-      .toArray() as Promise<ApiInstitution[]>;
+      .toArray() as Promise<InstitutionSummary[]>;
+  }
+
+  async getOrganisationsWithObjectIds(
+    organisationIds: ObjectId[],
+  ): Promise<OrganisationRevised[]> {
+    this.logger.log(
+      `Getting all the organisation with these ids: ${organisationIds}`,
+    );
+    return this.client
+      .db(this.database)
+      .collection<OrganisationRevised>(Tables.organisations)
+      .find({ _id: { $in: organisationIds } })
+      .toArray();
   }
 
   /**
@@ -268,11 +269,11 @@ export class MongoDbService
     limit: number,
     page: number,
     includeForks: boolean,
-  ): Promise<ApiInstitution[]> {
+  ): Promise<InstitutionSummary[]> {
     this.logger.log(`Searching for institutions containing ${searchTerm}`);
     return this.client
       .db(this.database)
-      .collection<Institution>(Tables.instituions)
+      .collection<InstitutionRevised>(Tables.instituions)
       .aggregate([
         {
           $match: {
@@ -285,43 +286,16 @@ export class MongoDbService
         {
           $project: {
             _id: 0,
-            stats: 1,
             name_de: 1,
-            num_members: 1,
-            num_repos: 1,
-            sector: 1,
-            avatar: 1,
             shortname: 1,
-            repo_names: { $slice: ['$repo_names', 0, 10] },
-            total_num_forks_in_repos: 1,
-            location: {
-              $getField: {
-                field: 'location',
-                input: { $arrayElemAt: ['$orgs', 0] },
-              },
-            },
+            avatar: 1,
+            sector: 1,
             created_at: {
               $getField: {
                 field: 'created_at',
                 input: { $arrayElemAt: ['$orgs', 0] },
               },
             },
-            description: 1,
-            email: 1,
-            total_num_contributors: 1,
-            total_num_own_repo_forks: 1,
-            total_num_commits: 1,
-            total_pull_requests: 1,
-            total_issues: 1,
-            total_num_stars: 1,
-            total_num_watchers: 1,
-            total_commits_last_year: 1,
-            total_pull_requests_all: 1,
-            total_pull_requests_closed: 1,
-            total_issues_all: 1,
-            total_issues_closed: 1,
-            total_comments: 1,
-            num_orgs: 1,
             orgs: 1,
           },
         },
@@ -335,7 +309,45 @@ export class MongoDbService
           $sort: { [key]: direction },
         },
       ])
-      .toArray() as Promise<ApiInstitution[]>;
+      .toArray() as Promise<InstitutionSummary[]>;
+  }
+
+  async getOrganisationRepositoriesObjectIds(
+    organisationObjectId: ObjectId[],
+  ): Promise<ObjectId[]> {
+    this.logger.log(
+      `Getting all organisations with the Ids ${organisationObjectId}`,
+    );
+    return this.client
+      .db(this.database)
+      .collection<OrganisationRevised>(Tables.organisations)
+      .aggregate([
+        {
+          $match: {
+            _id: { $in: organisationObjectId },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            repos: 1,
+          },
+        },
+      ])
+      .toArray() as Promise<ObjectId[]>;
+  }
+
+  async getRepositoriesWithObjectIds(
+    repositoriesObjectIds: ObjectId[],
+  ): Promise<RepositoryRevised[]> {
+    this.logger.log(
+      `Getting all the repositories with the Ids ${repositoriesObjectIds}`,
+    );
+    return this.client
+      .db(this.database)
+      .collection<RepositoryRevised>(Tables.repositories)
+      .find({ _id: { $in: repositoriesObjectIds } })
+      .toArray();
   }
 
   /**
@@ -816,6 +828,17 @@ export class MongoDbService
       .db(this.database)
       .collection<Contributor>(Tables.contributors)
       .find({ login: { $in: contributorLogins } })
+      .toArray();
+  }
+
+  async getContributorsWithId(
+    contributorIds: ObjectId[],
+  ): Promise<Contributor[]> {
+    this.logger.log(`Getting all contributors with the Ids ${contributorIds}`);
+    return this.client
+      .db(this.database)
+      .collection<Contributor>(Tables.contributors)
+      .find({ _id: { $in: contributorIds } })
       .toArray();
   }
 

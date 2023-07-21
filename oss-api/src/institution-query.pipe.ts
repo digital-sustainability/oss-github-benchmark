@@ -17,7 +17,6 @@ export class InstitutionQueryPipe implements PipeTransform {
       includeForksInSort: queryParams.includeForksInSort
         ? queryParams.includeForksInSort === 'true'
         : false,
-      findName: queryParams.findName ? queryParams.findName : '',
     };
     return config;
   }
