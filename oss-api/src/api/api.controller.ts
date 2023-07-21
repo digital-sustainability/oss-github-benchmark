@@ -17,6 +17,8 @@ import {
   InstitutionSummary,
   RepositoryRevised,
   UserSummary,
+  Repository,
+  RepositorySummary,
 } from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { UserQueryPipe } from 'src/user-query.pipe';
@@ -64,7 +66,7 @@ export class ApiController {
   @UsePipes(new RepositoryQueryPipe(), new ValidationPipe({ transform: true }))
   async findRepositories(
     @Query() queryDto: RepositoryQueryDto,
-  ): Promise<{ repositories: ApiRepository[]; total: number }> {
+  ): Promise<{ repositories: RepositorySummary[]; total: number }> {
     const queryConfig = queryDto;
     return await this.handleRepositories(queryConfig);
   }
@@ -205,8 +207,8 @@ export class ApiController {
    */
   private async handleRepositories(
     queryConfig: RepositoryQueryConfig,
-  ): Promise<{ repositories: ApiRepository[]; total: number }> {
-    let repositories: ApiRepository[] = [];
+  ): Promise<{ repositories: RepositorySummary[]; total: number }> {
+    let repositories: RepositorySummary[] = [];
     let countedRepos: ObjectCount[] = [];
     const includeForks = queryConfig.includeForks ? [false, true] : [false];
     if (queryConfig.search.length > 0) {

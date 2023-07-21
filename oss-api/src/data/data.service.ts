@@ -49,7 +49,7 @@ export class DataService {
     this.dataPath = process.env.DATA_PATH;
   }
   async onApplicationBootstrap() {
-    //this.handler();
+    this.handler();
   }
 
   private readonly logger = new Logger(DataService.name);

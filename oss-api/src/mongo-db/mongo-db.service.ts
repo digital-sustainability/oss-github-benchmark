@@ -22,6 +22,7 @@ import {
   InstitutionRevised,
   InstitutionSummary,
   UserSummary,
+  RepositorySummary,
 } from 'src/interfaces';
 
 enum Tables {
@@ -423,39 +424,92 @@ export class MongoDbService
     limit: number,
     page: number,
     includeForks: boolean[],
-  ): Promise<ApiRepository[]> {
+  ): Promise<RepositorySummary[]> {
     this.logger.log(
       `Getting ${limit} repositories from the database. Sorted by ${key} in ${direction} direction`,
     );
     return this.client
       .db(this.database)
-      .collection<Repository>(Tables.repositories)
+      .collection<RepositorySummary>(Tables.repositories)
       .aggregate([
         { $match: { fork: { $in: includeForks } } },
         {
           $project: {
             _id: 0,
-            uuid: 1,
             name: 1,
+            uuid: 1,
             url: 1,
-            description: 1,
-            timestamp: 1,
             institution: 1,
             organization: 1,
-            comments: 1,
-            issues_all: 1,
-            pull_requests_all: 1,
-            pull_requests_closed: 1,
-            issues_closed: 1,
-            num_commits: 1,
-            num_contributors: 1,
-            num_watchers: 1,
-            num_forks: 1,
-            num_stars: 1,
-            has_own_commits: 1,
-            createdTimestamp: 1,
-            updatedTimestamp: 1,
+            description: 1,
             fork: 1,
+            num_forks: {
+              $getField: {
+                field: 'num_forks',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            num_contributors: {
+              $getField: {
+                field: 'num_contributors',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            num_commits: {
+              $getField: {
+                field: 'num_commits',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            num_stars: {
+              $getField: {
+                field: 'num_stars',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            num_watchers: {
+              $getField: {
+                field: 'num_watchers',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            has_own_commits: {
+              $getField: {
+                field: 'has_own_commits',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            issues_closed: {
+              $getField: {
+                field: 'issues_closed',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            issues_all: {
+              $getField: {
+                field: 'issues_all',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            pull_requests_closed: {
+              $getField: {
+                field: 'pull_requests_closed',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            pull_requests_all: {
+              $getField: {
+                field: 'pull_requests_all',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            comments: {
+              $getField: {
+                field: 'comments',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            timestamp: 1,
             license: 1,
             logo: 1,
           },
@@ -470,7 +524,7 @@ export class MongoDbService
           $limit: limit,
         },
       ])
-      .toArray() as Promise<ApiRepository[]>;
+      .toArray() as Promise<RepositorySummary[]>;
   }
 
   /**
@@ -490,13 +544,13 @@ export class MongoDbService
     direction: 1 | -1,
     limit: number,
     page: number,
-  ): Promise<ApiRepository[]> {
+  ): Promise<RepositorySummary[]> {
     this.logger.log(
       `Getting all the repositories with the search term: ${searchTerm}`,
     );
     return this.client
       .db(this.database)
-      .collection<Repository>(Tables.repositories)
+      .collection<RepositorySummary>(Tables.repositories)
       .aggregate([
         {
           $match: {
@@ -544,7 +598,7 @@ export class MongoDbService
           $limit: limit,
         },
       ])
-      .toArray() as Promise<ApiRepository[]>;
+      .toArray() as Promise<RepositorySummary[]>;
   }
 
   /**

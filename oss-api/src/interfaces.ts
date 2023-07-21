@@ -2160,6 +2160,30 @@ export type InstitutionSummary = {
   created_at: string;
 };
 
+export type RepositorySummary = {
+  name: string;
+  uuid: string;
+  url: string;
+  institution: string;
+  organization: string;
+  description: string;
+  fork: boolean;
+  num_forks: number;
+  num_contributors: number;
+  num_commits: number;
+  num_stars: number;
+  num_watchers: number;
+  has_own_commits: number;
+  issues_closed: number;
+  issues_all: number;
+  pull_requests_closed: number;
+  pull_requests_all: number;
+  comments: number;
+  timestamp: string;
+  license: string;
+  logo: string;
+};
+
 export type UserSummary = {
   login: string;
   name: string;
