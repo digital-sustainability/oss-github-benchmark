@@ -133,7 +133,7 @@ export class ApiController {
         ).toDateString();
         if (created_at == 'Invalid Date') created_at = '';
         institution.num_repos = repos.length;
-        institution.num_members = await this.getInstituionMamberCount(repos);
+        institution.num_members = await this.getInstituionMemberCount(repos);
         institution.total_num_forks_in_repos = repos.filter(
           (repo) => repo.fork == true,
         ).length;
@@ -174,7 +174,7 @@ export class ApiController {
         ).toDateString();
         if (created_at == 'Invalid Date') created_at = '';
         institution.num_repos = repos.length;
-        institution.num_members = await this.getInstituionMamberCount(repos);
+        institution.num_members = await this.getInstituionMemberCount(repos);
         institution.total_num_forks_in_repos = repos.filter(
           (repo) => repo.fork == true,
         ).length;
@@ -288,15 +288,17 @@ export class ApiController {
     return this.mongoDbService.getRepositoriesWithObjectIds(repoIds);
   }
 
-  private async getInstituionMamberCount(
+  private async getInstituionMemberCount(
     repos: RepositoryRevised[],
   ): Promise<number> {
     let count = 0;
     for (const repo of repos) {
-      count += (
+      /*count += (
         await this.mongoDbService.getContributorsWithId(repo.contributors)
-      ).length;
+      ).length;*/
+      count += repo.contributors.length;
     }
+
     return count;
   }
 }
