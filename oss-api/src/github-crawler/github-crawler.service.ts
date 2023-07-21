@@ -37,7 +37,7 @@ export class GithubCrawlerService {
   /**
    * Prepare all the institution data
    */
-  //@Cron(CronExpression.EVERY_HOUR)
+  @Cron(CronExpression.EVERY_HOUR)
   private async prepareInstitutions() {
     this.logger.log(`Prepairing all institutions to be crawled`);
     this.reachedGithubCallLimit = false;
@@ -50,7 +50,6 @@ export class GithubCrawlerService {
     });
     for (const todoInstituition of todoInstituitions) {
       if (this.reachedGithubCallLimit) break;
-      if (todoInstituition.shortname !== 'bfh') continue;
       if (
         todoInstituition.ts &&
         todoInstituition.ts.getTime() > Date.now() - this.daysToWait
