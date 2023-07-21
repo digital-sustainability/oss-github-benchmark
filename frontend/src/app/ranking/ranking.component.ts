@@ -4,7 +4,7 @@ import { DataService } from 'src/app/data.service';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { Institution } from 'src/app/types';
+import { Institution, InstitutionSumary } from 'src/app/types';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { InstitutionDetailViewComponent } from '../institution-detail-view/institution-detail-view.component';
@@ -33,7 +33,7 @@ export class RankingComponent implements OnInit {
   sectorFilters: sectorFilter[] = [];
   recordFilter = '';
   state: Date;
-  institutions: any[];
+  institutions: InstitutionSumary[];
   window: any = window;
   includeForks: boolean = false;
   page: number = 0;
@@ -105,8 +105,8 @@ export class RankingComponent implements OnInit {
           }
         )[0].created_at;*/
       //else this.institutions[index].created_at = new Date(0);
-      if (!institution.orgs[0]) this.institutions[index].location = '';
-      else this.institutions[index].location = ''; //institution.orgs[0].location;
+      // if (!institution.[0]) this.institutions[index].location = '';
+      // else this.institutions[index].location = ''; //institution.orgs[0].location;
       /*let i = 0;
       while (
         !this.institutions[index].location &&
