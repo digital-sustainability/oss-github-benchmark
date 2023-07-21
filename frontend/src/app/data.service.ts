@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Institution, InstitutionSumary as InstitutionSummary } from './types';
+import {
+  Institution,
+  InstitutionSumary as InstitutionSummary,
+  Repository,
+  User,
+} from './types';
 import * as d3 from 'd3';
 import { shareReplay, switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -49,7 +54,7 @@ export class DataService {
 
   async loadLatestUpdate() {
     let latestUpdate = await this.http
-      .get<any>(`${environment.api}latestUpdate`, {})
+      .get<{ updatedDate: string }>(`${environment.api}latestUpdate`, {})
       .toPromise();
     return latestUpdate.updatedDate;
   }
@@ -61,17 +66,16 @@ export class DataService {
     page?: string;
     count?: string;
     includeForks?: string;
-  }): Promise<any> {
+  }) {
     const repoData = await this.http
-      .get<any>(`${environment.api}paginatedRepositories`, {
+      .get<{
+        repositories: Repository[];
+        total: number;
+      }>(`${environment.api}paginatedRepositories`, {
         params: config,
       })
       .toPromise();
-    return {
-      csvData: this.parseJSON2CSV(repoData.repositories),
-      jsonData: repoData.repositories,
-      total: repoData.total,
-    };
+    return repoData;
   }
 
   async loadUserData(config: {
@@ -80,32 +84,16 @@ export class DataService {
     direction: 'ASC' | 'DESC';
     page: string;
     count: string;
-  }): Promise<any> {
+  }) {
     const userData = await this.http
-      .get<any>(`${environment.api}paginatedUsers`, {
+      .get<{
+        users: User[];
+        total: number;
+      }>(`${environment.api}paginatedUsers`, {
         params: config,
       })
       .toPromise();
-    return {
-      csvData: this.parseJSON2CSV(userData.users),
-      jsonData: userData.users,
-      total: userData.total,
-    };
-  }
-
-  loadDataObservable(): Observable<any> {
-    return this.http.get(`${environment.api}institutions`).pipe(
-      switchMap((data) => {
-        return of({
-          csvData: this.parseJSON2CSV(data),
-          jsonData: data,
-        });
-      }),
-    );
-  }
-
-  private parseJSON2CSV(data: any): any {
-    return data as d3.DSVRowArray;
+    return userData;
   }
 }
 

@@ -2,11 +2,10 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { DataService } from 'src/app/data.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { Institution } from 'src/app/types';
 import { ActivatedRoute } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { IData } from '../visualizations/visualizations.component';
+import { User } from '../types';
 
 @Component({
   selector: 'app-user-ranking',
@@ -31,11 +30,10 @@ export class UserRankingComponent implements OnInit {
   displayedColumnsOnlyNames = this.displayedColumns.map((column) => column[0]);
   recordFilter = '';
   searchTermRaw = '';
-  @Input() data: IData;
   dataSource: any = new MatTableDataSource();
   numUsers: number;
   state: Date;
-  users: any[] = [];
+  users: User[] = [];
   page: number = 0;
   count: number = 30;
   activeSort: string = 'followers';
@@ -66,36 +64,7 @@ export class UserRankingComponent implements OnInit {
         count: this.count.toString(),
       })
       .then((userData) => {
-        this.users = Object.entries(userData.jsonData)
-          .reduce((previousValue, currentValue) => {
-            const [key, value] = currentValue;
-            return previousValue.concat(value);
-          }, [])
-          .map((u) => {
-            if (!u.name) {
-              u.name = u.login;
-            }
-            let contributions_sum = Object.values(u.contributions).reduce(
-              (a, b) => {
-                return (
-                  a +
-                  Object.values(b).reduce((c, d) => {
-                    return (
-                      c +
-                      Object.values(d).reduce((e: number, f: number) => {
-                        return e + f;
-                      }, 0)
-                    );
-                  }, 0)
-                );
-              },
-              0,
-            );
-            let contributionsString = JSON.stringify(u.contributions, null, 2);
-            u.contributions_sum = contributions_sum;
-            u.contributionsString = contributionsString;
-            return u;
-          });
+        this.users = userData.users;
         console.log(this.users);
         this.dataSource = new MatTableDataSource(this.users);
         this.numUsers = userData.total;

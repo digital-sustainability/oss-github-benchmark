@@ -9,7 +9,6 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { InstitutionDetailViewComponent } from '../institution-detail-view/institution-detail-view.component';
 import { FormsModule } from '@angular/forms';
-import { IData } from '../visualizations/visualizations.component';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 
@@ -28,7 +27,6 @@ export class RankingComponent implements OnInit {
   item: Institution;
   innerWidth: any;
   displayedColumns: string[] = ['logo', 'name_de', 'num_repos'];
-  @Input() data: IData;
   dataSource: any = new MatTableDataSource();
   numInstitutions: number;
   checkboxes: string[] = [];

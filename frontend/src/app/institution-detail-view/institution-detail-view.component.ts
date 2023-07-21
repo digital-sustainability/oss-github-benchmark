@@ -274,7 +274,7 @@ export class InstitutionDetailViewComponent implements OnInit {
         search: this.data.institution.shortname,
       })
       .then((data) => {
-        let repoData: any[] = data.jsonData;
+        let repoData: any[] = data.repositories;
         this.numRepositories = data.total;
         this.item = Object.assign({}, this.data.institution);
         this.item.repos = repoData;
