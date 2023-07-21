@@ -148,3 +148,27 @@ For more information look at api/paginatedInstitutions.
 #### repositories: Repository[];
 
 #### total: number;
+
+## api/paginatedUsers
+
+Get paginated list of users.
+
+### Request
+
+For more information look at api/paginatedInstitutions.
+
+#### search?: string;
+
+#### sort?: string;
+
+#### direction?: 'ASC' | 'DESC';
+
+#### page?: string;
+
+#### count?: string;
+
+### Response
+
+#### users: User[];
+
+#### total: number;
