@@ -9,7 +9,7 @@ RUN npm install
 
 RUN npm run build
 
-FROM node:18 as frontendBuild
+FROM node:16 as frontendBuild
 LABEL stage=build
 
 COPY frontend/ ./frontend/
