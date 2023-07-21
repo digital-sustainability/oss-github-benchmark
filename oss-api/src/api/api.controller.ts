@@ -293,9 +293,6 @@ export class ApiController {
   ): Promise<number> {
     let count = 0;
     for (const repo of repos) {
-      /*count += (
-        await this.mongoDbService.getContributorsWithId(repo.contributors)
-      ).length;*/
       count += repo.contributors.length;
     }
 
