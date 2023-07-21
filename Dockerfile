@@ -5,7 +5,7 @@ COPY oss-api/ ./
 
 WORKDIR /oss-api
 
-RUN npm install
+RUN npm install --omit=dev
 
 RUN npm run build
 
@@ -18,7 +18,7 @@ RUN cd /frontend/
 
 WORKDIR /frontend/
 
-RUN npm install
+RUN npm install --omit=dev
 
 RUN npm run build:prod
 
