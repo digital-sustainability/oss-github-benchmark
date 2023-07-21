@@ -91,7 +91,7 @@ page index
 
 limit for institutions returned
 
-#### includeForks?: string;
+#### includeForks?: boolean;
 
 if forked repos should be included in repo count itself and sorting by it
 
