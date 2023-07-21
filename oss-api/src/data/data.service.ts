@@ -48,12 +48,14 @@ export class DataService {
   constructor(private mongo: MongoDbService) {
     this.dataPath = process.env.DATA_PATH;
   }
-  async onApplicationBootstrap() {}
+  async onApplicationBootstrap() {
+    //this.handler();
+  }
 
   private readonly logger = new Logger(DataService.name);
   private dataPath: string;
 
-  @Cron(CronExpression.EVERY_HOUR)
+  //@Cron(CronExpression.EVERY_HOUR)
   private async handler(): Promise<void> {
     this.logger.log('Handling all the new data');
     const currentTime = new Date();
@@ -74,15 +76,15 @@ export class DataService {
     const organisationFileNames: string[] = filteredFileNames.filter(
       (fileName) => fileName.includes('organisation'),
     );
-    contributorFileNames.forEach((contributorFileName) => {
+    /*contributorFileNames.forEach((contributorFileName) => {
       this.handleContributor(contributorFileName);
-    });
-    await this.handleRepositories(repositoryFileNames);
+    });*/
+    //await this.handleRepositories(repositoryFileNames);
     await this.handleOrganisations(organisationFileNames);
-    await this.handleInstitutions();
-    for (const fileName of filteredFileNames) {
+    //await this.handleInstitutions();
+    /*for (const fileName of filteredFileNames) {
       fs.unlinkSync(this.dataPath.concat('/', fileName));
-    }
+    }*/
     this.logger.log('Data service is finished');
   }
 
@@ -313,6 +315,7 @@ export class DataService {
     organisationData: GithubOrganisation,
     organisationName: string,
   ): Promise<OrganisationRevised> {
+    const reposIds = await this.getRepositoriesFromDB(organisationName);
     const organisation: OrganisationRevised = {
       name: organisationName,
       url: organisationData.html_url,
@@ -321,7 +324,7 @@ export class DataService {
       created_at: organisationData.created_at,
       locations: organisationData.location,
       email: organisationData.email,
-      repos: await this.getRepositoriesFromDB(organisationName),
+      repos: reposIds,
     };
     return organisation;
   }

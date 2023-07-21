@@ -15,6 +15,8 @@ import {
   GroupCount,
   ObjectCount,
   ApiUser,
+  InstitutionSummary,
+  RepositoryRevised,
 } from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { UserQueryPipe } from 'src/user-query.pipe';
@@ -22,6 +24,7 @@ import { InstitutionQueryDto } from './dto/institution-query.dto';
 import { UserQueryDto } from './dto/user-query.dto';
 import { RepositoryQueryDto } from './dto/repository-query.dto';
 import { RepositoryQueryPipe } from 'src/repository-query.pipe';
+import { ObjectId } from 'mongodb';
 
 @Controller('api')
 export class ApiController {
@@ -47,11 +50,11 @@ export class ApiController {
   @UsePipes(new InstitutionQueryPipe(), new ValidationPipe({ transform: true }))
   async findInstitutions(@Query() queryDto: InstitutionQueryDto): Promise<
     | {
-        institutions: ApiInstitution[];
+        institutions: InstitutionSummary[];
         total: number;
         sectors: { [key: string]: number };
       }
-    | ApiInstitution
+    | InstitutionSummary
   > {
     const queryConfig = queryDto;
     return await this.handleInstitutions(queryConfig);
@@ -87,32 +90,19 @@ export class ApiController {
     queryConfig: InstitutionQueryConfig,
   ): Promise<
     | {
-        institutions: ApiInstitution[];
+        institutions: InstitutionSummary[];
         total: number;
         sectors: { [key: string]: number };
       }
-    | ApiInstitution
+    | InstitutionSummary
   > {
     let sectorList = this.sectors;
-    if (queryConfig.findName.length > 0) {
-      const institution =
-        await this.mongoDbService.findInstitutionsWithSearchTerm(
-          queryConfig.findName,
-          queryConfig.sort,
-          queryConfig.direction == 'ASC' ? 1 : -1,
-          sectorList,
-          queryConfig.count,
-          queryConfig.page,
-          true,
-        );
-      return institution[0];
-    }
     if (queryConfig.sector.length > 0) {
       sectorList = this.sectors.filter((sector: string) => {
         return queryConfig.sector.includes(sector);
       });
     }
-    let institutions: ApiInstitution[] = [];
+    let institutions: InstitutionSummary[] = [];
     let foundSectors: GroupCount[] = [];
     if (queryConfig.search.length > 0) {
       institutions = await this.mongoDbService.findInstitutionsWithSearchTerm(
@@ -124,6 +114,34 @@ export class ApiController {
         queryConfig.page,
         false,
       );
+      for (const institution of institutions) {
+        const repos = await this.getInstitutionRepositories(
+          institution['orgs'],
+        );
+        const orgas = await this.mongoDbService.getOrganisationsWithObjectIds(
+          institution['orgs'],
+        );
+        const location = orgas
+          .filter((orga) => orga.locations)
+          .map(({ locations }) => locations)[0];
+        let created_at = new Date(
+          Math.min(
+            ...orgas
+              .filter((orga) => orga.created_at)
+              .map(({ created_at }) => new Date(created_at).getTime()),
+          ),
+        ).toDateString();
+        if (created_at == 'Invalid Date') created_at = '';
+        institution.num_repos = repos.length;
+        institution.num_members = await this.getInstituionMamberCount(repos);
+        institution.total_num_forks_in_repos = repos.filter(
+          (repo) => repo.fork == true,
+        ).length;
+        institution.avatar = institution.avatar ? institution.avatar[0] : '';
+        institution.repo_names = repos.map(({ name }) => name);
+        institution.location = location;
+        institution.created_at = created_at;
+      }
       foundSectors =
         await this.mongoDbService.countAllInstitutionsWithSearchTerm(
           queryConfig.search,
@@ -137,6 +155,35 @@ export class ApiController {
         queryConfig.count,
         queryConfig.page,
       );
+      for (const institution of institutions) {
+        const repos = await this.getInstitutionRepositories(
+          institution['orgs'],
+        );
+        const orgas = await this.mongoDbService.getOrganisationsWithObjectIds(
+          institution['orgs'],
+        );
+        const location = orgas
+          .filter((orga) => orga.locations)
+          .map(({ locations }) => locations)[0];
+        let created_at = new Date(
+          Math.min(
+            ...orgas
+              .filter((orga) => orga.created_at)
+              .map(({ created_at }) => new Date(created_at).getTime()),
+          ),
+        ).toDateString();
+        if (created_at == 'Invalid Date') created_at = '';
+        institution.num_repos = repos.length;
+        institution.num_members = await this.getInstituionMamberCount(repos);
+        institution.total_num_forks_in_repos = repos.filter(
+          (repo) => repo.fork == true,
+        ).length;
+        institution.avatar = institution.avatar ? institution.avatar[0] : '';
+        institution.repo_names = repos.map(({ name }) => name);
+        institution.location = location;
+        institution.created_at = created_at;
+      }
+
       foundSectors = await this.mongoDbService.countAllInstitutions(sectorList);
     }
     let total = 0;
@@ -225,5 +272,31 @@ export class ApiController {
       users: users,
       total: total[0].total,
     };
+  }
+
+  private async getInstitutionRepositories(
+    organisations: ObjectId[],
+  ): Promise<RepositoryRevised[]> {
+    const institutionOrganisations =
+      await this.mongoDbService.getOrganisationRepositoriesObjectIds(
+        organisations,
+      );
+    let repoIds = [];
+    for (const institutionOrganisation of institutionOrganisations) {
+      repoIds = repoIds.concat(institutionOrganisation['repos']);
+    }
+    return this.mongoDbService.getRepositoriesWithObjectIds(repoIds);
+  }
+
+  private async getInstituionMamberCount(
+    repos: RepositoryRevised[],
+  ): Promise<number> {
+    let count = 0;
+    for (const repo of repos) {
+      count += (
+        await this.mongoDbService.getContributorsWithId(repo.contributors)
+      ).length;
+    }
+    return count;
   }
 }

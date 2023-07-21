@@ -2141,7 +2141,6 @@ export interface InstitutionQueryConfig {
   count: number;
   sendStats: boolean;
   includeForksInSort: boolean;
-  findName: string;
 }
 
 export interface RepositoryQueryConfig {
@@ -2160,6 +2159,21 @@ export interface UserQueryConfig {
   page: number;
   count: number;
 }
+
+/************************************API Types*******************************************/
+
+export type InstitutionSummary = {
+  shortname: string;
+  name_de: string;
+  num_repos: number;
+  num_members: number;
+  total_num_forks_in_repos: number;
+  avatar: string;
+  sector: string;
+  repo_names: string[];
+  location: string;
+  created_at: string;
+};
 
 /************************************Enums*******************************************/
 
