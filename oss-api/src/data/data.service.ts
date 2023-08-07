@@ -48,9 +48,7 @@ export class DataService {
   constructor(private mongo: MongoDbService) {
     this.dataPath = process.env.DATA_PATH;
   }
-  async onApplicationBootstrap() {
-    this.handler();
-  }
+  async onApplicationBootstrap() {}
 
   private readonly logger = new Logger(DataService.name);
   private dataPath: string;

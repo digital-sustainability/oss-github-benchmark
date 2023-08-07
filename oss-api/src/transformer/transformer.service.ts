@@ -23,7 +23,6 @@ export class TransformerService {
     //this.prepareData();
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_1AM)
   private async prepareData() {
     this.logger.log('Preparing all the user data');
     const users = await this.mongo.getAllUsers();
