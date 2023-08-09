@@ -359,13 +359,13 @@ export class MongoDbService
           },
         },
         {
+          $sort: { [key]: direction },
+        },
+        {
           $skip: limit * page,
         },
         {
           $limit: limit,
-        },
-        {
-          $sort: { [key]: direction },
         },
       ])
       .toArray() as Promise<InstitutionSummary[]>;
