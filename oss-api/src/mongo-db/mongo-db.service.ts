@@ -439,12 +439,9 @@ export class MongoDbService
    * @param sectors An array with the sectors
    * @returns An Group count array with the sector names and how many there are
    */
-  async countAllInstitutionsWithSearchTerm(
-    searchTerm: string,
-    sectors: string[],
-  ): Promise<GroupCount[]> {
+  async countAllInstitutionsWithSearchTerm(cond): Promise<GroupCount[]> {
     this.logger.log(
-      `Counting institutions corresponding to this search term: ${searchTerm} and these sectors: ${sectors}`,
+      `Counting institutions corresponding with these conditions: ${cond}`,
     );
     return this.client
       .db(this.database)
@@ -452,10 +449,7 @@ export class MongoDbService
       .aggregate([
         {
           $match: {
-            $and: [
-              { $text: { $search: searchTerm } },
-              { sector: { $in: sectors } },
-            ],
+            $and: cond,
           },
         },
         {
