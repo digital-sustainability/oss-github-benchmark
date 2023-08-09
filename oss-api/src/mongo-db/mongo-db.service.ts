@@ -60,15 +60,15 @@ export class MongoDbService
     this.client
       .db(this.database)
       .collection('institutions')
-      .createIndex({ '$**': 'text' });
+      .createIndex({ '$**': 'text' }, { default_language: 'none' });
     this.client
       .db(this.database)
-      .collection('repositories')
-      .createIndex({ '$**': 'text' });
+      .collection('repositoriesNew')
+      .createIndex({ '$**': 'text' }, { default_language: 'none' });
     this.client
       .db(this.database)
-      .collection('users')
-      .createIndex({ '$**': 'text' });
+      .collection('contributors')
+      .createIndex({ '$**': 'text' }, { default_language: 'none' });
   }
   private async destroyConnection() {
     if (!this.client) return;
@@ -269,34 +269,93 @@ export class MongoDbService
     limit: number,
     page: number,
     includeForks: boolean,
+    cond,
   ): Promise<InstitutionSummary[]> {
     this.logger.log(`Searching for institutions containing ${searchTerm}`);
     return this.client
       .db(this.database)
-      .collection<InstitutionRevised>(Tables.instituions)
+      .collection<InstitutionSummary>(Tables.instituions)
       .aggregate([
         {
           $match: {
-            $and: [
-              { $text: { $search: searchTerm } },
-              { sector: { $in: sectors } },
-            ],
+            $and: cond,
+          },
+        },
+        {
+          $lookup: {
+            from: 'organisation',
+            localField: 'orgs',
+            foreignField: '_id',
+            as: 'orga',
+          },
+        },
+        { $unwind: { path: '$orga', preserveNullAndEmptyArrays: true } },
+        {
+          $lookup: {
+            from: 'repositoriesNew',
+            localField: 'orga.repos',
+            foreignField: '_id',
+            as: 'repo',
+          },
+        },
+        { $unwind: { path: '$repo', preserveNullAndEmptyArrays: true } },
+        { $sort: { 'orga.created_at': 1 } },
+        {
+          $group: {
+            _id: '$_id',
+            shortname: { $first: '$shortname' },
+            name_de: { $first: '$name_de' },
+            num_repos: { $count: {} },
+            members: { $push: '$repo.contributors' },
+            forks: { $push: '$repo.fork' },
+            avatar: { $first: { $first: '$avatar' } },
+            sector: { $first: '$sector' },
+            repo_names: { $push: '$repo.name' },
+            location: { $first: '$orga.locations' },
+            created_at: { $first: '$orga.created_at' },
+          },
+        },
+        {
+          $set: {
+            total_num_forks_in_repos: {
+              $sum: {
+                $size: {
+                  $filter: {
+                    input: '$forks',
+                    cond: '$$this',
+                  },
+                },
+              },
+            },
+            num_members: {
+              $size: {
+                $setUnion: [
+                  {
+                    $reduce: {
+                      input: '$members',
+                      initialValue: [],
+                      in: { $concatArrays: ['$$value', '$$this'] },
+                    },
+                  },
+                  [],
+                ],
+              },
+            },
           },
         },
         {
           $project: {
-            _id: 0,
-            name_de: 1,
+            _id: 1,
             shortname: 1,
+            name_de: 1,
+            num_repos: 1,
+            num_members: 1,
+            total_num_forks_in_repos: 1,
             avatar: 1,
             sector: 1,
-            created_at: {
-              $getField: {
-                field: 'created_at',
-                input: { $arrayElemAt: ['$orgs', 0] },
-              },
-            },
-            orgs: 1,
+            repo_names: 1,
+            location: 1,
+            created_at: 1,
           },
         },
         {

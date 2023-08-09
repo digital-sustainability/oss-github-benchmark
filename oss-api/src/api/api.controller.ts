@@ -109,50 +109,32 @@ export class ApiController {
     }
     let institutions: InstitutionSummary[] = [];
     let foundSectors: GroupCount[] = [];
+    let cond: any = [
+      {
+        sector: { $in: sectorList },
+      },
+    ];
+
     if (queryConfig.search.length > 0) {
-      institutions = await this.mongoDbService.findInstitutionsWithSearchTerm(
-        queryConfig.search,
-        queryConfig.sort,
-        queryConfig.direction == 'ASC' ? 1 : -1,
-        sectorList,
-        queryConfig.count,
-        queryConfig.page,
-        false,
-      );
-      for (const institution of institutions) {
-        const repos = await this.getInstitutionRepositories(
-          institution['orgs'],
-        );
-        const orgas = await this.mongoDbService.getOrganisationsWithObjectIds(
-          institution['orgs'],
-        );
-        const location = orgas
-          .filter((orga) => orga.locations)
-          .map(({ locations }) => locations)[0];
-        let created_at = new Date(
-          Math.min(
-            ...orgas
-              .filter((orga) => orga.created_at)
-              .map(({ created_at }) => new Date(created_at).getTime()),
-          ),
-        ).toDateString();
-        if (created_at == 'Invalid Date') created_at = '';
-        institution.num_repos = repos.length;
-        institution.num_members = await this.getInstituionMemberCount(repos);
-        institution.total_num_forks_in_repos = repos.filter(
-          (repo) => repo.fork == true,
-        ).length;
-        institution.avatar = institution.avatar ? institution.avatar[0] : '';
-        institution.repo_names = repos.map(({ name }) => name);
-        institution.location = location;
-        institution.created_at = created_at;
-      }
-      foundSectors =
-        await this.mongoDbService.countAllInstitutionsWithSearchTerm(
-          queryConfig.search,
-          sectorList,
-        );
-    } else {
+      cond.push({
+        $text: { $search: queryConfig.search },
+      });
+    }
+    institutions = await this.mongoDbService.findInstitutionsWithSearchTerm(
+      queryConfig.search,
+      queryConfig.sort,
+      queryConfig.direction == 'ASC' ? 1 : -1,
+      sectorList,
+      queryConfig.count,
+      queryConfig.page,
+      false,
+      cond,
+    );
+    foundSectors = await this.mongoDbService.countAllInstitutionsWithSearchTerm(
+      queryConfig.search,
+      sectorList,
+    );
+    /*} else {
       institutions = await this.mongoDbService.findInstitutionsLimitedSorted(
         queryConfig.sort,
         queryConfig.direction == 'ASC' ? 1 : -1,
@@ -190,7 +172,7 @@ export class ApiController {
       }
 
       foundSectors = await this.mongoDbService.countAllInstitutions(sectorList);
-    }
+    }*/
     let total = 0;
     const sectorcount = {};
     foundSectors.forEach((foundSector) => {
