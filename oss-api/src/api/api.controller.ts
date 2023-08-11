@@ -152,21 +152,30 @@ export class ApiController {
     let repositories: RepositorySummary[] = [];
     let countedRepos: ObjectCount[] = [];
     const includeForks = queryConfig.includeForks ? [false, true] : [false];
+    //if (queryConfig.search.length > 0) {
+    let cond: any = [
+      {
+        fork: { $in: includeForks },
+      },
+    ];
     if (queryConfig.search.length > 0) {
-      repositories = await this.mongoDbService.findRepositoryWithSearchTerm(
-        queryConfig.search,
-        includeForks,
-        queryConfig.sort,
-        queryConfig.direction == 'ASC' ? 1 : -1,
-        queryConfig.count,
-        queryConfig.page,
-      );
-      countedRepos =
-        await this.mongoDbService.countAllRepositoriesWithSearchTerm(
-          queryConfig.search,
-          includeForks,
-        );
-    } else {
+      cond.push({
+        $text: { $search: queryConfig.search },
+      });
+    }
+    repositories = await this.mongoDbService.findRepositoryWithSearchTerm(
+      queryConfig.search,
+      includeForks,
+      queryConfig.sort,
+      queryConfig.direction == 'ASC' ? 1 : -1,
+      queryConfig.count,
+      queryConfig.page,
+      cond,
+    );
+    countedRepos = await this.mongoDbService.countAllRepositoriesWithSearchTerm(
+      cond,
+    );
+    /*} else {
       repositories = await this.mongoDbService.findAllRepositoriesLimitedSorted(
         queryConfig.sort,
         queryConfig.direction == 'ASC' ? 1 : -1,
@@ -177,7 +186,7 @@ export class ApiController {
       countedRepos = await this.mongoDbService.countAllRepositories(
         includeForks,
       );
-    }
+    }*/
     return {
       repositories: repositories,
       total: countedRepos[0].total,
@@ -219,30 +228,5 @@ export class ApiController {
       users: users,
       total: total,
     };
-  }
-
-  private async getInstitutionRepositories(
-    organisations: ObjectId[],
-  ): Promise<RepositoryRevised[]> {
-    const institutionOrganisations =
-      await this.mongoDbService.getOrganisationRepositoriesObjectIds(
-        organisations,
-      );
-    let repoIds = [];
-    for (const institutionOrganisation of institutionOrganisations) {
-      repoIds = repoIds.concat(institutionOrganisation['repos']);
-    }
-    return this.mongoDbService.getRepositoriesWithObjectIds(repoIds);
-  }
-
-  private async getInstituionMemberCount(
-    repos: RepositoryRevised[],
-  ): Promise<number> {
-    let count = 0;
-    for (const repo of repos) {
-      count += repo.contributors.length;
-    }
-
-    return count;
   }
 }

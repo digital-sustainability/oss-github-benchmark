@@ -597,6 +597,7 @@ export class MongoDbService
     direction: 1 | -1,
     limit: number,
     page: number,
+    cond,
   ): Promise<RepositorySummary[]> {
     this.logger.log(
       `Getting all the repositories with the search term: ${searchTerm}`,
@@ -607,36 +608,86 @@ export class MongoDbService
       .aggregate([
         {
           $match: {
-            $and: [
-              { $text: { $search: searchTerm } },
-              { fork: { $in: includeForks } },
-            ],
+            $and: cond,
           },
         },
         {
           $project: {
             _id: 0,
-            uuid: 1,
             name: 1,
+            uuid: 1,
             url: 1,
-            description: 1,
-            timestamp: 1,
             institution: 1,
             organization: 1,
-            comments: 1,
-            issues_all: 1,
-            pull_requests_all: 1,
-            pull_requests_closed: 1,
-            issues_closed: 1,
-            num_commits: 1,
-            num_contributors: 1,
-            num_watchers: 1,
-            num_forks: 1,
-            num_stars: 1,
-            has_own_commits: 1,
-            createdTimestamp: 1,
-            updatedTimestamp: 1,
+            description: 1,
             fork: 1,
+            num_forks: {
+              $getField: {
+                field: 'num_forks',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            num_contributors: {
+              $getField: {
+                field: 'num_contributors',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            num_commits: {
+              $getField: {
+                field: 'num_commits',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            num_stars: {
+              $getField: {
+                field: 'num_stars',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            num_watchers: {
+              $getField: {
+                field: 'num_watchers',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            has_own_commits: {
+              $getField: {
+                field: 'has_own_commits',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            issues_closed: {
+              $getField: {
+                field: 'issues_closed',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            issues_all: {
+              $getField: {
+                field: 'issues_all',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            pull_requests_closed: {
+              $getField: {
+                field: 'pull_requests_closed',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            pull_requests_all: {
+              $getField: {
+                field: 'pull_requests_all',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            comments: {
+              $getField: {
+                field: 'comments',
+                input: { $arrayElemAt: ['$stats', -1] },
+              },
+            },
+            timestamp: 1,
             license: 1,
             logo: 1,
           },
@@ -681,12 +732,9 @@ export class MongoDbService
    * @param includeForks If forks should be included
    * @returns An Object count array
    */
-  async countAllRepositoriesWithSearchTerm(
-    searchTerm: string,
-    includeForks: boolean[],
-  ): Promise<ObjectCount[]> {
+  async countAllRepositoriesWithSearchTerm(cond): Promise<ObjectCount[]> {
     this.logger.log(
-      `Counting repositories corresponding with these fork values: ${includeForks} and this search term: ${searchTerm}`,
+      `Counting repositories corresponding with these conditions: ${cond}`,
     );
     return this.client
       .db(this.database)
@@ -694,10 +742,7 @@ export class MongoDbService
       .aggregate([
         {
           $match: {
-            $and: [
-              { $text: { $search: searchTerm } },
-              { fork: { $in: includeForks } },
-            ],
+            $and: cond,
           },
         },
         {
