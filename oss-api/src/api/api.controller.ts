@@ -152,7 +152,6 @@ export class ApiController {
     let repositories: RepositorySummary[] = [];
     let countedRepos: ObjectCount[] = [];
     const includeForks = queryConfig.includeForks ? [false, true] : [false];
-    //if (queryConfig.search.length > 0) {
     let cond: any = [
       {
         fork: { $in: includeForks },
@@ -165,7 +164,6 @@ export class ApiController {
     }
     repositories = await this.mongoDbService.findRepositoryWithSearchTerm(
       queryConfig.search,
-      includeForks,
       queryConfig.sort,
       queryConfig.direction == 'ASC' ? 1 : -1,
       queryConfig.count,
@@ -175,18 +173,6 @@ export class ApiController {
     countedRepos = await this.mongoDbService.countAllRepositoriesWithSearchTerm(
       cond,
     );
-    /*} else {
-      repositories = await this.mongoDbService.findAllRepositoriesLimitedSorted(
-        queryConfig.sort,
-        queryConfig.direction == 'ASC' ? 1 : -1,
-        queryConfig.count,
-        queryConfig.page,
-        includeForks,
-      );
-      countedRepos = await this.mongoDbService.countAllRepositories(
-        includeForks,
-      );
-    }*/
     return {
       repositories: repositories,
       total: countedRepos[0].total,

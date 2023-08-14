@@ -2167,7 +2167,7 @@ export type RepositorySummary = {
   institution: string;
   organization: string;
   description: string;
-  fork: boolean;
+  fork: string;
   num_forks: number;
   num_contributors: number;
   num_commits: number;
@@ -2181,6 +2181,8 @@ export type RepositorySummary = {
   comments: number;
   timestamp: string;
   license: string;
+  created_at: Date;
+  updated_at: Date;
   logo: string;
 };
 

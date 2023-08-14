@@ -592,7 +592,6 @@ export class MongoDbService
    */
   async findRepositoryWithSearchTerm(
     searchTerm: string,
-    includeForks: boolean[],
     key: string,
     direction: 1 | -1,
     limit: number,
@@ -620,7 +619,7 @@ export class MongoDbService
             institution: 1,
             organization: 1,
             description: 1,
-            fork: 1,
+            fork: { $toString: '$fork' },
             num_forks: {
               $getField: {
                 field: 'num_forks',
@@ -689,6 +688,8 @@ export class MongoDbService
             },
             timestamp: 1,
             license: 1,
+            created_at: 1,
+            updated_at: 1,
             logo: 1,
           },
         },
