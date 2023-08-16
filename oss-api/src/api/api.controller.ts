@@ -162,6 +162,7 @@ export class ApiController {
         $text: { $search: queryConfig.search },
       });
     }
+
     repositories = await this.mongoDbService.findRepositoryWithSearchTerm(
       queryConfig.search,
       queryConfig.sort,
@@ -188,28 +189,22 @@ export class ApiController {
     queryConfig: UserQueryConfig,
   ): Promise<{ users: UserSummary[]; total: number }> {
     let users: UserSummary[] = [];
-    let total: number;
+    let total: number = 0;
+    let cond: any = {};
     if (queryConfig.search.length > 0) {
-      users = await this.mongoDbService.findUsersWithSearchTerm(
-        queryConfig.search,
-        queryConfig.sort,
-        queryConfig.direction == 'ASC' ? 1 : -1,
-        queryConfig.count,
-        queryConfig.page,
-      );
-      total = await this.mongoDbService.countAllUsersWithSearchTerm(
-        queryConfig.search,
-      );
-    } else {
-      users = await this.mongoDbService.findAllUsersLimitedSorted(
-        queryConfig.sort,
-        queryConfig.direction == 'ASC' ? 1 : -1,
-        queryConfig.count,
-        queryConfig.page,
-      );
-      total = await this.mongoDbService.countAllUsers();
-      console.log(total);
+      cond = {
+        $text: { $search: queryConfig.search },
+      };
     }
+    users = await this.mongoDbService.findUsersWithSearchTerm(
+      queryConfig.search,
+      queryConfig.sort,
+      queryConfig.direction == 'ASC' ? 1 : -1,
+      queryConfig.count,
+      queryConfig.page,
+      cond,
+    );
+    total = await this.mongoDbService.countAllUsersWithSearchTerm(cond);
     return {
       users: users,
       total: total,

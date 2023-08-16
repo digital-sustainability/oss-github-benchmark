@@ -819,6 +819,7 @@ export class MongoDbService
     direction: 1 | -1,
     limit: number,
     page: number,
+    cond,
   ): Promise<UserSummary[]> {
     this.logger.log(
       `Searching for users in the database with the search term: ${searchTerm}`,
@@ -828,7 +829,7 @@ export class MongoDbService
       .collection<User>(Tables.contributors)
       .aggregate([
         {
-          $match: { $text: { $search: searchTerm } },
+          $match: cond,
         },
         {
           $project: {
@@ -884,23 +885,9 @@ export class MongoDbService
    * @param searchTerm The search term
    * @returns An ObjectCount array
    */
-  async countAllUsersWithSearchTerm(searchTerm: string): Promise<number> {
+  async countAllUsersWithSearchTerm(cond): Promise<number> {
     this.logger.log(
-      `Counting users corresponding with this search term: ${searchTerm}`,
-    );
-    console.log(
-      await this.client
-        .db(this.database)
-        .collection<User>(Tables.contributors)
-        .aggregate([
-          {
-            $match: { $text: { $search: searchTerm } },
-          },
-          {
-            $count: 'total',
-          },
-        ])
-        .toArray(),
+      `Counting users corresponding with this conditions: ${cond}`,
     );
     return (
       await this.client
@@ -908,7 +895,7 @@ export class MongoDbService
         .collection<User>(Tables.contributors)
         .aggregate([
           {
-            $match: { $text: { $search: searchTerm } },
+            $match: cond,
           },
           {
             $count: 'total',
