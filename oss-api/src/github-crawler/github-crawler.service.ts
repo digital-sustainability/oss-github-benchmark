@@ -73,7 +73,6 @@ export class GithubCrawlerService {
       if (!b.ts) return 1;
       return b.ts.getTime() - a.ts.getTime();
     });
-
     for (const organisation of institution.orgs) {
       if (this.reachedGithubCallLimit) break;
       if (organisation.ts?.getTime() > Date.now() - this.daysToWait) {

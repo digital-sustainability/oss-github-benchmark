@@ -4,7 +4,6 @@ import { MongoDbService } from './mongo-db/mongo-db.service';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { DataGatheringService } from './data-gathering/data-gatherting.service';
 import { GithubService } from './github/github.service';
 import { LoggerModule } from 'nestjs-pino';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -40,7 +39,6 @@ const stream = fs.createWriteStream(
   controllers: [ApiController],
   providers: [
     MongoDbService,
-    DataGatheringService,
     GithubService,
     TransformerService,
     GithubCrawlerService,
