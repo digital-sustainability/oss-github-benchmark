@@ -165,7 +165,6 @@ export class RankingComponent implements OnInit {
     const institution = await this.dataService.loadSingleInstitution({
       name: institutionName,
     });
-    console.log(institution);
     this.changeURL('/institutions/' + institutionName);
     const dialogRef = this.dialog.open(InstitutionDetailViewComponent, {
       data: { institution, includeForks: this.includeForks },

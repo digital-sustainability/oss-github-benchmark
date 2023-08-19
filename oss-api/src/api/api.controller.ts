@@ -62,6 +62,13 @@ export class ApiController {
     return await this.handleInstitutions(queryConfig);
   }
 
+  @Get('singleInstitution')
+  async findSingleInstitution(@Query() queryDto: string) {
+    return (
+      await this.mongoDbService.findInsitutionWithShortName(queryDto['name'])
+    )[0];
+  }
+
   @Get('paginatedRepositories')
   @UsePipes(new RepositoryQueryPipe(), new ValidationPipe({ transform: true }))
   async findRepositories(

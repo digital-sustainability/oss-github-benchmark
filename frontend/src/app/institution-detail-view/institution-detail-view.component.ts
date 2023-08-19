@@ -238,7 +238,7 @@ export class InstitutionDetailViewComponent implements OnInit {
         ctx.restore();
       },
     });
-    this.data.institution.stats.forEach((stat) => {
+    /*this.data.institution.stats.forEach((stat) => {
       [
         'num_repos',
         'num_members',
@@ -259,7 +259,7 @@ export class InstitutionDetailViewComponent implements OnInit {
           y: stat[prop],
         });
       });
-    });
+    });*/
     this.reloadData();
   }
 

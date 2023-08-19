@@ -191,52 +191,6 @@ export class MongoDbService
       .findOne({ name: name });
   }
 
-  /**
-   * Get all institutions from the database
-   * @param key The sort key
-   * @param direction The sort direction
-   * @param sectors The chosen sectors
-   * @param limit The limit
-   * @param page The page
-   * @returns The sorted repositories corresponding to the inputs
-   */
-  async findInstitutionsLimitedSorted(
-    key: string,
-    direction: 1 | -1,
-    sectors: string[],
-    limit: number,
-    page: number,
-  ): Promise<InstitutionSummary[]> {
-    this.logger.log(
-      `Getting ${limit} institutions from the database. Sorted by ${key} in ${direction} direction`,
-    );
-    return this.client
-      .db(this.database)
-      .collection<Institution>(Tables.instituions)
-      .aggregate([
-        { $match: { sector: { $in: sectors } } },
-        {
-          $project: {
-            _id: 0,
-            shortname: 1,
-            name_de: 1,
-            sector: 1,
-            orgs: 1,
-          },
-        },
-        {
-          $sort: { [key]: direction },
-        },
-        {
-          $skip: limit * page,
-        },
-        {
-          $limit: limit,
-        },
-      ])
-      .toArray() as Promise<InstitutionSummary[]>;
-  }
-
   async getOrganisationsWithObjectIds(
     organisationIds: ObjectId[],
   ): Promise<OrganisationRevised[]> {
@@ -1106,6 +1060,126 @@ export class MongoDbService
       .collection<OrganisationRevised>(Tables.organisations)
       .find({ name: { $in: organisationNames } })
       .toArray();
+  }
+
+  public async findInsitutionWithShortName(
+    institutionShortName: string,
+  ): Promise<Institution> {
+    this.logger.log(
+      `Searching for an institution with the shortname: ${institutionShortName}`,
+    );
+    return this.client
+      .db(this.database)
+      .collection<Institution>(Tables.instituions)
+      .aggregate([
+        {
+          $match: {
+            shortname: institutionShortName,
+          },
+        },
+        {
+          $lookup: {
+            from: 'organisation',
+            localField: 'orgs',
+            foreignField: '_id',
+            as: 'orga',
+          },
+        },
+        {
+          $set: {
+            orgs: '$orga',
+          },
+        },
+        { $unwind: { path: '$orga', preserveNullAndEmptyArrays: true } },
+        {
+          $lookup: {
+            from: 'repositoriesNew',
+            localField: 'orga.repos',
+            foreignField: '_id',
+            as: 'repo',
+          },
+        },
+        { $unwind: { path: '$repo', preserveNullAndEmptyArrays: true } },
+        { $sort: { 'orga.created_at': 1 } },
+        {
+          $group: {
+            _id: '$_id',
+            shortname: { $first: '$shortname' },
+            name_de: { $first: '$name_de' },
+            num_repos: { $count: {} },
+            members: { $push: '$repo.contributors' },
+            forks: { $push: '$repo.fork' },
+            avatar: { $first: { $first: '$avatar' } },
+            sector: { $first: '$sector' },
+            repo_names: { $push: '$repo.name' },
+            location: { $first: '$orga.locations' },
+            created_at: { $first: '$orga.created_at' },
+            stats: { $push: { $last: '$repo.stats' } },
+            orgs: { $first: '$orgs' },
+          },
+        },
+        {
+          $set: {
+            total_num_forks_in_repos: {
+              $sum: {
+                $size: {
+                  $filter: {
+                    input: '$forks',
+                    cond: '$$this',
+                  },
+                },
+              },
+            },
+            num_members: {
+              $size: {
+                $setUnion: [
+                  {
+                    $reduce: {
+                      input: '$members',
+                      initialValue: [],
+                      in: { $concatArrays: ['$$value', '$$this'] },
+                    },
+                  },
+                  [],
+                ],
+              },
+            },
+            total_num_contributors: { $sum: '$stats.num_contributors' },
+            total_num_commits: { $sum: '$stats.num_commits' },
+            total_pull_requests: { $sum: '$stats.pull_requests_all' },
+            total_issues: { $sum: '$stats.issues_all' },
+            total_num_stars: { $sum: '$stats.num_stars' },
+            total_num_watchers: { $sum: '$stats.num_watchers' },
+            total_pull_requests_closed: { $sum: '$stats.pull_requests_closed' },
+            total_issues_closed: { $sum: '$stats.issues_closed' },
+            total_comments: { $sum: '$stats.comments' },
+            num_orgs: { $size: '$orgs' },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            avatar: 1,
+            sector: 1,
+            shortname: 1,
+            num_repos: 1,
+            num_members: 1,
+            total_num_contributors: 1,
+            total_num_forks_in_repos: 1,
+            total_num_commits: 1,
+            total_pull_requests: 1,
+            total_issues: 1,
+            total_num_stars: 1,
+            total_num_watchers: 1,
+            total_pull_requests_closed: 1,
+            total_issues_closed: 1,
+            total_comments: 1,
+            num_orgs: 1,
+            orgs: 1,
+          },
+        },
+      ])
+      .toArray() as unknown as Institution;
   }
 
   /***********************************Update************************************************/
