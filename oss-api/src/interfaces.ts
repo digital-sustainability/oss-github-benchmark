@@ -2115,6 +2115,12 @@ export interface InstitutionRevised {
   sector: string;
 }
 
+export interface InstiutionApiResponse {
+  institutions: InstitutionSummary[];
+  total: number;
+  sectors: { [key: string]: number };
+}
+
 /************************************Query Types*******************************************/
 
 export interface InstitutionQueryConfig {
@@ -2125,7 +2131,7 @@ export interface InstitutionQueryConfig {
   page: number;
   count: number;
   sendStats: boolean;
-  includeForksInSort: boolean;
+  includeForks: boolean;
 }
 
 export interface RepositoryQueryConfig {

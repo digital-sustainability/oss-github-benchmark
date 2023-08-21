@@ -16,6 +16,6 @@ export class InstitutionQueryDto implements InstitutionQueryConfig {
   @IsString()
   search: string;
   sendStats: boolean;
-  includeForksInSort: boolean;
+  includeForks: boolean;
   findName: string;
 }

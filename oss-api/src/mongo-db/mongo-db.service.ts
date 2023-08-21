@@ -205,34 +205,33 @@ export class MongoDbService
   }
 
   /**
-   * Get all the instituions corresponding to the search term
-   * @param searchTerm The search term
-   * @param key The sort key
-   * @param direction The sort direction
-   * @param sectors The chosen sectors
-   * @param limit The limit
-   * @param page The page
-   * @param includeForks A boolean to indicate if forked repos should also be included
-   * @returns The sorted repositories corresponding to the inputs
+   * Find all institutions based on the condition array
+   * @param sortKey The value for the sorting
+   * @param direction The direction to sort
+   * @param limit The limit of how many elements should be returned
+   * @param page The page of the elements, based on the limit
+   * @param includeForks If forked repos should be included in the response or not
+   * @param conditions The conditions for the search
+   * @returns A InstitutionSummarry array with the matched elements
    */
-  async findInstitutionsWithSearchTerm(
-    searchTerm: string,
-    key: string,
+  async findInstitutionsWithConditions(
+    sortKey: string,
     direction: 1 | -1,
-    sectors: string[],
     limit: number,
     page: number,
     includeForks: boolean,
-    cond,
+    conditions: Object[],
   ): Promise<InstitutionSummary[]> {
-    this.logger.log(`Searching for institutions containing ${searchTerm}`);
+    this.logger.log(
+      `Searching for institutions with these conditions: ${conditions.toString()}`,
+    );
     return this.client
       .db(this.database)
       .collection<InstitutionSummary>(Tables.instituions)
       .aggregate([
         {
           $match: {
-            $and: cond,
+            $and: conditions,
           },
         },
         {
@@ -250,6 +249,30 @@ export class MongoDbService
             localField: 'orga.repos',
             foreignField: '_id',
             as: 'repo',
+          },
+        },
+        {
+          $project: {
+            shortname: 1,
+            name_de: 1,
+            avatar: 1,
+            sector: 1,
+            orga: 1,
+            repo: {
+              $cond: [
+                { $eq: [includeForks, true] },
+                '$repo',
+                {
+                  $filter: {
+                    input: '$repo',
+                    as: 'repository',
+                    cond: {
+                      $eq: ['$$repository.fork', false],
+                    },
+                  },
+                },
+              ],
+            },
           },
         },
         { $unwind: { path: '$repo', preserveNullAndEmptyArrays: true } },
@@ -313,7 +336,7 @@ export class MongoDbService
           },
         },
         {
-          $sort: { [key]: direction },
+          $sort: { [sortKey]: direction },
         },
         {
           $skip: limit * page,
@@ -388,14 +411,15 @@ export class MongoDbService
   }
 
   /**
-   * Count all the Institutions with the given sectors and search term
-   * @param searchTerm The search term
-   * @param sectors An array with the sectors
-   * @returns An Group count array with the sector names and how many there are
+   * Count all the institutions matching to the given conditions
+   * @param conditions The condition array
+   * @returns A GroupCount Object array
    */
-  async countAllInstitutionsWithSearchTerm(cond): Promise<GroupCount[]> {
+  async countInstitutionsWithConditions(
+    conditions: Object[],
+  ): Promise<GroupCount[]> {
     this.logger.log(
-      `Counting institutions corresponding with these conditions: ${cond}`,
+      `Counting institutions corresponding with these conditions: ${conditions.toString()}`,
     );
     return this.client
       .db(this.database)
@@ -403,7 +427,7 @@ export class MongoDbService
       .aggregate([
         {
           $match: {
-            $and: cond,
+            $and: conditions,
           },
         },
         {

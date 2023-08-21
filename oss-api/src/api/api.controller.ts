@@ -10,15 +10,11 @@ import {
   InstitutionQueryConfig,
   RepositoryQueryConfig,
   UserQueryConfig,
-  ApiInstitution,
-  ApiRepository,
-  GroupCount,
   ObjectCount,
   InstitutionSummary,
-  RepositoryRevised,
   UserSummary,
-  Repository,
   RepositorySummary,
+  InstiutionApiResponse,
 } from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { UserQueryPipe } from 'src/user-query.pipe';
@@ -26,7 +22,6 @@ import { InstitutionQueryDto } from './dto/institution-query.dto';
 import { UserQueryDto } from './dto/user-query.dto';
 import { RepositoryQueryDto } from './dto/repository-query.dto';
 import { RepositoryQueryPipe } from 'src/repository-query.pipe';
-import { ObjectId } from 'mongodb';
 
 @Controller('api')
 export class ApiController {
@@ -50,14 +45,9 @@ export class ApiController {
 
   @Get('paginatedInstitutions')
   @UsePipes(new InstitutionQueryPipe(), new ValidationPipe({ transform: true }))
-  async findInstitutions(@Query() queryDto: InstitutionQueryDto): Promise<
-    | {
-        institutions: InstitutionSummary[];
-        total: number;
-        sectors: { [key: string]: number };
-      }
-    | InstitutionSummary
-  > {
+  async findInstitutions(
+    @Query() queryDto: InstitutionQueryDto,
+  ): Promise<InstiutionApiResponse> {
     const queryConfig = queryDto;
     return await this.handleInstitutions(queryConfig);
   }
@@ -94,51 +84,39 @@ export class ApiController {
 
   /***********************************Helper************************************************/
   /**
-   * Handle the request and the institution data
-   * @param queryConfig The queries of the request
-   * @returns An institution array corresponding to the request
+   * Handle the instiution query with the given conditions
+   * @param queryConfig The query values
+   * @returns A InstituionApiResponse Object
    */
   private async handleInstitutions(
     queryConfig: InstitutionQueryConfig,
-  ): Promise<
-    | {
-        institutions: InstitutionSummary[];
-        total: number;
-        sectors: { [key: string]: number };
-      }
-    | InstitutionSummary
-  > {
+  ): Promise<InstiutionApiResponse> {
     let sectorList = this.sectors;
     if (queryConfig.sector.length > 0) {
       sectorList = this.sectors.filter((sector: string) => {
         return queryConfig.sector.includes(sector);
       });
     }
-    let institutions: InstitutionSummary[] = [];
-    let foundSectors: GroupCount[] = [];
-    let cond: any = [
+    let conditions: Object[] = [
       {
         sector: { $in: sectorList },
       },
     ];
     if (queryConfig.search.length > 0) {
-      cond.push({
+      conditions.push({
         $text: { $search: queryConfig.search },
       });
     }
-    institutions = await this.mongoDbService.findInstitutionsWithSearchTerm(
-      queryConfig.search,
+    let institutions = await this.mongoDbService.findInstitutionsWithConditions(
       queryConfig.sort,
       queryConfig.direction == 'ASC' ? 1 : -1,
-      sectorList,
       queryConfig.count,
       queryConfig.page,
-      false,
-      cond,
+      queryConfig.includeForks,
+      conditions,
     );
-    foundSectors = await this.mongoDbService.countAllInstitutionsWithSearchTerm(
-      cond,
-    );
+    let foundSectors =
+      await this.mongoDbService.countInstitutionsWithConditions(conditions);
     let total = 0;
     const sectorcount = {};
     foundSectors.forEach((foundSector) => {
@@ -148,11 +126,6 @@ export class ApiController {
     return { institutions: institutions, total: total, sectors: sectorcount };
   }
 
-  /**
-   * Handle the repositories and the queries
-   * @param queryConfig The queries
-   * @returns The filtered and sorted repository list
-   */
   private async handleRepositories(
     queryConfig: RepositoryQueryConfig,
   ): Promise<{ repositories: RepositorySummary[]; total: number }> {
@@ -187,11 +160,6 @@ export class ApiController {
     };
   }
 
-  /**
-   * Handle the users paginate api calls
-   * @param queryConfig The query parameters
-   * @returns A Users array
-   */
   private async handleUsers(
     queryConfig: UserQueryConfig,
   ): Promise<{ users: UserSummary[]; total: number }> {
