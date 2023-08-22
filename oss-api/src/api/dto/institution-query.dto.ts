@@ -1,5 +1,8 @@
 import { IsIn, IsString, Min, Max, IsInt } from 'class-validator';
-import { InstitutionQueryConfig } from 'src/interfaces';
+import {
+  InstitutionQueryConfig,
+  SingleInstitutionQueryConfig,
+} from 'src/interfaces';
 
 export class InstitutionQueryDto implements InstitutionQueryConfig {
   sector: string[];
@@ -18,4 +21,9 @@ export class InstitutionQueryDto implements InstitutionQueryConfig {
   sendStats: boolean;
   includeForks: boolean;
   findName: string;
+}
+
+export class SingleInstitutionQueryDTo implements SingleInstitutionQueryConfig {
+  @IsString()
+  name: string;
 }

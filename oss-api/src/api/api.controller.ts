@@ -15,10 +15,16 @@ import {
   UserSummary,
   RepositorySummary,
   InstiutionApiResponse,
+  SingleInsitutionResponse,
+  RepositoryApiResponse,
+  UserApiResponse,
 } from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { UserQueryPipe } from 'src/user-query.pipe';
-import { InstitutionQueryDto } from './dto/institution-query.dto';
+import {
+  InstitutionQueryDto,
+  SingleInstitutionQueryDTo,
+} from './dto/institution-query.dto';
 import { UserQueryDto } from './dto/user-query.dto';
 import { RepositoryQueryDto } from './dto/repository-query.dto';
 import { RepositoryQueryPipe } from 'src/repository-query.pipe';
@@ -53,9 +59,11 @@ export class ApiController {
   }
 
   @Get('singleInstitution')
-  async findSingleInstitution(@Query() queryDto: string) {
+  async findSingleInstitution(
+    @Query() queryDto: SingleInstitutionQueryDTo,
+  ): Promise<SingleInsitutionResponse> {
     return (
-      await this.mongoDbService.findInsitutionWithShortName(queryDto['name'])
+      await this.mongoDbService.findInsitutionWithShortName(queryDto.name)
     )[0];
   }
 
@@ -63,16 +71,14 @@ export class ApiController {
   @UsePipes(new RepositoryQueryPipe(), new ValidationPipe({ transform: true }))
   async findRepositories(
     @Query() queryDto: RepositoryQueryDto,
-  ): Promise<{ repositories: RepositorySummary[]; total: number }> {
+  ): Promise<RepositoryApiResponse> {
     const queryConfig = queryDto;
     return await this.handleRepositories(queryConfig);
   }
 
   @Get('paginatedUsers')
   @UsePipes(new UserQueryPipe(), new ValidationPipe({ transform: true }))
-  async findUsers(
-    @Query() queryDto: UserQueryDto,
-  ): Promise<{ users: UserSummary[]; total: number }> {
+  async findUsers(@Query() queryDto: UserQueryDto): Promise<UserApiResponse> {
     const queryConfig = queryDto;
     return await this.handleUsers(queryConfig);
   }
@@ -126,60 +132,64 @@ export class ApiController {
     return { institutions: institutions, total: total, sectors: sectorcount };
   }
 
+  /**
+   * Handle the repository query with the given conditions
+   * @param queryConfig The query values
+   * @returns A RepositoryApiResponse
+   */
   private async handleRepositories(
     queryConfig: RepositoryQueryConfig,
-  ): Promise<{ repositories: RepositorySummary[]; total: number }> {
-    let repositories: RepositorySummary[] = [];
-    let countedRepos: ObjectCount[] = [];
+  ): Promise<RepositoryApiResponse> {
     const includeForks = queryConfig.includeForks ? [false, true] : [false];
-    let cond: any = [
+    let condition: Object[] = [
       {
         fork: { $in: includeForks },
       },
     ];
     if (queryConfig.search.length > 0) {
-      cond.push({
+      condition.push({
         $text: { $search: queryConfig.search },
       });
     }
-
-    repositories = await this.mongoDbService.findRepositoryWithSearchTerm(
-      queryConfig.search,
+    let repositories = await this.mongoDbService.findRepositoryWithConditions(
       queryConfig.sort,
       queryConfig.direction == 'ASC' ? 1 : -1,
       queryConfig.count,
       queryConfig.page,
-      cond,
+      condition,
     );
-    countedRepos = await this.mongoDbService.countAllRepositoriesWithSearchTerm(
-      cond,
-    );
+    let countedRepos =
+      await this.mongoDbService.countAllRepositoriesWithConditions(condition);
     return {
       repositories: repositories,
       total: countedRepos[0].total,
     };
   }
 
+  /**
+   * Handle the user query with the given conditions
+   * @param queryConfig The query values
+   * @returns A UserApiResponse
+   */
   private async handleUsers(
     queryConfig: UserQueryConfig,
-  ): Promise<{ users: UserSummary[]; total: number }> {
-    let users: UserSummary[] = [];
-    let total: number = 0;
-    let cond: any = {};
+  ): Promise<UserApiResponse> {
+    let condition: Object = {};
     if (queryConfig.search.length > 0) {
-      cond = {
+      condition = {
         $text: { $search: queryConfig.search },
       };
     }
-    users = await this.mongoDbService.findUsersWithSearchTerm(
-      queryConfig.search,
+    let users = await this.mongoDbService.findUsersWithConditions(
       queryConfig.sort,
       queryConfig.direction == 'ASC' ? 1 : -1,
       queryConfig.count,
       queryConfig.page,
-      cond,
+      condition,
     );
-    total = await this.mongoDbService.countAllUsersWithSearchTerm(cond);
+    let total = await this.mongoDbService.countAllUsersWithConditions(
+      condition,
+    );
     return {
       users: users,
       total: total,

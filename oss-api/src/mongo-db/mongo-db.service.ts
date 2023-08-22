@@ -23,6 +23,7 @@ import {
   InstitutionSummary,
   UserSummary,
   RepositorySummary,
+  SingleInsitutionResponse,
 } from 'src/interfaces';
 
 enum Tables {
@@ -559,25 +560,23 @@ export class MongoDbService
   }
 
   /**
-   * Get all the repositories corresponding to the inputs
-   * @param searchTerm The search term
-   * @param key The sort key
-   * @param direction The sort direction
-   * @param limit The limit
-   * @param page The page
-   * @param includeForks If forks should also be included
-   * @returns An array of ApiRepositories
+   * Find repositories with given conditions
+   * @param key The sorting key
+   * @param direction In which direction to sort
+   * @param limit The limit of the returned items
+   * @param page The page of the reults
+   * @param conditions The conditions for the filtering
+   * @returns An Array with the repositories
    */
-  async findRepositoryWithSearchTerm(
-    searchTerm: string,
+  async findRepositoryWithConditions(
     key: string,
     direction: 1 | -1,
     limit: number,
     page: number,
-    cond,
+    conditions: Object[],
   ): Promise<RepositorySummary[]> {
     this.logger.log(
-      `Getting all the repositories with the search term: ${searchTerm}`,
+      `Getting all the repositories with the conditions: ${conditions.toString()}`,
     );
     return this.client
       .db(this.database)
@@ -585,7 +584,7 @@ export class MongoDbService
       .aggregate([
         {
           $match: {
-            $and: cond,
+            $and: conditions,
           },
         },
         {
@@ -706,14 +705,13 @@ export class MongoDbService
   }
 
   /**
-   * Count all the repos corresponding to the search term
-   * @param searchTerm The search term
-   * @param includeForks If forks should be included
-   * @returns An Object count array
+   * Count all repositories with given conditions
+   * @param condition The conditions to filter with
+   * @returns The count of found users
    */
-  async countAllRepositoriesWithSearchTerm(cond): Promise<ObjectCount[]> {
+  async countAllRepositoriesWithConditions(condition: Object[]): Promise<ObjectCount[]> {
     this.logger.log(
-      `Counting repositories corresponding with these conditions: ${cond}`,
+      `Counting repositories corresponding with these conditions: ${condition.toString()}`,
     );
     return this.client
       .db(this.database)
@@ -721,7 +719,7 @@ export class MongoDbService
       .aggregate([
         {
           $match: {
-            $and: cond,
+            $and: condition,
           },
         },
         {
@@ -783,31 +781,30 @@ export class MongoDbService
   }
 
   /**
-   * Get all the users corresponding to the inputs
-   * @param searchTerm
-   * @param key The sort key
-   * @param direction The sort direction
-   * @param limit The limit
-   * @param page The page
-   * @returns An ApiUser array
+   * Find users with given conditions
+   * @param key The key to sort with
+   * @param direction The direction to sort
+   * @param limit The limit of answers
+   * @param page The page of the answers
+   * @param condition The conditions to filter
+   * @returns An Array of users matching the conditions
    */
-  async findUsersWithSearchTerm(
-    searchTerm: string,
+  async findUsersWithConditions(
     key: string,
     direction: 1 | -1,
     limit: number,
     page: number,
-    cond,
+    condition: Object,
   ): Promise<UserSummary[]> {
     this.logger.log(
-      `Searching for users in the database with the search term: ${searchTerm}`,
+      `Searching for users in the database with the conditions: ${condition.toString()}`,
     );
     return this.client
       .db(this.database)
       .collection<User>(Tables.contributors)
       .aggregate([
         {
-          $match: cond,
+          $match: condition: Object,
         },
         {
           $project: {
@@ -859,13 +856,13 @@ export class MongoDbService
   }
 
   /**
-   * Count all users corresponding to the search term
-   * @param searchTerm The search term
-   * @returns An ObjectCount array
+   * Count all users with the given condtions
+   * @param conditions The conditions to filter with
+   * @returns The number of users matching
    */
-  async countAllUsersWithSearchTerm(cond): Promise<number> {
+  async countAllUsersWithConditions(conditions: Object): Promise<number> {
     this.logger.log(
-      `Counting users corresponding with this conditions: ${cond}`,
+      `Counting users corresponding with this conditions: ${conditions}`,
     );
     return (
       await this.client
@@ -873,7 +870,7 @@ export class MongoDbService
         .collection<User>(Tables.contributors)
         .aggregate([
           {
-            $match: cond,
+            $match: conditions,
           },
           {
             $count: 'total',
@@ -1086,15 +1083,20 @@ export class MongoDbService
       .toArray();
   }
 
+  /**
+   * Get an institution by its shortname
+   * @param institutionShortName The shortname of the insitution
+   * @returns An array containing the Institution
+   */
   public async findInsitutionWithShortName(
     institutionShortName: string,
-  ): Promise<Institution> {
+  ): Promise<SingleInsitutionResponse[]> {
     this.logger.log(
       `Searching for an institution with the shortname: ${institutionShortName}`,
     );
     return this.client
       .db(this.database)
-      .collection<Institution>(Tables.instituions)
+      .collection<SingleInsitutionResponse>(Tables.instituions)
       .aggregate([
         {
           $match: {
@@ -1182,7 +1184,7 @@ export class MongoDbService
         },
         {
           $project: {
-            _id: 1,
+            _id: 0,
             avatar: 1,
             sector: 1,
             shortname: 1,
@@ -1203,7 +1205,7 @@ export class MongoDbService
           },
         },
       ])
-      .toArray() as unknown as Institution;
+      .toArray() as Promise<SingleInsitutionResponse[]>;
   }
 
   /***********************************Update************************************************/

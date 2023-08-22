@@ -2121,6 +2121,48 @@ export interface InstiutionApiResponse {
   sectors: { [key: string]: number };
 }
 
+export interface SingleInsitutionResponse {
+  avatar: string;
+  sector: string;
+  shortname: string;
+  num_repos: number;
+  num_members: number;
+  total_num_contributors: number;
+  total_num_forks_in_repos: number;
+  total_num_commits: number;
+  total_pull_requests: number;
+  total_issues: number;
+  total_num_stars: number;
+  total_num_watchers: number;
+  total_pull_requests_closed: number;
+  total_issues_closed: number;
+  total_comments: number;
+  num_orgs: number;
+  orgs: SingleInsitutionOrganisation[];
+}
+
+export interface SingleInsitutionOrganisation {
+  _id: ObjectId;
+  name: string;
+  url: string;
+  description: string;
+  avatar: string;
+  created_at: Date;
+  locations: string;
+  email: string;
+  repos: ObjectId[];
+}
+
+export interface RepositoryApiResponse {
+  repositories: RepositorySummary[];
+  total: number;
+}
+
+export interface UserApiResponse {
+  users: UserSummary[];
+  total: number;
+}
+
 /************************************Query Types*******************************************/
 
 export interface InstitutionQueryConfig {
@@ -2149,6 +2191,10 @@ export interface UserQueryConfig {
   direction: 'ASC' | 'DESC';
   page: number;
   count: number;
+}
+
+export interface SingleInstitutionQueryConfig {
+  name: string;
 }
 
 /************************************API Types*******************************************/
