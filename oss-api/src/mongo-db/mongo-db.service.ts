@@ -670,7 +670,9 @@ export class MongoDbService
   async searchContributors(
     contributorLogins: string[],
   ): Promise<Contributor[]> {
-    this.logger.log('Getting all the contributors');
+    this.logger.log(
+      `Getting all the contributor with the logins: ${contributorLogins.toString()}`,
+    );
     return this.client
       .db(this.database)
       .collection<Contributor>(Tables.contributors)

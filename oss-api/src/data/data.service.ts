@@ -48,7 +48,9 @@ export class DataService {
   constructor(private mongo: MongoDbService) {
     this.dataPath = process.env.DATA_PATH;
   }
-  async onApplicationBootstrap() {}
+  async onApplicationBootstrap() {
+    this.handler();
+  }
 
   private readonly logger = new Logger(DataService.name);
   private dataPath: string;
@@ -73,9 +75,9 @@ export class DataService {
     const organisationFileNames: string[] = filteredFileNames.filter(
       (fileName) => fileName.includes('organisation'),
     );
-    contributorFileNames.forEach((contributorFileName) => {
+    for (const contributorFileName of contributorFileNames) {
       this.handleContributor(contributorFileName);
-    });
+    }
     await this.handleRepositories(repositoryFileNames);
     await this.handleOrganisations(organisationFileNames);
     await this.handleInstitutions();
@@ -114,10 +116,9 @@ export class DataService {
     }
   }
 
-  private async handleRepositories(
-    repositoryFileNames: string[],
-  ): Promise<void> {
+  private async handleRepositories(repositoryFileNames: string[]) {
     this.logger.log('Handling all repositories');
+
     let repositories: RepoData[] = [];
     for (const repofileName of repositoryFileNames) {
       const repoData: string = this.readFile(
@@ -185,7 +186,8 @@ export class DataService {
       }
       repositories[repoName] = data;
     }
-    Object.values(repositories).forEach(async (repository) => {
+    const test = Object.values(repositories);
+    for (const repository of test) {
       this.logger.log(`Handling repository ${repository.repository.name}`);
       const res = await this.mongo.findRepositoryRevised(
         repository.repository.name,
@@ -197,17 +199,18 @@ export class DataService {
         repository.comparedCommits ? repository.comparedCommits.ahead_by : 0,
       );
       await this.mongo.upsertRevisedRepository(newRepo);
-    });
+    }
   }
 
-  private handleContributor(fileName: string): void {
+  private async handleContributor(fileName: string) {
     this.logger.log(`Handling file ${fileName}`);
     const userData: string = this.readFile(this.dataPath.concat('/', fileName));
     if (!userData) return;
     const parsedFile: RawResponse = JSON.parse(userData);
     const parsedData: GithubUser = parsedFile.response['data'];
     const contributor = this.createContributor(parsedData);
-    this.mongo.upsertContributor(contributor);
+    await this.mongo.upsertContributor(contributor);
+    return 1;
   }
 
   /******************************************Helper Functions*******************************************************/
@@ -268,6 +271,9 @@ export class DataService {
     currentRepositoryStats: RepositoryStats[],
     aheadByCommits: number,
   ): Promise<RepositoryRevised> {
+    this.logger.log(
+      `Creating repo info for repo ${repositoryData.repository.name}`,
+    );
     const repositoryStats: RepositoryStats = {
       num_forks: repositoryData.repository.forks_count,
       num_contributors: repositoryData.contributors.length,
@@ -283,6 +289,11 @@ export class DataService {
       languages: repositoryData.languages,
     };
     currentRepositoryStats.push(repositoryStats);
+    const contributorNames = repositoryData.contributors.map(
+      (contributor) => contributor.login,
+    );
+    const contributors = await this.getContributorsFromDB(contributorNames);
+    const coders = await this.getCodersFromCommits(repositoryData.commits);
     const repository: RepositoryRevised = {
       name: repositoryData.repository.name,
       uuid: uuidv4(),
@@ -295,10 +306,8 @@ export class DataService {
       timestamp: new Date(),
       created_at: new Date(repositoryData.repository.created_at),
       updated_at: new Date(repositoryData.repository.updated_at),
-      contributors: await this.getContributorsFromDB(
-        repositoryData.contributors.map((contributor) => contributor.login),
-      ),
-      coders: this.getCodersFromCommits(repositoryData.commits),
+      contributors: contributors,
+      coders: coders,
       license: repositoryData.repository.license
         ? repositoryData.repository.license.name
         : 'none',
@@ -350,7 +359,8 @@ export class DataService {
     contributorLogins: string[],
   ): Promise<ObjectId[]> {
     const res = await this.mongo.searchContributors(contributorLogins);
-    return res.map((contributor) => contributor['_id']);
+    const ids = res.map((contributor) => contributor['_id']);
+    return ids;
   }
 
   private async getRepositoriesFromDB(
