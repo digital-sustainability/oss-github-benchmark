@@ -422,7 +422,9 @@ export class MongoDbService
    * @param condition The conditions to filter with
    * @returns The count of found users
    */
-  async countAllRepositoriesWithConditions(condition: Object[]): Promise<ObjectCount[]> {
+  async countAllRepositoriesWithConditions(
+    condition: Object[],
+  ): Promise<ObjectCount[]> {
     this.logger.log(
       `Counting repositories corresponding with these conditions: ${condition.toString()}`,
     );
@@ -466,7 +468,7 @@ export class MongoDbService
       .collection<User>(Tables.contributors)
       .aggregate([
         {
-          $match: condition: Object,
+          $match: condition,
         },
         {
           $project: {
