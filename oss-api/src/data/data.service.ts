@@ -64,7 +64,6 @@ export class DataService {
         .replace('.json', '') as unknown as number;
       return timestamp < currentTime.getTime();
     });
-
     const contributorFileNames: string[] = filteredFileNames.filter(
       (fileName) => fileName.includes('user'),
     );
