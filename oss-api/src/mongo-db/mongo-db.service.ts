@@ -79,55 +79,12 @@ export class MongoDbService
 
   /***********************************Create************************************************/
 
-  /**
-   * Create a new user in the database
-   * @param user The user object
-   */
-  async createNewUser(user: User): Promise<void> {
-    this.logger.log(
-      `Adding new user with username ${user.login} to the database`,
-    );
-    this.client
-      .db(this.database)
-      .collection<User>(Tables.contributors)
-      .insertOne(user);
-  }
-
-  /**
-   * Create a new repository in the database
-   * @param repository The repository object
-   */
-  async createNewRepository(repository: Repository): Promise<void> {
-    this.logger.log(
-      `Adding new Repository named ${repository.name} to the database`,
-    );
-    this.client
-      .db(this.database)
-      .collection<Repository>(Tables.repositories)
-      .insertOne(repository);
-  }
-
   /***********************************Read**************************************************/
 
   /**
-   * Find a user by their username
-   * @param userName The username of the user
-   * @returns A User object
-   */
-  async findUserWithUserName(userName: string): Promise<User> {
-    this.logger.log(
-      `Searching the user with the username ${userName} in the database`,
-    );
-    return this.client
-      .db(this.database)
-      .collection<User>(Tables.contributors)
-      .findOne({ login: userName });
-  }
-
-  /**
-   * Find a repository
-   * @param repoName the name of the repository
-   * @param instiutitonName the name of the owning institution
+   * Find a repository with its name and the name of the institution
+   * @param repoName The name of the repository
+   * @param instiutitonName The name of the owning institution
    * @returns The found repository
    */
   async findRepository(
@@ -159,49 +116,6 @@ export class MongoDbService
           session,
         },
       )
-      .toArray();
-  }
-
-  /**
-   * Get the institution with the given uuid
-   * @param uuid The uuid of the institution
-   * @returns A Insitution object
-   */
-  async findInstitutionWithUUID(uuid: string): Promise<Institution> {
-    this.logger.log(
-      `Getting the institution with the uuid ${uuid} from the database`,
-    );
-    return this.client
-      .db(this.database)
-      .collection<Institution>(Tables.instituions)
-      .findOne({ uuid: uuid });
-  }
-
-  /**
-   * Get the organisation with the given name
-   * @param name The name of the organisation
-   * @returns A Organsation object
-   */
-  async findOrganisationWithName(name: string): Promise<Organisation> {
-    this.logger.log(
-      `Getting the organisation with the name ${name} from the database`,
-    );
-    return this.client
-      .db(this.database)
-      .collection<Organisation>(Tables.organisations)
-      .findOne({ name: name });
-  }
-
-  async getOrganisationsWithObjectIds(
-    organisationIds: ObjectId[],
-  ): Promise<OrganisationRevised[]> {
-    this.logger.log(
-      `Getting all the organisation with these ids: ${organisationIds}`,
-    );
-    return this.client
-      .db(this.database)
-      .collection<OrganisationRevised>(Tables.organisations)
-      .find({ _id: { $in: organisationIds } })
       .toArray();
   }
 
@@ -349,68 +263,6 @@ export class MongoDbService
       .toArray() as Promise<InstitutionSummary[]>;
   }
 
-  async getOrganisationRepositoriesObjectIds(
-    organisationObjectId: ObjectId[],
-  ): Promise<ObjectId[]> {
-    this.logger.log(
-      `Getting all organisations with the Ids ${organisationObjectId}`,
-    );
-    return this.client
-      .db(this.database)
-      .collection<OrganisationRevised>(Tables.organisations)
-      .aggregate([
-        {
-          $match: {
-            _id: { $in: organisationObjectId },
-          },
-        },
-        {
-          $project: {
-            _id: 0,
-            repos: 1,
-          },
-        },
-      ])
-      .toArray() as Promise<ObjectId[]>;
-  }
-
-  async getRepositoriesWithObjectIds(
-    repositoriesObjectIds: ObjectId[],
-  ): Promise<RepositoryRevised[]> {
-    this.logger.log(
-      `Getting all the repositories with the Ids ${repositoriesObjectIds}`,
-    );
-    return this.client
-      .db(this.database)
-      .collection<RepositoryRevised>(Tables.repositories)
-      .find({ _id: { $in: repositoriesObjectIds } })
-      .toArray();
-  }
-
-  /**
-   * Count how many institutions there are with the given sectors
-   * @param sectors An array with the sectors
-   * @returns An Group count array with the sector names and how many there are
-   */
-  async countAllInstitutions(sectors: string[]): Promise<GroupCount[]> {
-    this.logger.log(
-      `Counting institutions corresponding to these sectors: ${sectors}`,
-    );
-    return this.client
-      .db(this.database)
-      .collection<Institution>(Tables.instituions)
-      .aggregate([
-        { $match: { sector: { $in: sectors } } },
-        {
-          $group: {
-            _id: '$sector',
-            total: { $count: {} },
-          },
-        },
-      ])
-      .toArray() as Promise<GroupCount[]>;
-  }
-
   /**
    * Count all the institutions matching to the given conditions
    * @param conditions The condition array
@@ -439,124 +291,6 @@ export class MongoDbService
         },
       ])
       .toArray() as Promise<GroupCount[]>;
-  }
-
-  /**
-   * Get all the repositories corresponding to the inputs
-   * @param key The sort key
-   * @param direction The sort direction
-   * @param limit The limit
-   * @param page The page
-   * @param includeForks If forks should also be included
-   * @returns An array of ApiRepositories
-   */
-  async findAllRepositoriesLimitedSorted(
-    key: string,
-    direction: 1 | -1,
-    limit: number,
-    page: number,
-    includeForks: boolean[],
-  ): Promise<RepositorySummary[]> {
-    this.logger.log(
-      `Getting ${limit} repositories from the database. Sorted by ${key} in ${direction} direction`,
-    );
-    return this.client
-      .db(this.database)
-      .collection<RepositorySummary>(Tables.repositories)
-      .aggregate([
-        { $match: { fork: { $in: includeForks } } },
-        {
-          $project: {
-            _id: 0,
-            name: 1,
-            uuid: 1,
-            url: 1,
-            institution: 1,
-            organization: 1,
-            description: 1,
-            fork: 1,
-            num_forks: {
-              $getField: {
-                field: 'num_forks',
-                input: { $arrayElemAt: ['$stats', -1] },
-              },
-            },
-            num_contributors: {
-              $getField: {
-                field: 'num_contributors',
-                input: { $arrayElemAt: ['$stats', -1] },
-              },
-            },
-            num_commits: {
-              $getField: {
-                field: 'num_commits',
-                input: { $arrayElemAt: ['$stats', -1] },
-              },
-            },
-            num_stars: {
-              $getField: {
-                field: 'num_stars',
-                input: { $arrayElemAt: ['$stats', -1] },
-              },
-            },
-            num_watchers: {
-              $getField: {
-                field: 'num_watchers',
-                input: { $arrayElemAt: ['$stats', -1] },
-              },
-            },
-            has_own_commits: {
-              $getField: {
-                field: 'has_own_commits',
-                input: { $arrayElemAt: ['$stats', -1] },
-              },
-            },
-            issues_closed: {
-              $getField: {
-                field: 'issues_closed',
-                input: { $arrayElemAt: ['$stats', -1] },
-              },
-            },
-            issues_all: {
-              $getField: {
-                field: 'issues_all',
-                input: { $arrayElemAt: ['$stats', -1] },
-              },
-            },
-            pull_requests_closed: {
-              $getField: {
-                field: 'pull_requests_closed',
-                input: { $arrayElemAt: ['$stats', -1] },
-              },
-            },
-            pull_requests_all: {
-              $getField: {
-                field: 'pull_requests_all',
-                input: { $arrayElemAt: ['$stats', -1] },
-              },
-            },
-            comments: {
-              $getField: {
-                field: 'comments',
-                input: { $arrayElemAt: ['$stats', -1] },
-              },
-            },
-            timestamp: 1,
-            license: 1,
-            logo: 1,
-          },
-        },
-        {
-          $sort: { [key]: direction },
-        },
-        {
-          $skip: limit * page,
-        },
-        {
-          $limit: limit,
-        },
-      ])
-      .toArray() as Promise<RepositorySummary[]>;
   }
 
   /**
@@ -684,27 +418,6 @@ export class MongoDbService
   }
 
   /**
-   * Count all the repos
-   * @param includeForks If forks should be included
-   * @returns An Object count array
-   */
-  async countAllRepositories(includeForks: boolean[]): Promise<ObjectCount[]> {
-    this.logger.log(
-      `Counting repositories corresponding with these fork values: ${includeForks}`,
-    );
-    return this.client
-      .db(this.database)
-      .collection<Repository>(Tables.repositories)
-      .aggregate([
-        { $match: { fork: { $in: includeForks } } },
-        {
-          $count: 'total',
-        },
-      ])
-      .toArray() as Promise<ObjectCount[]>;
-  }
-
-  /**
    * Count all repositories with given conditions
    * @param condition The conditions to filter with
    * @returns The count of found users
@@ -727,57 +440,6 @@ export class MongoDbService
         },
       ])
       .toArray() as Promise<ObjectCount[]>;
-  }
-
-  /**
-   * Get all the users corresponding to the inputs
-   * @param key The sort key
-   * @param direction The sort direction
-   * @param limit The limit
-   * @param page The page
-   * @returns An ApiUser array
-   */
-  async findAllUsersLimitedSorted(
-    key: string,
-    direction: 1 | -1,
-    limit: number,
-    page: number,
-  ): Promise<UserSummary[]> {
-    this.logger.log(
-      `Getting ${limit} users from the database. Sorted by ${key} in ${direction} direction`,
-    );
-    return this.client
-      .db(this.database)
-      .collection<User>(Tables.contributors)
-      .aggregate([
-        {
-          $project: {
-            _id: 0,
-            avatar_url: 1,
-            name: 1,
-            login: 1,
-            company: 1,
-            location: 1,
-            twitter_username: 1,
-            public_repos: 1,
-            public_gists: 1,
-            followers: 1,
-            created_at: 1,
-            updated_at: 1,
-            contributions: 1,
-          },
-        },
-        {
-          $sort: { [key]: direction },
-        },
-        {
-          $skip: limit * page,
-        },
-        {
-          $limit: limit,
-        },
-      ])
-      .toArray() as Promise<UserSummary[]>;
   }
 
   /**
@@ -834,25 +496,6 @@ export class MongoDbService
         },
       ])
       .toArray() as Promise<UserSummary[]>;
-  }
-
-  /**
-   * Count all users in the database
-   * @returns An ObjectCount array
-   */
-  async countAllUsers(): Promise<number> {
-    this.logger.log(`Counting all Users`);
-    return (
-      await this.client
-        .db(this.database)
-        .collection<User>(Tables.contributors)
-        .aggregate([
-          {
-            $count: 'total',
-          },
-        ])
-        .toArray()
-    )[0].total as Promise<number>;
   }
 
   /**
@@ -961,17 +604,6 @@ export class MongoDbService
       .toArray();
   }
 
-  async getContributorsWithId(
-    contributorIds: ObjectId[],
-  ): Promise<Contributor[]> {
-    this.logger.log(`Getting all contributors with the Ids ${contributorIds}`);
-    return this.client
-      .db(this.database)
-      .collection<Contributor>(Tables.contributors)
-      .find({ _id: { $in: contributorIds } })
-      .toArray();
-  }
-
   /**
    * Get all organisations from the database
    * @returns An array with all the organisations
@@ -1044,6 +676,12 @@ export class MongoDbService
       .toArray();
   }
 
+  /**
+   * Find repositories
+   * @param repoName The repository name
+   * @param instiutitonName The insitution name
+   * @returns The found repository
+   */
   async findRepositoryRevised(
     repoName: string,
     instiutitonName: string,
@@ -1057,7 +695,12 @@ export class MongoDbService
       .findOne({ name: repoName, institution: instiutitonName });
   }
 
-  async findAllOrganisationrepository(
+  /**
+   * Find all repositories of an organisation
+   * @param organisationName The organisation name
+   * @returns The found repositories
+   */
+  async findAllOrganisationRepository(
     organisationName: string,
   ): Promise<RepositoryRevised[]> {
     this.logger.log(
@@ -1070,6 +713,11 @@ export class MongoDbService
       .toArray();
   }
 
+  /**
+   * Get all organisations from their names
+   * @param organisationNames The names of the organisations
+   * @returns The found organisations
+   */
   public async findOrganisationsWithNames(
     organisationNames: string[],
   ): Promise<OrganisationRevised[]> {
@@ -1209,180 +857,6 @@ export class MongoDbService
   }
 
   /***********************************Update************************************************/
-
-  /**
-   * Update a user in the database
-   * @param user The user object
-   */
-  async updateUser(user: User): Promise<void> {
-    this.logger.log(
-      `Updating user with the username ${user.login} in the database.`,
-    );
-    this.client
-      .db(this.database)
-      .collection<User>(Tables.contributors)
-      .replaceOne(
-        { login: user.login },
-        {
-          login: user.login,
-          name: user.name,
-          avatar_url: user.avatar_url,
-          bio: user.bio,
-          blog: user.blog,
-          company: user.company,
-          email: user.email,
-          twitter_username: user.twitter_username,
-          location: user.location,
-          created_at: user.created_at,
-          updated_at: user.updated_at,
-          contributions: user.contributions,
-          public_repos: user.public_repos,
-          public_gists: user.public_gists,
-          followers: user.followers,
-          following: user.following,
-          orgs: user.orgs,
-        },
-      );
-  }
-
-  /**
-   * Create or update a institution in the database
-   * @param institution A institution object
-   */
-  async upsertInstitution(institution: Institution): Promise<void> {
-    this.logger.log(
-      `Upserting institution ${institution.name_de} in the database`,
-    );
-    this.client
-      .db(this.database)
-      .collection<Institution>(Tables.instituions)
-      .replaceOne(
-        { uuid: institution.uuid },
-        {
-          uuid: institution.uuid,
-          shortname: institution.shortname,
-          name_de: institution.name_de,
-          num_repos: institution.num_repos,
-          num_members: institution.num_members,
-          total_num_contributors: institution.total_num_contributors,
-          total_num_own_repo_forks: institution.total_num_own_repo_forks,
-          total_num_forks_in_repos: institution.total_num_forks_in_repos,
-          total_num_commits: institution.total_num_commits,
-          total_pull_requests: institution.total_pull_requests,
-          total_issues: institution.total_issues,
-          total_num_stars: institution.total_num_stars,
-          total_num_watchers: institution.total_num_watchers,
-          total_pull_requests_all: institution.total_pull_requests_all,
-          total_pull_requests_closed: institution.total_pull_requests_closed,
-          total_issues_all: institution.total_issues_all,
-          total_issues_closed: institution.total_issues_closed,
-          total_comments: institution.total_comments,
-          org_names: institution.org_names,
-          orgs: institution.orgs,
-          num_orgs: institution.num_orgs,
-          avatar: institution.avatar,
-          repos: institution.repos,
-          repo_names: institution.repo_names,
-          total_licenses: institution.total_licenses,
-          timestamp: institution.timestamp,
-          sector: institution.sector,
-          stats: institution.stats,
-          searchString: institution.searchString,
-        },
-        { upsert: true },
-      );
-  }
-
-  /**
-   * Update the timestamp of a todo insitution
-   * @param uuid The institution uuid
-   */
-  async updateTodoInstitutionTimestamp(uuid: string): Promise<void> {
-    this.logger.log(
-      `Updating timestamp of the institution with the uuid ${uuid}.`,
-    );
-    this.client
-      .db(this.database)
-      .collection<TodoInstitution>(Tables.todoInstituions)
-      .updateOne({ uuid: uuid }, { $set: { ts: new Date() } });
-  }
-
-  /**
-   * Update all org timestamps of a todo institution
-   * @param institution The todo insitution object
-   */
-  async updateOrgTimestamp(institution: TodoInstitution): Promise<void> {
-    this.logger.log(
-      `Updating timestamp of all orgs of the instituion ${institution.uuid}`,
-    );
-    this.client
-      .db(this.database)
-      .collection<TodoInstitution>(Tables.todoInstituions)
-      .updateOne(
-        { uuid: institution.uuid },
-        { $set: { orgs: institution.orgs } },
-      );
-  }
-
-  /**
-   * Upsert an Organisation
-   * @param organisation the Organisation Object
-   */
-  async upsertOrg(organisation: Organisation): Promise<void> {
-    this.logger.log(`Upserting organsisation ${organisation.name}`);
-    this.client
-      .db(this.database)
-      .collection<Organisation>(Tables.organisations)
-      .replaceOne(
-        { name: organisation.name },
-        {
-          num_repos: organisation.num_repos,
-          num_members: organisation.num_members,
-          total_num_contributors: organisation.total_num_contributors,
-          total_num_own_repo_forks: organisation.total_num_own_repo_forks,
-          total_num_forks_in_repos: organisation.total_num_forks_in_repos,
-          total_num_commits: organisation.total_num_commits,
-          total_pull_requests: organisation.total_pull_requests,
-          total_issues: organisation.total_issues,
-          total_num_stars: organisation.total_num_stars,
-          total_num_watchers: organisation.total_num_watchers,
-          total_pull_requests_all: organisation.total_pull_requests_all,
-          total_pull_requests_closed: organisation.total_pull_requests_closed,
-          total_issues_all: organisation.total_issues_all,
-          total_issues_closed: organisation.total_issues_closed,
-          total_comments: organisation.total_comments,
-          name: organisation.name,
-          url: organisation.url,
-          description: organisation.description,
-          avatar: organisation.avatar,
-          created_at: organisation.created_at,
-          location: organisation.location,
-          email: organisation.email,
-          repos: organisation.repos,
-          repo_names: organisation.repo_names,
-          total_licenses: organisation.total_licenses,
-          timestamp: organisation.timestamp,
-        },
-        { upsert: true },
-      );
-  }
-
-  /**
-   * Upsert a repository
-   * @param repo the repository object
-   * @param id the id of the old database entry
-   */
-  async upsertRepository(repo: Repository): Promise<void> {
-    this.logger.log(`Upserting repository ${repo.name}`);
-    this.client
-      .db(this.database)
-      .collection<Repository>(Tables.repositories)
-      .replaceOne(
-        { name: repo.name, institution: repo.institution },
-        { ...repo },
-        { upsert: true },
-      );
-  }
 
   /**
    * Upsert a contributor

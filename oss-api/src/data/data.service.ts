@@ -357,7 +357,7 @@ export class DataService {
   private async getRepositoriesFromDB(
     organisationName: string,
   ): Promise<ObjectId[]> {
-    const res = await this.mongo.findAllOrganisationrepository(
+    const res = await this.mongo.findAllOrganisationRepository(
       organisationName,
     );
     return res.map((repository) => repository['_id']);
