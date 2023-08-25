@@ -4,12 +4,15 @@ import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 import { Logger as BaseLogger } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true,
+    cors: true,
+  });
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
-  app.flushLogs();
-  BaseLogger.flush();
-  app.enableCors();
+  //app.flushLogs();
+  //BaseLogger.flush();
+  //app.enableCors();
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
