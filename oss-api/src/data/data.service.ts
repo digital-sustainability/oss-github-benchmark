@@ -215,7 +215,7 @@ export class DataService {
   }
 
   private async handleContributor(fileName: string) {
-    this.logger.log(`Handling file ${fileName}`);
+    log(`Handling file ${fileName}`);
     const userData: string = this.readFile(this.dataPath.concat('/', fileName));
     if (!userData) return;
     const parsedFile: RawResponse = JSON.parse(userData);
