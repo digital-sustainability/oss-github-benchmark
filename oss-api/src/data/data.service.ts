@@ -65,26 +65,28 @@ export class DataService {
   private async handler(): Promise<void> {
     this.logger.log('Handling all the new data');
     const currentTime = new Date();
-    console.log(this.dataPath);
     if (!this.dataPath) return;
-    console.log('Foobar');
     const fileNames: string[] = fs.readdirSync(this.dataPath);
-    log(fileNames);
+    log(' file names');
     const filteredFileNames = fileNames.filter((fileName) => {
       const timestamp = fileName
         .split('_')[1]
         .replace('.json', '') as unknown as number;
       return timestamp < currentTime.getTime();
     });
+    log('filtered file names');
     const contributorFileNames: string[] = filteredFileNames.filter(
       (fileName) => fileName.includes('user'),
     );
+    log('contributor file names');
     const repositoryFileNames: string[] = filteredFileNames.filter((fileName) =>
       fileName.includes('repository'),
     );
+    log('repository file names');
     const organisationFileNames: string[] = filteredFileNames.filter(
       (fileName) => fileName.includes('organisation'),
     );
+    log('organisation file names');
     for (const contributorFileName of contributorFileNames) {
       this.handleContributor(contributorFileName);
     }
