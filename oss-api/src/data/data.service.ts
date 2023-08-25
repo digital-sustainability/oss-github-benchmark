@@ -130,17 +130,21 @@ export class DataService {
 
   private async handleRepositories(repositoryFileNames: string[]) {
     log('Handling all repositories');
-
     let repositories: RepoData[] = [];
     for (const repofileName of repositoryFileNames) {
+      log(repofileName);
       const repoData: string = this.readFile(
         this.dataPath.concat('/', repofileName),
       );
       if (!repoData) continue;
       const parsedFile: RawResponse = JSON.parse(repoData);
+      log('parsedFile');
       const repoName: string = parsedFile.repoName;
+      log('repoName');
       const method: string = parsedFile.method;
+      log('method');
       const parsedData: any = parsedFile.response['data'];
+      log('parsedDaa');
       let data: RepoData = {
         repository: null,
         contributors: [],
