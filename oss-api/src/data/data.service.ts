@@ -63,7 +63,7 @@ export class DataService {
 
   @Cron(CronExpression.EVERY_HOUR)
   private async handler(): Promise<void> {
-    this.logger.log('Handling all the new data');
+    log('Handling all the new data');
     const currentTime = new Date();
     if (!this.dataPath) return;
     const fileNames: string[] = fs.readdirSync(this.dataPath);
@@ -96,7 +96,7 @@ export class DataService {
     for (const fileName of filteredFileNames) {
       fs.unlinkSync(this.dataPath.concat('/', fileName));
     }
-    this.logger.log('Data service is finished');
+    log('Data service is finished');
   }
 
   private async handleInstitutions() {
@@ -110,7 +110,7 @@ export class DataService {
   private async handleOrganisations(
     organisationFileNames: string[],
   ): Promise<void> {
-    this.logger.log('Handling all organisations');
+    log('Handling all organisations');
     for (const organisationFileName of organisationFileNames) {
       const orgData: string = this.readFile(
         this.dataPath.concat('/', organisationFileName),
@@ -129,7 +129,7 @@ export class DataService {
   }
 
   private async handleRepositories(repositoryFileNames: string[]) {
-    this.logger.log('Handling all repositories');
+    log('Handling all repositories');
 
     let repositories: RepoData[] = [];
     for (const repofileName of repositoryFileNames) {
@@ -200,7 +200,7 @@ export class DataService {
     }
     const test = Object.values(repositories);
     for (const repository of test) {
-      this.logger.log(`Handling repository ${repository.repository.name}`);
+      log(`Handling repository ${repository.repository.name}`);
       const res = await this.mongo.findRepositoryRevised(
         repository.repository.name,
         repository.institution,
@@ -228,11 +228,11 @@ export class DataService {
   /******************************************Helper Functions*******************************************************/
 
   private readFile(path: string): string {
-    //this.logger.log(`Reading file at path ${path}`);
+    //log(`Reading file at path ${path}`);
     try {
       return fs.readFileSync(path, 'utf8');
     } catch (err) {
-      this.logger.error(err);
+      log(err);
       return null;
     }
   }
@@ -240,7 +240,7 @@ export class DataService {
   private async createInsitution(
     todoInstitution: TodoInstitution,
   ): Promise<InstitutionRevised> {
-    this.logger.log(`Creating institution ${todoInstitution.shortname}`);
+    log(`Creating institution ${todoInstitution.shortname}`);
     const organisations = await this.mongo.findOrganisationsWithNames(
       todoInstitution.orgs.map((organisation) => organisation.name),
     );
@@ -257,7 +257,7 @@ export class DataService {
   }
 
   private createContributor(contributorData: GithubUser): Contributor {
-    this.logger.log(`Creating contributor ${contributorData.login}`);
+    log(`Creating contributor ${contributorData.login}`);
     const contributor: Contributor = {
       login: contributorData.login,
       name: contributorData.name,
@@ -283,9 +283,7 @@ export class DataService {
     currentRepositoryStats: RepositoryStats[],
     aheadByCommits: number,
   ): Promise<RepositoryRevised> {
-    this.logger.log(
-      `Creating repo info for repo ${repositoryData.repository.name}`,
-    );
+    log(`Creating repo info for repo ${repositoryData.repository.name}`);
     const repositoryStats: RepositoryStats = {
       num_forks: repositoryData.repository.forks_count,
       num_contributors: repositoryData.contributors.length,
