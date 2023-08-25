@@ -9,6 +9,7 @@ async function bootstrap() {
   });
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
+  app.flushLogs();
   //app.flushLogs();
   //BaseLogger.flush();
   //app.enableCors();

@@ -59,6 +59,10 @@ export class DataService {
   private async handler(): Promise<void> {
     this.logger.log('Handling all the new data');
     const currentTime = new Date();
+    console.log(this.dataPath);
+    if (!this.dataPath) return;
+    console.log('Foobar');
+    return;
     const fileNames: string[] = fs.readdirSync(this.dataPath);
     const filteredFileNames = fileNames.filter((fileName) => {
       const timestamp = fileName

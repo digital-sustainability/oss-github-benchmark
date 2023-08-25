@@ -3,7 +3,6 @@ import {
   Logger,
   OnApplicationBootstrap,
   OnApplicationShutdown,
-  OnModuleInit,
 } from '@nestjs/common';
 import { MongoClient, ConnectOptions, ObjectId } from 'mongodb';
 import {
@@ -36,14 +35,13 @@ enum Tables {
 
 @Injectable()
 export class MongoDbService
-  implements OnApplicationBootstrap, OnApplicationShutdown, OnModuleInit
+  implements OnApplicationBootstrap, OnApplicationShutdown
 {
   constructor() {}
   async onApplicationShutdown(signal?: string) {
     await this.destroyConnection();
   }
-  async onApplicationBootstrap() {}
-  async onModuleInit() {
+  async onApplicationBootstrap() {
     this.database = process.env.MONGO_DATABASE || 'testing';
     await this.initializeConnection();
   }
