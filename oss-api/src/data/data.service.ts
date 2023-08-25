@@ -132,75 +132,79 @@ export class DataService {
     log('Handling all repositories');
     let repositories: RepoData[] = [];
     for (const repofileName of repositoryFileNames) {
-      log(repofileName);
-      const repoData: string = this.readFile(
-        this.dataPath.concat('/', repofileName),
-      );
-      if (!repoData) continue;
-      const parsedFile: RawResponse = JSON.parse(repoData);
-      log('parsedFile');
-      const repoName: string = parsedFile.repoName;
-      log('repoName');
-      const method: string = parsedFile.method;
-      log('method');
-      const parsedData: any = parsedFile.response['data'];
-      log('parsedDaa');
-      let data: RepoData = {
-        repository: null,
-        contributors: [],
-        commits: [],
-        allPulls: [],
-        closedPulls: [],
-        allIssues: [],
-        closedIssues: [],
-        commitComments: [],
-        languages: null,
-        commitActivity: null,
-        coders: null,
-        comparedCommits: null,
-        organisation: parsedFile.orgName,
-        institution: parsedFile.institutionName,
-      };
-      if (repositories[repoName]) data = repositories[repoName];
-      switch (method) {
-        case Method.Repository:
-          data.repository = parsedData;
-          break;
-        case Method.Contributor:
-          data.contributors = data.contributors.concat(parsedData);
-          break;
-        case Method.Commit:
-          data.commits = data.commits.concat(parsedData);
-          break;
-        case Method.PullRequest:
-          const pullData = parsedData as GitHubPull;
-          if (pullData.state == 'all') {
-            data.allPulls = data.allPulls.concat(parsedData);
-          }
-          if (pullData.state == 'closed') {
-            data.closedPulls = data.closedPulls.concat(parsedData);
-          }
-          break;
-        case Method.Issue:
-          const issueData = parsedData as GitHubIssue;
-          if ((issueData.state = 'all')) {
-            data.allIssues.concat(parsedData);
-          }
-          if ((issueData.state = 'closed')) {
-            data.closedIssues.concat(parsedData);
-          }
-          break;
-        case Method.Comment:
-          data.commitComments = data.commitComments.concat(parsedData);
-          break;
-        case Method.Language:
-          data.languages = parsedData;
-          break;
-        case Method.CompareCommit:
-          data.comparedCommits = parsedData;
-          break;
+      try {
+        log(repofileName);
+        const repoData: string = this.readFile(
+          this.dataPath.concat('/', repofileName),
+        );
+        if (!repoData) continue;
+        const parsedFile: RawResponse = JSON.parse(repoData);
+        log('parsedFile');
+        const repoName: string = parsedFile.repoName;
+        log('repoName');
+        const method: string = parsedFile.method;
+        log('method');
+        const parsedData: any = parsedFile.response['data'];
+        log('parsedDaa');
+        let data: RepoData = {
+          repository: null,
+          contributors: [],
+          commits: [],
+          allPulls: [],
+          closedPulls: [],
+          allIssues: [],
+          closedIssues: [],
+          commitComments: [],
+          languages: null,
+          commitActivity: null,
+          coders: null,
+          comparedCommits: null,
+          organisation: parsedFile.orgName,
+          institution: parsedFile.institutionName,
+        };
+        if (repositories[repoName]) data = repositories[repoName];
+        switch (method) {
+          case Method.Repository:
+            data.repository = parsedData;
+            break;
+          case Method.Contributor:
+            data.contributors = data.contributors.concat(parsedData);
+            break;
+          case Method.Commit:
+            data.commits = data.commits.concat(parsedData);
+            break;
+          case Method.PullRequest:
+            const pullData = parsedData as GitHubPull;
+            if (pullData.state == 'all') {
+              data.allPulls = data.allPulls.concat(parsedData);
+            }
+            if (pullData.state == 'closed') {
+              data.closedPulls = data.closedPulls.concat(parsedData);
+            }
+            break;
+          case Method.Issue:
+            const issueData = parsedData as GitHubIssue;
+            if ((issueData.state = 'all')) {
+              data.allIssues.concat(parsedData);
+            }
+            if ((issueData.state = 'closed')) {
+              data.closedIssues.concat(parsedData);
+            }
+            break;
+          case Method.Comment:
+            data.commitComments = data.commitComments.concat(parsedData);
+            break;
+          case Method.Language:
+            data.languages = parsedData;
+            break;
+          case Method.CompareCommit:
+            data.comparedCommits = parsedData;
+            break;
+        }
+        repositories[repoName] = data;
+      } catch (error) {
+        log(error);
       }
-      repositories[repoName] = data;
     }
     const test = Object.values(repositories);
     for (const repository of test) {
