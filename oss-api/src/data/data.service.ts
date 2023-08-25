@@ -88,7 +88,7 @@ export class DataService {
     );
     log('organisation file names');
     for (const contributorFileName of contributorFileNames) {
-      this.handleContributor(contributorFileName);
+      await this.handleContributor(contributorFileName);
     }
     await this.handleRepositories(repositoryFileNames);
     await this.handleOrganisations(organisationFileNames);
@@ -139,7 +139,7 @@ export class DataService {
         );
         if (!repoData) continue;
         const parsedFile: RawResponse = JSON.parse(repoData);
-        log('parsedFile');
+        log(`parsedFile ${parsedFile}`);
         const repoName: string = parsedFile.repoName;
         log('repoName');
         const method: string = parsedFile.method;
@@ -230,7 +230,6 @@ export class DataService {
     const parsedData: GithubUser = parsedFile.response['data'];
     const contributor = this.createContributor(parsedData);
     await this.mongo.upsertContributor(contributor);
-    return 1;
   }
 
   /******************************************Helper Functions*******************************************************/
