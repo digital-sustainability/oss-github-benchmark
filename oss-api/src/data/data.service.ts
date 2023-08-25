@@ -26,40 +26,19 @@ import { v4 as uuidv4 } from 'uuid';
 import { ObjectId } from 'mongodb';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { log } from 'console';
-
-interface RepoData {
-  repository: GithubRepo;
-  contributors: GithubContributor[];
-  commits: GithubCommit[];
-  allPulls: GitHubPull[];
-  closedPulls: GitHubPull[];
-  allIssues: GitHubIssue[];
-  closedIssues: GitHubIssue[];
-  commitComments: GitHubCommitComment[];
-  languages: Languages;
-  commitActivity: GithubCommitActivity[];
-  comparedCommits: GithubCommitComparison;
-  coders: string[];
-  organisation: string;
-  institution: string;
-}
+import { RepoData } from '../interfaces';
 
 @Injectable()
-export class DataService implements OnApplicationBootstrap {
+export class DataService {
   constructor(private mongo: MongoDbService) {
     this.dataPath = process.env.DATA_PATH;
-  }
-  onApplicationBootstrap() {
-    this.handler().then(() => {
-      log('finished handler promise from bootstrap');
-    });
   }
 
   private readonly logger = new Logger(DataService.name);
   private dataPath: string;
 
   @Cron(CronExpression.EVERY_HOUR)
-  private async handler(): Promise<void> {
+  async handler(): Promise<void> {
     log('Handling all the new data');
     const currentTime = new Date();
     if (!this.dataPath) return;

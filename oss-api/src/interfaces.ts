@@ -2163,6 +2163,23 @@ export interface UserApiResponse {
   total: number;
 }
 
+export interface RepoData {
+  repository: GithubRepo;
+  contributors: GithubContributor[];
+  commits: GithubCommit[];
+  allPulls: GitHubPull[];
+  closedPulls: GitHubPull[];
+  allIssues: GitHubIssue[];
+  closedIssues: GitHubIssue[];
+  commitComments: GitHubCommitComment[];
+  languages: Languages;
+  commitActivity: GithubCommitActivity[];
+  comparedCommits: GithubCommitComparison;
+  coders: string[];
+  organisation: string;
+  institution: string;
+}
+
 /************************************Query Types*******************************************/
 
 export interface InstitutionQueryConfig {

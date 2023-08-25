@@ -28,10 +28,14 @@ import {
 import { UserQueryDto } from './dto/user-query.dto';
 import { RepositoryQueryDto } from './dto/repository-query.dto';
 import { RepositoryQueryPipe } from 'src/repository-query.pipe';
+import { DataService } from '../data/data.service';
 
 @Controller('api')
 export class ApiController {
-  constructor(private mongoDbService: MongoDbService) {}
+  constructor(
+    private mongoDbService: MongoDbService,
+    private dataService: DataService,
+  ) {}
   private sectors = [
     'IT',
     'Communities',
@@ -86,6 +90,11 @@ export class ApiController {
   @Get('latestUpdate')
   async findLatestUpdate() {
     return (await this.mongoDbService.latestUpdate())[0];
+  }
+
+  @Get('test')
+  async test() {
+    this.dataService.handler();
   }
 
   /***********************************Helper************************************************/
