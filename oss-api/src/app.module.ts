@@ -17,19 +17,7 @@ const stream = fs.createWriteStream(
 @Module({
   imports: [
     ScheduleModule.forRoot(),
-    LoggerModule.forRoot({
-      pinoHttp:
-        process.env.NODE_ENV === 'production'
-          ? { stream }
-          : {
-              transport: {
-                target: 'pino-pretty',
-                options: {
-                  singleLine: true,
-                },
-              },
-            },
-    }),
+    LoggerModule.forRoot(),
     ConfigModule.forRoot(),
     ServeStaticModule.forRoot({
       exclude: ['api'],
