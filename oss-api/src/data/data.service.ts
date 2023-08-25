@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import * as fs from 'fs';
 import {
   GitHubCommitComment,
@@ -45,17 +45,14 @@ interface RepoData {
 }
 
 @Injectable()
-export class DataService {
+export class DataService implements OnApplicationBootstrap {
   constructor(private mongo: MongoDbService) {
     this.dataPath = process.env.DATA_PATH;
   }
-  async onApplicationBootstrap() {
-    try {
-      this.handler();
-    } catch (error) {
-      log(error);
-      return;
-    }
+  onApplicationBootstrap() {
+    this.handler().then(() => {
+      log('finished handler promise from bootstrap');
+    });
   }
 
   private readonly logger = new Logger(DataService.name);
