@@ -25,6 +25,7 @@ import { MongoDbService } from '../mongo-db/mongo-db.service';
 import { v4 as uuidv4 } from 'uuid';
 import { ObjectId } from 'mongodb';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { log } from 'console';
 
 interface RepoData {
   repository: GithubRepo;
@@ -62,8 +63,8 @@ export class DataService {
     console.log(this.dataPath);
     if (!this.dataPath) return;
     console.log('Foobar');
-    return;
     const fileNames: string[] = fs.readdirSync(this.dataPath);
+    log(fileNames);
     const filteredFileNames = fileNames.filter((fileName) => {
       const timestamp = fileName
         .split('_')[1]
