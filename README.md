@@ -25,7 +25,7 @@ pip install -r requirements.txt
 python OSS_github_benchmark.py
 ```
 
-# Start Visualization
+# Run Frontend
 
 **dependencies: `node`**
 
@@ -35,11 +35,140 @@ npm install
 npm start
 ```
 
-# Explore the data with jupyter notebook
+# Run Backend
 
-There is a jupyter notebook that loads a [pickle](https://docs.python.org/3/library/pickle.html)-file of the data.
-It's located at `./data-gathering/github-data.pickle`
+**dependencies: `node`**
 
-## Deployment
+```
+cd oss-api
+npm install
+npm start
+```
+
+# Deployment
 
 git subtree push --prefix data-gathering prod master
+
+# API endpoints, request- and response types
+
+Relevant type aliases: ./frontend/src/app/types.ts
+
+## api/singleInstitution
+
+Find a single institution by it's unique shortname property.
+
+### Request
+
+#### name: string
+
+short_name of institution.
+
+### Response
+
+Institution
+
+## api/paginatedInstitutions
+
+Get summaries of multiple institutions.
+
+### Request
+
+#### search?: string;
+
+A search term.
+
+#### sort?: string;
+
+The column by which to sort the institutions.
+
+#### direction?: 'ASC' | 'DESC';
+
+#### page?: string;
+
+Page index.
+
+#### count?: string;
+
+Limit for institutions returned.
+
+#### includeForks?: boolean;
+
+If forked repos should be included in repo count and sorting.
+
+#### sector?: string[];
+
+Only include institutions in these sectors.
+
+### Response
+
+#### institutions: InstitutionSummary[];
+
+#### total: number;
+
+The number of institutions after filtering and searching but without pagination.
+
+#### sectors: { [key: string]: number };
+
+How many institutions with a given sector exist. Count after searching, but before filtering.
+
+## api/latestUpdate
+
+get timestamp of latest update
+
+### Request
+
+no params
+
+### Response
+
+#### updatedDate: string
+
+## api/paginatedRepositories
+
+Get paginated list of repositories.
+
+### Request
+
+For more information look at api/paginatedInstitutions.
+
+#### search?: string;
+
+#### sort?: string;
+
+#### direction?: 'ASC' | 'DESC';
+
+#### page?: string;
+
+#### count?: string;
+
+#### includeForks?: string;
+
+### Response
+
+#### repositories: Repository[];
+
+#### total: number;
+
+## api/paginatedUsers
+
+Get paginated list of users.
+
+### Request
+
+For more information look at api/paginatedInstitutions.
+
+#### search?: string;
+
+#### sort?: string;
+
+#### direction?: 'ASC' | 'DESC';
+
+#### page?: string;
+
+#### count?: string;
+
+### Response
+
+#### users: User[];
+
+#### total: number;

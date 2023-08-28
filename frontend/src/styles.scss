@@ -22,20 +22,20 @@ body {
   cursor: pointer;
 }
 
-td.mat-cell.number {
+td.mat-mdc-cell.number {
   text-align: center;
 }
 
-th.mat-header-cell.number {
+th.mat-mdc-header-cell.number {
   text-align: center;
 }
 
-td.mat-cell {
+td.mat-mdc-cell {
   padding-right: 10px !important;
   padding-left: 10px !important;
 }
 
-th.mat-header-cell {
+th.mat-mdc-header-cell {
   padding-left: 10px !important;
 }
 

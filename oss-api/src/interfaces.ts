@@ -1888,21 +1888,6 @@ export interface ApiRepository {
   logo: string;
 }
 
-export interface ApiUser {
-  avatar_url: string;
-  name: string;
-  login: string;
-  company: string;
-  location: string;
-  twitter_username: string;
-  public_repos: number;
-  public_gists: number;
-  followers: number;
-  created_at: Date;
-  updated_at: Date;
-  contributions: Contributions;
-}
-
 export interface Contributor {
   login: string;
   name: string;
@@ -2130,6 +2115,71 @@ export interface InstitutionRevised {
   sector: string;
 }
 
+export interface InstiutionApiResponse {
+  institutions: InstitutionSummary[];
+  total: number;
+  sectors: { [key: string]: number };
+}
+
+export interface SingleInsitutionResponse {
+  avatar: string;
+  sector: string;
+  shortname: string;
+  num_repos: number;
+  num_members: number;
+  total_num_contributors: number;
+  total_num_forks_in_repos: number;
+  total_num_commits: number;
+  total_pull_requests: number;
+  total_issues: number;
+  total_num_stars: number;
+  total_num_watchers: number;
+  total_pull_requests_closed: number;
+  total_issues_closed: number;
+  total_comments: number;
+  num_orgs: number;
+  orgs: SingleInsitutionOrganisation[];
+}
+
+export interface SingleInsitutionOrganisation {
+  _id: ObjectId;
+  name: string;
+  url: string;
+  description: string;
+  avatar: string;
+  created_at: Date;
+  locations: string;
+  email: string;
+  repos: ObjectId[];
+}
+
+export interface RepositoryApiResponse {
+  repositories: RepositorySummary[];
+  total: number;
+}
+
+export interface UserApiResponse {
+  users: UserSummary[];
+  total: number;
+}
+
+export interface RepoData {
+  repository: GithubRepo;
+  contributors: GithubContributor[];
+  commits: GithubCommit[];
+  allPulls: GitHubPull[];
+  closedPulls: GitHubPull[];
+  allIssues: GitHubIssue[];
+  closedIssues: GitHubIssue[];
+  commitComments: GitHubCommitComment[];
+  languages: Languages;
+  commitActivity: GithubCommitActivity[];
+  comparedCommits: GithubCommitComparison;
+  coders: string[];
+  organisation: string;
+  institution: string;
+}
+
 /************************************Query Types*******************************************/
 
 export interface InstitutionQueryConfig {
@@ -2140,8 +2190,7 @@ export interface InstitutionQueryConfig {
   page: number;
   count: number;
   sendStats: boolean;
-  includeForksInSort: boolean;
-  findName: string;
+  includeForks: boolean;
 }
 
 export interface RepositoryQueryConfig {
@@ -2160,6 +2209,69 @@ export interface UserQueryConfig {
   page: number;
   count: number;
 }
+
+export interface SingleInstitutionQueryConfig {
+  name: string;
+}
+
+/************************************API Types*******************************************/
+
+export type InstitutionSummary = {
+  shortname: string;
+  name_de: string;
+  num_repos: number;
+  num_members: number;
+  total_num_forks_in_repos: number;
+  avatar: string;
+  sector: string;
+  repo_names: string[];
+  location: string;
+  created_at: string;
+};
+
+export type RepositorySummary = {
+  name: string;
+  uuid: string;
+  url: string;
+  institution: string;
+  organization: string;
+  description: string;
+  fork: string;
+  num_forks: number;
+  num_contributors: number;
+  num_commits: number;
+  num_stars: number;
+  num_watchers: number;
+  has_own_commits: number;
+  issues_closed: number;
+  issues_all: number;
+  pull_requests_closed: number;
+  pull_requests_all: number;
+  comments: number;
+  timestamp: string;
+  license: string;
+  created_at: Date;
+  updated_at: Date;
+  logo: string;
+};
+
+export type UserSummary = {
+  login: string;
+  name: string;
+  avatar_url: string;
+  bio: string;
+  blog: string;
+  company: string;
+  email: string;
+  twitter_username: string;
+  location: string;
+  created_at: string;
+  updated_at: string;
+  public_repos: number;
+  public_gists: number;
+  followers: number;
+  following: number;
+};
 
 /************************************Enums*******************************************/
 

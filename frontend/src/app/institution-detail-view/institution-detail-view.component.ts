@@ -7,12 +7,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ChartConfiguration, ChartType } from 'chart.js';
 import Chart from 'chart.js/auto';
+import { Institution } from '../types';
 @Component({
-  selector: 'app-explore-item',
-  templateUrl: './explore-item.component.html',
-  styleUrls: ['./explore-item.component.scss'],
+  selector: 'app-institution-detail-view',
+  templateUrl: './institution-detail-view.component.html',
+  styleUrls: ['./institution-detail-view.component.scss'],
 })
-export class ExploreItemComponent implements OnInit {
+export class InstitutionDetailViewComponent implements OnInit {
   public lineChartData: ChartConfiguration['data'];
 
   public lineChartOptions = {
@@ -131,8 +132,12 @@ export class ExploreItemComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private dialogRef: MatDialogRef<ExploreItemComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    private dialogRef: MatDialogRef<InstitutionDetailViewComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      institution: Institution;
+      includeForks: boolean;
+    },
   ) {
     const charts: string[] = [
       'Repositories',
@@ -233,7 +238,7 @@ export class ExploreItemComponent implements OnInit {
         ctx.restore();
       },
     });
-    this.data.institution.stats.forEach((stat) => {
+    /*this.data.institution.stats.forEach((stat) => {
       [
         'num_repos',
         'num_members',
@@ -254,7 +259,7 @@ export class ExploreItemComponent implements OnInit {
           y: stat[prop],
         });
       });
-    });
+    });*/
     this.reloadData();
   }
 
@@ -269,7 +274,7 @@ export class ExploreItemComponent implements OnInit {
         search: this.data.institution.shortname,
       })
       .then((data) => {
-        let repoData: any[] = data.jsonData;
+        let repoData: any[] = data.repositories;
         this.numRepositories = data.total;
         this.item = Object.assign({}, this.data.institution);
         this.item.repos = repoData;

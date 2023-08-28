@@ -1,14 +1,14 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
-import { DataService, IData } from 'src/app/data.service';
+import { DataService } from 'src/app/data.service';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { IInstitution } from 'src/app/interfaces/institution';
+import { Institution, InstitutionSumary } from 'src/app/types';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { ExploreItemComponent } from '../explore-item/explore-item.component';
-import { timeout } from 'd3';
+import { InstitutionDetailViewComponent } from '../institution-detail-view/institution-detail-view.component';
+import { FormsModule } from '@angular/forms';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 
@@ -24,18 +24,16 @@ interface sectorFilter {
   styleUrls: ['./ranking.component.scss'],
 })
 export class RankingComponent implements OnInit {
-  item: IInstitution;
+  item: Institution;
   innerWidth: any;
   displayedColumns: string[] = ['logo', 'name_de', 'num_repos'];
-  @Input() data: IData;
-  reposToDisplay = 6;
   dataSource: any = new MatTableDataSource();
   numInstitutions: number;
   checkboxes: string[] = [];
   sectorFilters: sectorFilter[] = [];
   recordFilter = '';
   state: Date;
-  institutions: any[];
+  institutions: InstitutionSumary[];
   window: any = window;
   includeForks: boolean = false;
   page: number = 0;
@@ -43,6 +41,8 @@ export class RankingComponent implements OnInit {
   activeSort: string = 'num_repos';
   sortDirection: 'ASC' | 'DESC' = 'DESC';
   latestUdpate: any;
+
+  searchTermRaw: string = '';
 
   resetPaginator() {
     this.paginator.pageIndex = 0;
@@ -66,18 +66,17 @@ export class RankingComponent implements OnInit {
   }
 
   async reloadData() {
-    let institutionData = await this.dataService.loadInstitutionData({
+    let institutionData = await this.dataService.loadInstitutionSummaries({
       search: this.recordFilter,
       sort: this.activeSort,
       direction: this.sortDirection,
       page: this.page.toString(),
       count: this.count.toString(),
       includeForks: this.includeForks.toString(),
-      sendStats: 'false',
       sector: this.checkboxes,
     });
-    this.latestUdpate = await this.dataService.loadLatestUpdate()
-    let institutions = institutionData.jsonData;
+    this.latestUdpate = await this.dataService.loadLatestUpdate();
+    let institutions = institutionData.institutions;
     this.sectorFilters = [];
     for (const sector in institutionData.sectors) {
       if (
@@ -91,15 +90,6 @@ export class RankingComponent implements OnInit {
         });
       }
     }
-    institutions.forEach((institution, i) => {
-      const len = institution.repo_names.length;
-      institutions[i].repo_names = institution.repo_names
-        .slice(0, this.reposToDisplay)
-        .join(', ');
-      if (len >= this.reposToDisplay) {
-        institutions[i].repo_names += '...';
-      }
-    });
     this.institutions = institutions;
     //this.setInstitutionLocation();
     this.dataSource = new MatTableDataSource(this.institutions);
@@ -115,8 +105,8 @@ export class RankingComponent implements OnInit {
           }
         )[0].created_at;*/
       //else this.institutions[index].created_at = new Date(0);
-      if (!institution.orgs[0]) this.institutions[index].location = '';
-      else this.institutions[index].location = ""; //institution.orgs[0].location;
+      // if (!institution.[0]) this.institutions[index].location = '';
+      // else this.institutions[index].location = ''; //institution.orgs[0].location;
       /*let i = 0;
       while (
         !this.institutions[index].location &&
@@ -132,14 +122,14 @@ export class RankingComponent implements OnInit {
     private dataService: DataService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-    private location: Location
+    private location: Location,
   ) {
     this.sectorFilters.forEach(
       (sector: { sector: string; activated: boolean }) => {
         if (sector.activated) {
           this.checkboxes.push(sector.sector);
         }
-      }
+      },
     );
   }
 
@@ -172,15 +162,11 @@ export class RankingComponent implements OnInit {
   }
 
   async openDialog(institutionName: string): Promise<void> {
-    const institution = (
-      await this.dataService.loadInstitutionData({
-        findName: institutionName,
-        sendStats: 'true',
-      })
-    ).jsonData;
-    console.log(institution);
+    const institution = await this.dataService.loadSingleInstitution({
+      name: institutionName,
+    });
     this.changeURL('/institutions/' + institutionName);
-    const dialogRef = this.dialog.open(ExploreItemComponent, {
+    const dialogRef = this.dialog.open(InstitutionDetailViewComponent, {
       data: { institution, includeForks: this.includeForks },
       autoFocus: false,
     });

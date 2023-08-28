@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
-import { DataService, IData } from 'src/app/data.service';
+import { DataService } from 'src/app/data.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { IInstitution } from 'src/app/interfaces/institution';
 import { ActivatedRoute } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { User } from '../types';
 
 @Component({
   selector: 'app-user-ranking',
@@ -13,7 +13,6 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./user-ranking.component.scss'],
 })
 export class UserRankingComponent implements OnInit {
-  item: IInstitution;
   displayedColumns: any[] = [
     ['avatar_url', '', false, 'img'],
     ['name', 'Name', false, 'string'],
@@ -30,11 +29,11 @@ export class UserRankingComponent implements OnInit {
   ];
   displayedColumnsOnlyNames = this.displayedColumns.map((column) => column[0]);
   recordFilter = '';
-  @Input() data: IData;
+  searchTermRaw = '';
   dataSource: any = new MatTableDataSource();
   numUsers: number;
   state: Date;
-  users: any[] = [];
+  users: User[] = [];
   page: number = 0;
   count: number = 30;
   activeSort: string = 'followers';
@@ -65,36 +64,7 @@ export class UserRankingComponent implements OnInit {
         count: this.count.toString(),
       })
       .then((userData) => {
-        this.users = Object.entries(userData.jsonData)
-          .reduce((previousValue, currentValue) => {
-            const [key, value] = currentValue;
-            return previousValue.concat(value);
-          }, [])
-          .map((u) => {
-            if (!u.name) {
-              u.name = u.login;
-            }
-            let contributions_sum = Object.values(u.contributions).reduce(
-              (a, b) => {
-                return (
-                  a +
-                  Object.values(b).reduce((c, d) => {
-                    return (
-                      c +
-                      Object.values(d).reduce((e: number, f: number) => {
-                        return e + f;
-                      }, 0)
-                    );
-                  }, 0)
-                );
-              },
-              0
-            );
-            let contributionsString = JSON.stringify(u.contributions, null, 2);
-            u.contributions_sum = contributions_sum;
-            u.contributionsString = contributionsString;
-            return u;
-          });
+        this.users = userData.users;
         console.log(this.users);
         this.dataSource = new MatTableDataSource(this.users);
         this.numUsers = userData.total;
@@ -104,7 +74,7 @@ export class UserRankingComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {

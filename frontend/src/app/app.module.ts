@@ -3,17 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { VisualizationComponent } from './visualization/visualization.component';
 import { NavComponent } from './nav/nav.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { VisualizationsModule } from './visualizations/visualizations.module';
 import { CommonModule } from '@angular/common';
-import { DimensionSelectorComponent } from './dimension-selector/dimension-selector.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ListComponent } from './metric/list/list.component';
-import { ItemComponent } from './metric/item/item.component';
-import { ExploreItemComponent } from './explore-item/explore-item.component';
+import { InstitutionDetailViewComponent } from './institution-detail-view/institution-detail-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,13 +18,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { RankingComponent } from './ranking/ranking.component';
+import { RankingComponent as InstitutionRankingComponent } from './ranking/ranking.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { TreeComponent } from './explore/tree/tree.component';
-import { ExploreComponent } from './explore/explore.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -42,22 +34,15 @@ import { RepositoriesRankingComponent } from './repositories-ranking/repositorie
 import { RepositoryDetailViewComponent } from './repository-detail-view/repository-detail-view.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
-import { ScullyLibModule } from '@scullyio/ng-lib';
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    VisualizationComponent,
     NavComponent,
-    DimensionSelectorComponent,
-    ListComponent,
-    ItemComponent,
-    ExploreItemComponent,
-    RankingComponent,
-    TreeComponent,
-    ExploreComponent,
     ToNiceNamePipe,
+    InstitutionRankingComponent,
+    InstitutionDetailViewComponent,
     RepositoriesRankingComponent,
     RepositoryDetailViewComponent,
     UserRankingComponent,
@@ -68,7 +53,6 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
     HttpClientModule,
     CommonModule,
     ReactiveFormsModule,
-    VisualizationsModule,
     FormsModule,
     BrowserAnimationsModule,
     MatToolbarModule,
@@ -78,7 +62,6 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
     MatSelectModule,
     MatInputModule,
     MatCardModule,
-    Ng2SearchPipeModule,
     MatTableModule,
     MatSortModule,
     MatFormFieldModule,
@@ -90,7 +73,6 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
     MatTooltipModule,
     MatExpansionModule,
     MatDividerModule,
-    ScullyLibModule,
     // NgChartsModule,
   ],
   providers: [],

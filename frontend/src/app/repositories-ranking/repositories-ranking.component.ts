@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
-import { DataService, IData } from 'src/app/data.service';
+import { DataService } from 'src/app/data.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { IInstitution } from 'src/app/interfaces/institution';
+import { Institution } from 'src/app/types';
 import { MatDialog } from '@angular/material/dialog';
 import { RepositoryDetailViewComponent } from '../repository-detail-view/repository-detail-view.component';
 import { ActivatedRoute } from '@angular/router';
@@ -15,12 +15,12 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./repositories-ranking.component.scss'],
 })
 export class RepositoriesRankingComponent implements OnInit {
-  item: IInstitution;
+  item: Institution;
   displayedColumns: any[] = [
     ['name', 'Name', false, 'string'],
     ['logo', '', false, 'img'],
-    ['institution_name_de', 'Institution', false, 'string'],
-    ['organisation_name_de', 'GitHub Organization', false, 'string'],
+    ['institution', 'Institution', false, 'string'],
+    ['organization', 'GitHub Organization', false, 'string'],
     // ['last_years_commits', 'Commits last year', false, 'number'],
     ['comments', 'Comments', false, 'number'],
     ['issues_all', 'Issues', false, 'number'],
@@ -30,14 +30,14 @@ export class RepositoriesRankingComponent implements OnInit {
     ['num_forks', 'Forks', false, 'number'],
     ['num_stars', 'Stars', false, 'number'],
     ['has_own_commits', 'Own commits', false, 'number'],
-    ['createdTimestamp', 'Created at', false, 'date'],
-    ['updatedTimestamp', 'Updated at ', false, 'date'],
+    ['created_at', 'Created at', false, 'date'],
+    ['updated_at', 'Updated at ', false, 'date'],
     ['fork', 'Is fork?', true, 'string'],
     ['license', 'License', false, 'string'],
   ];
   displayedColumnsOnlyNames = this.displayedColumns.map((column) => column[0]);
   recordFilter = '';
-  @Input() data: IData;
+  searchTermRaw = '';
   dataSource: any = new MatTableDataSource();
   numRepositories: number;
   state: Date;
@@ -73,7 +73,7 @@ export class RepositoriesRankingComponent implements OnInit {
     private dataService: DataService,
     public dialog: MatDialog,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   reloadData() {
@@ -87,25 +87,16 @@ export class RepositoriesRankingComponent implements OnInit {
         includeForks: this.includeForks.toString(),
       })
       .then((repoData) => {
-        let repos = repoData.jsonData;
-        console.log(repos);
-        this.repositories = [];
-        repos.forEach((repository: any) => {
-          let repo = repository;
-          repo.institution_name_de = repo.institution;
-          repo.organisation_name_de = repo.organization;
-          this.repositories.push(repo);
-        });
-        this.dataSource = new MatTableDataSource(this.repositories);
+        this.repositories = repoData.repositories;
+        this.dataSource = new MatTableDataSource(repoData.repositories);
         this.numRepositories = repoData.total;
         this.route.paramMap.subscribe((map) => {
           const repositoryName = map.get('repository');
-          const organisation_name_de = map.get('institution');
-          if (repositoryName && organisation_name_de) {
+          const organisation = map.get('institution');
+          if (repositoryName && organisation) {
             let repository = this.repositories.find((repo) => {
               return (
-                repo.organisation_name_de == organisation_name_de &&
-                repo.name == repositoryName
+                repo.organization == organisation && repo.name == repositoryName
               );
             });
             this.openDialog(repository.uuid);
@@ -128,10 +119,7 @@ export class RepositoriesRankingComponent implements OnInit {
         return repo.uuid == uuid;
       });
       this.changeURL(
-        '/repositories/' +
-          repository.organisation_name_de +
-          '/' +
-          repository.name
+        '/repositories/' + repository.organization + '/' + repository.name,
       );
       const dialogRef = this.dialog.open(RepositoryDetailViewComponent, {
         data: repository,

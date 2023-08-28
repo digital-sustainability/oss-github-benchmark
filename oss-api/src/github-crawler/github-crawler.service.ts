@@ -16,6 +16,7 @@ import { GithubService } from '../github/github.service';
 import { OctokitResponse } from '@octokit/types';
 import * as fs from 'fs';
 import { MongoDbService } from '../mongo-db/mongo-db.service';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class GithubCrawlerService {
@@ -31,13 +32,12 @@ export class GithubCrawlerService {
   private dataPath: string;
   private daysToWait = 7 * 24 * 60 * 60 * 1000; // Days * 24 hours * 60 minutes * 60 seconds * 1000 miliseconds
 
-  async onApplicationBootstrap() {
-    //this.prepareInstitutions();
-  }
+  async onApplicationBootstrap() {}
 
   /**
    * Prepare all the institution data
    */
+  @Cron(CronExpression.EVERY_HOUR)
   private async prepareInstitutions() {
     this.logger.log(`Prepairing all institutions to be crawled`);
     this.reachedGithubCallLimit = false;
@@ -50,7 +50,6 @@ export class GithubCrawlerService {
     });
     for (const todoInstituition of todoInstituitions) {
       if (this.reachedGithubCallLimit) break;
-      if (todoInstituition.shortname !== 'bfh') continue;
       if (
         todoInstituition.ts &&
         todoInstituition.ts.getTime() > Date.now() - this.daysToWait
@@ -74,7 +73,6 @@ export class GithubCrawlerService {
       if (!b.ts) return 1;
       return b.ts.getTime() - a.ts.getTime();
     });
-
     for (const organisation of institution.orgs) {
       if (this.reachedGithubCallLimit) break;
       if (organisation.ts?.getTime() > Date.now() - this.daysToWait) {

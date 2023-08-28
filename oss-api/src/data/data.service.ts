@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import * as fs from 'fs';
 import {
   GitHubCommitComment,
@@ -24,58 +24,50 @@ import { Contributor } from '../interfaces';
 import { MongoDbService } from '../mongo-db/mongo-db.service';
 import { v4 as uuidv4 } from 'uuid';
 import { ObjectId } from 'mongodb';
-
-interface RepoData {
-  repository: GithubRepo;
-  contributors: GithubContributor[];
-  commits: GithubCommit[];
-  allPulls: GitHubPull[];
-  closedPulls: GitHubPull[];
-  allIssues: GitHubIssue[];
-  closedIssues: GitHubIssue[];
-  commitComments: GitHubCommitComment[];
-  languages: Languages;
-  commitActivity: GithubCommitActivity[];
-  comparedCommits: GithubCommitComparison;
-  coders: string[];
-  organisation: string;
-  institution: string;
-}
+import { Cron, CronExpression } from '@nestjs/schedule';
+import { log } from 'console';
+import { RepoData } from '../interfaces';
 
 @Injectable()
 export class DataService {
   constructor(private mongo: MongoDbService) {
     this.dataPath = process.env.DATA_PATH;
   }
-  async onApplicationBootstrap() {
-    this.handler();
-  }
 
   private readonly logger = new Logger(DataService.name);
   private dataPath: string;
 
-  private handler(): void {
-    this.logger.log('Handling all the new data');
+  @Cron(CronExpression.EVERY_HOUR)
+  async handler(): Promise<void> {
+    log('Handling all the new data');
+    const currentTime = new Date();
+    if (!this.dataPath) return;
     const fileNames: string[] = fs.readdirSync(this.dataPath);
-
-    const contributorFileNames: string[] = fileNames.filter((fileName) =>
-      fileName.includes('user'),
+    const filteredFileNames = fileNames.filter((fileName) => {
+      const timestamp = fileName
+        .split('_')[1]
+        .replace('.json', '') as unknown as number;
+      return timestamp < currentTime.getTime();
+    });
+    const contributorFileNames: string[] = filteredFileNames.filter(
+      (fileName) => fileName.includes('user'),
     );
-    const repositoryFileNames: string[] = fileNames.filter((fileName) =>
+    const repositoryFileNames: string[] = filteredFileNames.filter((fileName) =>
       fileName.includes('repository'),
     );
-    const organisationFileNames: string[] = fileNames.filter((fileName) =>
-      fileName.includes('organisation'),
+    const organisationFileNames: string[] = filteredFileNames.filter(
+      (fileName) => fileName.includes('organisation'),
     );
-    /*contributorFileNames.forEach((contributorFileName) => {
-      this.handleContributor(contributorFileName);
-    });*/
-    //await this.handleRepositories(repositoryFileNames);
-    //this.handleOrganisations(organisationFileNames);
-    this.handleInstitutions();
-    // handle org
-    // remove all org files
-    // update institution
+    for (const contributorFileName of contributorFileNames) {
+      await this.handleContributor(contributorFileName);
+    }
+    await this.handleRepositories(repositoryFileNames);
+    await this.handleOrganisations(organisationFileNames);
+    await this.handleInstitutions();
+    for (const fileName of filteredFileNames) {
+      fs.unlinkSync(this.dataPath.concat('/', fileName));
+    }
+    log('Data service is finished');
   }
 
   private async handleInstitutions() {
@@ -89,7 +81,7 @@ export class DataService {
   private async handleOrganisations(
     organisationFileNames: string[],
   ): Promise<void> {
-    this.logger.log('Handling all organisations');
+    log('Handling all organisations');
     for (const organisationFileName of organisationFileNames) {
       const orgData: string = this.readFile(
         this.dataPath.concat('/', organisationFileName),
@@ -107,12 +99,11 @@ export class DataService {
     }
   }
 
-  private async handleRepositories(
-    repositoryFileNames: string[],
-  ): Promise<void> {
-    this.logger.log('Handling all repositories');
+  private async handleRepositories(repositoryFileNames: string[]) {
+    log('Handling all repositories');
     let repositories: RepoData[] = [];
     for (const repofileName of repositoryFileNames) {
+      log(repofileName);
       const repoData: string = this.readFile(
         this.dataPath.concat('/', repofileName),
       );
@@ -178,8 +169,9 @@ export class DataService {
       }
       repositories[repoName] = data;
     }
-    Object.values(repositories).forEach(async (repository) => {
-      this.logger.log(`Handling repository ${repository.repository.name}`);
+    const test = Object.values(repositories);
+    for (const repository of test) {
+      log(`Handling repository ${repository.repository.name}`);
       const res = await this.mongo.findRepositoryRevised(
         repository.repository.name,
         repository.institution,
@@ -190,27 +182,27 @@ export class DataService {
         repository.comparedCommits ? repository.comparedCommits.ahead_by : 0,
       );
       await this.mongo.upsertRevisedRepository(newRepo);
-    });
+    }
   }
 
-  private handleContributor(fileName: string): void {
-    this.logger.log(`Handling file ${fileName}`);
+  private async handleContributor(fileName: string) {
+    log(`Handling file ${fileName}`);
     const userData: string = this.readFile(this.dataPath.concat('/', fileName));
     if (!userData) return;
     const parsedFile: RawResponse = JSON.parse(userData);
     const parsedData: GithubUser = parsedFile.response['data'];
     const contributor = this.createContributor(parsedData);
-    this.mongo.upsertContributor(contributor);
+    await this.mongo.upsertContributor(contributor);
   }
 
   /******************************************Helper Functions*******************************************************/
 
   private readFile(path: string): string {
-    //this.logger.log(`Reading file at path ${path}`);
+    //log(`Reading file at path ${path}`);
     try {
       return fs.readFileSync(path, 'utf8');
     } catch (err) {
-      this.logger.error(err);
+      log(err);
       return null;
     }
   }
@@ -218,7 +210,7 @@ export class DataService {
   private async createInsitution(
     todoInstitution: TodoInstitution,
   ): Promise<InstitutionRevised> {
-    this.logger.log(`Creating institution ${todoInstitution.shortname}`);
+    log(`Creating institution ${todoInstitution.shortname}`);
     const organisations = await this.mongo.findOrganisationsWithNames(
       todoInstitution.orgs.map((organisation) => organisation.name),
     );
@@ -235,7 +227,7 @@ export class DataService {
   }
 
   private createContributor(contributorData: GithubUser): Contributor {
-    this.logger.log(`Creating contributor ${contributorData.login}`);
+    log(`Creating contributor ${contributorData.login}`);
     const contributor: Contributor = {
       login: contributorData.login,
       name: contributorData.name,
@@ -261,6 +253,7 @@ export class DataService {
     currentRepositoryStats: RepositoryStats[],
     aheadByCommits: number,
   ): Promise<RepositoryRevised> {
+    log(`Creating repo info for repo ${repositoryData.repository.name}`);
     const repositoryStats: RepositoryStats = {
       num_forks: repositoryData.repository.forks_count,
       num_contributors: repositoryData.contributors.length,
@@ -276,6 +269,11 @@ export class DataService {
       languages: repositoryData.languages,
     };
     currentRepositoryStats.push(repositoryStats);
+    const contributorNames = repositoryData.contributors.map(
+      (contributor) => contributor.login,
+    );
+    const contributors = await this.getContributorsFromDB(contributorNames);
+    const coders = await this.getCodersFromCommits(repositoryData.commits);
     const repository: RepositoryRevised = {
       name: repositoryData.repository.name,
       uuid: uuidv4(),
@@ -288,10 +286,8 @@ export class DataService {
       timestamp: new Date(),
       created_at: new Date(repositoryData.repository.created_at),
       updated_at: new Date(repositoryData.repository.updated_at),
-      contributors: await this.getContributorsFromDB(
-        repositoryData.contributors.map((contributor) => contributor.login),
-      ),
-      coders: this.getCodersFromCommits(repositoryData.commits),
+      contributors: contributors,
+      coders: coders,
       license: repositoryData.repository.license
         ? repositoryData.repository.license.name
         : 'none',
@@ -305,6 +301,7 @@ export class DataService {
     organisationData: GithubOrganisation,
     organisationName: string,
   ): Promise<OrganisationRevised> {
+    const reposIds = await this.getRepositoriesFromDB(organisationName);
     const organisation: OrganisationRevised = {
       name: organisationName,
       url: organisationData.html_url,
@@ -313,7 +310,7 @@ export class DataService {
       created_at: organisationData.created_at,
       locations: organisationData.location,
       email: organisationData.email,
-      repos: await this.getRepositoriesFromDB(organisationName),
+      repos: reposIds,
     };
     return organisation;
   }
@@ -342,13 +339,14 @@ export class DataService {
     contributorLogins: string[],
   ): Promise<ObjectId[]> {
     const res = await this.mongo.searchContributors(contributorLogins);
-    return res.map((contributor) => contributor['_id']);
+    const ids = res.map((contributor) => contributor['_id']);
+    return ids;
   }
 
   private async getRepositoriesFromDB(
     organisationName: string,
   ): Promise<ObjectId[]> {
-    const res = await this.mongo.findAllOrganisationrepository(
+    const res = await this.mongo.findAllOrganisationRepository(
       organisationName,
     );
     return res.map((repository) => repository['_id']);
