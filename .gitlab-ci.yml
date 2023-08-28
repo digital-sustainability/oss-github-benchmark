@@ -18,7 +18,7 @@ include:
 variables:
   IMAGE_NAME: "oss-benchmark-api"
   IMAGE_TAGS: "$CI_COMMIT_SHA latest"
-  DOKKU_APP_NAME: "oss-api-testing"
+  DOKKU_APP_NAME: "oss-api"
   DOCKERFILE_PATH: "./"
   HOST_KEYS: "$CS_DEBIAN_SSH_HOST_KEY"
   PRIVATE_KEYS: "$CS_DEBIAN_SSH_PRIVATE_KEY"
