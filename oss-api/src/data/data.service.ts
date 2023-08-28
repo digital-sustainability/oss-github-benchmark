@@ -109,13 +109,9 @@ export class DataService {
       );
       if (!repoData) continue;
       const parsedFile: RawResponse = JSON.parse(repoData);
-      log(`parsedFile ${parsedFile}`);
       const repoName: string = parsedFile.repoName;
-      log('repoName');
       const method: string = parsedFile.method;
-      log('method');
       const parsedData: any = parsedFile.response['data'];
-      log('parsedDaa');
       let data: RepoData = {
         repository: null,
         contributors: [],
