@@ -27,6 +27,7 @@ import { ObjectId } from 'mongodb';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { log } from 'console';
 import { RepoData } from '../interfaces';
+const v8 = require('v8');
 
 @Injectable()
 export class DataService {
@@ -128,7 +129,9 @@ export class DataService {
         organisation: parsedFile.orgName,
         institution: parsedFile.institutionName,
       };
+      if (repoName === 'constructor') continue; // repositories["costructor"] return the constructor of the array
       if (repositories[repoName]) data = repositories[repoName];
+      if (typeof data !== 'object') continue;
       switch (method) {
         case Method.Repository:
           data.repository = parsedData;
