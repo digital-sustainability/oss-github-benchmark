@@ -5,7 +5,7 @@ Diverses
 venv/
 .history
 .ipynb_checkpoints
-.angular/ *
+frontend/.angular
 
 d3-country-bubble-chart-master
 
