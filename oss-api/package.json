@@ -24,7 +24,7 @@
     "@nestjs/class-validator": "^0.13.1",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
-    "@nestjs/core": "^9.0.0",
+    "@nestjs/core": "^9.0.5",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/schedule": "^2.2.0",
     "@nestjs/serve-static": "^3.0.0",
