@@ -32,7 +32,7 @@
     "@octokit/rest": "^19.0.7",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
-    "mongodb": "^4.7.0",
+    "mongodb": "^4.17.0",
     "nestjs-pino": "^3.1.2",
     "pino": "^8.8.0",
     "pino-http": "^8.3.1",
