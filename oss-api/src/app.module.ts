@@ -10,10 +10,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { TransformerService } from './transformer/transformer.service';
 import { GithubCrawlerService } from './github-crawler/github-crawler.service';
 import { DataService } from './data/data.service';
-import * as fs from 'fs';
-const stream = fs.createWriteStream(
-  `${process.env.LOG_PATH}/${Date.now()}_logs.json`,
-);
+import { TelemetryService } from './telemetry/telemetry.service';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -31,6 +28,7 @@ const stream = fs.createWriteStream(
     TransformerService,
     GithubCrawlerService,
     DataService,
+    TelemetryService,
   ],
 })
 export class AppModule {}

@@ -92,11 +92,6 @@ export class ApiController {
     return (await this.mongoDbService.latestUpdate())[0];
   }
 
-  @Get('test')
-  async test() {
-    this.dataService.handler();
-  }
-
   /***********************************Helper************************************************/
   /**
    * Handle the instiution query with the given conditions

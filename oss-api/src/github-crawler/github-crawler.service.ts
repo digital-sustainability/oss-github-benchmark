@@ -17,12 +17,15 @@ import { OctokitResponse } from '@octokit/types';
 import * as fs from 'fs';
 import { MongoDbService } from '../mongo-db/mongo-db.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { TelemetryService } from '../telemetry/telemetry.service';
 
 @Injectable()
 export class GithubCrawlerService {
   constructor(
     private githubService: GithubService,
     private mongoService: MongoDbService,
+    private mongo: MongoDbService,
+    private telemetryService: TelemetryService,
   ) {
     this.dataPath = process.env.DATA_PATH;
   }
@@ -58,6 +61,7 @@ export class GithubCrawlerService {
       }
       await this.handleInstitution(todoInstituition);
     }
+    this.updateTelemetry();
     this.logger.log('Crawler finished');
   }
 
@@ -967,5 +971,21 @@ export class GithubCrawlerService {
       page++;
     }
     return response;
+  }
+
+  private async updateTelemetry() {
+    log('Updating Telemetry data');
+    let condition: Object[] = [
+      {
+        fork: { $in: [true, false] },
+      },
+    ];
+    let countedRepos = await this.mongo.countAllRepositoriesWithConditions(
+      condition,
+    );
+    const latestUpdate = (await this.mongo.latestUpdate())[0];
+    const latestDate = new Date(latestUpdate.updatedDate).getTime();
+    this.telemetryService.setRepoCount(countedRepos[0].total);
+    this.telemetryService.setLatestCrawl(latestDate);
   }
 }
