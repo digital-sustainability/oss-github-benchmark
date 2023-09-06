@@ -36,4 +36,6 @@ ENV PORT=5000
 
 ENV NODE_ENV=PRODUCTION
 
+EXPOSE 5000/tcp 9464/tcp
+
 CMD ["node", "dist/main.js"]

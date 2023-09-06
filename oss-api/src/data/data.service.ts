@@ -1,17 +1,11 @@
-import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import {
-  GitHubCommitComment,
   GitHubIssue,
   GitHubPull,
   GithubCommit,
-  GithubCommitActivity,
-  GithubCommitComparison,
-  GithubContributor,
   GithubOrganisation,
-  GithubRepo,
   InstitutionRevised,
-  Languages,
   Method,
   OrganisationRevised,
   RawResponse,
@@ -27,7 +21,6 @@ import { ObjectId } from 'mongodb';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { log } from 'console';
 import { RepoData } from '../interfaces';
-const v8 = require('v8');
 
 @Injectable()
 export class DataService {
