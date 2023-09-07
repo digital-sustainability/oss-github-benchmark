@@ -2,173 +2,34 @@
 
 https://ossbenchmark.com
 
-# Generate data
+## Crawler: How does it work?
 
-## using `docker`
+We have two different services:
+- The DataService
+- The CrawlerService
 
-**dependencies: `docker` or `python`**
+The CrawlerService startsup each hour and makes 5000 calls to the github api, saving everything in timestamped files.
 
-```
-docker build -t oss-github .
-docker --name oss-github-runner run --rm oss-github
-docker rm oss-github-runner
-docker rmi oss-github
-```
+The DataService also starts each hour. It loads all the crawled files from the last hour and saves all the data to the database. So the saved data is around one hour old when it is saved.
 
-## using `python`
+There can be 3 different states for the CrawlerService: no data, partial data, full data.
 
-```
-cd ./data-gathering
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python OSS_github_benchmark.py
-```
+### No data state
 
-# Run Frontend
+**Start:** If there is no data in the database besides the *todoInstitutions*.
 
-**dependencies: `node`**
+The Crawler just starts with the first Institution that it gets. When an organisation is finished, it gets a timestamp in the *todoInstiution* collection. When a whole instituion is finished it also gets a timestamp in the collection. 
+The crawler skips all organisations and institutions which timestamps are younger than 7 Days.
 
-```
-cd frontend
-npm install
-npm start
-```
+### Partial data state
 
-# Run Backend
+**Start:** If there are already some crawled institutions and organisations
 
-**dependencies: `node`**
+The crawler gets the next institution and/or organisation that was never crawled or which timestamps are older than 7 Days.
+It may happen that 7 Days are not enougth to crawl all data, so there may be some re-crawls of allready crawled repos before new ones are crawled.
 
-```
-cd oss-api
-npm install
-npm start
-```
+### Full data state
 
-# Deployment
+**Start:** All institutions and organisations were allready crawled at least once.
 
-git subtree push --prefix data-gathering prod master
-
-# API endpoints, request- and response types
-
-Relevant type aliases: ./frontend/src/app/types.ts
-
-## api/singleInstitution
-
-Find a single institution by it's unique shortname property.
-
-### Request
-
-#### name: string
-
-short_name of institution.
-
-### Response
-
-Institution
-
-## api/paginatedInstitutions
-
-Get summaries of multiple institutions.
-
-### Request
-
-#### search?: string;
-
-A search term.
-
-#### sort?: string;
-
-The column by which to sort the institutions.
-
-#### direction?: 'ASC' | 'DESC';
-
-#### page?: string;
-
-Page index.
-
-#### count?: string;
-
-Limit for institutions returned.
-
-#### includeForks?: boolean;
-
-If forked repos should be included in repo count and sorting.
-
-#### sector?: string[];
-
-Only include institutions in these sectors.
-
-### Response
-
-#### institutions: InstitutionSummary[];
-
-#### total: number;
-
-The number of institutions after filtering and searching but without pagination.
-
-#### sectors: { [key: string]: number };
-
-How many institutions with a given sector exist. Count after searching, but before filtering.
-
-## api/latestUpdate
-
-get timestamp of latest update
-
-### Request
-
-no params
-
-### Response
-
-#### updatedDate: string
-
-## api/paginatedRepositories
-
-Get paginated list of repositories.
-
-### Request
-
-For more information look at api/paginatedInstitutions.
-
-#### search?: string;
-
-#### sort?: string;
-
-#### direction?: 'ASC' | 'DESC';
-
-#### page?: string;
-
-#### count?: string;
-
-#### includeForks?: string;
-
-### Response
-
-#### repositories: Repository[];
-
-#### total: number;
-
-## api/paginatedUsers
-
-Get paginated list of users.
-
-### Request
-
-For more information look at api/paginatedInstitutions.
-
-#### search?: string;
-
-#### sort?: string;
-
-#### direction?: 'ASC' | 'DESC';
-
-#### page?: string;
-
-#### count?: string;
-
-### Response
-
-#### users: User[];
-
-#### total: number;
+The crawler will just update the data, starting with the oldest timestamp.
