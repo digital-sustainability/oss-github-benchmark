@@ -10,3 +10,10 @@ include:
     file:
       - 'templates/dsl_build_simple.yml'
 
+manual:
+  extends: .dsl_docker_build_simple
+  stage: build
+  allow_failure: false
+  when: manual
+  only:
+    - schedules
