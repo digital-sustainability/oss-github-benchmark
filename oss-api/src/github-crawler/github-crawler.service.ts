@@ -974,7 +974,7 @@ export class GithubCrawlerService {
   }
 
   private async updateTelemetry() {
-    log('Updating Telemetry data');
+    console.log('Updating Telemetry data');
     let condition: Object[] = [
       {
         fork: { $in: [true, false] },
