@@ -7,6 +7,8 @@ import { PrometheusExporter } from '@opentelemetry/exporter-prometheus';
 export class TelemetryService {
   private repoCounter: number = 0;
   private latestCrawl: number = 0;
+  private okStatus: number = 0;
+  private errorStatus: number = 0;
 
   constructor() {
     diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
@@ -43,8 +45,13 @@ export class TelemetryService {
   public setRepoCount(repoCount: number) {
     this.repoCounter = repoCount;
   }
-
   public setLatestCrawl(timestamp: number) {
     this.latestCrawl = timestamp;
+  }
+  public incrementOkStatus() {
+    this.okStatus++;
+  }
+  public incrementErrorStatus() {
+    this.errorStatus++;
   }
 }
