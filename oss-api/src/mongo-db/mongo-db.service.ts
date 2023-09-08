@@ -927,5 +927,36 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
       );
   }
 
+  /**
+   * Update the timestamp of a todo insitution
+   * @param uuid The institution uuid
+   */
+  async updateTodoInstitutionTimestamp(uuid: string): Promise<void> {
+    this.logger.log(
+      `Updating timestamp of the institution with the uuid ${uuid}.`,
+    );
+    this.client
+      .db(this.database)
+      .collection<TodoInstitution>('todoInstitutions')
+      .updateOne({ uuid: uuid }, { $set: { ts: new Date() } });
+  }
+
+  /**
+   * Update all org timestamps of a todo institution
+   * @param institution The todo insitution object
+   */
+  async updateOrgTimestamp(institution: TodoInstitution): Promise<void> {
+    this.logger.log(
+      `Updating timestamp of all orgs of the instituion ${institution.uuid}`,
+    );
+    this.client
+      .db(this.database)
+      .collection<TodoInstitution>('todoInstitutions')
+      .updateOne(
+        { uuid: institution.uuid },
+        { $set: { orgs: institution.orgs } },
+      );
+  }
+
   /***********************************Delete************************************************/
 }

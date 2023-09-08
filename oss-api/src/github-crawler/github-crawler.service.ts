@@ -23,7 +23,6 @@ import { TelemetryService } from '../telemetry/telemetry.service';
 export class GithubCrawlerService {
   constructor(
     private githubService: GithubService,
-    private mongoService: MongoDbService,
     private mongo: MongoDbService,
     private telemetryService: TelemetryService,
   ) {
@@ -44,7 +43,7 @@ export class GithubCrawlerService {
   private async prepareInstitutions() {
     this.logger.log(`Prepairing all institutions to be crawled`);
     this.reachedGithubCallLimit = false;
-    const todoInstituitions = await this.mongoService.findAllTodoInstitutions();
+    const todoInstituitions = await this.mongo.findAllTodoInstitutions();
     todoInstituitions.sort((a, b) => {
       if (!a.ts && !b.ts) return 0;
       if (!a.ts) return -1;
@@ -60,6 +59,8 @@ export class GithubCrawlerService {
         continue;
       }
       await this.handleInstitution(todoInstituition);
+      if (this.reachedGithubCallLimit) break;
+      await this.mongo.updateTodoInstitutionTimestamp(todoInstituition.uuid);
     }
     this.updateTelemetry();
     this.logger.log('Crawler finished');
@@ -77,7 +78,7 @@ export class GithubCrawlerService {
       if (!b.ts) return 1;
       return b.ts.getTime() - a.ts.getTime();
     });
-    for (const organisation of institution.orgs) {
+    for (const [index, organisation] of institution.orgs.entries()) {
       if (this.reachedGithubCallLimit) break;
       if (organisation.ts?.getTime() > Date.now() - this.daysToWait) {
         this.logger.log(
@@ -86,6 +87,10 @@ export class GithubCrawlerService {
         continue;
       }
       await this.handleOrganisation(organisation.name, institution.shortname);
+      if (this.reachedGithubCallLimit) break;
+      organisation.ts = new Date();
+      institution.orgs[index] = organisation;
+      await this.mongo.updateOrgTimestamp(institution);
     }
   }
 
@@ -127,7 +132,7 @@ export class GithubCrawlerService {
     orgName: string,
   ): Promise<void> {
     this.logger.log(`Handling repository ${repo.name}`);
-    const dbRepository = await this.mongoService.findRepository(
+    const dbRepository = await this.mongo.findRepository(
       repo.name,
       institutionName,
     );
@@ -313,6 +318,7 @@ export class GithubCrawlerService {
           userName,
           gitUserResponse,
         );
+        this.telemetryService.incrementOkStatus();
       })
       .catch((error) => {
         this.logger.log(
@@ -325,6 +331,7 @@ export class GithubCrawlerService {
           this.reachedGithubCallLimit = true;
         }
         this.logger.error(error);
+        this.telemetryService.incrementErrorStatus();
       });
   }
 
@@ -364,6 +371,7 @@ export class GithubCrawlerService {
           '',
           gitRepoResponse,
         );
+        this.telemetryService.incrementOkStatus();
         return gitRepoResponse.data as GithubRepo;
       })
       .catch((error) => {
@@ -377,6 +385,7 @@ export class GithubCrawlerService {
           this.reachedGithubCallLimit = true;
         }
         this.logger.error(error);
+        this.telemetryService.incrementErrorStatus();
         return null;
       });
   }
@@ -422,6 +431,7 @@ export class GithubCrawlerService {
             '',
             gitRepoContributorsResponse,
           );
+          this.telemetryService.incrementOkStatus();
           return gitRepoContributorsResponse.data as GithubContributor[];
         })
         .catch((error) => {
@@ -436,6 +446,7 @@ export class GithubCrawlerService {
             return;
           }
           this.logger.error(error);
+          this.telemetryService.incrementErrorStatus();
           return null;
         });
       if (!res) return null;
@@ -484,6 +495,7 @@ export class GithubCrawlerService {
             '',
             getRepoCommitsReponse,
           );
+          this.telemetryService.incrementOkStatus();
           return getRepoCommitsReponse.data as GithubCommit[];
         })
         .catch((error) => {
@@ -497,6 +509,7 @@ export class GithubCrawlerService {
             this.reachedGithubCallLimit = true;
           }
           this.logger.error(error);
+          this.telemetryService.incrementErrorStatus();
           return;
         });
       if (!res) return;
@@ -546,6 +559,7 @@ export class GithubCrawlerService {
             '',
             getRepoPullRequestsResponse,
           );
+          this.telemetryService.incrementOkStatus();
         })
         .catch((error) => {
           this.logger.log(
@@ -558,6 +572,7 @@ export class GithubCrawlerService {
             this.reachedGithubCallLimit = true;
           }
           this.logger.error(error);
+          this.telemetryService.incrementErrorStatus();
           return null;
         });
       if (!res) break;
@@ -608,6 +623,7 @@ export class GithubCrawlerService {
             '',
             getRepoIssuesResponse,
           );
+          this.telemetryService.incrementOkStatus();
           return getRepoIssuesResponse.data as GitHubIssue[];
         })
         .catch((error) => {
@@ -621,6 +637,7 @@ export class GithubCrawlerService {
             this.reachedGithubCallLimit = true;
           }
           this.logger.error(error);
+          this.telemetryService.incrementErrorStatus();
           return null;
         });
       if (!res) return null;
@@ -669,6 +686,7 @@ export class GithubCrawlerService {
             '',
             getRepoCommitCommentsResult,
           );
+          this.telemetryService.incrementOkStatus();
           return getRepoCommitCommentsResult.data as GitHubCommitComment[];
         })
         .catch((error) => {
@@ -682,6 +700,7 @@ export class GithubCrawlerService {
             this.reachedGithubCallLimit = true;
           }
           this.logger.error(error);
+          this.telemetryService.incrementErrorStatus();
           return null;
         });
       if (!res) return null;
@@ -727,6 +746,7 @@ export class GithubCrawlerService {
           '',
           getRepoLanguagesResult,
         );
+        this.telemetryService.incrementOkStatus();
       })
       .catch((error) => {
         this.logger.log(
@@ -739,6 +759,7 @@ export class GithubCrawlerService {
           this.reachedGithubCallLimit = true;
         }
         this.logger.error(error);
+        this.telemetryService.incrementErrorStatus();
         return;
       });
   }
@@ -792,6 +813,7 @@ export class GithubCrawlerService {
           '',
           compareTwoCommitsResult,
         );
+        this.telemetryService.incrementOkStatus();
       })
       .catch((error) => {
         this.logger.log(
@@ -804,6 +826,7 @@ export class GithubCrawlerService {
           this.reachedGithubCallLimit = true;
         }
         this.logger.error(error);
+        this.telemetryService.incrementErrorStatus();
         return;
       });
   }
@@ -840,6 +863,7 @@ export class GithubCrawlerService {
           '',
           getOrganisationResult,
         );
+        this.telemetryService.incrementOkStatus();
       })
       .catch((error) => {
         this.logger.log(
@@ -852,6 +876,7 @@ export class GithubCrawlerService {
           this.reachedGithubCallLimit = true;
         }
         this.logger.error(error);
+        this.telemetryService.incrementErrorStatus();
         return;
       });
   }
@@ -891,6 +916,7 @@ export class GithubCrawlerService {
             '',
             getOrganisationMembersResult,
           );
+          this.telemetryService.incrementOkStatus();
           return getOrganisationMembersResult.data as GithubOrganisationMember[];
         })
         .catch((error) => {
@@ -904,6 +930,7 @@ export class GithubCrawlerService {
             this.reachedGithubCallLimit = true;
           }
           this.logger.error(error);
+          this.telemetryService.incrementErrorStatus();
           return null;
         });
       if (!res) return;
@@ -950,6 +977,7 @@ export class GithubCrawlerService {
               '',
               getOrganisationRepositoriesResult,
             );
+            this.telemetryService.incrementOkStatus();
             return getOrganisationRepositoriesResult.data as GithubOrganisationRepository[];
           })
           .catch((error) => {
@@ -963,6 +991,7 @@ export class GithubCrawlerService {
               this.reachedGithubCallLimit = true;
             }
             this.logger.error(error);
+            this.telemetryService.incrementErrorStatus();
             return null;
           });
       if (!res) return null;
