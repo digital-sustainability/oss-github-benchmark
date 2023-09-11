@@ -1,1387 +1,2807 @@
 [
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c841"
+    },
     "uuid": "e1585135-a362-48e5-b1a0-10e6f53de00f",
     "sector": "IT",
     "ts": null,
     "shortname": "3ap",
     "name_de": "3ap AG",
-    "orgs": [{ "name": "3AP-AG", "ts": null }]
+    "orgs": [
+      {
+        "name": "3AP-AG",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c842"
+    },
     "uuid": "29a0cd4e-3fc4-4f32-93d4-0b3642ea5ed8",
     "sector": "IT",
     "ts": null,
     "shortname": "4teamwork",
     "name_de": "4teamwork AG",
-    "orgs": [{ "name": "4teamwork", "ts": null }]
+    "orgs": [
+      {
+        "name": "4teamwork",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c843"
+    },
     "uuid": "0e06e7d6-2c9c-4282-b627-76e73aada5aa",
     "sector": "IT",
     "ts": null,
     "shortname": "56kcloud",
     "name_de": "56K Cloud",
-    "orgs": [{ "name": "56kcloud", "ts": null }]
+    "orgs": [
+      {
+        "name": "56kcloud",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c844"
+    },
     "uuid": "28e1ff2d-c6c6-4221-bc56-9e799c1279ed",
     "sector": "IT",
     "ts": null,
     "shortname": "OpenFlowLabs",
     "name_de": "OpenFlowLabs GmbH",
-    "orgs": [{ "name": "OpenFlowLabs", "ts": null }]
+    "orgs": [
+      {
+        "name": "OpenFlowLabs",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c845"
+    },
     "uuid": "b36bfd2a-e6ab-4389-a75d-88a9ac2eed20",
     "sector": "IT",
     "ts": null,
     "shortname": "abraxas",
     "name_de": "Abraxas",
-    "orgs": [{ "name": "abraxas-labs", "ts": null }]
+    "orgs": [
+      {
+        "name": "abraxas-labs",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c846"
+    },
     "uuid": "523aded3-35e2-4927-b7e9-9c50c6243541",
     "sector": "IT",
     "ts": null,
     "shortname": "adfinis",
     "name_de": "Adfinis AG",
     "orgs": [
-      { "name": "adfinis", "ts": null },
-      { "name": "adfinis-forks", "ts": null },
-      { "name": "projectcaluma", "ts": null }
+      {
+        "name": "adfinis-forks",
+        "ts": null
+      },
+      {
+        "name": "projectcaluma",
+        "ts": null
+      },
+      {
+        "name": "adfinis",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c847"
+    },
     "uuid": "b8d76bb8-e3c6-44d5-9f50-02359c8ff1c4",
     "sector": "IT",
     "ts": null,
     "shortname": "adnovum",
     "name_de": "AdNovum Informatik AG",
-    "orgs": [{ "name": "adnovum", "ts": null }]
+    "orgs": [
+      {
+        "name": "adnovum",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c848"
+    },
     "uuid": "2e54a51b-9ad4-47b7-b735-e1a7734a3421",
     "sector": "IT",
     "ts": null,
     "shortname": "advancedconcepts",
     "name_de": "Advanced Concepts AG",
-    "orgs": [{ "name": "advancedconcepts", "ts": null }]
+    "orgs": [
+      {
+        "name": "advancedconcepts",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c849"
+    },
     "uuid": "39602716-629e-415d-af97-21ae5b9ff705",
     "sector": "IT",
     "ts": null,
     "shortname": "ahdis",
     "name_de": "ahdis ag",
-    "orgs": [{ "name": "ahdis", "ts": null }]
+    "orgs": [
+      {
+        "name": "ahdis",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c84a"
+    },
     "uuid": "6404af0d-b1cf-47e7-a221-7288ffadbe46",
     "sector": "IT",
     "ts": null,
     "shortname": "amazee",
     "name_de": "amazee.io",
-    "orgs": [{ "name": "amazeeio", "ts": null }]
+    "orgs": [
+      {
+        "name": "amazeeio",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c84b"
+    },
     "uuid": "6d50945b-3a80-4808-8c87-b5bef7610a71",
     "sector": "IT",
     "ts": null,
     "shortname": "antistatique",
     "name_de": "antistatique",
-    "orgs": [{ "name": "antistatique", "ts": null }]
+    "orgs": [
+      {
+        "name": "antistatique",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c84c"
+    },
     "uuid": "57664644-54b9-4ed3-a0bb-f2ffec4c0c61",
     "sector": "IT",
     "ts": null,
     "shortname": "appswithlove",
     "name_de": "Apps with love AG",
-    "orgs": [{ "name": "appswithlove", "ts": null }]
+    "orgs": [
+      {
+        "name": "appswithlove",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c84d"
+    },
     "uuid": "695fe3c5-acaa-4c06-a9b2-362dcbe37d15",
     "sector": "IT",
     "ts": null,
     "shortname": "bbv",
     "name_de": "bbv Software Services AG",
-    "orgs": [{ "name": "bbvch", "ts": null }]
+    "orgs": [
+      {
+        "name": "bbvch",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c84e"
+    },
     "uuid": "34c46af6-a8dc-4eec-83bd-40ecddd913af",
     "sector": "IT",
     "ts": null,
     "shortname": "bedag",
     "name_de": "Bedag",
-    "orgs": [{ "name": "bedag", "ts": null }]
+    "orgs": [
+      {
+        "name": "bedag",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c84f"
+    },
     "uuid": "80c57605-9088-4e2b-b928-82b9f3b98af3",
     "sector": "IT",
     "ts": null,
     "shortname": "blackpoints",
     "name_de": "Blackpoints AG",
-    "orgs": [{ "name": "blackpoints", "ts": null }]
+    "orgs": [
+      {
+        "name": "blackpoints",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c850"
+    },
     "uuid": "d4e9a748-caf4-4683-91aa-0d486c7b778b",
     "sector": "IT",
     "ts": null,
     "shortname": "braintec",
     "name_de": "brain-tec AG",
-    "orgs": [{ "name": "brain-tec", "ts": null }]
+    "orgs": [
+      {
+        "name": "brain-tec",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c851"
+    },
     "uuid": "bca4fcee-c04c-4438-ac85-7eec5ea9cb18",
     "sector": "IT",
     "ts": null,
     "shortname": "bsi",
     "name_de": "BSI Business Systems Integration AG",
-    "orgs": [{ "name": "bsi-software", "ts": null }]
+    "orgs": [
+      {
+        "name": "bsi-software",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c852"
+    },
     "uuid": "c19271bf-caf0-47af-9140-3c429026fabd",
     "sector": "IT",
     "ts": null,
     "shortname": "camptocamp",
     "name_de": "Camptocamp",
-    "orgs": [{ "name": "camptocamp", "ts": null }]
+    "orgs": [
+      {
+        "name": "camptocamp",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c853"
+    },
     "uuid": "86db9e5d-943f-45ca-b2d8-80624e73216b",
     "sector": "IT",
     "ts": null,
     "shortname": "cividi",
     "name_de": "cividi",
     "orgs": [
-      { "name": "cividi", "ts": null },
-      { "name": "smartuse", "ts": null }
+      {
+        "name": "smartuse",
+        "ts": null
+      },
+      {
+        "name": "cividi",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c854"
+    },
     "uuid": "6d1367ad-5a40-4b35-8644-97329e2a2eb8",
     "sector": "IT",
     "ts": null,
     "shortname": "cloudscale",
     "name_de": "cloudscale.ch AG",
-    "orgs": [{ "name": "cloudscale-ch", "ts": null }]
+    "orgs": [
+      {
+        "name": "cloudscale-ch",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c855"
+    },
     "uuid": "e1e3e077-0362-412b-a9d3-5d02f8cf01f3",
     "sector": "IT",
     "ts": null,
     "shortname": "cyon",
     "name_de": "cyon GmbH",
-    "orgs": [{ "name": "cyon", "ts": null }]
+    "orgs": [
+      {
+        "name": "cyon",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c856"
+    },
     "uuid": "6eba34ec-e4b8-451f-bf05-b7fea4e9a101",
     "sector": "IT",
     "ts": null,
     "shortname": "dvbern",
     "name_de": "DV Bern",
-    "orgs": [{ "name": "dvbern", "ts": null }]
+    "orgs": [
+      {
+        "name": "dvbern",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c857"
+    },
     "uuid": "122a3c2f-ea5f-4b12-81e3-d33213ebefcf",
     "sector": "IT",
     "ts": null,
     "shortname": "elca",
     "name_de": "ELCA",
-    "orgs": [{ "name": "ElcaIT", "ts": null }]
+    "orgs": [
+      {
+        "name": "ElcaIT",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c858"
+    },
     "uuid": "0ecce1bb-fd14-4e5c-9296-bfff1efcbda4",
     "sector": "IT",
     "ts": null,
     "shortname": "ergon",
     "name_de": "Ergon Informatik AG ",
-    "orgs": [{ "name": "ergon", "ts": null }]
+    "orgs": [
+      {
+        "name": "ergon",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c859"
+    },
     "uuid": "bead444a-0f0c-491e-a893-7d89d21d8a51",
     "sector": "IT",
     "ts": null,
     "shortname": "erni",
     "name_de": "ERNI",
-    "orgs": [{ "name": "ERNICommunity", "ts": null }]
+    "orgs": [
+      {
+        "name": "ERNICommunity",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c85a"
+    },
     "uuid": "13c7f0b1-de21-4ea9-a8e0-a3f0e7283161",
     "sector": "IT",
     "ts": null,
     "shortname": "exoscale",
     "name_de": "Exoscale",
-    "orgs": [{ "name": "exoscale", "ts": null }]
+    "orgs": [
+      {
+        "name": "exoscale",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c85b"
+    },
     "uuid": "9edcdf47-5ed0-4dbf-a734-6ce94f3c3c9e",
     "sector": "IT",
     "ts": null,
     "shortname": "frangoteam",
     "name_de": "frangoteam",
-    "orgs": [{ "name": "frangoteam", "ts": null }]
+    "orgs": [
+      {
+        "name": "frangoteam",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c85c"
+    },
     "uuid": "4ff319a7-6187-4b77-848a-43b8559b8b6c",
     "sector": "IT",
     "ts": null,
     "shortname": "garaio",
     "name_de": "Garaio",
-    "orgs": [{ "name": "garaio", "ts": null }]
+    "orgs": [
+      {
+        "name": "garaio",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c85d"
+    },
     "uuid": "5ed01b04-a8bc-4475-b2fc-0e012bfae405",
     "sector": "IT",
     "ts": null,
     "shortname": "gyselroth",
     "name_de": "gyselroth",
-    "orgs": [{ "name": "gyselroth", "ts": null }]
+    "orgs": [
+      {
+        "name": "gyselroth",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c85e"
+    },
     "uuid": "d6687487-318a-4862-bd51-4ea8a4d2a3e7",
     "sector": "IT",
     "ts": null,
     "shortname": "hazelfire",
     "name_de": "hazelfire GmbH",
-    "orgs": [{ "name": "hzlf", "ts": null }]
+    "orgs": [
+      {
+        "name": "hzlf",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c85f"
+    },
     "uuid": "60029b54-e998-4234-9986-90eda2d948ee",
     "sector": "IT",
     "ts": null,
     "shortname": "infomaniak",
     "name_de": "Infomaniak",
-    "orgs": [{ "name": "Infomaniak", "ts": null }]
+    "orgs": [
+      {
+        "name": "Infomaniak",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c860"
+    },
     "uuid": "457eea78-c696-4496-86a9-46e5f293fa9a",
     "sector": "IT",
     "ts": null,
     "shortname": "init7",
     "name_de": "Init7",
-    "orgs": [{ "name": "Init7", "ts": null }]
+    "orgs": [
+      {
+        "name": "Init7",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c861"
+    },
     "uuid": "0df80287-0662-4f30-8d8c-2bc1468d8587",
     "sector": "IT",
     "ts": null,
     "shortname": "interactivethings",
     "name_de": "Interactive Things",
-    "orgs": [{ "name": "interactivethings", "ts": null }]
+    "orgs": [
+      {
+        "name": "interactivethings",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c862"
+    },
     "uuid": "63e8550b-8bbf-41b0-bd9a-4283a3392447",
     "sector": "IT",
     "ts": null,
     "shortname": "inventage",
     "name_de": "Inventage AG",
-    "orgs": [{ "name": "inventage", "ts": null }]
+    "orgs": [
+      {
+        "name": "inventage",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c863"
+    },
     "uuid": "d0505f23-7585-4b3d-be75-a8847290a66b",
     "sector": "IT",
     "ts": null,
     "shortname": "isolutions",
     "name_de": "iSolutions",
-    "orgs": [{ "name": "isolutionsag", "ts": null }]
+    "orgs": [
+      {
+        "name": "isolutionsag",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c864"
+    },
     "uuid": "66e054eb-a175-441c-91cd-1bb17217fda3",
     "sector": "IT",
     "ts": null,
     "shortname": "itigo",
     "name_de": "ITIGO AG",
-    "orgs": [{ "name": "itigoag", "ts": null }]
+    "orgs": [
+      {
+        "name": "itigoag",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c865"
+    },
     "uuid": "14d40b3a-cf3e-43e1-a425-fe649f6d4d9c",
     "sector": "IT",
     "ts": null,
     "shortname": "jshmrtn",
     "name_de": "JOSHMARTIN GmbH",
-    "orgs": [{ "name": "jshmrtn", "ts": null }]
+    "orgs": [
+      {
+        "name": "jshmrtn",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c866"
+    },
     "uuid": "2000714a-ccc2-46d3-a476-a6eeb2a7caef",
     "sector": "IT",
     "ts": null,
     "shortname": "liip",
     "name_de": "Liip",
     "orgs": [
-      { "name": "liip", "ts": null },
-      { "name": "liip-forks", "ts": null },
-      { "name": "rokka-io", "ts": null }
+      {
+        "name": "liip-forks",
+        "ts": null
+      },
+      {
+        "name": "rokka-io",
+        "ts": null
+      },
+      {
+        "name": "liip",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c867"
+    },
     "uuid": "b27523b9-c605-4eff-9e03-1c031a7ee222",
     "sector": "IT",
     "ts": null,
     "shortname": "microsystems",
     "name_de": "micro systems",
-    "orgs": [{ "name": "arcapos", "ts": null }]
+    "orgs": [
+      {
+        "name": "arcapos",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c868"
+    },
     "uuid": "4014cdde-1900-4360-bb53-6c2976344d8f",
     "sector": "IT",
     "ts": null,
     "shortname": "mimacom",
     "name_de": "mimacom",
-    "orgs": [{ "name": "mimacom", "ts": null }]
+    "orgs": [
+      {
+        "name": "mimacom",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c869"
+    },
     "uuid": "b123799c-858b-4b51-98ad-0956e410f947",
     "sector": "IT",
     "ts": null,
     "shortname": "netcetera",
     "name_de": "Netcetera",
-    "orgs": [{ "name": "netceteragroup", "ts": null }]
+    "orgs": [
+      {
+        "name": "netceteragroup",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c86a"
+    },
     "uuid": "2bea4fed-4248-4e4d-a189-46f90e24bda4",
     "sector": "IT",
     "ts": null,
     "shortname": "nine",
     "name_de": "nine",
-    "orgs": [{ "name": "ninech", "ts": null }]
+    "orgs": [
+      {
+        "name": "ninech",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c86b"
+    },
     "uuid": "633e906b-da12-49f1-8de7-6d52aec20646",
     "sector": "IT",
     "ts": null,
     "shortname": "novu",
     "name_de": "novu",
-    "orgs": [{ "name": "teamnovu", "ts": null }]
+    "orgs": [
+      {
+        "name": "teamnovu",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c86c"
+    },
     "uuid": "1938533d-1168-4209-908a-0f2e7210ef2d",
     "sector": "IT",
     "ts": null,
     "shortname": "offline",
     "name_de": "OFFLINE GmbH",
-    "orgs": [{ "name": "OFFLINE-GmbH", "ts": null }]
+    "orgs": [
+      {
+        "name": "OFFLINE-GmbH",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c86d"
+    },
     "uuid": "cdde5d08-ce6a-403b-b56b-5212419d75aa",
     "sector": "IT",
     "ts": null,
     "shortname": "opengis",
     "name_de": "OPENGIS.ch GmbH",
-    "orgs": [{ "name": "opengisch", "ts": null }]
+    "orgs": [
+      {
+        "name": "opengisch",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c86e"
+    },
     "uuid": "71a72db6-8b13-405f-a3d4-d36db246940e",
     "sector": "IT",
     "ts": null,
     "shortname": "openstream",
     "name_de": "Openstream Internet Solutions",
-    "orgs": [{ "name": "openstream", "ts": null }]
+    "orgs": [
+      {
+        "name": "openstream",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c86f"
+    },
     "uuid": "6517018e-e5e4-4d4b-96ff-020c84b1e3e0",
     "sector": "IT",
     "ts": null,
     "shortname": "opsone",
     "name_de": "Ops One AG",
-    "orgs": [{ "name": "opsone-ch", "ts": null }]
+    "orgs": [
+      {
+        "name": "opsone-ch",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c870"
+    },
     "uuid": "a2144803-aa4a-4e02-8991-70889c096c47",
     "sector": "IT",
     "ts": null,
     "shortname": "opten",
     "name_de": "OPTEN AG",
-    "orgs": [{ "name": "OPTEN", "ts": null }]
+    "orgs": [
+      {
+        "name": "OPTEN",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c871"
+    },
     "uuid": "2a0e43a1-5d69-4841-a48a-2e40eae4d3cd",
     "sector": "IT",
     "ts": null,
     "shortname": "puzzle",
     "name_de": "Puzzle ITC",
     "orgs": [
-      { "name": "puzzle", "ts": null },
-      { "name": "puzzle-bbt", "ts": null },
-      { "name": "hitobito", "ts": null }
+      {
+        "name": "puzzle",
+        "ts": null
+      },
+      {
+        "name": "puzzle-bbt",
+        "ts": null
+      },
+      {
+        "name": "hitobito",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c872"
+    },
     "uuid": "c4943619-1cea-44ac-909b-39fae5705239",
     "sector": "IT",
     "ts": null,
     "shortname": "seantis",
     "name_de": "seantis gmbh",
-    "orgs": [{ "name": "seantis", "ts": null }]
+    "orgs": [
+      {
+        "name": "seantis",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c873"
+    },
     "uuid": "9db1ba26-7cc3-43fd-913a-84b2a185949a",
     "sector": "IT",
     "ts": null,
     "shortname": "secanis",
     "name_de": "secanis",
-    "orgs": [{ "name": "secanis", "ts": null }]
+    "orgs": [
+      {
+        "name": "secanis",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c874"
+    },
     "uuid": "12d86361-e13e-4ee5-8e39-65e37bf36bee",
     "sector": "IT",
     "ts": null,
     "shortname": "snowflake",
     "name_de": "Snowflake",
-    "orgs": [{ "name": "snowflakech", "ts": null }]
+    "orgs": [
+      {
+        "name": "snowflakech",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c875"
+    },
     "uuid": "f1f1868b-b6a6-4c7f-bbd2-dc086dd14b5f",
     "sector": "IT",
     "ts": null,
     "shortname": "sourcepole",
     "name_de": "Sourcepole",
-    "orgs": [{ "name": "sourcepole", "ts": null }]
+    "orgs": [
+      {
+        "name": "sourcepole",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c876"
+    },
     "uuid": "eaff4633-860b-4e4f-b773-2c40b4cf7121",
     "sector": "IT",
     "ts": null,
     "shortname": "steppingstone",
     "name_de": "stepping stone",
-    "orgs": [{ "name": "stepping-stone", "ts": null }]
+    "orgs": [
+      {
+        "name": "stepping-stone",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c877"
+    },
     "uuid": "cccc179e-12ab-44e6-9c37-ff5b4c13f699",
     "sector": "IT",
     "ts": null,
     "shortname": "tegonal",
     "name_de": "Tegonal",
-    "orgs": [{ "name": "tegonal", "ts": null }]
+    "orgs": [
+      {
+        "name": "tegonal",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c878"
+    },
     "uuid": "9597962d-1801-4583-bc7c-5191beb5c412",
     "sector": "IT",
     "ts": null,
     "shortname": "threema",
     "name_de": "Threema",
-    "orgs": [{ "name": "threema-ch", "ts": null }]
+    "orgs": [
+      {
+        "name": "threema-ch",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c879"
+    },
     "uuid": "e0e61369-9577-4aee-b729-09ddda4bbd78",
     "sector": "IT",
     "ts": null,
     "shortname": "ticketpark",
     "name_de": "Ticketpark GmbH",
-    "orgs": [{ "name": "TicketPark", "ts": null }]
+    "orgs": [
+      {
+        "name": "TicketPark",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c87a"
+    },
     "uuid": "35b8a62b-bba0-46d6-8256-6c42158f5a26",
     "sector": "IT",
     "ts": null,
     "shortname": "ubique",
     "name_de": "Ubique",
     "orgs": [
-      { "name": "UbiqueInnovation", "ts": null },
-      { "name": "openmobilemaps", "ts": null }
+      {
+        "name": "openmobilemaps",
+        "ts": null
+      },
+      {
+        "name": "UbiqueInnovation",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c87b"
+    },
     "uuid": "a9bce5be-1175-4faf-9589-298fea4cb7b6",
     "sector": "IT",
     "ts": null,
     "shortname": "unprofession",
     "name_de": "unprofession",
-    "orgs": [{ "name": "unprofession-al", "ts": null }]
+    "orgs": [
+      {
+        "name": "unprofession-al",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c87c"
+    },
     "uuid": "c654ac6f-0698-4d70-8a95-ef1b559bd6d9",
     "sector": "IT",
     "ts": null,
     "shortname": "vshn",
     "name_de": "VSHN AG",
     "orgs": [
-      { "name": "vshn", "ts": null },
-      { "name": "projectsyn", "ts": null }
+      {
+        "name": "vshn",
+        "ts": null
+      },
+      {
+        "name": "projectsyn",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c87d"
+    },
     "uuid": "bed46d27-050c-4f50-ba9d-0740b27445b5",
     "sector": "IT",
     "ts": null,
     "shortname": "whatwedo",
     "name_de": "whatwedo GmbH",
-    "orgs": [{ "name": "whatwedo", "ts": null }]
+    "orgs": [
+      {
+        "name": "whatwedo",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c87e"
+    },
     "uuid": "d3f61370-c3bf-46a8-81fc-13fbafbb578b",
     "sector": "IT",
     "ts": null,
     "shortname": "xware",
     "name_de": "XWare GmbH",
-    "orgs": [{ "name": "xware-gmbh", "ts": null }]
+    "orgs": [
+      {
+        "name": "xware-gmbh",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c87f"
+    },
     "uuid": "03954cfa-40a5-4a78-9e40-c40573adb357",
     "sector": "IT",
     "ts": null,
     "shortname": "zazuko",
     "name_de": "Zazuko",
-    "orgs": [{ "name": "zazuko", "ts": null }]
+    "orgs": [
+      {
+        "name": "zazuko",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c880"
+    },
     "uuid": "b2cc48ed-b5b7-4d0b-bca5-06c94e8dc477",
     "sector": "IT",
     "ts": null,
     "shortname": "zitadel",
     "name_de": "ZITADEL",
     "orgs": [
-      { "name": "caos", "ts": null },
-      { "name": "zitadel", "ts": null }
+      {
+        "name": "zitadel",
+        "ts": null
+      },
+      {
+        "name": "caos",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c881"
+    },
     "uuid": "14c22145-fe1d-408d-9b79-6ed1841f8a2e",
     "sector": "IT",
     "ts": null,
     "shortname": "zuehlke",
     "name_de": "Zühlke",
-    "orgs": [{ "name": "Zuehlke", "ts": null }]
+    "orgs": [
+      {
+        "name": "Zuehlke",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c882"
+    },
     "uuid": "ee9b432e-df71-4cca-abd9-7db4235655c1",
     "sector": "Communities",
     "ts": null,
     "shortname": "appuio",
     "name_de": "APPUiO",
-    "orgs": [{ "name": "appuio", "ts": null }]
+    "orgs": [
+      {
+        "name": "appuio",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c883"
+    },
     "uuid": "8b875871-d38a-426d-99dc-8615530c8c07",
     "sector": "Communities",
     "ts": null,
     "shortname": "arillso",
     "name_de": "arillso",
-    "orgs": [{ "name": "arillso", "ts": null }]
+    "orgs": [
+      {
+        "name": "arillso",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c884"
+    },
     "uuid": "123964c9-f364-4e53-ad1c-103c301127dd",
     "sector": "Communities",
     "ts": null,
     "shortname": "caluma",
     "name_de": "Caluma",
-    "orgs": [{ "name": "projectcaluma", "ts": null }]
+    "orgs": [
+      {
+        "name": "projectcaluma",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c885"
+    },
     "uuid": "cd9d690f-e13f-4bda-b33c-04adb3b04407",
     "sector": "Communities",
     "ts": null,
     "shortname": "datalets",
     "name_de": "Datalets",
-    "orgs": [{ "name": "datalets", "ts": null }]
+    "orgs": [
+      {
+        "name": "datalets",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c886"
+    },
     "uuid": "251cee4c-85fa-480f-be1a-8d7be4ea9edd",
     "sector": "Communities",
     "ts": null,
     "shortname": "dinacon",
     "name_de": "DINAcon Konferenz für digitale Nachhaltigkeit",
-    "orgs": [{ "name": "DINAcon", "ts": null }]
+    "orgs": [
+      {
+        "name": "DINAcon",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c887"
+    },
     "uuid": "3f27bcfd-35d4-483e-b77a-1d9b9387dc2b",
     "sector": "Communities",
     "ts": null,
     "shortname": "hitobito",
     "name_de": "Hitobito",
-    "orgs": [{ "name": "hitobito", "ts": null }]
+    "orgs": [
+      {
+        "name": "hitobito",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c888"
+    },
     "uuid": "be4d25af-26b7-4404-9229-2b36b48afb38",
     "sector": "Communities",
     "ts": null,
     "shortname": "hl17",
     "name_de": "HL7 Benutzergruppe Schweiz",
-    "orgs": [{ "name": "hl7ch", "ts": null }]
+    "orgs": [
+      {
+        "name": "hl7ch",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c889"
+    },
     "uuid": "e11b787f-92ed-4432-9ece-4a9c82188037",
     "sector": "Communities",
     "ts": null,
     "shortname": "k8up",
     "name_de": "k8up",
-    "orgs": [{ "name": "k8up-io", "ts": null }]
+    "orgs": [
+      {
+        "name": "k8up-io",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c88a"
+    },
     "uuid": "8f1292be-e5c6-4a1b-9ca0-6cd9498aef90",
     "sector": "Communities",
     "ts": null,
     "shortname": "keycdn",
     "name_de": "KeyCDN",
-    "orgs": [{ "name": "keycdn", "ts": null }]
+    "orgs": [
+      {
+        "name": "keycdn",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c88b"
+    },
     "uuid": "fa2dc045-0a75-4ef2-8cee-8f77dad5e360",
     "sector": "Communities",
     "ts": null,
     "shortname": "lib4ri",
     "name_de": "Lib4RI - Library for the Research Institutes within the ETH Domain: Eawag, Empa, PSI & WSL",
-    "orgs": [{ "name": "Lib4RI", "ts": null }]
+    "orgs": [
+      {
+        "name": "Lib4RI",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c88c"
+    },
     "uuid": "d6e8ccd4-294e-4af2-81e5-b7e6e2ff90b8",
     "sector": "Communities",
     "ts": null,
     "shortname": "lobbywatch",
     "name_de": "lobbywatch.ch",
-    "orgs": [{ "name": "lobbywatch", "ts": null }]
+    "orgs": [
+      {
+        "name": "lobbywatch",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c88d"
+    },
     "uuid": "3f21cdab-d0ad-43cb-880a-7373ab6a6598",
     "sector": "Communities",
     "ts": null,
     "shortname": "opendigitalradio",
     "name_de": "Opendigitalradio",
-    "orgs": [{ "name": "Opendigitalradio", "ts": null }]
+    "orgs": [
+      {
+        "name": "Opendigitalradio",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c88e"
+    },
     "uuid": "9342dedb-a5d2-48d4-8cf8-7679e780d628",
     "sector": "Communities",
     "ts": null,
     "shortname": "openolitor",
     "name_de": "OpenOlitor",
-    "orgs": [{ "name": "openolitor", "ts": null }]
+    "orgs": [
+      {
+        "name": "openolitor",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c88f"
+    },
     "uuid": "7d8344e7-2f4d-4506-a5ab-db362105b485",
     "sector": "Communities",
     "ts": null,
     "shortname": "opensourcechallenge",
     "name_de": "Open Source Challenge",
-    "orgs": [{ "name": "opensource-challenge", "ts": null }]
+    "orgs": [
+      {
+        "name": "opensource-challenge",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c890"
+    },
     "uuid": "4095da07-8708-4df0-9a8a-90a8812847bb",
     "sector": "Communities",
     "ts": null,
     "shortname": "posmo",
     "name_de": "Genossenschaft POSMO Schweiz",
-    "orgs": [{ "name": "posmocoop", "ts": null }]
+    "orgs": [
+      {
+        "name": "posmocoop",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c891"
+    },
     "uuid": "c2027fb9-ea40-426c-a147-972abe4c4035",
     "sector": "Communities",
     "ts": null,
     "shortname": "schoolofdata",
     "name_de": "School of Data in Switzerland",
-    "orgs": [{ "name": "schoolofdata-ch", "ts": null }]
+    "orgs": [
+      {
+        "name": "schoolofdata-ch",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c892"
+    },
     "uuid": "7678acde-150b-47ef-9e2b-8de3e08b738e",
     "sector": "Communities",
     "ts": null,
     "shortname": "swissgeol",
     "name_de": "swissgeol",
-    "orgs": [{ "name": "swissgeol", "ts": null }]
+    "orgs": [
+      {
+        "name": "swissgeol",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c893"
+    },
     "uuid": "8e185d2c-507b-4d6e-b641-cb8af52b03fd",
     "sector": "Communities",
     "ts": null,
     "shortname": "teksi",
     "name_de": "TEKSI, QGEP, QWAT",
     "orgs": [
-      { "name": "teksi", "ts": null },
-      { "name": "qgep", "ts": null },
-      { "name": "qwat", "ts": null }
+      {
+        "name": "qwat",
+        "ts": null
+      },
+      {
+        "name": "qgep",
+        "ts": null
+      },
+      {
+        "name": "teksi",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c894"
+    },
     "uuid": "febbd667-edd9-46d1-afce-e8e3f647a098",
     "sector": "Communities",
     "ts": null,
     "shortname": "veriso",
     "name_de": "VeriSO",
-    "orgs": [{ "name": "veriso", "ts": null }]
+    "orgs": [
+      {
+        "name": "veriso",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c895"
+    },
     "uuid": "85a99e02-2c95-45ea-afc7-0d7e37ebb6a9",
     "sector": "Insurances",
     "ts": null,
     "shortname": "axawinterthur",
     "name_de": "AXA Winterthur",
-    "orgs": [{ "name": "axa-ch", "ts": null }]
+    "orgs": [
+      {
+        "name": "axa-ch",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c896"
+    },
     "uuid": "a0042db8-cfb6-4f5f-b4ee-d43d37dd06b9",
     "sector": "Insurances",
     "ts": null,
     "shortname": "baloise",
     "name_de": "Baloise",
     "orgs": [
-      { "name": "baloise", "ts": null },
-      { "name": "baloise-incubator", "ts": null }
+      {
+        "name": "baloise-incubator",
+        "ts": null
+      },
+      {
+        "name": "baloise",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c897"
+    },
     "uuid": "6c6d9994-e1f3-492d-81f2-af8e48d91fa6",
     "sector": "Insurances",
     "ts": null,
     "shortname": "css",
     "name_de": "CSS",
-    "orgs": [{ "name": "css-ch", "ts": null }]
+    "orgs": [
+      {
+        "name": "css-ch",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c898"
+    },
     "uuid": "e681ab62-d056-427a-acb6-b08dcfd83ac0",
     "sector": "Insurances",
     "ts": null,
     "shortname": "helsana",
     "name_de": "Helsana",
-    "orgs": [{ "name": "helsana", "ts": null }]
+    "orgs": [
+      {
+        "name": "helsana",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c899"
+    },
     "uuid": "1e34201c-306e-4fbe-b055-80644f9fca9d",
     "sector": "Insurances",
     "ts": null,
     "shortname": "mobiliar",
     "name_de": "Mobiliar",
     "orgs": [
-      { "name": "diemobiliar", "ts": null },
-      { "name": "mobiliar", "ts": null }
+      {
+        "name": "mobiliar",
+        "ts": null
+      },
+      {
+        "name": "diemobiliar",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c89a"
+    },
     "uuid": "2981dadf-68e2-4a01-bd64-09f3140e4f0d",
     "sector": "Insurances",
     "ts": null,
     "shortname": "vaudoise",
     "name_de": "Vaudoise",
-    "orgs": [{ "name": "VaudoiseAssurances", "ts": null }]
+    "orgs": [
+      {
+        "name": "VaudoiseAssurances",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c89b"
+    },
     "uuid": "5a0fc0f0-3bba-4a1d-8d88-5a0819a255a9",
     "sector": "Insurances",
     "ts": null,
     "shortname": "zurich",
     "name_de": "Zürich Versicherung",
     "orgs": [
-      { "name": "zurichversicherung", "ts": null },
-      { "name": "Zurich-Insurance", "ts": null },
-      { "name": "ZurichInsurance", "ts": null }
+      {
+        "name": "ZurichInsurance",
+        "ts": null
+      },
+      {
+        "name": "Zurich-Insurance",
+        "ts": null
+      },
+      {
+        "name": "zurichversicherung",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c89c"
+    },
     "uuid": "017492df-42b7-47c2-b29a-d13efc346259",
     "sector": "Banking",
     "ts": null,
     "shortname": "creditsuisse",
     "name_de": "Credit Suisse",
-    "orgs": [{ "name": "CreditSuisse", "ts": null }]
+    "orgs": [
+      {
+        "name": "CreditSuisse",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c89d"
+    },
     "uuid": "0c7c7c8b-e33a-4634-a5cc-569d8bdd3351",
     "sector": "Banking",
     "ts": null,
     "shortname": "datatrans",
     "name_de": "Datatrans AG",
-    "orgs": [{ "name": "datatrans", "ts": null }]
+    "orgs": [
+      {
+        "name": "datatrans",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c89e"
+    },
     "uuid": "b6c162a7-b7c7-4bbd-adf6-b978f68296a2",
     "sector": "Banking",
     "ts": null,
     "shortname": "migrosbank",
     "name_de": "Migros Bank AG",
-    "orgs": [{ "name": "migrosbank", "ts": null }]
+    "orgs": [
+      {
+        "name": "migrosbank",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c89f"
+    },
     "uuid": "1f6e4125-2d12-46cb-868c-0512d80d40d8",
     "sector": "Banking",
     "ts": null,
     "shortname": "postfinance",
     "name_de": "Postfinance",
-    "orgs": [{ "name": "postfinance", "ts": null }]
+    "orgs": [
+      {
+        "name": "postfinance",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8a0"
+    },
     "uuid": "ca9d1276-397a-4fd0-a336-f4b04f58ed57",
     "sector": "Media",
     "ts": null,
     "shortname": "nzz",
     "name_de": "NZZ",
-    "orgs": [{ "name": "nzzdev", "ts": null }]
+    "orgs": [
+      {
+        "name": "nzzdev",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8a1"
+    },
     "uuid": "b174698a-755a-4794-9bf4-8f6ada809066",
     "sector": "Media",
     "ts": null,
     "shortname": "radiorabe",
     "name_de": "Radio Bern RaBe",
-    "orgs": [{ "name": "radiorabe", "ts": null }]
+    "orgs": [
+      {
+        "name": "radiorabe",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8a2"
+    },
     "uuid": "d41fe5c9-3ce6-46c5-9310-2b9242491345",
     "sector": "Media",
     "ts": null,
     "shortname": "srg",
     "name_de": "SRG",
     "orgs": [
-      { "name": "srfdata", "ts": null },
-      { "name": "srgssr", "ts": null }
+      {
+        "name": "srgssr",
+        "ts": null
+      },
+      {
+        "name": "srfdata",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8a3"
+    },
     "uuid": "1f8dbf5d-937b-41a1-9d45-fdddda5eab95",
     "sector": "Media",
     "ts": null,
     "shortname": "txgroup",
     "name_de": "TX Group",
     "orgs": [
-      { "name": "GitHubTamediaEis", "ts": null },
-      { "name": "DND-IT", "ts": null },
-      { "name": "tamediadigital", "ts": null },
-      { "name": "tamedia-ddj", "ts": null }
+      {
+        "name": "tamedia-ddj",
+        "ts": null
+      },
+      {
+        "name": "tamediadigital",
+        "ts": null
+      },
+      {
+        "name": "DND-IT",
+        "ts": null
+      },
+      {
+        "name": "GitHubTamediaEis",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8a4"
+    },
     "uuid": "d52c28f9-2dc4-4f2b-94b6-d67d8f8afd0c",
     "sector": "FoodBeverage",
     "ts": null,
     "shortname": "nestle",
     "name_de": "Nestlé",
     "orgs": [
-      { "name": "nestle", "ts": null },
-      { "name": "nestle-it", "ts": null }
+      {
+        "name": "nestle",
+        "ts": null
+      },
+      {
+        "name": "nestle-it",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8a5"
+    },
     "uuid": "1a5d4232-22ed-4a09-9067-fbd42eb202db",
     "sector": "Pharma",
     "ts": null,
     "shortname": "novartis",
     "name_de": "Novartis",
-    "orgs": [{ "name": "Novartis", "ts": null }]
+    "orgs": [
+      {
+        "name": "Novartis",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8a6"
+    },
     "uuid": "8c0589a6-4eb0-429f-a32a-4adba5b71159",
     "sector": "Pharma",
     "ts": null,
     "shortname": "roche",
     "name_de": "Roche",
-    "orgs": [{ "name": "Roche", "ts": null }]
+    "orgs": [
+      {
+        "name": "Roche",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8a7"
+    },
     "uuid": "ca0b8296-531c-4186-b49d-8d3b9e53b95d",
     "sector": "Others",
     "ts": null,
     "shortname": "EVAplusAPI",
     "name_de": "EVA+ API",
-    "orgs": [{ "name": "EVAplusAPI", "ts": null }]
+    "orgs": [
+      {
+        "name": "EVAplusAPI",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8a8"
+    },
     "uuid": "ca0b8296-531c-4186-b49d-8d3b9e53b95d",
     "sector": "Others",
     "ts": null,
     "shortname": "EVAplusAPI",
     "name_de": "EVA+ API",
-    "orgs": [{ "name": "EVAplusAPI", "ts": null }]
+    "orgs": [
+      {
+        "name": "EVAplusAPI",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8a9"
+    },
     "uuid": "71b0832b-9d21-49a4-8514-ae709fd80700",
     "sector": "Others",
     "ts": null,
     "shortname": "digitecgalaxus",
     "name_de": "Digitec Galaxus AG",
-    "orgs": [{ "name": "DigitecGalaxus", "ts": null }]
+    "orgs": [
+      {
+        "name": "DigitecGalaxus",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8aa"
+    },
     "uuid": "60af673e-9097-474e-ba51-d382407bca51",
     "sector": "Others",
     "ts": null,
     "shortname": "digris",
     "name_de": "digris AG",
-    "orgs": [{ "name": "digris", "ts": null }]
+    "orgs": [
+      {
+        "name": "digris",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8ab"
+    },
     "uuid": "8485c700-3efa-4bf1-a4af-180c578ab070",
     "sector": "Others",
     "ts": null,
     "shortname": "swisstxt",
     "name_de": "SWISS TXT AG",
-    "orgs": [{ "name": "swisstxt", "ts": null }]
+    "orgs": [
+      {
+        "name": "swisstxt",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8ac"
+    },
     "uuid": "32d7c645-2ef8-4ce3-8813-c78383e1fd91",
     "sector": "Gov_Companies",
     "ts": null,
     "shortname": "asit",
     "name_de": "ASIT - Association pour le Système d'information du Territoire",
-    "orgs": [{ "name": "asit-asso", "ts": null }]
+    "orgs": [
+      {
+        "name": "asit-asso",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8ad"
+    },
     "uuid": "bebdf973-da12-478b-8203-3aa363155117",
     "sector": "Gov_Companies",
     "ts": null,
     "shortname": "bernmobil",
     "name_de": "BERNMOBIL",
-    "orgs": [{ "name": "BERNMOBIL", "ts": null }]
+    "orgs": [
+      {
+        "name": "BERNMOBIL",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8ae"
+    },
     "uuid": "b13b03cc-1d26-412f-802f-5849e4c58152",
     "sector": "Gov_Companies",
     "ts": null,
     "shortname": "sbb",
     "name_de": "SBB",
     "orgs": [
-      { "name": "SchweizerischeBundesbahnen", "ts": null },
-      { "name": "sbb-api", "ts": null },
-      { "name": "openTdataCH", "ts": null }
+      {
+        "name": "openTdataCH",
+        "ts": null
+      },
+      {
+        "name": "sbb-api",
+        "ts": null
+      },
+      {
+        "name": "SchweizerischeBundesbahnen",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8af"
+    },
     "uuid": "978cf33e-d2c2-41e9-910c-f4966fc066d1",
     "sector": "Gov_Companies",
     "ts": null,
     "shortname": "sige",
     "name_de": "SIGE - Service Intercommunal de Gestion",
-    "orgs": [{ "name": "sige-riviera", "ts": null }]
+    "orgs": [
+      {
+        "name": "sige-riviera",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8b0"
+    },
     "uuid": "260b058a-9fcf-47ca-bd35-8bcfedce6301",
     "sector": "Gov_Companies",
     "ts": null,
     "shortname": "swisscom",
     "name_de": "Swisscom",
     "orgs": [
-      { "name": "swisscom", "ts": null },
-      { "name": "SwisscomTrustServices", "ts": null },
-      { "name": "swisscom-developer", "ts": null },
-      { "name": "sinso", "ts": null },
-      { "name": "Swisscom-BigD", "ts": null }
+      {
+        "name": "swisscom",
+        "ts": null
+      },
+      {
+        "name": "SwisscomTrustServices",
+        "ts": null
+      },
+      {
+        "name": "swisscom-developer",
+        "ts": null
+      },
+      {
+        "name": "sinso",
+        "ts": null
+      },
+      {
+        "name": "Swisscom-BigD",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8b1"
+    },
     "uuid": "09fcec49-0914-4aec-ad7d-c39bda34a871",
     "sector": "Gov_Companies",
     "ts": null,
     "shortname": "swisspost",
     "name_de": "Die Schweizerische Post AG",
     "orgs": [
-      { "name": "swisspost-yellowcube", "ts": null },
-      { "name": "swisspush", "ts": null },
-      { "name": "spsvn", "ts": null },
-      { "name": "tntswisspostag", "ts": null }
+      {
+        "name": "tntswisspostag",
+        "ts": null
+      },
+      {
+        "name": "spsvn",
+        "ts": null
+      },
+      {
+        "name": "swisspush",
+        "ts": null
+      },
+      {
+        "name": "swisspost-yellowcube",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8b2"
+    },
     "uuid": "04d3ec72-6517-48e4-974d-5e19c45d5afd",
     "sector": "Gov_Companies",
     "ts": null,
     "shortname": "vbz",
     "name_de": "Verkehrsbetriebe Zürich (VBZ)",
-    "orgs": [{ "name": "VerkehrsbetriebeZuerich", "ts": null }]
+    "orgs": [
+      {
+        "name": "VerkehrsbetriebeZuerich",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8b3"
+    },
     "uuid": "137478fc-ee92-43a4-94f7-c3df17c42a4c",
     "sector": "Gov_Federal",
     "ts": null,
     "shortname": "alv",
     "name_de": "Arbeitslosenversicherung",
-    "orgs": [{ "name": "alv-ch", "ts": null }]
+    "orgs": [
+      {
+        "name": "alv-ch",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8b4"
+    },
     "uuid": "5c902f1f-a811-404b-9a51-e74545bbdded",
     "sector": "Gov_Federal",
     "ts": null,
     "shortname": "bar",
     "name_de": "Schweizerisches Bundesarchiv",
-    "orgs": [{ "name": "SwissFederalArchives", "ts": null }, "sfa-siard"]
+    "orgs": [
+      { "name": "sfa-siard", "ts": null },
+      {
+        "name": "SwissFederalArchives",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8b5"
+    },
     "uuid": "9e0d0911-8a60-4dbd-a49d-9eab6bfa1d89",
     "sector": "Gov_Federal",
     "ts": null,
     "shortname": "bfe",
     "name_de": "Bundesamt für Energie",
-    "orgs": [{ "name": "SFOE", "ts": null }]
+    "orgs": [
+      {
+        "name": "SFOE",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8b6"
+    },
     "uuid": "3f213801-3496-4351-9a9c-2fb1b4aa6946",
     "sector": "Gov_Federal",
     "ts": null,
     "shortname": "bfs",
     "name_de": "Bundesamt für Statistik",
     "orgs": [
-      { "name": "BFS-SHS-MSAS", "ts": null },
-      { "name": "ogdch", "ts": null }
+      {
+        "name": "ogdch",
+        "ts": null
+      },
+      {
+        "name": "BFS-SHS-MSAS",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8b7"
+    },
     "uuid": "53795f08-ac6e-4aa4-a780-9283b20f958f",
     "sector": "Gov_Federal",
     "ts": null,
     "shortname": "bit",
     "name_de": "Bundesamt für Informatik und Telekommunikation",
-    "orgs": [{ "name": "admin-ch", "ts": null }]
+    "orgs": [
+      {
+        "name": "admin-ch",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8b8"
+    },
     "uuid": "869731b0-24f1-461c-8a12-17ac143581b5",
     "sector": "Gov_Federal",
     "ts": null,
     "shortname": "bj",
     "name_de": "Bundesamt für Justiz",
-    "orgs": [{ "name": "e-id-admin", "ts": null }]
+    "orgs": [
+      {
+        "name": "e-id-admin",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8b9"
+    },
     "uuid": "5b460324-28c0-4613-ad1e-b00031f0ee41",
     "sector": "Gov_Federal",
     "ts": null,
     "shortname": "bk",
     "name_de": "Bundeskanzlei",
-    "orgs": [{ "name": "swiss", "ts": null }]
+    "orgs": [
+      {
+        "name": "swiss",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8ba"
+    },
     "uuid": "1a092c16-67bb-4b7a-972e-bbd5d838903b",
     "sector": "Gov_Federal",
     "ts": null,
     "shortname": "meteoswiss",
     "name_de": "MeteoSwiss",
-    "orgs": [{ "name": "MeteoSwiss-APN", "ts": null }]
+    "orgs": [
+      {
+        "name": "MeteoSwiss-APN",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8bb"
+    },
     "uuid": "37d97eb4-d0b3-40e9-8e2c-65f97a518700",
     "sector": "Gov_Federal",
     "ts": null,
     "shortname": "swisstopo",
     "name_de": "swisstopo",
-    "orgs": [{ "name": "geoadmin", "ts": null }]
+    "orgs": [
+      {
+        "name": "geoadmin",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8bc"
+    },
     "uuid": "2144d6bf-9dd7-47cb-a1cb-d0e35d957c89",
     "sector": "Gov_Cantons",
     "ts": null,
     "shortname": "ag",
     "name_de": "Kanton Aargau",
-    "orgs": [{ "name": "kanton-aargau", "ts": null }]
+    "orgs": [
+      {
+        "name": "kanton-aargau",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8bd"
+    },
     "uuid": "6957de8e-01f7-4780-92e5-23a4076ed4ed",
     "sector": "Gov_Cantons",
     "ts": null,
     "shortname": "be",
     "name_de": "Kanton Bern",
     "orgs": [
-      { "name": "kanton-bern", "ts": null },
-      { "name": "AGIBE", "ts": null }
+      {
+        "name": "AGIBE",
+        "ts": null
+      },
+      {
+        "name": "kanton-bern",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8be"
+    },
     "uuid": "4b39e548-a2df-49b2-8cb7-fdf9f624220f",
     "sector": "Gov_Cantons",
     "ts": null,
     "shortname": "bs",
     "name_de": "Kanton Basel-Stadt",
     "orgs": [
-      { "name": "StataBS", "ts": null },
-      { "name": "statabs-test", "ts": null },
-      { "name": "Staatsarchiv-Basel-Stadt", "ts": null },
-      { "name": "opendatabs", "ts": null }
+      {
+        "name": "opendatabs",
+        "ts": null
+      },
+      {
+        "name": "Staatsarchiv-Basel-Stadt",
+        "ts": null
+      },
+      {
+        "name": "statabs-test",
+        "ts": null
+      },
+      {
+        "name": "StataBS",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8bf"
+    },
     "uuid": "090eb1ff-8ce4-4a0a-9100-2dfa2214656a",
     "sector": "Gov_Cantons",
     "ts": null,
     "shortname": "ge",
     "name_de": "République et canton de Genève",
-    "orgs": [{ "name": "republique-et-canton-de-geneve", "ts": null }]
+    "orgs": [
+      {
+        "name": "republique-et-canton-de-geneve",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8c0"
+    },
     "uuid": "ad17ab38-23b2-48af-b060-1f6359f21512",
     "sector": "Gov_Cantons",
     "ts": null,
     "shortname": "ne",
     "name_de": "Kanton Neuenburg",
-    "orgs": [{ "name": "sitn", "ts": null }]
+    "orgs": [
+      {
+        "name": "sitn",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8c1"
+    },
     "uuid": "fffad615-8bc3-4f36-8f13-ac8416fedc78",
     "sector": "Gov_Cantons",
     "ts": null,
     "shortname": "so",
     "name_de": "Kanton Solothurn",
-    "orgs": [{ "name": "sogis", "ts": null }]
+    "orgs": [
+      {
+        "name": "sogis",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8c2"
+    },
     "uuid": "50de5180-6124-4375-902f-88850a9871af",
     "sector": "Gov_Cantons",
     "ts": null,
     "shortname": "vd",
     "name_de": "Kanton Waadt",
-    "orgs": [{ "name": "dsi-vd", "ts": null }]
+    "orgs": [
+      {
+        "name": "dsi-vd",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8c3"
+    },
     "uuid": "f3879203-f5e5-4bd8-b9e0-38d25b9a4391",
     "sector": "Gov_Cantons",
     "ts": null,
     "shortname": "zh",
     "name_de": "Kanton Zürich",
     "orgs": [
-      { "name": "FNSKtZH", "ts": null },
-      { "name": "StatistikZH", "ts": null },
-      { "name": "openZH", "ts": null },
-      { "name": "gisktzh", "ts": null },
-      { "name": "bildungsmonitoringZH", "ts": null }
+      {
+        "name": "openZH",
+        "ts": null
+      },
+      {
+        "name": "gisktzh",
+        "ts": null
+      },
+      {
+        "name": "bildungsmonitoringZH",
+        "ts": null
+      },
+      {
+        "name": "StatistikZH",
+        "ts": null
+      },
+      {
+        "name": "FNSKtZH",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8c4"
+    },
     "uuid": "0738ec44-9769-4774-914e-44f1c7365603",
     "sector": "Gov_Cities",
     "ts": null,
     "shortname": "bern",
     "name_de": "Bern",
-    "orgs": [{ "name": "StadtBern", "ts": null }]
+    "orgs": [
+      {
+        "name": "StadtBern",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8c5"
+    },
     "uuid": "5042acd1-094e-467c-b0d9-ba3e46172194",
     "sector": "Gov_Cities",
     "ts": null,
     "shortname": "bielbienne",
     "name_de": "Biel-Bienne",
-    "orgs": [{ "name": "biel-bienne", "ts": null }]
+    "orgs": [
+      {
+        "name": "biel-bienne",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8c6"
+    },
     "uuid": "e4d86b3b-b54e-4f5a-9c56-840dcb578e20",
     "sector": "Gov_Cities",
     "ts": null,
     "shortname": "luzern",
     "name_de": "Luzern",
-    "orgs": [{ "name": "stadtluzern", "ts": null }]
+    "orgs": [
+      {
+        "name": "stadtluzern",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8c7"
+    },
     "uuid": "00a0c696-ad89-447b-9205-f269914b4c13",
     "sector": "Gov_Cities",
     "ts": null,
     "shortname": "nyon",
     "name_de": "Nyon",
-    "orgs": [{ "name": "sitnyon", "ts": null }]
+    "orgs": [
+      {
+        "name": "sitnyon",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8c8"
+    },
     "uuid": "837d8c83-25a2-491d-8d61-c512ae5153a4",
     "sector": "Gov_Cities",
     "ts": null,
     "shortname": "pully",
     "name_de": "Pully",
-    "orgs": [{ "name": "VilleDePully", "ts": null }]
+    "orgs": [
+      {
+        "name": "VilleDePully",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8c9"
+    },
     "uuid": "3dcdcd98-c6af-4f6c-b4d9-7765173ed4b2",
     "sector": "Gov_Cities",
     "ts": null,
     "shortname": "uster",
     "name_de": "Uster",
-    "orgs": [{ "name": "GesellschaftStadtUster", "ts": null }]
+    "orgs": [
+      {
+        "name": "GesellschaftStadtUster",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8ca"
+    },
     "uuid": "5261d39b-8821-4f26-9d0d-50f5ce0390a8",
     "sector": "Gov_Cities",
     "ts": null,
     "shortname": "yverdon",
     "name_de": "Yverdon",
-    "orgs": [{ "name": "yverdon", "ts": null }]
+    "orgs": [
+      {
+        "name": "yverdon",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8cb"
+    },
     "uuid": "c9f03e8f-fa33-4b53-b92e-e5b6be3a75df",
     "sector": "Gov_Cities",
     "ts": null,
     "shortname": "zuerich",
     "name_de": "Zürich",
     "orgs": [
-      { "name": "StatistikStadtZuerich", "ts": null },
-      { "name": "opendatazurich", "ts": null }
+      {
+        "name": "opendatazurich",
+        "ts": null
+      },
+      {
+        "name": "StatistikStadtZuerich",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8cc"
+    },
     "uuid": "0ff10fa4-89a6-11ec-8357-3c15c2d466fc",
     "sector": "NGOs",
     "ts": null,
     "shortname": "GreenpeaceSchweiz",
     "name_de": "Greenpeace Schweiz",
-    "orgs": [{ "name": "GreenpeaceSchweiz", "ts": null }]
+    "orgs": [
+      {
+        "name": "GreenpeaceSchweiz",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8cd"
+    },
     "uuid": "d1d628b8-028b-45a2-8589-24c50e73b73a",
     "sector": "NGOs",
     "ts": null,
     "shortname": "ebu",
     "name_de": "European Broadcasting Union",
-    "orgs": [{ "name": "ebu", "ts": null }]
+    "orgs": [
+      {
+        "name": "ebu",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8ce"
+    },
     "uuid": "241b1aab-7ffc-40fb-941f-7af16db9745b",
     "sector": "NGOs",
     "ts": null,
     "shortname": "itu",
     "name_de": "International Telecommunication Union",
-    "orgs": [{ "name": "openitu", "ts": null }]
+    "orgs": [
+      {
+        "name": "openitu",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8cf"
+    },
     "uuid": "be967346-11db-4ff9-b423-08facc0d0f4b",
     "sector": "NGOs",
     "ts": null,
     "shortname": "sp",
     "name_de": "Sozialdemokratische Partei der Schweiz",
-    "orgs": [{ "name": "spschweiz", "ts": null }]
+    "orgs": [
+      {
+        "name": "spschweiz",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8d0"
+    },
     "uuid": "73d8b2d5-5731-4c54-9a40-29f82513b4f3",
     "sector": "NGOs",
     "ts": null,
     "shortname": "who",
     "name_de": "World Health Organization",
-    "orgs": [{ "name": "WorldHealthOrganization", "ts": null }]
+    "orgs": [
+      {
+        "name": "WorldHealthOrganization",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8d1"
+    },
     "uuid": "95daefea-056e-4fd2-a381-5bd7ea6c8d3a",
     "sector": "ResearchAndEducation",
     "ts": null,
     "shortname": "bfh",
     "name_de": "Berner Fachhochschule",
     "orgs": [
-      { "name": "bfh", "ts": null },
-      { "name": "digital-sustainability", "ts": null },
-      { "name": "iam-ictm", "ts": null },
-      { "name": "bfh-science", "ts": null },
-      { "name": "HAFL-WWI", "ts": null },
-      { "name": "cpvrlab", "ts": null },
-      { "name": "BFH-InternetOfThings", "ts": null }
+      {
+        "name": "bfh",
+        "ts": null
+      },
+      {
+        "name": "digital-sustainability",
+        "ts": null
+      },
+      {
+        "name": "iam-ictm",
+        "ts": null
+      },
+      {
+        "name": "bfh-science",
+        "ts": null
+      },
+      {
+        "name": "HAFL-WWI",
+        "ts": null
+      },
+      {
+        "name": "cpvrlab",
+        "ts": null
+      },
+      {
+        "name": "BFH-InternetOfThings",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8d2"
+    },
     "uuid": "299d2c35-d60f-46cf-ba84-abe534fab204",
     "sector": "ResearchAndEducation",
     "ts": null,
     "shortname": "cern",
     "name_de": "European Organization for Nuclear Research (CERN)",
     "orgs": [
-      { "name": "CERN", "ts": null },
-      { "name": "cernopendata", "ts": null },
-      { "name": "cern-fts", "ts": null },
-      { "name": "cerndb", "ts": null },
-      { "name": "cernops", "ts": null },
-      { "name": "AliceO2Group", "ts": null },
-      { "name": "cms-opendata-analyses", "ts": null },
-      { "name": "cvmfs", "ts": null },
-      { "name": "CERN-E-Ternity", "ts": null }
+      {
+        "name": "cerndb",
+        "ts": null
+      },
+      {
+        "name": "cernops",
+        "ts": null
+      },
+      {
+        "name": "AliceO2Group",
+        "ts": null
+      },
+      {
+        "name": "cms-opendata-analyses",
+        "ts": null
+      },
+      {
+        "name": "cvmfs",
+        "ts": null
+      },
+      {
+        "name": "CERN-E-Ternity",
+        "ts": null
+      },
+      {
+        "name": "cern-fts",
+        "ts": null
+      },
+      {
+        "name": "cernopendata",
+        "ts": null
+      },
+      {
+        "name": "CERN",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8d3"
+    },
     "uuid": "6ededd44-29a6-4627-8380-0ad26de52898",
     "sector": "ResearchAndEducation",
     "ts": null,
     "shortname": "cscs",
     "name_de": "Swiss National Supercomputing Center",
-    "orgs": [{ "name": "eth-cscs", "ts": null }]
+    "orgs": [
+      {
+        "name": "eth-cscs",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8d4"
+    },
     "uuid": "6b5a2caa-2eaf-4cea-bbda-b58cf61a0266",
     "sector": "ResearchAndEducation",
     "ts": null,
     "shortname": "fcbg",
     "name_de": "Fondation Campus Biotech Geneva",
-    "orgs": [{ "name": "fcbg-hnp", "ts": null }]
+    "orgs": [
+      {
+        "name": "fcbg-hnp",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8d5"
+    },
     "uuid": "cd30fbb1-6fe8-4c91-93ec-d6448313c792",
     "sector": "ResearchAndEducation",
     "ts": null,
     "shortname": "ffhs",
     "name_de": "Fernfachhochschule Schweiz",
-    "orgs": [{ "name": "ffhs", "ts": null }]
+    "orgs": [
+      {
+        "name": "ffhs",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8d6"
+    },
     "uuid": "9929b685-c0c1-4742-999c-91792bc0cd22",
     "sector": "ResearchAndEducation",
     "ts": null,
     "shortname": "ict-berufsbildung",
     "name_de": "ICT-Berufsbildung",
-    "orgs": [{ "name": "ICT-Berufsbildung", "ts": null }]
+    "orgs": [
+      {
+        "name": "ICT-Berufsbildung",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8d7"
+    },
     "uuid": "b4ef6a7d-f7e3-4512-bce7-525acc758658",
     "sector": "ResearchAndEducation",
     "ts": null,
     "shortname": "psi",
     "name_de": "Paul Scherrer Institut",
-    "orgs": [{ "name": "paulscherrerinstitute", "ts": null }]
+    "orgs": [
+      {
+        "name": "paulscherrerinstitute",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8d8"
+    },
     "uuid": "d2ad4064-3ea4-4ce4-8780-90c3e23098f7",
     "sector": "ResearchAndEducation",
     "ts": null,
     "shortname": "swissbib",
     "name_de": "swissbib",
     "orgs": [
-      { "name": "swissbib", "ts": null },
-      { "name": "linked-swissbib", "ts": null }
+      {
+        "name": "swissbib",
+        "ts": null
+      },
+      {
+        "name": "linked-swissbib",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8d9"
+    },
     "uuid": "112e3114-39f5-4d8d-9811-caf824c69954",
     "sector": "ResearchAndEducation",
     "ts": null,
     "shortname": "swisstph",
     "name_de": "Swiss Tropical and Public Health Institute",
-    "orgs": [{ "name": "SwissTPH", "ts": null }]
+    "orgs": [
+      {
+        "name": "SwissTPH",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8da"
+    },
     "uuid": "8502075b-2e86-4cda-948a-275ba7523bc2",
     "sector": "ResearchAndEducation",
     "ts": null,
     "shortname": "unine",
     "name_de": "Université de Neuchâtel",
-    "orgs": [{ "name": "UniNE-CHYN", "ts": null }]
+    "orgs": [
+      {
+        "name": "UniNE-CHYN",
+        "ts": null
+      }
+    ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8db"
+    },
     "uuid": "398af282-c7e8-4f03-839a-2442deeb42ac",
     "sector": "ResearchAndEducation",
     "ts": null,
     "shortname": "unine",
     "name_de": "Universität St.Gallen",
     "orgs": [
-      { "name": "Interactions-HSG", "ts": null },
-      { "name": "ics-unisg", "ts": null },
-      { "name": "HSG-Library", "ts": null }
+      {
+        "name": "HSG-Library",
+        "ts": null
+      },
+      {
+        "name": "ics-unisg",
+        "ts": null
+      },
+      {
+        "name": "Interactions-HSG",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8dc"
+    },
     "uuid": "6932e726-fffb-4996-a6c8-e43d18d6379a",
     "sector": "ResearchAndEducation",
     "ts": null,
     "shortname": "unizh",
     "name_de": "Universität Zürich",
     "orgs": [
-      { "name": "uzh", "ts": null },
-      { "name": "ZurichNLP", "ts": null }
+      {
+        "name": "ZurichNLP",
+        "ts": null
+      },
+      {
+        "name": "uzh",
+        "ts": null
+      }
     ]
   },
   {
+    "_id": {
+      "$oid": "64556a7f27723ef6d6a4c8dd"
+    },
     "uuid": "90ee70b6-070a-45e4-831e-b56935398361",
     "sector": "ResearchAndEducation",
     "ts": null,
     "shortname": "unibe",
     "name_de": "Universität Bern",
     "orgs": [
-      { "name": "unibe-ch", "ts": null },
-      { "name": "artorg-unibe-ch", "ts": null },
-      { "name": "CMPG", "ts": null },
-      { "name": "ConsBiol-unibern", "ts": null },
-      { "name": "hpc-unibe-ch", "ts": null },
-      { "name": "IAM-CGG", "ts": null },
-      { "name": "id-unibe-ch", "ts": null },
-      { "name": "kogpsy", "ts": null },
-      { "name": "reymond-group", "ts": null },
-      { "name": "scg-unibe-ch", "ts": null },
-      { "name": "TranslationalResearchUnit", "ts": null },
-      { "name": "UB-Bern", "ts": null },
-      { "name": "ub-unibe-ch", "ts": null },
-      { "name": "ubern-mia", "ts": null },
-      { "name": "unibe-cns", "ts": null },
-      { "name": "zmk-unibe-ch", "ts": null }
+      {
+        "name": "kogpsy",
+        "ts": null
+      },
+      {
+        "name": "reymond-group",
+        "ts": null
+      },
+      {
+        "name": "scg-unibe-ch",
+        "ts": null
+      },
+      {
+        "name": "TranslationalResearchUnit",
+        "ts": null
+      },
+      {
+        "name": "UB-Bern",
+        "ts": null
+      },
+      {
+        "name": "ub-unibe-ch",
+        "ts": null
+      },
+      {
+        "name": "ubern-mia",
+        "ts": null
+      },
+      {
+        "name": "unibe-cns",
+        "ts": null
+      },
+      {
+        "name": "zmk-unibe-ch",
+        "ts": null
+      },
+      {
+        "name": "id-unibe-ch",
+        "ts": null
+      },
+      {
+        "name": "IAM-CGG",
+        "ts": null
+      },
+      {
+        "name": "hpc-unibe-ch",
+        "ts": null
+      },
+      {
+        "name": "ConsBiol-unibern",
+        "ts": null
+      },
+      {
+        "name": "CMPG",
+        "ts": null
+      },
+      {
+        "name": "artorg-unibe-ch",
+        "ts": null
+      },
+      {
+        "name": "unibe-ch",
+        "ts": null
+      }
     ]
   }
 ]
