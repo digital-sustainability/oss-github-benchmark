@@ -1,0 +1,23 @@
+name: Build and test container image
+on: [push, pull_request]
+
+jobs:
+  build-test-container:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out sources
+        uses: actions/checkout@v4
+      - name: Find container metadata
+        id: metadata
+        uses: docker/metadata-action@v4
+        with:
+          images: digital-sustainability/oss-github-benchmark
+      - name: Build container image
+        id: build-image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          layers: false
+          tags: ${{ steps.metadata.outputs.tags }}
+          labels: ${{ steps.metadata.outputs.labels }}
+          containerfiles: Dockerfile
+
