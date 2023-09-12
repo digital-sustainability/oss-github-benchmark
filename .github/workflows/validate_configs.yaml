@@ -1,0 +1,22 @@
+name: Validate configuration files
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  validate-config:
+    runs-on: ubunt-latest
+    steps:
+      - name: Check out sources
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Validate configuration file github_repos.json
+        run: python validate_github_repos.py
