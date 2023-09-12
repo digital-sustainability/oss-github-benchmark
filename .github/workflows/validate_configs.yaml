@@ -10,7 +10,7 @@ on:
 
 jobs:
   validate-config:
-    runs-on: ubunt-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Check out sources
         uses: actions/checkout@v4
