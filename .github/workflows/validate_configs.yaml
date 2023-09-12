@@ -1,12 +1,5 @@
 name: Validate configuration files
-
-on:
-  push:
-    branches:
-    - master
-  pull_request:
-    branches:
-    - master
+on: [push, pull_request]
 
 jobs:
   validate-config:
@@ -18,5 +11,5 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
-      - name: Validate configuration file github_repos.json
+      - name: Validate configuration files
         run: python validate_github_repos.py
