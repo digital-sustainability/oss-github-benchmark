@@ -33,3 +33,12 @@ It may happen that 7 Days are not enougth to crawl all data, so there may be som
 **Start:** All institutions and organisations were allready crawled at least once.
 
 The crawler will just update the data, starting with the oldest timestamp.
+
+
+## System Diagram
+
+![System Diagram](/assets/images/SystemDiagram.png)
+
+## Database Stucture
+
+![System Diagram](/assets/images/DBStructure.png)
