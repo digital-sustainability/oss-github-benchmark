@@ -56,6 +56,9 @@ export class GithubCrawlerService {
         todoInstituition.ts &&
         todoInstituition.ts.getTime() > Date.now() - this.daysToWait
       ) {
+        this.logger.log(
+          `The institution ${todoInstituition.name_de} was alredy crawled in the last defined time`,
+        );
         continue;
       }
       await this.handleInstitution(todoInstituition);
