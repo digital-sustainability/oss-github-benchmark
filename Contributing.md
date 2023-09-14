@@ -21,6 +21,24 @@ The institution blocks look like this:
 }
 ```
 
+**Important:**
+sector needs to be one of these:
+- FoodBeverage
+- Gov_Companies
+- Gov_Federal
+- IT
+- Communities
+- Gov_Cities
+- Gov_Cantons
+- Media
+- NGOs
+- ResearchAndEducation
+- Banking
+- Others
+- Insurances
+- Pharma
+- PolitcalParties
+
 Just edit or append a new block to the file and make a pull request.
 
 If everything is correct it will be added and updated on the website.
