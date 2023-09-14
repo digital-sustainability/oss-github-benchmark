@@ -1733,22 +1733,6 @@
   },
   {
     "_id": {
-      "$oid": "64556a7f27723ef6d6a4c8a8"
-    },
-    "uuid": "ca0b8296-531c-4186-b49d-8d3b9e53b95d",
-    "sector": "Others",
-    "ts": null,
-    "shortname": "EVAplusAPI",
-    "name_de": "EVA+ API",
-    "orgs": [
-      {
-        "name": "EVAplusAPI",
-        "ts": null
-      }
-    ]
-  },
-  {
-    "_id": {
       "$oid": "64556a7f27723ef6d6a4c8a9"
     },
     "uuid": "71b0832b-9d21-49a4-8514-ae709fd80700",
