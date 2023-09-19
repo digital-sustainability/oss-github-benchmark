@@ -51,5 +51,5 @@ This can be done in 4 easy steps:
 
 1. Pull Repository
 2. Connect to DB with MongoDB Compass. The Credentials can be found in Keepass
-3. Choose the **testingNew** DB and then todoInstitution collection.
+3. Choose the **production** DB and then todoInstitution collection.
 4. Press **Add Data -> Import file** and choose github_repos.json. Keep in mind that *Stop on errors* needs to be unchecked. Then just click *Import*.
