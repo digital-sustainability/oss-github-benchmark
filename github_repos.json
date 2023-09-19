@@ -1822,15 +1822,15 @@
     "name_de": "SBB",
     "orgs": [
       {
+        "name": "SchweizerischeBundesbahnen",
+        "ts": null
+      },
+      {
         "name": "openTdataCH",
         "ts": null
       },
       {
         "name": "sbb-api",
-        "ts": null
-      },
-      {
-        "name": "SchweizerischeBundesbahnen",
         "ts": null
       }
     ]
