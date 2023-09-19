@@ -2723,6 +2723,10 @@
     "name_de": "Universität Bern",
     "orgs": [
       {
+        "name": "id-unibe-ch",
+        "ts": null
+      },
+      {
         "name": "kogpsy",
         "ts": null
       },
@@ -2756,10 +2760,6 @@
       },
       {
         "name": "zmk-unibe-ch",
-        "ts": null
-      },
-      {
-        "name": "id-unibe-ch",
         "ts": null
       },
       {
