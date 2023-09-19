@@ -90,15 +90,15 @@
     "name_de": "Adfinis AG",
     "orgs": [
       {
+        "name": "adfinis",
+        "ts": null
+      },
+      {
         "name": "adfinis-forks",
         "ts": null
       },
       {
         "name": "projectcaluma",
-        "ts": null
-      },
-      {
-        "name": "adfinis",
         "ts": null
       }
     ]
