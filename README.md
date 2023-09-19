@@ -43,9 +43,9 @@ The crawler will just update the data, starting with the oldest timestamp.
 
 ![System Diagram](/assets/images/DBStructure.png)
 
-## Update Insitutions
+## Update Institutions
 
-Once someone has updated the github_repos.jsonn file and the pull request was merged, the new or updated insitution muss be added to the database.
+Once someone has updated the github_repos.json file and the pull request was merged, the new or updated insitution must be added to the database.
 
 This can be done in 4 easy steps:
 
