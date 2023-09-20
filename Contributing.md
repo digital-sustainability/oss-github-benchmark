@@ -21,6 +21,8 @@ The institution blocks look like this:
 }
 ```
 
+**Generate V4 UUID:** https://www.uuidgenerator.net/version4
+
 **Important:**
 sector needs to be one of these:
 - FoodBeverage
