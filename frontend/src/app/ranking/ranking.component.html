@@ -37,9 +37,19 @@
       <mat-option
         *ngFor="let sectorObj of sectorFilters"
         [value]="sectorObj.sector"
-        ><span>{{ sectorObj.sector | toNiceName }}</span>
-        <span style="float: right">{{ sectorObj.count }}</span></mat-option
       >
+        <div
+          style="
+            width: 136px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
+        >
+          <span>{{ sectorObj.sector | toNiceName }}</span>
+          <span>{{ sectorObj.count }}</span>
+        </div>
+      </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-checkbox
