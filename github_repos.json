@@ -2554,22 +2554,6 @@
   },
   {
     "_id": {
-      "$oid": "64556a7f27723ef6d6a4c8d4"
-    },
-    "uuid": "6b5a2caa-2eaf-4cea-bbda-b58cf61a0266",
-    "sector": "ResearchAndEducation",
-    "ts": null,
-    "shortname": "fcbg",
-    "name_de": "Fondation Campus Biotech Geneva",
-    "orgs": [
-      {
-        "name": "fcbg-hnp",
-        "ts": null
-      }
-    ]
-  },
-  {
-    "_id": {
       "$oid": "64556a7f27723ef6d6a4c8d5"
     },
     "uuid": "cd30fbb1-6fe8-4c91-93ec-d6448313c792",
