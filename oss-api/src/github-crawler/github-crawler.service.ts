@@ -554,7 +554,7 @@ export class GithubCrawlerService {
             return null;
           }
           this.writeRawResponseToFile(
-            Method.PullRequest,
+            state == 'all' ? Method.PullRequestAll : Method.PullRequestClosed,
             institutionName,
             'repository',
             orgName,
@@ -618,7 +618,7 @@ export class GithubCrawlerService {
             return null;
           }
           this.writeRawResponseToFile(
-            Method.Issue,
+            state == 'all' ? Method.IssueAll : Method.IssueClosed,
             institutionName,
             'repository',
             orgName,

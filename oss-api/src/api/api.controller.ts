@@ -28,14 +28,10 @@ import {
 import { UserQueryDto } from './dto/user-query.dto';
 import { RepositoryQueryDto } from './dto/repository-query.dto';
 import { RepositoryQueryPipe } from 'src/repository-query.pipe';
-import { DataService } from '../data/data.service';
 
 @Controller('api')
 export class ApiController {
-  constructor(
-    private mongoDbService: MongoDbService,
-    private dataService: DataService,
-  ) {}
+  constructor(private mongoDbService: MongoDbService) {}
   private sectors = [
     'IT',
     'Communities',

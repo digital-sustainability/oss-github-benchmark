@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { lowerCase } from 'lodash-es';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -9,11 +8,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class RepositoryDetailViewComponent implements OnInit {
   repositoryStats: object[] = [
-    { text: 'Archived:', content: 'archived', toNiceName: true },
-    { text: 'Institution:', content: 'institution_name_de', toNiceName: false },
+    { text: 'Archived:', content: 'archived', toNiceName: false },
+    { text: 'Institution:', content: 'institution', toNiceName: false },
     {
       text: 'Organization:',
-      content: 'organisation_name_de',
+      content: 'organization',
       toNiceName: false,
     },
     {
@@ -28,7 +27,7 @@ export class RepositoryDetailViewComponent implements OnInit {
     },
     {
       text: 'Commits last year:',
-      content: 'last_years_commits',
+      content: 'num_commits',
       toNiceName: false,
     },
     // { text: 'License:', content: 'license', toNiceName: false },
@@ -70,7 +69,7 @@ export class RepositoryDetailViewComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<RepositoryDetailViewComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
 
   ngOnInit(): void {
