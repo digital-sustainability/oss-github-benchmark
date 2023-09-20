@@ -135,23 +135,17 @@ export class DataService {
         case Method.Commit:
           data.commits = data.commits.concat(parsedData);
           break;
-        case Method.PullRequest:
-          const pullData = parsedData as GitHubPull;
-          if (pullData.state == 'all') {
-            data.allPulls = data.allPulls.concat(parsedData);
-          }
-          if (pullData.state == 'closed') {
-            data.closedPulls = data.closedPulls.concat(parsedData);
-          }
+        case Method.PullRequestAll:
+          data.allPulls = data.allPulls.concat(parsedData);
           break;
-        case Method.Issue:
-          const issueData = parsedData as GitHubIssue;
-          if ((issueData.state = 'all')) {
-            data.allIssues.concat(parsedData);
-          }
-          if ((issueData.state = 'closed')) {
-            data.closedIssues.concat(parsedData);
-          }
+        case Method.PullRequestClosed:
+          data.closedPulls = data.closedPulls.concat(parsedData);
+          break;
+        case Method.IssueAll:
+          data.allIssues = data.allIssues.concat(parsedData);
+          break;
+        case Method.IssueClosed:
+          data.closedIssues = data.closedIssues.concat(parsedData);
           break;
         case Method.Comment:
           data.commitComments = data.commitComments.concat(parsedData);
@@ -250,6 +244,7 @@ export class DataService {
     aheadByCommits: number,
   ): Promise<RepositoryRevised> {
     log(`Creating repo info for repo ${repositoryData.repository.name}`);
+    repositoryData.allIssues;
     const repositoryStats: RepositoryStats = {
       num_forks: repositoryData.repository.forks_count,
       num_contributors: repositoryData.contributors.length,
