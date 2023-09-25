@@ -259,7 +259,7 @@ export class InstitutionDetailViewComponent implements OnInit {
 
   reloadData() {
     this.dataService
-      .loadRepoData({
+      .loadRepoDataDetailView({
         sort: this.activeSort,
         direction: this.sortDirection,
         page: this.page.toString(),

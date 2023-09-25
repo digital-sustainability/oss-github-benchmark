@@ -78,6 +78,25 @@ export class DataService {
     return repoData;
   }
 
+  async loadRepoDataDetailView(config: {
+    search?: string;
+    sort?: string;
+    direction?: 'ASC' | 'DESC';
+    page?: string;
+    count?: string;
+    includeForks?: string;
+  }) {
+    const repoData = await this.http
+      .get<{
+        repositories: Repository[];
+        total: number;
+      }>(`${environment.api}institutionRepositories`, {
+        params: config,
+      })
+      .toPromise();
+    return repoData;
+  }
+
   async loadUserData(config: {
     search: string;
     sort: string;
