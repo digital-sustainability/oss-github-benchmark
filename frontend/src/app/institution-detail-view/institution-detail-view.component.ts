@@ -68,23 +68,17 @@ export class InstitutionDetailViewComponent implements OnInit {
       content: 'total_num_contributors',
       toNiceName: false,
     },
-    {
+    /*{
       text: 'Own repositories forks:',
       content: 'total_num_own_repo_forks',
       toNiceName: false,
-    },
+    },*/
     {
       text: 'Forks in repositories:',
       content: 'total_num_forks_in_repos',
       toNiceName: false,
     },
     { text: 'Commits:', content: 'total_num_commits', toNiceName: false },
-    {
-      text: 'Pull requests:',
-      content: 'total_pull_requests',
-      toNiceName: false,
-    },
-    { text: 'Issues:', content: 'total_issues', toNiceName: false },
     { text: 'Stars:', content: 'total_num_stars', toNiceName: false },
     { text: 'Watchers:', content: 'total_num_watchers', toNiceName: false },
     {
@@ -94,7 +88,7 @@ export class InstitutionDetailViewComponent implements OnInit {
     },
     {
       text: 'Total pull requests:',
-      content: 'total_pull_requests_all',
+      content: 'total_pull_requests',
       toNiceName: false,
     },
     {
@@ -102,7 +96,7 @@ export class InstitutionDetailViewComponent implements OnInit {
       content: 'total_pull_requests_closed',
       toNiceName: false,
     },
-    { text: 'Total issues:', content: 'total_issues_all', toNiceName: false },
+    { text: 'Total issues:', content: 'total_issues', toNiceName: false },
     {
       text: 'Total closed issues:',
       content: 'total_issues_closed',
