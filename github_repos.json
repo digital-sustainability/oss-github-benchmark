@@ -588,11 +588,15 @@
     "uuid": "66e054eb-a175-441c-91cd-1bb17217fda3",
     "sector": "IT",
     "ts": null,
-    "shortname": "itigo",
-    "name_de": "ITIGO AG",
+    "shortname": "occ",
+    "name_de": "Open Circle AG",
     "orgs": [
       {
         "name": "itigoag",
+        "ts": null
+      },
+      {
+        "name": "open-circle-ltd",
         "ts": null
       }
     ]
