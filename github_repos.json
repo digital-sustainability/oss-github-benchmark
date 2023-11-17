@@ -1,4 +1,1174 @@
 [
+    {
+        "uuid": "06b8a0a0-109a-4112-aab8-90afe6801f37",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "ABB",
+        "name_de": "ABB",
+        "orgs": [
+            {
+                "name": "abb",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "f7d37361-f655-4201-a2af-8dd0c31932d0",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Accenture",
+        "name_de": "Accenture",
+        "orgs": [
+            {
+                "name": "Accenture",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "1d077a0d-f79a-4cdf-ac69-2a940b6e02a5",
+        "sector": "Pharma",
+        "ts": null,
+        "shortname": "Actelion",
+        "name_de": "Actelion",
+        "orgs": [
+            {
+                "name": "Actelion",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "5671b3c7-48ce-4ece-97e1-31a17af2cec0",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Adecco",
+        "name_de": "Adecco",
+        "orgs": [
+            {
+                "name": "Adecco-Business-Transformation",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "50ad9b2a-264a-4bec-80f4-83b0f4247ead",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Adobe",
+        "name_de": "Adobe Systems (Schweiz)",
+        "orgs": [
+            {
+                "name": "Adobe, Inc.",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "94c8c613-a166-4416-9210-e4439d4033ba",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "APG",
+        "name_de": "APG SGA",
+        "orgs": [
+            {
+                "name": "APG|SGA Allgemeine Plakatgesellschaft AG",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "ab4d4bfe-c31d-4271-94ed-72cfb6ad93f5",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Apple",
+        "name_de": "Apple Switzerland",
+        "orgs": [
+            {
+                "name": "Apple Switzerland",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "b5f0e6aa-e149-4822-987c-c0765c913b96",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Archroma",
+        "name_de": "Archroma Management",
+        "orgs": [
+            {
+                "name": "Archroma Management GmbH",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "0c3cc3b7-386f-430b-96cb-4d7b1dee78a8",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "AWS",
+        "name_de": "AWS (Switzerland)",
+        "orgs": [
+            {
+                "name": "Amazon Web Services",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "ef9ac08e-7525-490c-b24f-79ee3a83bba3",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Axpo",
+        "name_de": "Axpo Holding",
+        "orgs": [
+            {
+                "name": "Axpo Group",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "70b4644d-65c5-4173-b186-2a954a13a561",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Bertschi",
+        "name_de": "Bertschi",
+        "orgs": [
+            {
+                "name": "Bertschi AG",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "a4ad85e5-94d5-46d6-9fd9-15f177187643",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "BMW",
+        "name_de": "BMW (Schweiz)",
+        "orgs": [
+            {
+                "name": "BMW Software Engineering",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "3d51c757-1ccd-4066-a850-678cfb56ca6a",
+        "sector": "FoodBeverage",
+        "ts": null,
+        "shortname": "Cargill",
+        "name_de": "Cargill International",
+        "orgs": [
+            {
+                "name": "Cargill/Cargill-Inc",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "c6991f0b-ee98-4d09-aa57-dec0130ed1c3",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "CH Media",
+        "name_de": "CH Media",
+        "orgs": [
+            {
+                "name": "CH Media",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "918d3b7f-dbd6-452a-9b37-8c395ea89582",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Cisco",
+        "name_de": "Cisco Systems (Switzerland) GmbH",
+        "orgs": [
+            {
+                "name": "Cisco Systems",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "ff3a2d45-2dc0-453f-aff6-cfcfdba51816",
+        "sector": "Pharma",
+        "ts": null,
+        "shortname": "Clariant",
+        "name_de": "Clariant",
+        "orgs": [
+            {
+                "name": "Clariant",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "3aaea41f-8280-4d7e-9854-650c8a501a54",
+        "sector": "FoodBeverage",
+        "ts": null,
+        "shortname": "Coca-Cola",
+        "name_de": "Coca-Cola HBC Schweiz",
+        "orgs": [
+            {
+                "name": "Coca-Cola",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "8f88714d-7e7a-45bc-a1bd-55ac7a0ed54f",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Competec",
+        "name_de": "Competec",
+        "orgs": [
+            {
+                "name": "Competec",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "7c6f5021-2396-4a26-be52-c6a04bb9e7ab",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "DB Schenker ",
+        "name_de": "DB Schenker Schweiz",
+        "orgs": [
+            {
+                "name": "DB Schenker",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "59e0332d-6d8d-45fd-9e7a-ce262a5b27c4",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Deloitte",
+        "name_de": "Deloitte",
+        "orgs": [
+            {
+                "name": "Deloitte",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "7e6439e3-14f8-49de-9e92-9abef4b64445",
+        "sector": "Gov_Companies",
+        "ts": null,
+        "shortname": "Die Schweizerische Post",
+        "name_de": "Die Schweizerische Post",
+        "orgs": [
+            {
+                "name": "Swiss Post",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "ac2fcc8a-fa4b-4e2a-bcee-1a469c8b788f",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "digitec",
+        "name_de": "digitec",
+        "orgs": [
+            {
+                "name": "Digitec Galaxus AG",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "173d8ce0-ed15-4ef9-8c14-332f922ee005",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Dormakaba ",
+        "name_de": "Dormakaba Holding",
+        "orgs": [
+            {
+                "name": "dormakaba",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "3f978833-5ce5-4da7-9b4b-7c586cc8e4b8",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "E+H",
+        "name_de": "Endress+Hauser",
+        "orgs": [
+            {
+                "name": "Endress+Hauser SE+Co. KG, \nEndress+Hauser Process Solutions AG",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "5a005130-c16d-459c-b2fc-0b4d238d82e1",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Engie Services",
+        "name_de": "Engie Services",
+        "orgs": [
+            {
+                "name": "ENGIE",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "4e8aecd2-e55f-4d67-8009-23b65c654af9",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Ericsson",
+        "name_de": "Ericsson",
+        "orgs": [
+            {
+                "name": "Ericsson, Ericsson Research",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "8ec1c2fa-6aea-4545-85b0-4468a814d315",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Google",
+        "name_de": "Google Switzerland",
+        "orgs": [
+            {
+                "name": "Google",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "b3feb923-26a1-418d-b7f9-267ae834be53",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "H+P",
+        "name_de": "Hewlett-Packard (Schweiz)",
+        "orgs": [
+            {
+                "name": "HP Inc",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "4983b48b-76a6-461e-bcbf-24de8a47f987",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Hilti",
+        "name_de": "Hilti",
+        "orgs": [
+            {
+                "name": "Hilti",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "8a01cf0b-952d-475e-a475-131aae428235",
+        "sector": "Gov_Companies",
+        "ts": null,
+        "shortname": "HUG",
+        "name_de": "Hôpitaux universitaires de Genève",
+        "orgs": [
+            {
+                "name": "Hôpitaux Universitaires de Genève",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "3bff5064-de7e-47f8-aef3-40a74b36e3aa",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Huawai",
+        "name_de": "Huawei Technologies Switzerland",
+        "orgs": [
+            {
+                "name": "HUAWEI",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "878ec618-c529-44c9-8d7a-88f7e85075ff",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "IBM",
+        "name_de": "IBM Schweiz",
+        "orgs": [
+            {
+                "name": "International Business Machines",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "3cc8a5c1-e0ff-4370-92cb-205b03c609a9",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "IKEA",
+        "name_de": "IKEA",
+        "orgs": [
+            {
+                "name": "IKEA",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "1a92988b-6412-4856-804b-d92b9c8acf48",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Inficon",
+        "name_de": "Inficon Holding",
+        "orgs": [
+            {
+                "name": "INFICON Spot",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "1149d1a6-ae7f-4b8b-9501-b69852be7e69",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Infosys",
+        "name_de": "Infosys Consulting Holding",
+        "orgs": [
+            {
+                "name": "Infosys Ltd",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "2fef799a-e7a4-4956-89cd-ee65d7502c57",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Ingram",
+        "name_de": "Ingram Micro",
+        "orgs": [
+            {
+                "name": "Ingram Micro Cloud",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "b6e6ad12-1c72-4456-a335-cc0d48367d85",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Intel",
+        "name_de": "Intel Semiconductor",
+        "orgs": [
+            {
+                "name": "Intel Corporation",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "960e184d-2f75-4db6-a88e-b6224a2af778",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Interrout",
+        "name_de": "Interroute",
+        "orgs": [
+            {
+                "name": "Interoute Communications",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "360224c0-2bc7-4231-87c7-946bcf4bbcb2",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "KPMG",
+        "name_de": "KPMG",
+        "orgs": [
+            {
+                "name": "KPMG UK",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "6e1e2818-82fb-46c0-ac78-2f0f4735b744",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Kudelski",
+        "name_de": "Kudelski",
+        "orgs": [
+            {
+                "name": "Kudelski Security",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "0a69d33a-e1aa-451b-81df-8e95ad5be006",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Kühne + Nagel ",
+        "name_de": "Kühne + Nagel International",
+        "orgs": [
+            {
+                "name": "Kuehne + Nagel (AG & Co.) KG",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "11741c03-0199-45d2-8e3f-687f7af02623",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Lenovo ",
+        "name_de": "Lenovo (Schweiz) GmbH",
+        "orgs": [
+            {
+                "name": "Lenovo",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "b0323601-290f-458c-b8d3-0065d47c1093",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Leonteq",
+        "name_de": "Leonteq",
+        "orgs": [
+            {
+                "name": "Leonteq Securities AG",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "488eee75-f145-446b-b278-f9452e11dc87",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Liebherr ",
+        "name_de": "Liebherr International",
+        "orgs": [
+            {
+                "name": "liebherr-group, liebherrnenzing",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "a224346e-87aa-4ac8-acf7-2748075c0e8b",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Logitech",
+        "name_de": "Logitech International",
+        "orgs": [
+            {
+                "name": "Logitech, Inc.",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "eac7f9da-9a85-4bc4-b56e-b0cf9d0043b7",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Globus",
+        "name_de": "Magazine zum Globus",
+        "orgs": [
+            {
+                "name": "Magazine zum Globus AG",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "ac29759d-5289-4825-afc8-8b13c2a2c398",
+        "sector": "FoodBeverage",
+        "ts": null,
+        "shortname": "McDonalds ",
+        "name_de": "McDonalds Suisse",
+        "orgs": [
+            {
+                "name": "McDonald's",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "c808e547-c978-4602-b4f3-66edd5df2707",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Media Markt",
+        "name_de": "Media Markt Schweiz",
+        "orgs": [
+            {
+                "name": "MediaMarktSaturn",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "0813a73a-4215-47da-bb78-83cfac73822b",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Mercedes-Benz ",
+        "name_de": "Mercedes-Benz Schweiz",
+        "orgs": [
+            {
+                "name": "mercedes-benz",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "964a67cb-f6b1-4882-9072-d00c6caa4f10",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Mercuria",
+        "name_de": "Mercuria Energy Trading",
+        "orgs": [
+            {
+                "name": "MercuriaApp",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "1ff4b8a6-d1d5-412f-9110-374676e9e68a",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Microsoft ",
+        "name_de": "Microsoft Schweiz",
+        "orgs": [
+            {
+                "name": "Microsoft",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "9975e5b4-9de4-4900-9b81-07a156534ed4",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Microspot",
+        "name_de": "Microspot",
+        "orgs": [
+            {
+                "name": "Microspot / Interdiscount",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "e32e7229-fe7e-48be-b443-5111feb85754",
+        "sector": "FoodBeverage/Others",
+        "ts": null,
+        "shortname": "Migros",
+        "name_de": "Migros-Konzern",
+        "orgs": [
+            {
+                "name": "Migros",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "9ab76f14-abce-4c8b-a28a-08f6aa40a1df",
+        "sector": "FoodBeverage",
+        "ts": null,
+        "shortname": "Nestlé",
+        "name_de": "Nestlé",
+        "orgs": [
+            {
+                "name": "nestle",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "fe0821ba-f53f-4d8b-a10d-893d4cdcda09",
+        "sector": "Media",
+        "ts": null,
+        "shortname": "NZZ",
+        "name_de": "Neue Zürcher Zeitung",
+        "orgs": [
+            {
+                "name": "NZZ",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "1c40cbbc-edca-4262-b8d4-72222351b0de",
+        "sector": "Pharma",
+        "ts": null,
+        "shortname": "Novartis",
+        "name_de": "Novartis",
+        "orgs": [
+            {
+                "name": "Novartis, NovartisAPI",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "e24b2f69-f921-4508-a16d-47462bb29b65",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "On ",
+        "name_de": "On Running Shoes",
+        "orgs": [
+            {
+                "name": "On",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "669bfd13-f81a-4045-987e-9bb35077f008",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Oracle ",
+        "name_de": "Oracle Software (Schweiz)",
+        "orgs": [
+            {
+                "name": "Oracle",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "0d529a6c-f899-4d64-b6e3-be4ec61ab212",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Orange",
+        "name_de": "Orange Business Service",
+        "orgs": [
+            {
+                "name": "Orange",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "4719dcdd-bdb6-4a72-bcc2-c06be978d3d2",
+        "sector": "FoodBeverage",
+        "ts": null,
+        "shortname": "Pistor ",
+        "name_de": "Pistor Holding",
+        "orgs": [
+            {
+                "name": "Pistor AG",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "e87b92c9-1e37-415d-8bfd-a2809d6c6563",
+        "sector": "Gov_Companies",
+        "ts": null,
+        "shortname": "PostLogistics",
+        "name_de": "PostLogistics",
+        "orgs": [
+            {
+                "name": "Swiss Post YellowCube",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "bbab94bd-9e8b-486b-ac9a-eaf766b75785",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Randstad",
+        "name_de": "Randstad (Schweiz)",
+        "orgs": [
+            {
+                "name": "Randstad Technologies",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "e691a367-405a-4a68-a8a9-2cf5f8e76f89",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Renault",
+        "name_de": "Renault Suisse",
+        "orgs": [
+            {
+                "name": "Renault",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "c8314d61-232c-4ba7-a577-b7a2721b8fe1",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Richemont",
+        "name_de": "Richemont",
+        "orgs": [
+            {
+                "name": "Richemont International SA, Richemont",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "6556cb86-e3dd-416e-94e8-6371e50a2394",
+        "sector": "Media",
+        "ts": null,
+        "shortname": "Ringier",
+        "name_de": "Ringier",
+        "orgs": [
+            {
+                "name": "Ringier Data Services",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "ad9a0680-7f1e-4e5b-9d6e-238c9da75116",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Bosch ",
+        "name_de": "Robert Bosch Schweiz",
+        "orgs": [
+            {
+                "name": "Robert Bosch GmbH",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "0137c7e6-cff4-4453-a1aa-b5656a9328f5",
+        "sector": "Pharma",
+        "ts": null,
+        "shortname": "Roche",
+        "name_de": "Roche Holding",
+        "orgs": [
+            {
+                "name": "Roche, Roche/Genentech - Insights Engineering , Roche Diagnostics Computation Science & Informatics",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "fc2071c5-0068-4892-8493-e82354a4f7d4",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Samsung ",
+        "name_de": "Samsung Electric (Schweiz)",
+        "orgs": [
+            {
+                "name": "Samsung",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "d0324fae-f4ad-47b8-8a22-f17beda5e43c",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "SAP",
+        "name_de": "SAP (Schweiz)",
+        "orgs": [
+            {
+                "name": "SAP",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "32114f9c-9a8e-44f3-b1ca-931d798c6eee",
+        "sector": "Gov_Companies",
+        "ts": null,
+        "shortname": "SBB",
+        "name_de": "SBB",
+        "orgs": [
+            {
+                "name": "Swiss Federal Railways (SBB)",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "0dbfc362-c98b-4226-81e0-8eaec7767ed9",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Scania",
+        "name_de": "Scania Schweiz",
+        "orgs": [
+            {
+                "name": "Scania Organisation (official)",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "1c624077-9dfd-4e4e-80ec-88c241f9d0b0",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Sensition",
+        "name_de": "Sensirion Holding",
+        "orgs": [
+            {
+                "name": "Sensirion AG",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "d82e0c54-8f1d-46cd-9ce5-d0785fb65300",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Siemens",
+        "name_de": "Siemens Schweiz",
+        "orgs": [
+            {
+                "name": "Siemens",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "14600953-09a1-49b2-8cb5-aeb8466a4936",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Sonova",
+        "name_de": "Sonova Holding",
+        "orgs": [
+            {
+                "name": "Sonova Group",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "5e74b932-5477-4400-a260-8662cb5f612d",
+        "sector": "Media",
+        "ts": null,
+        "shortname": "SRG",
+        "name_de": "SRG SSR",
+        "orgs": [
+            {
+                "name": "SRG SSR",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "e56c50f8-f0d9-49a5-a7d5-70932cc8a5a7",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Swisscom ",
+        "name_de": "Swisscom",
+        "orgs": [
+            {
+                "name": "Swisscom, Swisscom Data, Analytics & AI, Swisscom Trust Services \nSwisscom Event & Media Solutions, \nSwisscom Blockchain AG, \nSwisscom - Big Data Team ,",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "05acdd9b-d7a5-4f36-b1c9-28e216fd7adc",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Symantec",
+        "name_de": "Symantec Switzerland",
+        "orgs": [
+            {
+                "name": "Symantec",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "6aa004a3-c40e-4ba0-8179-03271df0d18a",
+        "sector": "Pharma",
+        "ts": null,
+        "shortname": "Syngenta",
+        "name_de": "Syngenta",
+        "orgs": [
+            {
+                "name": "Syngenta, \nSyngenta Digital, Syngenta DPE USCO, \nSyngenta Services Pvt Ltd",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "0607489d-1f77-477e-957c-d82d10b5b933",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "TAG",
+        "name_de": "TAG Heuer",
+        "orgs": [
+            {
+                "name": "TAG Heuer",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "fa6939b6-f982-4c8e-b8c1-d77c8fbf3f43",
+        "sector": "Media",
+        "ts": null,
+        "shortname": "Tamedia",
+        "name_de": "Tamedia",
+        "orgs": [
+            {
+                "name": "Tamedia Data Desk, tamedia , \nTamedia CMS",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "a2ff26c1-8e06-467d-b42a-5a0a1af81999",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "TCS",
+        "name_de": "Tata Consultancy Services Switzerland",
+        "orgs": [
+            {
+                "name": "TCS LAB",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "40174780-1b78-49ce-8968-3410ca98cef7",
+        "sector": "ResearchAndEducation",
+        "ts": null,
+        "shortname": "Tecan",
+        "name_de": "Tecan Group",
+        "orgs": [
+            {
+                "name": "Tecan Genomics",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "42f7b9e4-3149-46a7-a972-5f068c2562ae",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "TechData",
+        "name_de": "Tech Data (Schweiz)",
+        "orgs": [
+            {
+                "name": "Tech Data Europe",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "f44bcde4-c0e0-4262-bd4d-ac324d6a641c",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "Temenos",
+        "name_de": "Temenos Group",
+        "orgs": [
+            {
+                "name": "Temenos",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "54fc687e-6886-4ca6-9a92-828c84394e09",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "TetraPak",
+        "name_de": "Tetra Pak International",
+        "orgs": [
+            {
+                "name": "TetraPak, Tetra Pak API Products, \nTetra Pak Decision Science",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "d3b7dcf5-10da-413a-a210-503d739a3d0c",
+        "sector": "Gov_Companies",
+        "ts": null,
+        "shortname": "TPG",
+        "name_de": "Transports publics genevois",
+        "orgs": [
+            {
+                "name": "TPGwidget",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "55f9eaa9-232a-49d1-9be8-ba0de1651edd",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "T-Systems",
+        "name_de": "T-Systems Schweiz",
+        "orgs": [
+            {
+                "name": "T-Systems",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "077d3618-6d69-4712-8a10-6fbe2d18d727",
+        "sector": "IT",
+        "ts": null,
+        "shortname": "u-blox",
+        "name_de": "u-blox Holding",
+        "orgs": [
+            {
+                "name": "u-blox",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "9e47a824-f1b2-41f3-b2f7-a3787277e5d5",
+        "sector": "FoodBeverage",
+        "ts": null,
+        "shortname": "Unilever",
+        "name_de": "Unilever Schweiz",
+        "orgs": [
+            {
+                "name": "Unilever",
+                "ts": null
+            }
+        ]
+    },
+    {
+        "uuid": "da4fc90a-0760-41cb-8b59-a3cb9add6fe9",
+        "sector": "Others",
+        "ts": null,
+        "shortname": "Vitol",
+        "name_de": "Vitol",
+        "orgs": [
+            {
+                "name": "Vitol-Dev",
+                "ts": null
+            }
+        ]
+      },
   {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c841"
