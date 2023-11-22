@@ -1,727 +1,724 @@
-
 [
-    {
-        "uuid": "a1994031-8c0b-42bf-9bc6-d955dbb8c9d1",
-        "sector": "IT",
-        "ts": null,
-        "shortname": "ABB",
-        "name_de": "ABB",
-        "orgs": [
-            {
-                "name": "abb",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "56a45ae9-2c6a-4acb-a616-158df8c6e579",
-        "sector": "IT",
-        "ts": null,
-        "shortname": "Accenture",
-        "name_de": "Accenture",
-        "orgs": [
-            {
-                "name": "Accenture",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "e420dabd-365e-4d37-ac14-78fac7e77967",
-        "sector": "Pharma",
-        "ts": null,
-        "shortname": "Actelion",
-        "name_de": "Actelion",
-        "orgs": [
-            {
-                "name": "Actelion",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "70e2a46a-a7ce-4de9-9aa4-8315d59e73a5",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Adecco",
-        "name_de": "Adecco",
-        "orgs": [
-            {
-                "name": "Adecco-Business-Transformation",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "cefb13a3-fa90-4079-8b19-ca9adcfc88a4",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "APG",
-        "name_de": "APG SGA",
-        "orgs": [
-            {
-                "name": "APGSGA",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "81186f8f-307d-4fd5-8a92-823c6271821b",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Archroma",
-        "name_de": "Archroma Management",
-        "orgs": [
-            {
-                "name": "ArchromaManagementGmbH",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "8d9acab7-9a21-4fcc-83b6-b4b8df569351",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Axpo",
-        "name_de": "Axpo Holding",
-        "orgs": [
-            {
-                "name": "axpogroup",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "c12073a3-046e-4826-8977-ff9024b749f0",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Bertschi",
-        "name_de": "Bertschi",
-        "orgs": [
-            {
-                "name": "BertschiAG",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "32ef7768-0da7-491b-97d8-e8283a242ba3",
-        "sector": "Media",
-        "ts": null,
-        "shortname": "CH Media",
-        "name_de": "CH Media",
-        "orgs": [
-            {
-                "name": "azmedien",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "d45953fe-8f6e-4b53-b2dd-d988d85e238a",
-        "sector": "Pharma",
-        "ts": null,
-        "shortname": "Clariant",
-        "name_de": "Clariant",
-        "orgs": [
-            {
-                "name": "Clariant",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "6a23880a-2c47-4f9d-a13b-db7eb6cfee43",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Competec",
-        "name_de": "Competec",
-        "orgs": [
-            {
-                "name": "Competec",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "b6d36660-4afe-4cd6-b438-93a1bd5b9338",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Dormakaba ",
-        "name_de": "Dormakaba Holding",
-        "orgs": [
-            {
-                "name": "dormakaba",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "fe73f2fc-c7d3-4a42-a815-957f28ddad66",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Engie Services",
-        "name_de": "Engie Services",
-        "orgs": [
-            {
-                "name": "engie-group",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "9280d6e2-40e5-4763-8282-9162f44ee20b",
-        "sector": "Gov_Companies",
-        "ts": null,
-        "shortname": "HUG",
-        "name_de": "Hôpitaux universitaires de Genève",
-        "orgs": [
-            {
-                "name": "DSI-HUG",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "d76ec09e-48ee-44b2-bd38-a92737dfcca0",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Inficon",
-        "name_de": "Inficon Holding",
-        "orgs": [
-            {
-                "name": "inficon-spot",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "5aae79dd-2f93-41ba-b760-07935d48f132",
-        "sector": "IT",
-        "ts": null,
-        "shortname": "Infosys",
-        "name_de": "Infosys Consulting Holding",
-        "orgs": [
-            {
-                "name": "Infosys",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "2d4904cd-8593-4266-bbc5-d20fa3c42810",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Kudelski",
-        "name_de": "Kudelski",
-        "orgs": [
-            {
-                "name": "kudelskisecurity",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "84e173be-ad31-41dc-a427-eab5aae4ddb3",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "k+n",
-        "name_de": "Kühne + Nagel International",
-        "orgs": [
-            {
-                "name": "kuehne-nagel",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "4c93c15d-c06c-45bb-a2f8-5f864a8c9543",
-        "sector": "IT",
-        "ts": null,
-        "shortname": "Leonteq",
-        "name_de": "Leonteq",
-        "orgs": [
-            {
-                "name": "leonteq",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "86ee671d-eca1-4ac3-95d6-034182972943",
-        "sector": "IT",
-        "ts": null,
-        "shortname": "Logitech",
-        "name_de": "Logitech International",
-        "orgs": [
-            {
-                "name": "Logitech",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "681f2751-a704-4a51-a319-60c0b56ae13a",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Globus",
-        "name_de": "Magazine zum Globus",
-        "orgs": [
-            {
-                "name": "globusdigital",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "31733202-fde9-400c-8d32-f950fe07a6a3",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Mercuria",
-        "name_de": "Mercuria Energy Trading",
-        "orgs": [
-            {
-                "name": "MercuriaApp",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "9c45453d-21d4-4a6c-b73c-4a6edeb6a1b4",
-        "sector": "Others",
-        "ts": null,
-        "shortname": " interdiscount",
-        "name_de": "Interdiscount ",
-        "orgs": [
-            {
-                "name": "interdiscount",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "64703a24-21b6-4951-a433-969bc392d1bd",
-        "sector": "FoodBeverage/Others",
-        "ts": null,
-        "shortname": "Migros",
-        "name_de": "Migros-Konzern",
-        "orgs": [
-            {
-                "name": "migros",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "1df5487d-66bb-4149-940b-6e1c2b238fba",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "On ",
-        "name_de": "On Running Shoes",
-        "orgs": [
-            {
-                "name": "onrunning",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "abd7b0e0-95b8-472a-aecb-1dd84f9251a5",
-        "sector": "FoodBeverage",
-        "ts": null,
-        "shortname": "Pistor ",
-        "name_de": "Pistor Holding",
-        "orgs": [
-            {
-                "name": "pistor",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "e02f4450-c4c7-4608-bf46-976b49365680",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Richemont",
-        "name_de": "Richemont",
-        "orgs": [
-            {
-                "name": "richemont-international-sa",
-                "ts": null
-            },
-	    {
-                "name": "richemont-dev",
-    "ts": null
-            },
-	    {
-                "name": "RichemontInternationalSA",
-    		 "ts": null
-	    }
-        ]
-    },
-    {
-        "uuid": "a90fd213-fee6-47a5-92d3-92881990d982",
-        "sector": "Media",
-        "ts": null,
-        "shortname": "Ringier",
-        "name_de": "Ringier",
-        "orgs": [
-            {
-                "name": "ringier-data",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "404aa8cb-f252-435f-8de9-50bb9c5ca9ca",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Sensition",
-        "name_de": "Sensirion Holding",
-        "orgs": [
-            {
-                "name": "Sensirion",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "0af467e2-7af4-47d9-b947-3f6e0493a6da",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Sonova",
-        "name_de": "Sonova Holding",
-        "orgs": [
-            {
-                "name": "sonova",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "f5c7d4c0-dc15-4f2e-949e-32c1192ee025",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "E+H",
-        "name_de": "Endress+Hauser",
-        "orgs": [
-            {
-                "name": "endresshauser-lp",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "96d531ce-26e1-41cc-8bac-0b2ab77bb5c8",
-        "sector": "IT",
-        "ts": null,
-        "shortname": "Symantec",
-        "name_de": "Symantec Switzerland",
-        "orgs": [
-            {
-                "name": "Symantec",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "b0f5cc71-bd6a-4835-917e-a9bef759f1b7",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "TAG",
-        "name_de": "TAG Heuer",
-        "orgs": [
-            {
-                "name": "tagheuerhq",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "60e672a7-2c0e-4eae-a1e8-59e080c1abc5",
-        "sector": "ResearchAndEducation",
-        "ts": null,
-        "shortname": "Tecan",
-        "name_de": "Tecan Group",
-        "orgs": [
-            {
-                "name": "tecangenomics",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "8a9f9d36-11d9-4ecc-ab07-31c1131abb56",
-        "sector": "IT",
-        "ts": null,
-        "shortname": "Temenos",
-        "name_de": "Temenos Group",
-        "orgs": [
-            {
-                "name": "temenos",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "4c0f06f4-9fbc-4268-9ccf-d210ab81210d",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "TetraPak",
-        "name_de": "Tetra Pak International",
-        "orgs": [
-            {
-                "name": "TetraPak",
-                "ts": null
-            },
-	    {
-                "name": "Tetra-Pak-APIs",
-                "ts": null
-            },
-	    {
-                "name": "TetraPakDecisionScience",
-                "ts": null
-            }
-
-        ]
-    },
-    {
-        "uuid": "e8762ed7-b30a-42fd-bcd2-2fcd84df7d2a",
-        "sector": "Gov_Companies",
-        "ts": null,
-        "shortname": "TPG",
-        "name_de": "Transports publics genevois",
-        "orgs": [
-            {
-                "name": "tpgwidget",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "c59ea4e8-7c54-4168-9007-1e85ce9277c8",
-        "sector": "IT",
-        "ts": null,
-        "shortname": "u-blox",
-        "name_de": "u-blox Holding",
-        "orgs": [
-            {
-                "name": "u-blox",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "5a74ad86-df5a-404e-8404-13151a1b0015",
-        "sector": "ResearchAndEducation",
-        "ts": null,
-        "shortname": "ETHZ",
-        "name_de": "ETHZ ASL",
-        "orgs": [
-            {
-                "name": "ethz-asl",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "e92f1f8a-ca8c-4327-8b3f-19d83515cf0d",
-        "sector": "ResearchAndEducation",
-        "ts": null,
-        "shortname": "Kanti Glarus",
-        "name_de": "Kantonsschule Glarus",
-        "orgs": [
-            {
-                "name": "kanti-glarus",
-                "ts": null
-            }
-    
-        ]
-    },
-    {
-        "uuid": "c78500ee-0532-48a7-9215-fd9905ab28aa",
-        "sector": "Gov_Federal",
-        "ts": null,
-        "shortname": "KOST",
-        "name_de": "Koordinationsstelle für dauerhafte Archivierung elektronischer Unterlagen KOST",
-        "orgs": [
-            {
-                "name": "KOST-CECO",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "fa181563-c7ea-4e5c-ac6c-0df919913bdd",
-        "sector": "Gov_Federal",
-        "ts": null,
-        "shortname": "Swisscovid",
-        "name_de": "Swisscovid",
-        "orgs": [
-            {
-                "name": "SwissCovid",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "344bca77-9a0f-4764-814d-f7dc4eaf4e6d",
-        "sector": "Gov_Federal",
-        "ts": null,
-        "shortname": "SA",
-        "name_de": "Schweizer Armee",
-        "orgs": [
-            {
-                "name": "ZEM-Mediamatiker",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "5e2d8401-1122-4ccb-8798-10bb5e041fc0",
-        "sector": "Gov_Federal",
-        "ts": null,
-        "shortname": "Visualize",
-        "name_de": "visualize.admin.ch",
-        "orgs": [
-            {
-                "name": "visualize-admin",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "d3d33379-1c3e-4039-9084-efd33371f26c",
-        "sector": "ResearchAndEducation",
-        "ts": null,
-        "shortname": "Ubs",
-        "name_de": "Universität Basel",
-        "orgs": [
-            {
-                "name": "atmosphaerenwissenschaften",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "5c23efad-29af-4282-a868-78e2dd1ea33c",
-        "sector": "ResearchAndEducation",
-        "ts": null,
-        "shortname": "FHNW",
-        "name_de": "Fachhochschule Nordwestschweiz",
-        "orgs": [
-            {
-                "name": "FHNW",
-                "ts": null
-            },
-	    {
-                "name": "fhnw-ise-qcrypt",
-                "ts": null
-            },
-    	    {
-                "name": "FHNW-Geomatik",
-                "ts": null
-            },
-	    {
-                "name": "FHNW-IVGI",
-                "ts": null
-            },
-	    {
-                "name": "fhnw-cs",
-                "ts": null
-            },
-	    {
-                "name": "fhnw-biomedinf",
-                "ts": null
-            },
-	    {
-                "name": "fhnw-bacnet-it",
-                "ts": null
-            },
-	    {
-                "name": "fhgr2",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "10f6fe9f-1693-4ad0-9386-97ab7b9c783b",
-        "sector": "ResearchAndEducation",
-        "ts": null,
-        "shortname": "FHGR",
-        "name_de": "University of Applied Sciences of the Grisons",
-        "orgs": [
-            {
-                "name": "fhgr2",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "92a8c7a5-f7ac-4082-a823-a482b5d50c7f",
-        "sector": "ResearchAndEducation",
-        "ts": null,
-        "shortname": "EPFL",
-        "name_de": "Universität EPFL",
-        "orgs": [
-            {
-                "name": "GameLab-UNIL-EPFL",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "a1d6e6fe-623d-448e-a7fd-f3625841c421",
-        "sector": "City",
-        "ts": null,
-        "shortname": "Luzern",
-        "name_de": "Luzern",
-        "orgs": [
-            {
-                "name": "StadtLuzernIO",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "3d13b7b4-c21e-45a4-8b89-d82a5807a3b2",
-        "sector": "City",
-        "ts": null,
-        "shortname": "Bern",
-        "name_de": "Bern",
-        "orgs": [
-            {
-                "name": "bkd-mba-fbi",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "a766a0ca-8c24-4853-9e89-6696c1f8c42c",
-        "sector": "City",
-        "ts": null,
-        "shortname": "Vevey",
-        "name_de": "Vevey",
-        "orgs": [
-            {
-                "name": "sitvevey",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "720736e8-f2ce-400c-91ca-d6e7fb20571e",
-        "sector": "City",
-        "ts": null,
-        "shortname": "Kriens",
-        "name_de": "Kriens",
-        "orgs": [
-            {
-                "name": "KriensStadt",
-                "ts": null
-            }
-        ]
-    },
+  {
+    "uuid": "a1994031-8c0b-42bf-9bc6-d955dbb8c9d1",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "abb",
+    "name_de": "ABB",
+    "orgs": [
+      {
+        "name": "abb",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "56a45ae9-2c6a-4acb-a616-158df8c6e579",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "accenture",
+    "name_de": "Accenture",
+    "orgs": [
+      {
+        "name": "Accenture",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "e420dabd-365e-4d37-ac14-78fac7e77967",
+    "sector": "Pharma",
+    "ts": null,
+    "shortname": "actelion",
+    "name_de": "Actelion",
+    "orgs": [
+      {
+        "name": "Actelion",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "70e2a46a-a7ce-4de9-9aa4-8315d59e73a5",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "adecco",
+    "name_de": "Adecco",
+    "orgs": [
+      {
+        "name": "Adecco-Business-Transformation",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "cefb13a3-fa90-4079-8b19-ca9adcfc88a4",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "apg",
+    "name_de": "APG SGA",
+    "orgs": [
+      {
+        "name": "APGSGA",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "81186f8f-307d-4fd5-8a92-823c6271821b",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "archroma",
+    "name_de": "Archroma Management",
+    "orgs": [
+      {
+        "name": "ArchromaManagementGmbH",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "8d9acab7-9a21-4fcc-83b6-b4b8df569351",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "axpo",
+    "name_de": "Axpo Holding",
+    "orgs": [
+      {
+        "name": "axpogroup",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "c12073a3-046e-4826-8977-ff9024b749f0",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "bertschi",
+    "name_de": "Bertschi",
+    "orgs": [
+      {
+        "name": "BertschiAG",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "32ef7768-0da7-491b-97d8-e8283a242ba3",
+    "sector": "Media",
+    "ts": null,
+    "shortname": "ch media",
+    "name_de": "CH Media",
+    "orgs": [
+      {
+        "name": "azmedien",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "d45953fe-8f6e-4b53-b2dd-d988d85e238a",
+    "sector": "Pharma",
+    "ts": null,
+    "shortname": "clariant",
+    "name_de": "Clariant",
+    "orgs": [
+      {
+        "name": "Clariant",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "6a23880a-2c47-4f9d-a13b-db7eb6cfee43",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "competec",
+    "name_de": "Competec",
+    "orgs": [
+      {
+        "name": "Competec",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "b6d36660-4afe-4cd6-b438-93a1bd5b9338",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "dormakaba ",
+    "name_de": "Dormakaba Holding",
+    "orgs": [
+      {
+        "name": "dormakaba",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "fe73f2fc-c7d3-4a42-a815-957f28ddad66",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "engie services",
+    "name_de": "Engie Services",
+    "orgs": [
+      {
+        "name": "engie-group",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "9280d6e2-40e5-4763-8282-9162f44ee20b",
+    "sector": "Gov_Companies",
+    "ts": null,
+    "shortname": "hug",
+    "name_de": "Hôpitaux universitaires de Genève",
+    "orgs": [
+      {
+        "name": "DSI-HUG",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "d76ec09e-48ee-44b2-bd38-a92737dfcca0",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "inficon",
+    "name_de": "Inficon Holding",
+    "orgs": [
+      {
+        "name": "inficon-spot",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "5aae79dd-2f93-41ba-b760-07935d48f132",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "infosys",
+    "name_de": "Infosys Consulting Holding",
+    "orgs": [
+      {
+        "name": "Infosys",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "2d4904cd-8593-4266-bbc5-d20fa3c42810",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "kudelski",
+    "name_de": "Kudelski",
+    "orgs": [
+      {
+        "name": "kudelskisecurity",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "84e173be-ad31-41dc-a427-eab5aae4ddb3",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "k+n",
+    "name_de": "Kühne + Nagel International",
+    "orgs": [
+      {
+        "name": "kuehne-nagel",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "4c93c15d-c06c-45bb-a2f8-5f864a8c9543",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "leonteq",
+    "name_de": "Leonteq",
+    "orgs": [
+      {
+        "name": "leonteq",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "86ee671d-eca1-4ac3-95d6-034182972943",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "logitech",
+    "name_de": "Logitech International",
+    "orgs": [
+      {
+        "name": "Logitech",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "681f2751-a704-4a51-a319-60c0b56ae13a",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "globus",
+    "name_de": "Magazine zum Globus",
+    "orgs": [
+      {
+        "name": "globusdigital",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "31733202-fde9-400c-8d32-f950fe07a6a3",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "mercuria",
+    "name_de": "Mercuria Energy Trading",
+    "orgs": [
+      {
+        "name": "MercuriaApp",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "9c45453d-21d4-4a6c-b73c-4a6edeb6a1b4",
+    "sector": "Others",
+    "ts": null,
+    "shortname": " interdiscount",
+    "name_de": "Interdiscount ",
+    "orgs": [
+      {
+        "name": "interdiscount",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "64703a24-21b6-4951-a433-969bc392d1bd",
+    "sector": "FoodBeverage/Others",
+    "ts": null,
+    "shortname": "migros",
+    "name_de": "Migros-Konzern",
+    "orgs": [
+      {
+        "name": "migros",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "1df5487d-66bb-4149-940b-6e1c2b238fba",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "on ",
+    "name_de": "On Running Shoes",
+    "orgs": [
+      {
+        "name": "onrunning",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "abd7b0e0-95b8-472a-aecb-1dd84f9251a5",
+    "sector": "FoodBeverage",
+    "ts": null,
+    "shortname": "pistor ",
+    "name_de": "Pistor Holding",
+    "orgs": [
+      {
+        "name": "pistor",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "e02f4450-c4c7-4608-bf46-976b49365680",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "richemont",
+    "name_de": "Richemont",
+    "orgs": [
+      {
+        "name": "richemont-international-sa",
+        "ts": null
+      },
+      {
+        "name": "richemont-dev",
+        "ts": null
+      },
+      {
+        "name": "RichemontInternationalSA",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "a90fd213-fee6-47a5-92d3-92881990d982",
+    "sector": "Media",
+    "ts": null,
+    "shortname": "ringier",
+    "name_de": "Ringier",
+    "orgs": [
+      {
+        "name": "ringier-data",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "404aa8cb-f252-435f-8de9-50bb9c5ca9ca",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "sensition",
+    "name_de": "Sensirion Holding",
+    "orgs": [
+      {
+        "name": "Sensirion",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "0af467e2-7af4-47d9-b947-3f6e0493a6da",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "sonova",
+    "name_de": "Sonova Holding",
+    "orgs": [
+      {
+        "name": "sonova",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "f5c7d4c0-dc15-4f2e-949e-32c1192ee025",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "e+h",
+    "name_de": "Endress+Hauser",
+    "orgs": [
+      {
+        "name": "endresshauser-lp",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "96d531ce-26e1-41cc-8bac-0b2ab77bb5c8",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "symantec",
+    "name_de": "Symantec Switzerland",
+    "orgs": [
+      {
+        "name": "Symantec",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "b0f5cc71-bd6a-4835-917e-a9bef759f1b7",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "tag",
+    "name_de": "TAG Heuer",
+    "orgs": [
+      {
+        "name": "tagheuerhq",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "60e672a7-2c0e-4eae-a1e8-59e080c1abc5",
+    "sector": "ResearchAndEducation",
+    "ts": null,
+    "shortname": "tecan",
+    "name_de": "Tecan Group",
+    "orgs": [
+      {
+        "name": "tecangenomics",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "8a9f9d36-11d9-4ecc-ab07-31c1131abb56",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "temenos",
+    "name_de": "Temenos Group",
+    "orgs": [
+      {
+        "name": "temenos",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "4c0f06f4-9fbc-4268-9ccf-d210ab81210d",
+    "sector": "Others",
+    "ts": null,
+    "shortname": "tetrapak",
+    "name_de": "Tetra Pak International",
+    "orgs": [
+      {
+        "name": "TetraPak",
+        "ts": null
+      },
+      {
+        "name": "Tetra-Pak-APIs",
+        "ts": null
+      },
+      {
+        "name": "TetraPakDecisionScience",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "e8762ed7-b30a-42fd-bcd2-2fcd84df7d2a",
+    "sector": "Gov_Companies",
+    "ts": null,
+    "shortname": "tpg",
+    "name_de": "Transports publics genevois",
+    "orgs": [
+      {
+        "name": "tpgwidget",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "c59ea4e8-7c54-4168-9007-1e85ce9277c8",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "u-blox",
+    "name_de": "u-blox Holding",
+    "orgs": [
+      {
+        "name": "u-blox",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "5a74ad86-df5a-404e-8404-13151a1b0015",
+    "sector": "ResearchAndEducation",
+    "ts": null,
+    "shortname": "ethz",
+    "name_de": "ETHZ ASL",
+    "orgs": [
+      {
+        "name": "ethz-asl",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "e92f1f8a-ca8c-4327-8b3f-19d83515cf0d",
+    "sector": "ResearchAndEducation",
+    "ts": null,
+    "shortname": "kanti glarus",
+    "name_de": "Kantonsschule Glarus",
+    "orgs": [
+      {
+        "name": "kanti-glarus",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "c78500ee-0532-48a7-9215-fd9905ab28aa",
+    "sector": "Gov_Federal",
+    "ts": null,
+    "shortname": "kost",
+    "name_de": "Koordinationsstelle für dauerhafte Archivierung elektronischer Unterlagen KOST",
+    "orgs": [
+      {
+        "name": "KOST-CECO",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "fa181563-c7ea-4e5c-ac6c-0df919913bdd",
+    "sector": "Gov_Federal",
+    "ts": null,
+    "shortname": "swisscovid",
+    "name_de": "Swisscovid",
+    "orgs": [
+      {
+        "name": "SwissCovid",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "344bca77-9a0f-4764-814d-f7dc4eaf4e6d",
+    "sector": "Gov_Federal",
+    "ts": null,
+    "shortname": "sa",
+    "name_de": "Schweizer Armee",
+    "orgs": [
+      {
+        "name": "ZEM-Mediamatiker",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "5e2d8401-1122-4ccb-8798-10bb5e041fc0",
+    "sector": "Gov_Federal",
+    "ts": null,
+    "shortname": "visualize",
+    "name_de": "visualize.admin.ch",
+    "orgs": [
+      {
+        "name": "visualize-admin",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "d3d33379-1c3e-4039-9084-efd33371f26c",
+    "sector": "ResearchAndEducation",
+    "ts": null,
+    "shortname": "ubs",
+    "name_de": "Universität Basel",
+    "orgs": [
+      {
+        "name": "atmosphaerenwissenschaften",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "5c23efad-29af-4282-a868-78e2dd1ea33c",
+    "sector": "ResearchAndEducation",
+    "ts": null,
+    "shortname": "fhnw",
+    "name_de": "Fachhochschule Nordwestschweiz",
+    "orgs": [
+      {
+        "name": "FHNW",
+        "ts": null
+      },
+      {
+        "name": "fhnw-ise-qcrypt",
+        "ts": null
+      },
+      {
+        "name": "FHNW-Geomatik",
+        "ts": null
+      },
+      {
+        "name": "FHNW-IVGI",
+        "ts": null
+      },
+      {
+        "name": "fhnw-cs",
+        "ts": null
+      },
+      {
+        "name": "fhnw-biomedinf",
+        "ts": null
+      },
+      {
+        "name": "fhnw-bacnet-it",
+        "ts": null
+      },
+      {
+        "name": "fhgr2",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "10f6fe9f-1693-4ad0-9386-97ab7b9c783b",
+    "sector": "ResearchAndEducation",
+    "ts": null,
+    "shortname": "fhgr",
+    "name_de": "University of Applied Sciences of the Grisons",
+    "orgs": [
+      {
+        "name": "fhgr2",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "92a8c7a5-f7ac-4082-a823-a482b5d50c7f",
+    "sector": "ResearchAndEducation",
+    "ts": null,
+    "shortname": "epfl",
+    "name_de": "Universität EPFL",
+    "orgs": [
+      {
+        "name": "GameLab-UNIL-EPFL",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "a1d6e6fe-623d-448e-a7fd-f3625841c421",
+    "sector": "City",
+    "ts": null,
+    "shortname": "luzern",
+    "name_de": "Luzern",
+    "orgs": [
+      {
+        "name": "StadtLuzernIO",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "3d13b7b4-c21e-45a4-8b89-d82a5807a3b2",
+    "sector": "City",
+    "ts": null,
+    "shortname": "bern",
+    "name_de": "Bern",
+    "orgs": [
+      {
+        "name": "bkd-mba-fbi",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "a766a0ca-8c24-4853-9e89-6696c1f8c42c",
+    "sector": "City",
+    "ts": null,
+    "shortname": "vevey",
+    "name_de": "Vevey",
+    "orgs": [
+      {
+        "name": "sitvevey",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "720736e8-f2ce-400c-91ca-d6e7fb20571e",
+    "sector": "City",
+    "ts": null,
+    "shortname": "kriens",
+    "name_de": "Kriens",
+    "orgs": [
+      {
+        "name": "KriensStadt",
+        "ts": null
+      }
+    ]
+  },
   {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c841"
@@ -777,7 +774,7 @@
     "uuid": "28e1ff2d-c6c6-4221-bc56-9e799c1279ed",
     "sector": "IT",
     "ts": null,
-    "shortname": "OpenFlowLabs",
+    "shortname": "openflowlabs",
     "name_de": "OpenFlowLabs GmbH",
     "orgs": [
       {
@@ -1167,16 +1164,19 @@
     ]
   },
   {
-  "uuid": "26156d9b-593e-4546-8715-a074e7eaf43c",
-  "sector": "IT",
-  "ts": null,
-  "shortname": "friendly",
-  "name_de": "Friendly",
-  "orgs": [
-    { "name": "friendlydotch", "ts": null }
-  ]
-},
-{
+    "uuid": "26156d9b-593e-4546-8715-a074e7eaf43c",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "friendly",
+    "name_de": "Friendly",
+    "orgs": [
+      {
+        "name": "friendlydotch",
+        "ts": null
+      }
+    ]
+  },
+  {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c85c"
     },
@@ -2433,7 +2433,7 @@
       {
         "name": "Novartis",
         "ts": null
-      }, 
+      },
       {
         "name": "NovartisAPI",
         "ts": null
@@ -2463,7 +2463,7 @@
     "uuid": "ca0b8296-531c-4186-b49d-8d3b9e53b95d",
     "sector": "Others",
     "ts": null,
-    "shortname": "EVAplusAPI",
+    "shortname": "evaplusapi",
     "name_de": "EVA+ API",
     "orgs": [
       {
@@ -2621,7 +2621,7 @@
       {
         "name": "swisscom-bigdata",
         "ts": null
-      }, 
+      },
       {
         "name": "Swisscom-BigD",
         "ts": null
@@ -2698,7 +2698,10 @@
     "shortname": "bar",
     "name_de": "Schweizerisches Bundesarchiv",
     "orgs": [
-      { "name": "sfa-siard", "ts": null },
+      {
+        "name": "sfa-siard",
+        "ts": null
+      },
       {
         "name": "SwissFederalArchives",
         "ts": null
@@ -3136,7 +3139,7 @@
     "uuid": "0ff10fa4-89a6-11ec-8357-3c15c2d466fc",
     "sector": "NGOs",
     "ts": null,
-    "shortname": "GreenpeaceSchweiz",
+    "shortname": "greenpeaceschweiz",
     "name_de": "Greenpeace Schweiz",
     "orgs": [
       {
