@@ -1,7 +1,7 @@
 
 [
     {
-        "uuid": "f7448553-a475-4c21-889f-9cde0987039e",
+        "uuid": "a1994031-8c0b-42bf-9bc6-d955dbb8c9d1",
         "sector": "IT",
         "ts": null,
         "shortname": "ABB",
@@ -14,7 +14,7 @@
         ]
     },
     {
-        "uuid": "adc1a89b-916c-4bdd-a81a-36104d0afcf2",
+        "uuid": "56a45ae9-2c6a-4acb-a616-158df8c6e579",
         "sector": "IT",
         "ts": null,
         "shortname": "Accenture",
@@ -27,7 +27,7 @@
         ]
     },
     {
-        "uuid": "c212ccac-d5e7-4d65-8c2c-cc596360eecb",
+        "uuid": "e420dabd-365e-4d37-ac14-78fac7e77967",
         "sector": "Pharma",
         "ts": null,
         "shortname": "Actelion",
@@ -40,7 +40,7 @@
         ]
     },
     {
-        "uuid": "4a94b561-395e-4f90-a500-a4ac1cfe3c33",
+        "uuid": "70e2a46a-a7ce-4de9-9aa4-8315d59e73a5",
         "sector": "Others",
         "ts": null,
         "shortname": "Adecco",
@@ -53,85 +53,72 @@
         ]
     },
     {
-        "uuid": "c501ce24-184f-49cc-922f-42995084ab51",
-        "sector": "IT",
-        "ts": null,
-        "shortname": "Adobe",
-        "name_de": "Adobe Systems (Schweiz)",
-        "orgs": [
-            {
-                "name": "Adobe, Inc.",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "496dd242-faf2-4b41-8131-b1fb31e98937",
+        "uuid": "cefb13a3-fa90-4079-8b19-ca9adcfc88a4",
         "sector": "Others",
         "ts": null,
         "shortname": "APG",
         "name_de": "APG SGA",
         "orgs": [
             {
-                "name": "APG|SGA Allgemeine Plakatgesellschaft AG",
+                "name": "APGSGA",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "65773e97-abd9-4f04-a538-c9b3466fd97f",
+        "uuid": "81186f8f-307d-4fd5-8a92-823c6271821b",
         "sector": "Others",
         "ts": null,
         "shortname": "Archroma",
         "name_de": "Archroma Management",
         "orgs": [
             {
-                "name": "Archroma Management GmbH",
+                "name": "ArchromaManagementGmbH",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "7513ea3f-30d4-48c1-aae1-137690a51935",
+        "uuid": "8d9acab7-9a21-4fcc-83b6-b4b8df569351",
         "sector": "Others",
         "ts": null,
         "shortname": "Axpo",
         "name_de": "Axpo Holding",
         "orgs": [
             {
-                "name": "Axpo Group",
+                "name": "axpogroup",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "ebd5854d-df63-47f9-aad5-25eb48e7e148",
+        "uuid": "c12073a3-046e-4826-8977-ff9024b749f0",
         "sector": "Others",
         "ts": null,
         "shortname": "Bertschi",
         "name_de": "Bertschi",
         "orgs": [
             {
-                "name": "Bertschi AG",
+                "name": "BertschiAG",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "7f2ae193-19e2-4403-abd0-a18f56f6a859",
-        "sector": "Others",
+        "uuid": "32ef7768-0da7-491b-97d8-e8283a242ba3",
+        "sector": "Media",
         "ts": null,
         "shortname": "CH Media",
         "name_de": "CH Media",
         "orgs": [
             {
-                "name": "CH Media",
+                "name": "azmedien",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "17ed5672-a45b-4448-9302-3c4215f1544b",
+        "uuid": "d45953fe-8f6e-4b53-b2dd-d988d85e238a",
         "sector": "Pharma",
         "ts": null,
         "shortname": "Clariant",
@@ -144,7 +131,7 @@
         ]
     },
     {
-        "uuid": "525cf832-fcef-45ed-9170-0d49d90a0b80",
+        "uuid": "6a23880a-2c47-4f9d-a13b-db7eb6cfee43",
         "sector": "Others",
         "ts": null,
         "shortname": "Competec",
@@ -157,7 +144,7 @@
         ]
     },
     {
-        "uuid": "4b5a4e81-d2f5-480c-ae84-46759f19690f",
+        "uuid": "b6d36660-4afe-4cd6-b438-93a1bd5b9338",
         "sector": "Others",
         "ts": null,
         "shortname": "Dormakaba ",
@@ -170,137 +157,124 @@
         ]
     },
     {
-        "uuid": "c811397e-fea5-4191-82e9-22a2cd2c15d7",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "E+H",
-        "name_de": "Endress+Hauser",
-        "orgs": [
-            {
-                "name": "Endress+Hauser SE+Co. KG, \nEndress+Hauser Process Solutions AG",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "57170729-5c3d-4f50-9829-a4ac4704d278",
+        "uuid": "fe73f2fc-c7d3-4a42-a815-957f28ddad66",
         "sector": "Others",
         "ts": null,
         "shortname": "Engie Services",
         "name_de": "Engie Services",
         "orgs": [
             {
-                "name": "ENGIE",
+                "name": "engie-group",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "ca9ee647-6ae5-4250-98b8-614fcf217b47",
+        "uuid": "9280d6e2-40e5-4763-8282-9162f44ee20b",
         "sector": "Gov_Companies",
         "ts": null,
         "shortname": "HUG",
         "name_de": "Hôpitaux universitaires de Genève",
         "orgs": [
             {
-                "name": "Hôpitaux Universitaires de Genève",
+                "name": "DSI-HUG",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "4c29cad4-0756-4bd4-8e3b-c77f6866b3e9",
+        "uuid": "d76ec09e-48ee-44b2-bd38-a92737dfcca0",
         "sector": "Others",
         "ts": null,
         "shortname": "Inficon",
         "name_de": "Inficon Holding",
         "orgs": [
             {
-                "name": "INFICON Spot",
+                "name": "inficon-spot",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "17d4b31b-7bfd-4c5f-9ec3-4c1ffe4a06fe",
+        "uuid": "5aae79dd-2f93-41ba-b760-07935d48f132",
         "sector": "IT",
         "ts": null,
         "shortname": "Infosys",
         "name_de": "Infosys Consulting Holding",
         "orgs": [
             {
-                "name": "Infosys Ltd",
+                "name": "Infosys",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "77c19b3f-8ba2-4ca6-8f4d-a3c0c12ea447",
+        "uuid": "2d4904cd-8593-4266-bbc5-d20fa3c42810",
         "sector": "Others",
         "ts": null,
         "shortname": "Kudelski",
         "name_de": "Kudelski",
         "orgs": [
             {
-                "name": "Kudelski Security",
+                "name": "kudelskisecurity",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "55862f84-69c8-4078-805f-525ceb06e7ce",
+        "uuid": "84e173be-ad31-41dc-a427-eab5aae4ddb3",
         "sector": "Others",
         "ts": null,
-        "shortname": "Kühne + Nagel ",
+        "shortname": "k+n",
         "name_de": "Kühne + Nagel International",
         "orgs": [
             {
-                "name": "Kuehne + Nagel (AG & Co.) KG",
+                "name": "kuehne-nagel",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "da4b4a10-3629-4455-925b-7c5e6cc27f8e",
+        "uuid": "4c93c15d-c06c-45bb-a2f8-5f864a8c9543",
         "sector": "IT",
         "ts": null,
         "shortname": "Leonteq",
         "name_de": "Leonteq",
         "orgs": [
             {
-                "name": "Leonteq Securities AG",
+                "name": "leonteq",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "0c9a9b4c-8029-4544-a7be-14651fa9ad20",
+        "uuid": "86ee671d-eca1-4ac3-95d6-034182972943",
         "sector": "IT",
         "ts": null,
         "shortname": "Logitech",
         "name_de": "Logitech International",
         "orgs": [
             {
-                "name": "Logitech, Inc.",
+                "name": "Logitech",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "ade90755-5418-42a6-be66-1985eab42c7b",
+        "uuid": "681f2751-a704-4a51-a319-60c0b56ae13a",
         "sector": "Others",
         "ts": null,
         "shortname": "Globus",
         "name_de": "Magazine zum Globus",
         "orgs": [
             {
-                "name": "Magazine zum Globus AG",
+                "name": "globusdigital",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "58ff77ad-3952-47f7-b9a5-d4bf8ddd1ca7",
+        "uuid": "31733202-fde9-400c-8d32-f950fe07a6a3",
         "sector": "Others",
         "ts": null,
         "shortname": "Mercuria",
@@ -313,150 +287,132 @@
         ]
     },
     {
-        "uuid": "4e8efa03-dd42-45aa-ba26-20c318247fc5",
+        "uuid": "9c45453d-21d4-4a6c-b73c-4a6edeb6a1b4",
         "sector": "Others",
         "ts": null,
-        "shortname": "Microspot",
-        "name_de": "Microspot",
+        "shortname": " interdiscount",
+        "name_de": "Interdiscount ",
         "orgs": [
             {
-                "name": "Microspot / Interdiscount",
+                "name": "interdiscount",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "a471d4d4-8063-4c26-9e23-89addbac3334",
+        "uuid": "64703a24-21b6-4951-a433-969bc392d1bd",
         "sector": "FoodBeverage/Others",
         "ts": null,
         "shortname": "Migros",
         "name_de": "Migros-Konzern",
         "orgs": [
             {
-                "name": "Migros",
+                "name": "migros",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "ce6996e3-cb27-4369-90d5-93cf51a2c9db",
-        "sector": "Pharma",
-        "ts": null,
-        "shortname": "Novartis",
-        "name_de": "Novartis",
-        "orgs": [
-            {
-                "name": "Novartis, NovartisAPI",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "3591b733-f5da-409e-afc6-aacd6273e2c9",
+        "uuid": "1df5487d-66bb-4149-940b-6e1c2b238fba",
         "sector": "Others",
         "ts": null,
         "shortname": "On ",
         "name_de": "On Running Shoes",
         "orgs": [
             {
-                "name": "On",
+                "name": "onrunning",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "5e371f42-e86d-4a55-bb4e-de17027dfc3f",
+        "uuid": "abd7b0e0-95b8-472a-aecb-1dd84f9251a5",
         "sector": "FoodBeverage",
         "ts": null,
         "shortname": "Pistor ",
         "name_de": "Pistor Holding",
         "orgs": [
             {
-                "name": "Pistor AG",
+                "name": "pistor",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "2c4ae3d9-b615-4fba-81f0-58ef70bd74f1",
-        "sector": "Gov_Companies",
-        "ts": null,
-        "shortname": "PostLogistics",
-        "name_de": "PostLogistics",
-        "orgs": [
-            {
-                "name": "Swiss Post YellowCube",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "c14b1c4c-bc18-4f5b-9dc0-ab2b6ef90da5",
+        "uuid": "e02f4450-c4c7-4608-bf46-976b49365680",
         "sector": "Others",
         "ts": null,
         "shortname": "Richemont",
         "name_de": "Richemont",
         "orgs": [
             {
-                "name": "Richemont International SA, Richemont",
+                "name": "richemont-international-sa",
                 "ts": null
-            }
+            },
+	    {
+                "name": "richemont-dev",
+    "ts": null
+            },
+	    {
+                "name": "RichemontInternationalSA",
+    		 "ts": null
+	    }
         ]
     },
     {
-        "uuid": "3f1f5eaa-3384-4b74-839c-e608a0636dab",
+        "uuid": "a90fd213-fee6-47a5-92d3-92881990d982",
         "sector": "Media",
         "ts": null,
         "shortname": "Ringier",
         "name_de": "Ringier",
         "orgs": [
             {
-                "name": "Ringier Data Services",
+                "name": "ringier-data",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "f67749b8-4d03-499f-b1ee-ccaf709090ec",
+        "uuid": "404aa8cb-f252-435f-8de9-50bb9c5ca9ca",
         "sector": "Others",
         "ts": null,
         "shortname": "Sensition",
         "name_de": "Sensirion Holding",
         "orgs": [
             {
-                "name": "Sensirion AG",
+                "name": "Sensirion",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "366c2629-68cf-4855-83d5-b0157c4d70a6",
+        "uuid": "0af467e2-7af4-47d9-b947-3f6e0493a6da",
         "sector": "Others",
         "ts": null,
         "shortname": "Sonova",
         "name_de": "Sonova Holding",
         "orgs": [
             {
-                "name": "Sonova Group",
+                "name": "sonova",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "7584ed2c-64ac-4973-899c-8c39e6591f3a",
-        "sector": "IT",
+        "uuid": "f5c7d4c0-dc15-4f2e-949e-32c1192ee025",
+        "sector": "Others",
         "ts": null,
-        "shortname": "Swisscom ",
-        "name_de": "Swisscom",
+        "shortname": "E+H",
+        "name_de": "Endress+Hauser",
         "orgs": [
             {
-                "name": "Swisscom, Swisscom Data, Analytics & AI, Swisscom Trust Services \nSwisscom Event & Media Solutions, \nSwisscom Blockchain AG, \nSwisscom - Big Data Team ,",
+                "name": "endresshauser-lp",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "e738715f-47ab-4e1f-ac50-2f43fa7613e2",
+        "uuid": "96d531ce-26e1-41cc-8bac-0b2ab77bb5c8",
         "sector": "IT",
         "ts": null,
         "shortname": "Symantec",
@@ -469,72 +425,81 @@
         ]
     },
     {
-        "uuid": "000d30ce-83c3-4127-aa44-2a95c7278110",
+        "uuid": "b0f5cc71-bd6a-4835-917e-a9bef759f1b7",
         "sector": "Others",
         "ts": null,
         "shortname": "TAG",
         "name_de": "TAG Heuer",
         "orgs": [
             {
-                "name": "TAG Heuer",
+                "name": "tagheuerhq",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "dd2e1e51-9281-4160-a197-216dd1f623d0",
+        "uuid": "60e672a7-2c0e-4eae-a1e8-59e080c1abc5",
         "sector": "ResearchAndEducation",
         "ts": null,
         "shortname": "Tecan",
         "name_de": "Tecan Group",
         "orgs": [
             {
-                "name": "Tecan Genomics",
+                "name": "tecangenomics",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "c1bc4822-da74-470a-a29b-324da0f04625",
+        "uuid": "8a9f9d36-11d9-4ecc-ab07-31c1131abb56",
         "sector": "IT",
         "ts": null,
         "shortname": "Temenos",
         "name_de": "Temenos Group",
         "orgs": [
             {
-                "name": "Temenos",
+                "name": "temenos",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "71385583-fa3c-4f00-a175-4f9fb231cd72",
+        "uuid": "4c0f06f4-9fbc-4268-9ccf-d210ab81210d",
         "sector": "Others",
         "ts": null,
         "shortname": "TetraPak",
         "name_de": "Tetra Pak International",
         "orgs": [
             {
-                "name": "TetraPak, Tetra Pak API Products, \nTetra Pak Decision Science",
+                "name": "TetraPak",
+                "ts": null
+            },
+	    {
+                "name": "Tetra-Pak-APIs",
+                "ts": null
+            },
+	    {
+                "name": "TetraPakDecisionScience",
                 "ts": null
             }
+
         ]
     },
     {
-        "uuid": "668eb3a8-7c7a-467f-8332-e40660285abc",
+        "uuid": "e8762ed7-b30a-42fd-bcd2-2fcd84df7d2a",
         "sector": "Gov_Companies",
         "ts": null,
         "shortname": "TPG",
         "name_de": "Transports publics genevois",
         "orgs": [
             {
-                "name": "TPGwidget",
+                "name": "tpgwidget",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "7494a563-072a-4b7a-ac3e-50beef5b2873",
+        "uuid": "c59ea4e8-7c54-4168-9007-1e85ce9277c8",
         "sector": "IT",
         "ts": null,
         "shortname": "u-blox",
@@ -547,46 +512,34 @@
         ]
     },
     {
-        "uuid": "af2a2ffd-4c8d-44d8-8535-9bb52b41554a",
+        "uuid": "5a74ad86-df5a-404e-8404-13151a1b0015",
         "sector": "ResearchAndEducation",
         "ts": null,
         "shortname": "ETHZ",
         "name_de": "ETHZ ASL",
         "orgs": [
             {
-                "name": "ETHZ ASL",
+                "name": "ethz-asl",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "53e45692-d7bc-456a-841b-661512111ddb",
+        "uuid": "e92f1f8a-ca8c-4327-8b3f-19d83515cf0d",
         "sector": "ResearchAndEducation",
         "ts": null,
         "shortname": "Kanti Glarus",
         "name_de": "Kantonsschule Glarus",
         "orgs": [
             {
-                "name": "Kantonsschule Glarus",
+                "name": "kanti-glarus",
                 "ts": null
             }
+    
         ]
     },
     {
-        "uuid": "fd0c01bd-b50d-4732-9e99-b9ea86b7e3c0",
-        "sector": "Gov_Federal",
-        "ts": null,
-        "shortname": "BIT",
-        "name_de": "Bundesamt für Informatik und Telekommunikation BIT",
-        "orgs": [
-            {
-                "name": "Swiss Admin, BIT - SI-DIP",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "32447166-ebd3-4266-ba20-632803549b58",
+        "uuid": "c78500ee-0532-48a7-9215-fd9905ab28aa",
         "sector": "Gov_Federal",
         "ts": null,
         "shortname": "KOST",
@@ -599,7 +552,7 @@
         ]
     },
     {
-        "uuid": "b3247fff-45fa-4a00-8b04-3f6b169cfe32",
+        "uuid": "fa181563-c7ea-4e5c-ac6c-0df919913bdd",
         "sector": "Gov_Federal",
         "ts": null,
         "shortname": "Swisscovid",
@@ -612,213 +565,163 @@
         ]
     },
     {
-        "uuid": "4f9535a9-b3ce-4345-834a-5cda33fa9c9e",
+        "uuid": "344bca77-9a0f-4764-814d-f7dc4eaf4e6d",
         "sector": "Gov_Federal",
         "ts": null,
-        "shortname": "Swisstopo",
-        "name_de": "Bundesamt für Landestopografie swisstopo",
-        "orgs": [
-            {
-                "name": "swisstopo",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "7bda98f4-ac9b-4a5c-976a-a95042d74904",
-        "sector": "Gov_Federal",
-        "ts": null,
-        "shortname": "Schweizer Armee",
+        "shortname": "SA",
         "name_de": "Schweizer Armee",
         "orgs": [
             {
-                "name": "Zentrum digitale Medien der Armee",
+                "name": "ZEM-Mediamatiker",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "12b66f37-224a-4a2a-b3fe-f4bff689061c",
+        "uuid": "5e2d8401-1122-4ccb-8798-10bb5e041fc0",
         "sector": "Gov_Federal",
         "ts": null,
         "shortname": "Visualize",
         "name_de": "visualize.admin.ch",
         "orgs": [
             {
-                "name": "Visualize Admin",
+                "name": "visualize-admin",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "5730cbdc-3a9a-49ea-a391-ac15188ad093",
+        "uuid": "d3d33379-1c3e-4039-9084-efd33371f26c",
         "sector": "ResearchAndEducation",
         "ts": null,
-        "shortname": "Universität Zürich",
-        "name_de": "Völkerkundemuseum der Universität Zürich",
-        "orgs": [
-            {
-                "name": "Völkerkundemuseum der Universität Zürich",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "ad4ccb3e-32a6-4761-b9b5-b72f7b49f960",
-        "sector": "ResearchAndEducation",
-        "ts": null,
-        "shortname": "Universität St. Gallen",
-        "name_de": "Universität St. Gallen",
-        "orgs": [
-            {
-                "name": "Universität St. Gallen",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "b140f10e-71ad-4a07-ac9b-8ba665eed002",
-        "sector": "ResearchAndEducation",
-        "ts": null,
-        "shortname": "Universität Basel",
+        "shortname": "Ubs",
         "name_de": "Universität Basel",
         "orgs": [
             {
-                "name": "Atmosphärenwissenschaften | Universität Basel",
+                "name": "atmosphaerenwissenschaften",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "f426f2b0-38cf-4dd2-a089-5329e3f1e591",
-        "sector": "ResearchAndEducation",
-        "ts": null,
-        "shortname": "Universität Bern",
-        "name_de": "Universität Bern",
-        "orgs": [
-            {
-                "name": "Institut für Kommunikations- und Medienwissenschaft, Universität Bern",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "ab9c34a4-21bf-4314-bcaf-155f8a8692b1",
+        "uuid": "5c23efad-29af-4282-a868-78e2dd1ea33c",
         "sector": "ResearchAndEducation",
         "ts": null,
         "shortname": "FHNW",
         "name_de": "Fachhochschule Nordwestschweiz",
         "orgs": [
             {
-                "name": "Fachhochschule Nordwestschweiz, FHNW ISE (Post-)Quantum Cryptography, Institut Geomatik, Fachhochschule Nordwestschweiz - Computer Science, \nBiomedical Informatics \nBACnet/IT by IMVS (FHNW) \nFHNW - Institute Geomatics",
+                "name": "FHNW",
+                "ts": null
+            },
+	    {
+                "name": "fhnw-ise-qcrypt",
+                "ts": null
+            },
+    	    {
+                "name": "FHNW-Geomatik",
+                "ts": null
+            },
+	    {
+                "name": "FHNW-IVGI",
+                "ts": null
+            },
+	    {
+                "name": "fhnw-cs",
+                "ts": null
+            },
+	    {
+                "name": "fhnw-biomedinf",
+                "ts": null
+            },
+	    {
+                "name": "fhnw-bacnet-it",
+                "ts": null
+            },
+	    {
+                "name": "fhgr2",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "26316daa-56b4-4079-ac8d-6c61bea49fca",
+        "uuid": "10f6fe9f-1693-4ad0-9386-97ab7b9c783b",
         "sector": "ResearchAndEducation",
         "ts": null,
         "shortname": "FHGR",
         "name_de": "University of Applied Sciences of the Grisons",
         "orgs": [
             {
-                "name": "University of Applied Sciences of the Grisons",
+                "name": "fhgr2",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "8307bf57-a5b2-47a7-b21c-72528c2f17e4",
+        "uuid": "92a8c7a5-f7ac-4082-a823-a482b5d50c7f",
         "sector": "ResearchAndEducation",
         "ts": null,
         "shortname": "EPFL",
         "name_de": "Universität EPFL",
         "orgs": [
             {
-                "name": "GameLab UNIL-EPFL",
+                "name": "GameLab-UNIL-EPFL",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "c478ad7a-5be6-402a-b059-36097c022b4e",
+        "uuid": "a1d6e6fe-623d-448e-a7fd-f3625841c421",
         "sector": "City",
         "ts": null,
         "shortname": "Luzern",
         "name_de": "Luzern",
         "orgs": [
             {
-                "name": "StadtLuzernIO, Stadt Luzern",
+                "name": "StadtLuzernIO",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "99713263-9e7a-44a0-94ec-f7086d60a6dc",
-        "sector": "City",
-        "ts": null,
-        "shortname": "Basel-Stadt",
-        "name_de": "Basel-Stadt, \nStaatsarchiv Basel-Stadt ",
-        "orgs": [
-            {
-                "name": "Fachstelle für Open Government Data Basel-Stadt",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "b5e2e982-9d2b-48e0-b4cf-252a12e6fdb1",
+        "uuid": "3d13b7b4-c21e-45a4-8b89-d82a5807a3b2",
         "sector": "City",
         "ts": null,
         "shortname": "Bern",
         "name_de": "Bern",
         "orgs": [
             {
-                "name": "Bildungs- und Kulturdirektion, Mittelschul- und Berufsbildungsamt, Fachbereich Informatikanwendungen",
+                "name": "bkd-mba-fbi",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "38b82c5e-9a3c-42f8-ac5d-6016dde2d8f3",
-        "sector": "City",
-        "ts": null,
-        "shortname": "Winterthur",
-        "name_de": "Winterthur",
-        "orgs": [
-            {
-                "name": "PRW,\nGeoinformation Winterthur",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "447c2995-8cb1-4496-b1d0-ad9047be3ff2",
+        "uuid": "a766a0ca-8c24-4853-9e89-6696c1f8c42c",
         "sector": "City",
         "ts": null,
         "shortname": "Vevey",
         "name_de": "Vevey",
         "orgs": [
             {
-                "name": "SIT Vevey",
+                "name": "sitvevey",
                 "ts": null
             }
         ]
     },
     {
-        "uuid": "1969095b-9103-46e5-8d19-66a58bbb425e",
+        "uuid": "720736e8-f2ce-400c-91ca-d6e7fb20571e",
         "sector": "City",
         "ts": null,
         "shortname": "Kriens",
         "name_de": "Kriens",
         "orgs": [
             {
-                "name": "Stadt Kriens",
+                "name": "KriensStadt",
                 "ts": null
             }
         ]
-  },
+    },
   {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c841"
@@ -2530,6 +2433,10 @@
       {
         "name": "Novartis",
         "ts": null
+      }, 
+      {
+        "name": "NovartisAPI",
+        "ts": null
       }
     ]
   },
@@ -2712,6 +2619,10 @@
         "ts": null
       },
       {
+        "name": "swisscom-bigdata",
+        "ts": null
+      }, 
+      {
         "name": "Swisscom-BigD",
         "ts": null
       }
@@ -2843,6 +2754,10 @@
       {
         "name": "admin-ch",
         "ts": null
+      },
+      {
+        "name": "estv-admin",
+        "ts": null
       }
     ]
   },
@@ -2906,6 +2821,10 @@
     "orgs": [
       {
         "name": "geoadmin",
+        "ts": null
+      },
+      {
+        "name": "swisstopo",
         "ts": null
       }
     ]
@@ -3083,6 +3002,10 @@
       {
         "name": "StadtBern",
         "ts": null
+      },
+      {
+        "name": "bkd-mba-fbi",
+        "ts": null
       }
     ]
   },
@@ -3114,6 +3037,10 @@
     "orgs": [
       {
         "name": "stadtluzern",
+        "ts": null
+      },
+      {
+        "name": "StadtLuzernIO",
         "ts": null
       }
     ]
@@ -3507,6 +3434,10 @@
       {
         "name": "Interactions-HSG",
         "ts": null
+      },
+      {
+        "name": "uni-stgallen",
+        "ts": null
       }
     ]
   },
@@ -3526,6 +3457,10 @@
       },
       {
         "name": "uzh",
+        "ts": null
+      },
+      {
+        "name": "musethno",
         "ts": null
       }
     ]
@@ -3602,6 +3537,10 @@
       },
       {
         "name": "unibe-ch",
+        "ts": null
+      },
+      {
+        "name": "ikmb-unibe",
         "ts": null
       }
     ]
