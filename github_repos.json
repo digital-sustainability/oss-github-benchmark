@@ -3527,6 +3527,18 @@
       {
         "name": "uzh",
         "ts": null
+      },
+      {
+	"name": "IVS-UZH",
+	"ts": null
+      },
+      {
+	"name": "uzh-bf",
+	"ts": null
+      },
+      {
+	"name": "uzh-rpg",
+	"ts": null
       }
     ]
   },
