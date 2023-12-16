@@ -1200,6 +1200,19 @@
     ]
   },
   {
+    "uuid": "db7d386d-c537-439f-a4fe-04d5eaae1587",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "eonum",
+    "name_de": "eonum",
+    "orgs": [
+      {
+        "name": "eonum",
+        "ts": null
+      }
+    ]
+  },
+  {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c858"
     },
