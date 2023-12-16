@@ -3007,6 +3007,19 @@
     ]
   },
   {
+    "uuid": "ccc6b677-3423-4dee-8b44-b32c9173432b",
+    "sector": "Gov_Cantons",
+    "ts": null,
+    "shortname": "tg",
+    "name_de": "Kanton Thurgau",
+    "orgs": [
+      {
+        "name": "ogdtg",
+        "ts": null
+      }
+    ]
+  },
+  {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c8c1"
     },
