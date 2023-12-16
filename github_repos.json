@@ -3071,6 +3071,19 @@
     ]
   },
   {
+    "uuid": "3b51cc1d-1800-4d58-8ba6-ffece9a356e5",
+    "sector": "Gov_Cantons",
+    "ts": null,
+    "shortname": "zg",
+    "name_de": "Kanton Zug",
+    "orgs": [
+      {
+        "name": "statzg",
+        "ts": null
+      }
+    ]
+  },
+  {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c8c4"
     },
