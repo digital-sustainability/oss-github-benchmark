@@ -3435,6 +3435,16 @@
     ]
   },
   {
+    "uuid": "31d0f767-dc98-42a7-9693-8188ea816744",
+    "sector": "ResearchAndEducation",
+    "ts": null,
+    "shortname": "SIB",
+    "name_de": "Schweizerisches Institut für Bioinformatik",
+    "orgs": [
+      { "name": "sib-swiss", "ts": null }
+    ]
+  },
+  {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c8d8"
     },
