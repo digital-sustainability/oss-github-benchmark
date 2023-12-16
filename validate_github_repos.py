@@ -25,6 +25,8 @@ for item in data:
             fileError(org)
         if not org["name"]:
             fileError(org)
+        if " " in org["name"]:
+            fileError(org)
 
 repos.close()
 print("File ok")

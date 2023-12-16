@@ -10,11 +10,11 @@ The institution blocks look like this:
   "sector": "<sector where this institution belongs to>",
   "ts": null,
   "shortname": "<the short name of the institution>",
-  "name_de": "<the german name of the instution>",
+  "name_de": "<the german name of the institution>",
   "orgs": [
-    { "name": "<name of the github orga of this instituion>", "ts": null },
+    { "name": "<name of the github orga of this institution>", "ts": null },
     {
-      "name": "<name of the other github orga(s) of this instituion>",
+      "name": "<name of the other github orga(s) of this institution>",
       "ts": null
     }
   ]
@@ -42,6 +42,8 @@ sector needs to be one of these:
 - Insurances
 - Pharma
 - PolitcalParties
+
+**Important** The name of the GitHub org needs to match the org URL and can't contain any spaces.
 
 Just edit or append a new block to the file and make a pull request.
 
