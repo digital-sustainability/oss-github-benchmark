@@ -3603,6 +3603,10 @@
       {
         "name": "unibe-ch",
         "ts": null
+      },
+      {
+	"name": "ISPMBern",
+	"ts": null
       }
     ]
   }
