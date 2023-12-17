@@ -3235,6 +3235,19 @@
     ]
   },
   {
+    "uuid": "27f963db-4399-4349-9e27-8b1054825929",
+    "sector": "NGOs",
+    "ts": null,
+    "shortname": "ilo",
+    "name_de": "International Labour Organization",
+    "orgs": [
+      {
+        "name": "international-labour-organization",
+        "ts": null
+      }
+    ]
+  },
+  {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c8ce"
     },
