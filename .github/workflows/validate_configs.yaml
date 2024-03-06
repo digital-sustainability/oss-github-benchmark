@@ -1,0 +1,15 @@
+name: Validate configuration files
+on: [push, pull_request]
+
+jobs:
+  validate-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out sources
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11.5'
+      - name: Validate configuration files
+        run: python validate_github_repos.py

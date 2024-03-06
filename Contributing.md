@@ -21,6 +21,36 @@ The institution blocks look like this:
 }
 ```
 
+**Generate V4 UUID:** https://www.uuidgenerator.net/version4
+
+**Important:** oid as seen in [github_repos.json](/github_repos.json) will be created automaticly when updating the Database, so it doesn't need to be added by you.
+
+**Important:**
+sector needs to be one of these:
+- FoodBeverage
+- Gov_Companies
+- Gov_Federal
+- IT
+- Communities
+- Gov_Cities
+- Gov_Cantons
+- Media
+- NGOs
+- ResearchAndEducation
+- Banking
+- Others
+- Insurances
+- Pharma
+- PolitcalParties
+
 Just edit or append a new block to the file and make a pull request.
 
 If everything is correct it will be added and updated on the website.
+
+### What are ts and why are they set to null
+
+ts are timestamps that are used to check when that organization/institution were crawled.
+
+"null" is the intial value so that the new organization/institution will be crawled with the next crawl run.
+
+After that it will be overwritte in the database.

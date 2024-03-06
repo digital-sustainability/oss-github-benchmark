@@ -4,6 +4,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ToNiceNamePipe implements PipeTransform {
   sectors: { original: string; nice: string }[] = [
     { original: 'ResearchAndEducation', nice: 'Research and education' },
+    { original: 'FoodBeverage', nice: 'Food and Beverage' },
+    { original: 'PolitcalParties', nice: 'Politcal Parties' },
     { original: 'NGOs', nice: 'NGOs' },
     { original: 'Media', nice: 'Media' },
     { original: 'Insurances', nice: 'Insurances' },
@@ -22,7 +24,7 @@ export class ToNiceNamePipe implements PipeTransform {
   transform(value: any): string {
     if (!value) return '';
     const name: any = this.sectors.find(
-      (sector) => sector.original === value.toString()
+      (sector) => sector.original === value.toString(),
     );
     return name ? name.nice : value;
   }
