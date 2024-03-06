@@ -3723,5 +3723,25 @@
         "ts": null
       }
     ]
+  },
+  {
+    "uuid": "c5071260-bf10-4662-97f7-823cad816c8f",
+    "sector": "ResearchAndEducation",
+    "ts": null,
+    "shortname": "UNIL",
+    "name_de": "Université de Lausanne",
+    "orgs": [
+      { "name": "unil", "ts": null },
+      { "name": "LREN-CHUV", "ts": null },
+      { "name": "bium", "ts": null },
+      { "name": "connectomicslab", "ts": null },
+      { "name": "openscienceunil", "ts": null },
+      { "name": "isplab-unil", "ts": null },
+      { "name": "petlab-unil", "ts": null },
+      { "name": "Unisante", "ts": null },
+      { "name": "carmonalab", "ts": null },
+      { "name": "LausanneCitationStyle", "ts": null },
+      { "name": "CHUV-DS", "ts": null }
+    ]
   }
 ]
