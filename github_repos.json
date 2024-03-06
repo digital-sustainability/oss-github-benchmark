@@ -733,10 +733,90 @@
         "sector": "ResearchAndEducation",
         "ts": null,
         "shortname": "EPFL",
-        "name_de": "Universität EPFL",
+        "name_de": "Eidgenössische Technische Hochschule Lausanne",
         "orgs": [
             {
-                "name": "GameLab UNIL-EPFL",
+                "name": "chili-epfl",
+                "ts": null
+            },
+            {
+                "name": "cvlab-epfl",
+                "ts": null
+            },
+            {
+                "name": "dedis",
+                "ts": null
+            },
+            {
+                "name": "DESL-EPFL",
+                "ts": null
+            },
+            {
+                "name": "dslab-epfl",
+                "ts": null
+            },
+            {
+                "name": "epfl-dojo",
+                "ts": null
+            },
+            {
+                "name": "EPFL-ENAC",
+                "ts": null
+            },
+            {
+                "name": "epfl-exts",
+                "ts": null
+            },
+            {
+                "name": "epfl-ic",
+                "ts": null
+            },
+            {
+                "name": "epfl-lasa",
+                "ts": null
+            },
+            {
+                "name": "epfl-mades",
+                "ts": null
+            },
+            {
+                "name": "epfl-ml4ed",
+                "ts": null
+            },
+            {
+                "name": "epfl-scitas",
+                "ts": null
+            },
+            {
+                "name": "epfl-SDP",
+                "ts": null
+            },
+            {
+                "name": "epfl-si",
+                "ts": null
+            },
+            {
+                "name": "epfllibrary",
+                "ts": null
+            },
+            {
+                "name": "GameLab-UNIL-EPFL",
+                "ts": null
+            },
+            {
+                "name": "lampepfl",
+                "ts": null
+            },
+            {
+                "name": "lbnc-epfl",
+                "ts": null
+            },
+            {
+                "name": "lsmo-epfl",
+                "ts": null
+            },
+            {
+                "name": "PolyLAN",
                 "ts": null
             }
         ]
