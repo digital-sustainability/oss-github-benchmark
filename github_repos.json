@@ -1536,6 +1536,19 @@
     ]
   },
   {
+    "uuid": "83269e83-1945-412a-b107-e8d0c3f1452d",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "joinbox",
+    "name_de": "Joinbox",
+    "orgs": [
+      {
+        "name": "joinbox",
+        "ts": null
+      }
+    ]
+  },
+  {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c865"
     },
