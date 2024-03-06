@@ -1587,6 +1587,19 @@
     ]
   },
   {
+    "uuid": "b46b8c98-7680-492a-b325-8c802eb8dad8",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "Natron",
+    "name_de": "Natron",
+    "orgs": [
+      {
+        "name": "natrontech",
+        "ts": null
+      }
+    ]
+  },
+  {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c869"
     },
