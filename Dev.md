@@ -6,7 +6,7 @@
 
 ### Env Variables
 
-These are the env variables that need to be set-up:
+These are the env variables that need to be set-up (.env.sample file as template):
 - MONGO_READ: The connection string. Can be found in Keepass
 - MONGO_DATABASE: Which database to use. production or testingNew
 - GITHUB_TOKEN: The Github token. Can be found in Keepass
