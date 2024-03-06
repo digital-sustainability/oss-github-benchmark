@@ -690,6 +690,27 @@
         ]
     },
     {
+        "uuid": "fa84a645-1006-49fb-9606-dfb9e7e8f60b",
+        "sector": "ResearchAndEducation",
+        "ts": null,
+        "shortname": "USB",
+        "name_de": "Universitätsspital Basel",
+        "orgs": [
+            {
+                "name": "usb-radiology",
+                "ts": null
+            },
+	    {
+		"name": "neuropathbasel",
+		"ts": null
+	    },
+	    {
+		"name": "dkfbasel",
+		"ts": null
+	    }
+        ]
+    },
+    {
         "uuid": "f426f2b0-38cf-4dd2-a089-5329e3f1e591",
         "sector": "ResearchAndEducation",
         "ts": null,
