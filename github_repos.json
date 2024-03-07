@@ -690,6 +690,27 @@
         ]
     },
     {
+        "uuid": "fa84a645-1006-49fb-9606-dfb9e7e8f60b",
+        "sector": "ResearchAndEducation",
+        "ts": null,
+        "shortname": "USB",
+        "name_de": "Universitätsspital Basel",
+        "orgs": [
+            {
+                "name": "usb-radiology",
+                "ts": null
+            },
+	    {
+		"name": "neuropathbasel",
+		"ts": null
+	    },
+	    {
+		"name": "dkfbasel",
+		"ts": null
+	    }
+        ]
+    },
+    {
         "uuid": "f426f2b0-38cf-4dd2-a089-5329e3f1e591",
         "sector": "ResearchAndEducation",
         "ts": null,
@@ -733,10 +754,90 @@
         "sector": "ResearchAndEducation",
         "ts": null,
         "shortname": "EPFL",
-        "name_de": "Universität EPFL",
+        "name_de": "Eidgenössische Technische Hochschule Lausanne",
         "orgs": [
             {
-                "name": "GameLab UNIL-EPFL",
+                "name": "chili-epfl",
+                "ts": null
+            },
+            {
+                "name": "cvlab-epfl",
+                "ts": null
+            },
+            {
+                "name": "dedis",
+                "ts": null
+            },
+            {
+                "name": "DESL-EPFL",
+                "ts": null
+            },
+            {
+                "name": "dslab-epfl",
+                "ts": null
+            },
+            {
+                "name": "epfl-dojo",
+                "ts": null
+            },
+            {
+                "name": "EPFL-ENAC",
+                "ts": null
+            },
+            {
+                "name": "epfl-exts",
+                "ts": null
+            },
+            {
+                "name": "epfl-ic",
+                "ts": null
+            },
+            {
+                "name": "epfl-lasa",
+                "ts": null
+            },
+            {
+                "name": "epfl-mades",
+                "ts": null
+            },
+            {
+                "name": "epfl-ml4ed",
+                "ts": null
+            },
+            {
+                "name": "epfl-scitas",
+                "ts": null
+            },
+            {
+                "name": "epfl-SDP",
+                "ts": null
+            },
+            {
+                "name": "epfl-si",
+                "ts": null
+            },
+            {
+                "name": "epfllibrary",
+                "ts": null
+            },
+            {
+                "name": "GameLab-UNIL-EPFL",
+                "ts": null
+            },
+            {
+                "name": "lampepfl",
+                "ts": null
+            },
+            {
+                "name": "lbnc-epfl",
+                "ts": null
+            },
+            {
+                "name": "lsmo-epfl",
+                "ts": null
+            },
+            {
+                "name": "PolyLAN",
                 "ts": null
             }
         ]
@@ -1200,6 +1301,19 @@
     ]
   },
   {
+    "uuid": "db7d386d-c537-439f-a4fe-04d5eaae1587",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "eonum",
+    "name_de": "eonum",
+    "orgs": [
+      {
+        "name": "eonum",
+        "ts": null
+      }
+    ]
+  },
+  {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c858"
     },
@@ -1422,6 +1536,19 @@
     ]
   },
   {
+    "uuid": "83269e83-1945-412a-b107-e8d0c3f1452d",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "joinbox",
+    "name_de": "Joinbox",
+    "orgs": [
+      {
+        "name": "joinbox",
+        "ts": null
+      }
+    ]
+  },
+  {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c865"
     },
@@ -1489,6 +1616,19 @@
     "orgs": [
       {
         "name": "mimacom",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "b46b8c98-7680-492a-b325-8c802eb8dad8",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "Natron",
+    "name_de": "Natron",
+    "orgs": [
+      {
+        "name": "natrontech",
         "ts": null
       }
     ]
@@ -3007,6 +3147,19 @@
     ]
   },
   {
+    "uuid": "ccc6b677-3423-4dee-8b44-b32c9173432b",
+    "sector": "Gov_Cantons",
+    "ts": null,
+    "shortname": "tg",
+    "name_de": "Kanton Thurgau",
+    "orgs": [
+      {
+        "name": "ogdtg",
+        "ts": null
+      }
+    ]
+  },
+  {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c8c1"
     },
@@ -3066,6 +3219,19 @@
       },
       {
         "name": "FNSKtZH",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "3b51cc1d-1800-4d58-8ba6-ffece9a356e5",
+    "sector": "Gov_Cantons",
+    "ts": null,
+    "shortname": "zg",
+    "name_de": "Kanton Zug",
+    "orgs": [
+      {
+        "name": "statzg",
         "ts": null
       }
     ]
@@ -3230,6 +3396,19 @@
     "orgs": [
       {
         "name": "ebu",
+        "ts": null
+      }
+    ]
+  },
+  {
+    "uuid": "27f963db-4399-4349-9e27-8b1054825929",
+    "sector": "NGOs",
+    "ts": null,
+    "shortname": "ilo",
+    "name_de": "International Labour Organization",
+    "orgs": [
+      {
+        "name": "international-labour-organization",
         "ts": null
       }
     ]
@@ -3435,6 +3614,16 @@
     ]
   },
   {
+    "uuid": "31d0f767-dc98-42a7-9693-8188ea816744",
+    "sector": "ResearchAndEducation",
+    "ts": null,
+    "shortname": "SIB",
+    "name_de": "Schweizerisches Institut für Bioinformatik",
+    "orgs": [
+      { "name": "sib-swiss", "ts": null }
+    ]
+  },
+  {
     "_id": {
       "$oid": "64556a7f27723ef6d6a4c8d8"
     },
@@ -3493,7 +3682,7 @@
     "uuid": "398af282-c7e8-4f03-839a-2442deeb42ac",
     "sector": "ResearchAndEducation",
     "ts": null,
-    "shortname": "unine",
+    "shortname": "unisg",
     "name_de": "Universität St.Gallen",
     "orgs": [
       {
@@ -3527,6 +3716,18 @@
       {
         "name": "uzh",
         "ts": null
+      },
+      {
+	"name": "IVS-UZH",
+	"ts": null
+      },
+      {
+	"name": "uzh-bf",
+	"ts": null
+      },
+      {
+	"name": "uzh-rpg",
+	"ts": null
       }
     ]
   },
@@ -3603,7 +3804,31 @@
       {
         "name": "unibe-ch",
         "ts": null
+      },
+      {
+	"name": "ISPMBern",
+	"ts": null
       }
+    ]
+  },
+  {
+    "uuid": "c5071260-bf10-4662-97f7-823cad816c8f",
+    "sector": "ResearchAndEducation",
+    "ts": null,
+    "shortname": "UNIL",
+    "name_de": "Université de Lausanne",
+    "orgs": [
+      { "name": "unil", "ts": null },
+      { "name": "LREN-CHUV", "ts": null },
+      { "name": "bium", "ts": null },
+      { "name": "connectomicslab", "ts": null },
+      { "name": "openscienceunil", "ts": null },
+      { "name": "isplab-unil", "ts": null },
+      { "name": "petlab-unil", "ts": null },
+      { "name": "Unisante", "ts": null },
+      { "name": "carmonalab", "ts": null },
+      { "name": "LausanneCitationStyle", "ts": null },
+      { "name": "CHUV-DS", "ts": null }
     ]
   }
 ]
