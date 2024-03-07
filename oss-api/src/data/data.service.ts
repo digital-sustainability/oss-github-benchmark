@@ -95,7 +95,7 @@ export class DataService {
 
   private async handleRepositories(repositoryFileNames: string[]) {
     log('Handling all repositories');
-    let repositories: RepoData[] = [];
+    const repositories: RepoData[] = [];
     for (const repofileName of repositoryFileNames) {
       log(repofileName);
       const repoData: string = this.readFile(
@@ -227,6 +227,7 @@ export class DataService {
       company: contributorData.company,
       email: contributorData.email,
       twitter_username: contributorData.twitter_username,
+      contributions_sum: contributorData.contributions_sum,
       location: contributorData.location,
       created_at: new Date(contributorData.created_at),
       updated_at: new Date(contributorData.updated_at),

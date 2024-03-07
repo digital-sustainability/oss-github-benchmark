@@ -74,6 +74,7 @@ export class TransformerService {
       company: user.company,
       email: user.email,
       twitter_username: user.twitter_username,
+      contributions_sum: user.contributions_sum,
       location: user.location,
       created_at: user.created_at,
       updated_at: user.updated_at,
