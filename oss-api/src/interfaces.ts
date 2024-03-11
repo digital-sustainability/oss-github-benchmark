@@ -30,6 +30,7 @@ export interface GithubUser {
   hireable: boolean;
   bio: string;
   twitter_username: string;
+  contributions_sum: number;
   public_repos: number;
   public_gists: number;
   followers: number;
@@ -1632,6 +1633,7 @@ export interface GithubOrganisation {
   is_verified: true;
   has_organization_projects: true;
   has_repository_projects: true;
+  contributions_sum: number;
   public_repos: number;
   public_gists: number;
   followers: number;
@@ -1900,6 +1902,7 @@ export interface Contributor {
   location: string;
   created_at: Date;
   updated_at: Date;
+  contributions_sum: number;
   public_repos: number;
   public_gists: number;
   followers: number;
@@ -1950,6 +1953,7 @@ export interface User {
   company: string;
   email: string | null;
   twitter_username: string | null;
+  contributions_sum: number | null;
   location: string;
   created_at: Date;
   updated_at: Date;
@@ -2264,6 +2268,7 @@ export type UserSummary = {
   company: string;
   email: string;
   twitter_username: string;
+  contributions_sum: number;
   location: string;
   created_at: string;
   updated_at: string;

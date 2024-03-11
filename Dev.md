@@ -6,7 +6,7 @@
 
 ### Env Variables
 
-These are the env variables that need to be set-up:
+These are the env variables that need to be set-up (.env.sample file as template):
 - MONGO_READ: The connection string. Can be found in Keepass
 - MONGO_DATABASE: Which database to use. production or testingNew
 - GITHUB_TOKEN: The Github token. Can be found in Keepass
@@ -46,3 +46,7 @@ This can be done in 4 easy steps:
 4. Press **Add Data -> Import file** and choose github_repos.json. Keep in mind that *Stop on errors* needs to be unchecked. Then just click *Import*.
 
 ![Add new Data to DB](/assets/images/AddData.png)
+
+## Mirroring from GitLab to GitHub
+
+The Project repository is mirrored from Gitlab to Github (unidirectional). Token has to be updated after expiring. 

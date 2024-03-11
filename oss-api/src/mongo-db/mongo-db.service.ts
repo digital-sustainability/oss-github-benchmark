@@ -477,6 +477,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
             company: 1,
             location: 1,
             twitter_username: 1,
+            contrubutions_sum: 1,
             public_repos: 1,
             public_gists: 1,
             followers: 1,

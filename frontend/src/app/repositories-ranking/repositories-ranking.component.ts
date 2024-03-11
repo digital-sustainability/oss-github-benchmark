@@ -21,7 +21,7 @@ export class RepositoriesRankingComponent implements OnInit {
     ['logo', '', false, 'img'],
     ['institution', 'Institution', false, 'string'],
     ['organization', 'GitHub Organization', false, 'string'],
-    // ['last_years_commits', 'Commits last year', false, 'number'],
+    ['last_years_commits', 'Commits last year', false, 'number'],
     ['comments', 'Comments', false, 'number'],
     ['issues_all', 'Issues', false, 'number'],
     ['pull_requests_all', 'Pull requests', false, 'number'],

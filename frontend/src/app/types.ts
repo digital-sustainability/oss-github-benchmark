@@ -125,6 +125,7 @@ export type User = {
   location: string;
   created_at: string;
   updated_at: string;
+  contributions_sum: number;
   public_repos: number;
   public_gists: number;
   followers: number;
