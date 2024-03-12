@@ -34,34 +34,34 @@ export class DataService {
   @Cron(CronExpression.EVERY_MINUTE)
   async handler(): Promise<void> {
     this.logger.log('Handling all the new data');
-    // const currentTime = new Date();
-    // if (!this.dataPath) return;
-    // const fileNames: string[] = fs.readdirSync(this.dataPath);
-    // const filteredFileNames = fileNames.filter((fileName) => {
-    //   const timestamp = fileName
-    //     .split('_')[1]
-    //     .replace('.json', '') as unknown as number;
-    //   return timestamp < currentTime.getTime();
-    // });
-    // const contributorFileNames: string[] = filteredFileNames.filter(
-    //   (fileName) => fileName.includes('user'),
-    // );
-    // const repositoryFileNames: string[] = filteredFileNames.filter((fileName) =>
-    //   fileName.includes('repository'),
-    // );
-    // const organisationFileNames: string[] = filteredFileNames.filter(
-    //   (fileName) => fileName.includes('organisation'),
-    // );
-    // for (const contributorFileName of contributorFileNames) {
-    //   await this.handleContributor(contributorFileName);
-    // }
-    // await this.handleRepositories(repositoryFileNames);
-    // await this.handleOrganisations(organisationFileNames);
-    // await this.handleInstitutions();
-    // for (const fileName of filteredFileNames) {
-    //   fs.unlinkSync(this.dataPath.concat('/', fileName));
-    // }
-    // this.logger.log('Data service is finished');
+    const currentTime = new Date();
+    if (!this.dataPath) return;
+    const fileNames: string[] = fs.readdirSync(this.dataPath);
+    const filteredFileNames = fileNames.filter((fileName) => {
+      const timestamp = fileName
+        .split('_')[1]
+        .replace('.json', '') as unknown as number;
+      return timestamp < currentTime.getTime();
+    });
+    const contributorFileNames: string[] = filteredFileNames.filter(
+      (fileName) => fileName.includes('user'),
+    );
+    const repositoryFileNames: string[] = filteredFileNames.filter((fileName) =>
+      fileName.includes('repository'),
+    );
+    const organisationFileNames: string[] = filteredFileNames.filter(
+      (fileName) => fileName.includes('organisation'),
+    );
+    for (const contributorFileName of contributorFileNames) {
+      await this.handleContributor(contributorFileName);
+    }
+    await this.handleRepositories(repositoryFileNames);
+    await this.handleOrganisations(organisationFileNames);
+    await this.handleInstitutions();
+    for (const fileName of filteredFileNames) {
+      fs.unlinkSync(this.dataPath.concat('/', fileName));
+    }
+    this.logger.log('Data service is finished');
   }
 
   private async handleInstitutions() {
