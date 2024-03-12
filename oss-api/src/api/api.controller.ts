@@ -28,14 +28,10 @@ import {
 import { UserQueryDto } from './dto/user-query.dto';
 import { RepositoryQueryDto } from './dto/repository-query.dto';
 import { RepositoryQueryPipe } from 'src/repository-query.pipe';
-import { DataService } from '../data/data.service';
 
 @Controller('api')
 export class ApiController {
-  constructor(
-    private mongoDbService: MongoDbService,
-    private dataService: DataService,
-  ) {}
+  constructor(private mongoDbService: MongoDbService) {}
   private sectors = [
     'IT',
     'Communities',
@@ -77,7 +73,7 @@ export class ApiController {
     @Query() queryDto: RepositoryQueryDto,
   ): Promise<RepositoryApiResponse> {
     const queryConfig = queryDto;
-    return await this.handleRepositories(queryConfig);
+    return await this.handleRepositories(queryConfig, false);
   }
 
   @Get('paginatedUsers')
@@ -85,6 +81,15 @@ export class ApiController {
   async findUsers(@Query() queryDto: UserQueryDto): Promise<UserApiResponse> {
     const queryConfig = queryDto;
     return await this.handleUsers(queryConfig);
+  }
+
+  @Get('institutionRepositories')
+  @UsePipes(new RepositoryQueryPipe(), new ValidationPipe({ transform: true }))
+  async findRepositoriesDetailView(
+    @Query() queryDto: RepositoryQueryDto,
+  ): Promise<RepositoryApiResponse> {
+    const queryConfig = queryDto;
+    return await this.handleRepositories(queryConfig, true);
   }
 
   @Get('latestUpdate')
@@ -143,6 +148,7 @@ export class ApiController {
    */
   private async handleRepositories(
     queryConfig: RepositoryQueryConfig,
+    detailedView: boolean,
   ): Promise<RepositoryApiResponse> {
     const includeForks = queryConfig.includeForks ? [false, true] : [false];
     let condition: Object[] = [
@@ -150,9 +156,13 @@ export class ApiController {
         fork: { $in: includeForks },
       },
     ];
-    if (queryConfig.search.length > 0) {
+    if (queryConfig.search.length > 0 && !detailedView) {
       condition.push({
         $text: { $search: queryConfig.search },
+      });
+    } else if (detailedView) {
+      condition.push({
+        institution: queryConfig.search,
       });
     }
     let repositories = await this.mongoDbService.findRepositoryWithConditions(

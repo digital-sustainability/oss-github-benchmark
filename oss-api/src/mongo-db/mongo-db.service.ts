@@ -399,6 +399,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
             created_at: 1,
             updated_at: 1,
             logo: 1,
+            archived: 1,
           },
         },
         {
