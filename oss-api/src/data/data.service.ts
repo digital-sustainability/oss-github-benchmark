@@ -31,7 +31,7 @@ export class DataService {
   private readonly logger = new Logger(DataService.name);
   private dataPath: string;
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_HOUR)
   async handler(): Promise<void> {
     this.logger.log('Handling all the new data');
     const currentTime = new Date();
