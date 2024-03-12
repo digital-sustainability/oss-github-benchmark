@@ -41,7 +41,7 @@ export class GithubCrawlerService {
    */
   @Cron(CronExpression.EVERY_HOUR)
   private async prepareInstitutions() {
-    this.logger.log(`Prepairing all institutions to be crawled`);
+    // this.logger.log(`Prepairing all institutions to be crawled`);
     this.reachedGithubCallLimit = false;
     const todoInstituitions = await this.mongo.findAllTodoInstitutions();
     todoInstituitions.sort((a, b) => {
@@ -74,7 +74,7 @@ export class GithubCrawlerService {
    * @param institution The insitution data
    */
   private async handleInstitution(institution: TodoInstitution): Promise<void> {
-    this.logger.log(`Handling institution ${institution.name_de}`);
+    // this.logger.log(`Handling institution ${institution.name_de}`);
     institution.orgs.sort((a, b) => {
       if (!a.ts && !b.ts) return 0;
       if (!a.ts) return -1;
@@ -107,7 +107,7 @@ export class GithubCrawlerService {
     orgName: string,
     institutionName: string,
   ): Promise<void> {
-    this.logger.log(`Handling organisation ${orgName}`);
+    // this.logger.log(`Handling organisation ${orgName}`);
     await this.getGitHubOrganisation(institutionName, orgName);
     await this.getGithubOrganisationMembers(orgName, institutionName);
     const repositories = await this.getGitHubOrganisationRepositories(
@@ -134,7 +134,7 @@ export class GithubCrawlerService {
     institutionName: string,
     orgName: string,
   ): Promise<void> {
-    this.logger.log(`Handling repository ${repo.name}`);
+    // this.logger.log(`Handling repository ${repo.name}`);
     const dbRepository = await this.mongo.findRepository(
       repo.name,
       institutionName,
@@ -240,7 +240,7 @@ export class GithubCrawlerService {
     orgName: string,
     institutioName: string,
   ): Promise<void> {
-    this.logger.log(`Handling Contributor ${contributor.login}`);
+    // this.logger.log(`Handling Contributor ${contributor.login}`);
     await this.getGitHubUser(
       contributor.login,
       institutioName,
@@ -270,7 +270,7 @@ export class GithubCrawlerService {
     userName?: string,
     response?: OctokitResponse<any>,
   ): Promise<void> {
-    this.logger.log(`Writing a github file of the type ${type}`);
+    // this.logger.log(`Writing a github file of the type ${type}`);
     if (!fs.existsSync(this.dataPath)) await fs.mkdirSync(this.dataPath);
     const rawResponse: RawResponse = {
       method: method,
@@ -300,7 +300,7 @@ export class GithubCrawlerService {
     orgName: string,
     repoName: string,
   ): Promise<void> {
-    this.logger.log(`Getting userdata from github from user ${userName}`);
+    // this.logger.log(`Getting userdata from github from user ${userName}`);
     await this.githubService
       .get_User(userName)
       .then((gitUserResponse) => {
@@ -352,7 +352,7 @@ export class GithubCrawlerService {
     institutionName: string,
     orgName: string,
   ): Promise<null | GithubRepo> {
-    this.logger.log(`Getting all the data from the repository ${repoName}`);
+    // this.logger.log(`Getting all the data from the repository ${repoName}`);
     return this.githubService
       .get_Repository(owner, repoName)
       .then((gitRepoResponse) => {
@@ -407,9 +407,9 @@ export class GithubCrawlerService {
     institutionName: string,
     orgName: string,
   ): Promise<null | GithubContributor[]> {
-    this.logger.log(
-      `Getting all the contributors from the repository ${repoName}`,
-    );
+    // this.logger.log(
+    //   `Getting all the contributors from the repository ${repoName}`,
+    // );
     let response: GithubContributor[] = [];
     let page = 0;
     while (1) {
@@ -474,7 +474,7 @@ export class GithubCrawlerService {
     institutionName: string,
     orgName: string,
   ): Promise<void> {
-    this.logger.log(`Getting all the commits from the repository ${repoName}`);
+    // this.logger.log(`Getting all the commits from the repository ${repoName}`);
     let page = 0;
     while (1) {
       const res: void | GithubCommit[] = await this.githubService
@@ -536,9 +536,9 @@ export class GithubCrawlerService {
     orgName: string,
     state: 'all' | 'open' | 'closed',
   ): Promise<void> {
-    this.logger.log(
-      `Getting all the pull requests with the state ${state} from the repository ${repoName}`,
-    );
+    // this.logger.log(
+    //   `Getting all the pull requests with the state ${state} from the repository ${repoName}`,
+    // );
     let page = 0;
     while (1) {
       const res: null | GitHubPull[] = await this.githubService
@@ -600,9 +600,9 @@ export class GithubCrawlerService {
     orgName: string,
     state: 'all' | 'open' | 'closed',
   ): Promise<void> {
-    this.logger.log(
-      `Getting all the issues with the state ${state} from the repository ${repoName}`,
-    );
+    // this.logger.log(
+    //   `Getting all the issues with the state ${state} from the repository ${repoName}`,
+    // );
     let page = 0;
     while (1) {
       const res: null | GitHubIssue[] = await this.githubService
@@ -663,9 +663,9 @@ export class GithubCrawlerService {
     institutionName: string,
     orgName: string,
   ): Promise<void> {
-    this.logger.log(
-      `Getting all the commit comments from the repository ${repoName}`,
-    );
+    // this.logger.log(
+    //   `Getting all the commit comments from the repository ${repoName}`,
+    // );
     let page = 0;
     while (1) {
       const res: null | GitHubCommitComment[] = await this.githubService
@@ -725,9 +725,9 @@ export class GithubCrawlerService {
     institutionName: string,
     orgName: string,
   ): Promise<void> {
-    this.logger.log(
-      `Getting all the programming languages from the repository ${repoName}`,
-    );
+    // this.logger.log(
+    //   `Getting all the programming languages from the repository ${repoName}`,
+    // );
     await this.githubService
       .get_RepoLanguages(owner, repoName)
       .then((getRepoLanguagesResult) => {
@@ -786,9 +786,9 @@ export class GithubCrawlerService {
     parentDefaultBranch: string,
     defaultBranch: string,
   ): Promise<void> {
-    this.logger.log(
-      `Comparing two commits between :${defaultBranch} and ${parentOwner}:${parentDefaultBranch}.`,
-    );
+    // this.logger.log(
+    //   `Comparing two commits between :${defaultBranch} and ${parentOwner}:${parentDefaultBranch}.`,
+    // );
     await this.githubService
       .compare_Commits(
         owner,
@@ -844,7 +844,7 @@ export class GithubCrawlerService {
     institutionName: string,
     orgName: string,
   ): Promise<void> {
-    this.logger.log(`Getting all the data of the organisation ${orgName}`);
+    // this.logger.log(`Getting all the data of the organisation ${orgName}`);
     return this.githubService
       .get_Organisation(orgName)
       .then((getOrganisationResult) => {
@@ -894,7 +894,7 @@ export class GithubCrawlerService {
     orgName: string,
     institutionName: string,
   ): Promise<void> {
-    this.logger.log(`Getting all the members of the organisation ${orgName}`);
+    // this.logger.log(`Getting all the members of the organisation ${orgName}`);
     const response: GithubOrganisationMember[] = [];
     let page = 0;
     while (1) {
@@ -952,9 +952,9 @@ export class GithubCrawlerService {
     orgName: string,
     institutionName: string,
   ): Promise<null | GithubOrganisationRepository[]> {
-    this.logger.log(
-      `Getting all the repositories of the organisation ${orgName}`,
-    );
+    // this.logger.log(
+    //   `Getting all the repositories of the organisation ${orgName}`,
+    // );
     let response: GithubOrganisationRepository[] = [];
     let page = 0;
     while (1) {
@@ -1006,7 +1006,7 @@ export class GithubCrawlerService {
   }
 
   private async updateTelemetry() {
-    console.log('Updating Telemetry data');
+    // this.logger.log('Updating Telemetry data');
     let condition: Object[] = [
       {
         fork: { $in: [true, false] },

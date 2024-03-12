@@ -2,6 +2,8 @@
 /client
 /dist
 /node_modules
+/data
+/logs
 
 # Logs
 logs

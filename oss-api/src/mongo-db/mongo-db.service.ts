@@ -88,9 +88,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     repoName: string,
     instiutitonName: string,
   ): Promise<Repository> {
-    this.logger.log(
-      `Searching the repository with the name ${repoName} from the institution ${instiutitonName}`,
-    );
+    // this.logger.log(
+    //   `Searching the repository with the name ${repoName} from the institution ${instiutitonName}`,
+    // );
     return this.client
       .db(this.database)
       .collection<Repository>(Tables.repositories)
@@ -102,7 +102,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
    * @returns A TodoInstitution array
    */
   async findAllTodoInstitutions(): Promise<TodoInstitution[]> {
-    this.logger.log(`Getting all the todo institutions from the database`);
+    // this.logger.log(`Getting all the todo institutions from the database`);
     const session = await this.client.startSession();
     return this.client
       .db(this.database)
@@ -134,9 +134,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     includeForks: boolean,
     conditions: Object[],
   ): Promise<InstitutionSummary[]> {
-    this.logger.log(
-      `Searching for institutions with these conditions: ${conditions.toString()}`,
-    );
+    // this.logger.log(
+    //   `Searching for institutions with these conditions: ${conditions.toString()}`,
+    // );
     return this.client
       .db(this.database)
       .collection<InstitutionSummary>(Tables.instituions)
@@ -268,9 +268,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   async countInstitutionsWithConditions(
     conditions: Object[],
   ): Promise<GroupCount[]> {
-    this.logger.log(
-      `Counting institutions corresponding with these conditions: ${conditions.toString()}`,
-    );
+    // this.logger.log(
+    //   `Counting institutions corresponding with these conditions: ${conditions.toString()}`,
+    // );
     return this.client
       .db(this.database)
       .collection<Institution>(Tables.instituions)
@@ -306,9 +306,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     page: number,
     conditions: Object[],
   ): Promise<RepositorySummary[]> {
-    this.logger.log(
-      `Getting all the repositories with the conditions: ${conditions.toString()}`,
-    );
+    // this.logger.log(
+    //   `Getting all the repositories with the conditions: ${conditions.toString()}`,
+    // );
     return this.client
       .db(this.database)
       .collection<RepositorySummary>(Tables.repositories)
@@ -423,9 +423,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   async countAllRepositoriesWithConditions(
     condition: Object[],
   ): Promise<ObjectCount[]> {
-    this.logger.log(
-      `Counting repositories corresponding with these conditions: ${condition.toString()}`,
-    );
+    // this.logger.log(
+    //   `Counting repositories corresponding with these conditions: ${condition.toString()}`,
+    // );
     return this.client
       .db(this.database)
       .collection<Repository>(Tables.repositories)
@@ -458,9 +458,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     page: number,
     condition: Object,
   ): Promise<UserSummary[]> {
-    this.logger.log(
-      `Searching for users in the database with the conditions: ${condition.toString()}`,
-    );
+    // this.logger.log(
+    //   `Searching for users in the database with the conditions: ${condition.toString()}`,
+    // );
     return this.client
       .db(this.database)
       .collection<User>(Tables.contributors)
@@ -504,9 +504,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
    * @returns The number of users matching
    */
   async countAllUsersWithConditions(conditions: Object): Promise<number> {
-    this.logger.log(
-      `Counting users corresponding with this conditions: ${conditions}`,
-    );
+    // this.logger.log(
+    //   `Counting users corresponding with this conditions: ${conditions}`,
+    // );
     return (
       await this.client
         .db(this.database)
@@ -528,7 +528,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
    * @returns The latest crawl date as array
    */
   async latestUpdate() {
-    this.logger.log('Getting the latest crawl run date');
+    // this.logger.log('Getting the latest crawl run date');
     return this.client
       .db(this.database)
       .collection(Tables.instituions)
@@ -554,7 +554,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
    * @returns A array with all the users
    */
   async getAllUsers(): Promise<User[]> {
-    this.logger.log('Getting all the users');
+    // this.logger.log('Getting all the users');
     return this.client
       .db(this.database)
       .collection<User>(Tables.contributors)
@@ -567,7 +567,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
    * @returns A array with all the repositories
    */
   async getAllRepositories(): Promise<Repository[]> {
-    this.logger.log('Getting all the repositories');
+    // this.logger.log('Getting all the repositories');
     return this.client
       .db(this.database)
       .collection<Repository>(Tables.repositories)
@@ -581,7 +581,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
    * @returns The found repository
    */
   async getRevisedRepositoryWithUuid(uuid: string): Promise<RepositoryRevised> {
-    this.logger.log(`Getting the data of the revised repository ${uuid}`);
+    // this.logger.log(`Getting the data of the revised repository ${uuid}`);
     return this.client
       .db(this.database)
       .collection<RepositoryRevised>(Tables.repositories)
@@ -596,7 +596,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   async findRepositoryContributors(
     contributorLogins: string[],
   ): Promise<Contributor[]> {
-    this.logger.log('Getting all the contributors of the repository');
+    // this.logger.log('Getting all the contributors of the repository');
     return this.client
       .db(this.database)
       .collection<Contributor>(Tables.contributors)
@@ -609,7 +609,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
    * @returns An array with all the organisations
    */
   async getAllOrganisations(): Promise<Organisation[]> {
-    this.logger.log('Getting all the organisations from the database');
+    // this.logger.log('Getting all the organisations from the database');
     return this.client
       .db(this.database)
       .collection<Organisation>(Tables.organisations)
@@ -625,7 +625,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   async findOrganisationRepositories(
     repositoryUuid: string[],
   ): Promise<RepositoryRevised[]> {
-    this.logger.log('Getting the all the repositories of the organisation');
+    // this.logger.log('Getting the all the repositories of the organisation');
     return this.client
       .db(this.database)
       .collection<RepositoryRevised>(Tables.repositories)
@@ -638,7 +638,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
    * @returns An array with all institutions
    */
   async getAllInstitutions(): Promise<Institution[]> {
-    this.logger.log('Getting all the institutions');
+    // this.logger.log('Getting all the institutions');
     return this.client
       .db(this.database)
       .collection<Institution>(Tables.instituions)
@@ -653,7 +653,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   async findInstitutionOrganisations(
     organisationNames: string[],
   ): Promise<OrganisationRevised[]> {
-    this.logger.log('Getting all the organisations of the institution');
+    // this.logger.log('Getting all the organisations of the institution');
     return this.client
       .db(this.database)
       .collection<OrganisationRevised>(Tables.organisations)
@@ -668,9 +668,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   async searchContributors(
     contributorLogins: string[],
   ): Promise<Contributor[]> {
-    this.logger.log(
-      `Getting all the contributor with the logins: ${contributorLogins.toString()}`,
-    );
+    // this.logger.log(
+    // `Getting all the contributor with the logins: ${contributorLogins.toString()}`,
+    // );
     return this.client
       .db(this.database)
       .collection<Contributor>(Tables.contributors)
@@ -688,9 +688,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     repoName: string,
     instiutitonName: string,
   ): Promise<RepositoryRevised> {
-    this.logger.log(
-      `Searching the repository with the name ${repoName} from the institution ${instiutitonName}`,
-    );
+    // this.logger.log(
+    //   `Searching the repository with the name ${repoName} from the institution ${instiutitonName}`,
+    // );
     return this.client
       .db(this.database)
       .collection<RepositoryRevised>(Tables.repositories)
@@ -705,9 +705,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   async findAllOrganisationRepository(
     organisationName: string,
   ): Promise<RepositoryRevised[]> {
-    this.logger.log(
-      `Find all repositories in the organisation ${organisationName}`,
-    );
+    // this.logger.log(
+    //   `Find all repositories in the organisation ${organisationName}`,
+    // );
     return this.client
       .db(this.database)
       .collection<RepositoryRevised>(Tables.repositories)
@@ -723,9 +723,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   public async findOrganisationsWithNames(
     organisationNames: string[],
   ): Promise<OrganisationRevised[]> {
-    this.logger.log(
-      `Getting all organisations with the names: ${organisationNames}`,
-    );
+    // this.logger.log(
+    //   `Getting all organisations with the names: ${organisationNames}`,
+    // );
     return this.client
       .db(this.database)
       .collection<OrganisationRevised>(Tables.organisations)
@@ -741,9 +741,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   public async findInsitutionWithShortName(
     institutionShortName: string,
   ): Promise<SingleInsitutionResponse[]> {
-    this.logger.log(
-      `Searching for an institution with the shortname: ${institutionShortName}`,
-    );
+    // this.logger.log(
+    //   `Searching for an institution with the shortname: ${institutionShortName}`,
+    // );
     return this.client
       .db(this.database)
       .collection<SingleInsitutionResponse>(Tables.instituions)
@@ -865,7 +865,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
    * @param contributor The contributor object
    */
   async upsertContributor(contributor: Contributor): Promise<void> {
-    this.logger.log(`Upserting contributor ${contributor.login}`);
+    // this.logger.log(`Upserting contributor ${contributor.login}`);
     this.client
       .db(this.database)
       .collection<Contributor>(Tables.contributors)
@@ -881,7 +881,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
    * @param repo The revised repository object
    */
   async upsertRevisedRepository(repo: RepositoryRevised): Promise<void> {
-    this.logger.log(`Upserting repository ${repo.name}`);
+    // this.logger.log(`Upserting repository ${repo.name}`);
     this.client
       .db(this.database)
       .collection<RepositoryRevised>(Tables.repositories)
@@ -899,7 +899,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   async upsertRevisedOrganisation(
     organisation: OrganisationRevised,
   ): Promise<void> {
-    this.logger.log(`Upserting organisation ${organisation.name}`);
+    // this.logger.log(`Upserting organisation ${organisation.name}`);
     this.client
       .db(this.database)
       .collection<OrganisationRevised>(Tables.organisations)
@@ -917,7 +917,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   async upsertRevisedInstitution(
     instituion: InstitutionRevised,
   ): Promise<void> {
-    this.logger.log(`Upserting institution ${instituion.name_de}`);
+    // this.logger.log(`Upserting institution ${instituion.name_de}`);
     this.client
       .db(this.database)
       .collection<InstitutionRevised>(Tables.instituions)
@@ -933,9 +933,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
    * @param uuid The institution uuid
    */
   async updateTodoInstitutionTimestamp(uuid: string): Promise<void> {
-    this.logger.log(
-      `Updating timestamp of the institution with the uuid ${uuid}.`,
-    );
+    // this.logger.log(
+    //   `Updating timestamp of the institution with the uuid ${uuid}.`,
+    // );
     this.client
       .db(this.database)
       .collection<TodoInstitution>('todoInstitutions')
@@ -947,9 +947,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
    * @param institution The todo insitution object
    */
   async updateOrgTimestamp(institution: TodoInstitution): Promise<void> {
-    this.logger.log(
-      `Updating timestamp of all orgs of the instituion ${institution.uuid}`,
-    );
+    // this.logger.log(
+    //   `Updating timestamp of all orgs of the instituion ${institution.uuid}`,
+    // );
     this.client
       .db(this.database)
       .collection<TodoInstitution>('todoInstitutions')
