@@ -31,6 +31,11 @@ export class DataService {
   private readonly logger = new Logger(DataService.name);
   private dataPath: string;
 
+  @Cron(CronExpression.EVERY_MINUTE)
+  cronTest() {
+    this.logger.log('Another minute... still running');
+  }
+
   @Cron(CronExpression.EVERY_HOUR)
   async handler(): Promise<void> {
     this.logger.log('Handling all the new data');
