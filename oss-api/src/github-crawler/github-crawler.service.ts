@@ -41,7 +41,7 @@ export class GithubCrawlerService {
    */
   @Cron(CronExpression.EVERY_HOUR)
   private async prepareInstitutions() {
-    // this.logger.log(`Prepairing all institutions to be crawled`);
+    this.logger.log(`Prepairing all institutions to be crawled`);
     this.reachedGithubCallLimit = false;
     const todoInstituitions = await this.mongo.findAllTodoInstitutions();
     todoInstituitions.sort((a, b) => {
@@ -356,9 +356,9 @@ export class GithubCrawlerService {
     return this.githubService
       .get_Repository(owner, repoName)
       .then((gitRepoResponse) => {
-        this.logger.log(
-          `Alredy made ${gitRepoResponse.headers['x-ratelimit-used']}/${gitRepoResponse.headers['x-ratelimit-limit']} calls.`,
-        );
+        // this.logger.log(
+        //   `Alredy made ${gitRepoResponse.headers['x-ratelimit-used']}/${gitRepoResponse.headers['x-ratelimit-limit']} calls.`,
+        // );
         if (gitRepoResponse?.status != 200) {
           this.logger.error(
             `Error while getting repo data from github from repository ${repoName}. Status is ${gitRepoResponse.status}`,
@@ -378,9 +378,9 @@ export class GithubCrawlerService {
         return gitRepoResponse.data as GithubRepo;
       })
       .catch((error) => {
-        this.logger.log(
-          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
-        );
+        // this.logger.log(
+        //   `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+        // );
         if (
           parseInt(error.response.headers['x-ratelimit-used']) >=
           parseInt(error.response.headers['x-ratelimit-limit'])
@@ -416,9 +416,9 @@ export class GithubCrawlerService {
       const res: null | GithubContributor[] = await this.githubService
         .get_RepoContributors(owner, repoName, page)
         .then((gitRepoContributorsResponse) => {
-          this.logger.log(
-            `Alredy made ${gitRepoContributorsResponse.headers['x-ratelimit-used']}/${gitRepoContributorsResponse.headers['x-ratelimit-limit']} calls.`,
-          );
+          // this.logger.log(
+          //   `Alredy made ${gitRepoContributorsResponse.headers['x-ratelimit-used']}/${gitRepoContributorsResponse.headers['x-ratelimit-limit']} calls.`,
+          // );
           if (gitRepoContributorsResponse?.status != 200) {
             this.logger.error(
               `Error while getting contributors data from github from repository ${repoName}. Status is ${gitRepoContributorsResponse.status}`,
