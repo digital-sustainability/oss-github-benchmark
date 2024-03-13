@@ -5,6 +5,8 @@ import { RankingComponent } from './ranking/ranking.component';
 import { RepositoriesRankingComponent } from './repositories-ranking/repositories-ranking.component';
 import { RepositoryDetailViewComponent } from './repository-detail-view/repository-detail-view.component';
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
+import { InstitutionPopupComponent } from './institution-popup/institution-popup.component';
+
 
 const routes: Routes = [
   // {
@@ -42,6 +44,14 @@ const routes: Routes = [
   {
     path: 'people',
     component: UserRankingComponent,
+  },
+  {
+    path: 'institution-popup',
+    component: InstitutionPopupComponent,
+  },
+  {
+    path: 'institution-popup/:institution-popup',
+    component: InstitutionPopupComponent,
   },
   // {
   //   path: 'explore/item/:itemName',
