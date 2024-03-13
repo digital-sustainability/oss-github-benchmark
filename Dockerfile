@@ -8,7 +8,6 @@ WORKDIR /oss-api
 
 RUN npm install
 
-ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN npm run build
 
 FROM node:20.6.0-alpine3.17 as frontendBuild
