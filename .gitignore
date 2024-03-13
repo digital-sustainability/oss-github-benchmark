@@ -18,3 +18,5 @@ data-gathering/github-data.pickle
 client
 
 .DS_Store
+
+.env
