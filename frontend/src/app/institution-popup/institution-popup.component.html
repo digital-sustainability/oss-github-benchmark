@@ -37,20 +37,22 @@
       </small>
     </div>
 
+    <div class="input-box">
+      <mat-label>Timestamp</mat-label>
+      <input type="text" placeholder="null" formControlName="ts" />
+    </div>
+
 
     <div class="input-box orgs" formArrayName="orgs">
       <h4>Add Organization(s)</h4>
-      <div class="column" *ngFor="let control of reactiveForm.get('orgs')['controls']; let i =index">
-        <mat-label>Sector</mat-label>
-        <input type="text" 
-          placeholder="e.g.Tecan Genomics"
-          [formControlName]="i">
+      <div class="column" *ngFor="let control of reactiveForm.get('orgs')['controls']; let i =index" [formGroupName]="i">
+          <input type="text" placeholder="e.g.Tecan Genomics" formControlName="name"/>
+          <input type="text" placeholder="null" formControlName="ts_org"/>
         <button type="button" class="btn-add-delete" (click)="DeleteOrg(i)">
           Delete
         </button>
       </div>
-      
-      </div>
+    </div>
       <button type="button" class="btn-add-delete" (click)="AddOrg()">
         Add Organization
       </button>

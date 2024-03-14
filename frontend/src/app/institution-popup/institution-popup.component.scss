@@ -55,6 +55,7 @@
     font-weight: 400;
     margin-top: 30px;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
     transition: all 0.2s ease;
     background: #888;
@@ -89,9 +90,11 @@
     margin: 10px 0px;
     padding: 14px 30px;
     border-radius: 5px;
-    background: #6e6e6e;
+    background: #888;
     border: none;
+    cursor: pointer;
     color: white;
+    
   }
   .form .btn-add-delete:hover {
     background: #555;

@@ -21,7 +21,12 @@ export class InstitutionPopupComponent implements OnInit{
         Validators.pattern('^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')]),
       sector: new FormControl(null, Validators.required),
       ts: new FormControl(null),
-      orgs: new FormArray([]),
+      orgs: new FormArray([
+        new FormGroup({
+        name: new FormControl(null, [Validators.required]),
+        ts_org: new FormControl(null),
+      })
+      ]),
     })
 
     this.reactiveForm.statusChanges.subscribe((status) => {
@@ -40,13 +45,21 @@ export class InstitutionPopupComponent implements OnInit{
       uuid: null,
       sector: null,
       ts: null,
-      orgs: [],
+      orgs: [{
+        name: null,
+        ts_org: null,
+      }],
     });
   }
 
   AddOrg(){
     (<FormArray>this.reactiveForm.get('orgs'))
-      .push(new FormControl(null, Validators.required));
+      .push(
+        new FormGroup({
+        name: new FormControl(null, [Validators.required]),
+        ts_org: new FormControl(null),
+        })
+      );
   }
 
   DeleteOrg(index: number){
