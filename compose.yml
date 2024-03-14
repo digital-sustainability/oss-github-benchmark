@@ -1,0 +1,19 @@
+services:
+  oss-api:
+    networks:
+      - default
+    build: .
+    env_file:
+      - ./oss-api/.env
+    environment:
+      - NODE_ENV=DEV
+      - MONGO_DATABASE=testingNew
+      - LOG_PATH=/logs
+      - DATA_PATH=/data
+      - NODE_OPTIONS="--max-old-space-size=4096"
+    ports:
+      - 3000:3000
+    deploy:
+      resources:
+        limits:
+          memory: 2000M

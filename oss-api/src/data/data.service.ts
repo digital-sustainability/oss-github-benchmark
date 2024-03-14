@@ -1,8 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import {
-  GitHubIssue,
-  GitHubPull,
   GithubCommit,
   GithubOrganisation,
   InstitutionRevised,
@@ -19,7 +17,6 @@ import { MongoDbService } from '../mongo-db/mongo-db.service';
 import { v4 as uuidv4 } from 'uuid';
 import { ObjectId } from 'mongodb';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { log } from 'console';
 import { RepoData } from '../interfaces';
 
 @Injectable()
@@ -31,18 +28,30 @@ export class DataService {
   private readonly logger = new Logger(DataService.name);
   private dataPath: string;
 
+  @Cron(CronExpression.EVERY_MINUTE)
+  cronTest() {
+    this.logger.log('Another minute... still running');
+  }
+
   @Cron(CronExpression.EVERY_HOUR)
   async handler(): Promise<void> {
-    log('Handling all the new data');
+    this.logger.log('Handling all the new data');
     const currentTime = new Date();
     if (!this.dataPath) return;
     const fileNames: string[] = fs.readdirSync(this.dataPath);
-    const filteredFileNames = fileNames.filter((fileName) => {
+    const filteredFileNames = [];
+    for (const fileName of fileNames) {
       const timestamp = fileName
         .split('_')[1]
         .replace('.json', '') as unknown as number;
-      return timestamp < currentTime.getTime();
-    });
+      if (timestamp < currentTime.getTime()) {
+        filteredFileNames.push(fileName);
+      } else {
+        // delete older files
+        this.deleteFile(this.dataPath.concat('/', fileName));
+      }
+    }
+
     const contributorFileNames: string[] = filteredFileNames.filter(
       (fileName) => fileName.includes('user'),
     );
@@ -59,9 +68,18 @@ export class DataService {
     await this.handleOrganisations(organisationFileNames);
     await this.handleInstitutions();
     for (const fileName of filteredFileNames) {
-      fs.unlinkSync(this.dataPath.concat('/', fileName));
+      this.deleteFile(this.dataPath.concat('/', fileName));
     }
-    log('Data service is finished');
+    this.logger.log('Data service is finished');
+  }
+
+  private deleteFile(filePath: string) {
+    try {
+      fs.unlinkSync(filePath);
+      console.log(`File ${filePath} has been deleted.`);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   private async handleInstitutions() {
@@ -75,7 +93,7 @@ export class DataService {
   private async handleOrganisations(
     organisationFileNames: string[],
   ): Promise<void> {
-    log('Handling all organisations');
+    // this.logger.log('Handling all organisations');
     for (const organisationFileName of organisationFileNames) {
       const orgData: string = this.readFile(
         this.dataPath.concat('/', organisationFileName),
@@ -94,10 +112,10 @@ export class DataService {
   }
 
   private async handleRepositories(repositoryFileNames: string[]) {
-    log('Handling all repositories');
+    // this.logger.log('Handling all repositories');
     let repositories: RepoData[] = [];
     for (const repofileName of repositoryFileNames) {
-      log(repofileName);
+      this.logger.log(repofileName);
       const repoData: string = this.readFile(
         this.dataPath.concat('/', repofileName),
       );
@@ -161,7 +179,7 @@ export class DataService {
     }
     const test = Object.values(repositories);
     for (const repository of test) {
-      log(`Handling repository ${repository.repository.name}`);
+      // this.logger.log(`Handling repository ${repository.repository.name}`);
       const res = await this.mongo.findRepositoryRevised(
         repository.repository.name,
         repository.institution,
@@ -176,7 +194,7 @@ export class DataService {
   }
 
   private async handleContributor(fileName: string) {
-    log(`Handling file ${fileName}`);
+    //this.logger.log(`Handling file ${fileName}`);
     const userData: string = this.readFile(this.dataPath.concat('/', fileName));
     if (!userData) return;
     const parsedFile: RawResponse = JSON.parse(userData);
@@ -188,11 +206,11 @@ export class DataService {
   /******************************************Helper Functions*******************************************************/
 
   private readFile(path: string): string {
-    //log(`Reading file at path ${path}`);
+    //this.logger.log(`Reading file at path ${path}`);
     try {
       return fs.readFileSync(path, 'utf8');
     } catch (err) {
-      log(err);
+      this.logger.log(err);
       return null;
     }
   }
@@ -200,7 +218,7 @@ export class DataService {
   private async createInsitution(
     todoInstitution: TodoInstitution,
   ): Promise<InstitutionRevised> {
-    log(`Creating institution ${todoInstitution.shortname}`);
+    // this.logger.log(`Creating institution ${todoInstitution.shortname}`);
     const organisations = await this.mongo.findOrganisationsWithNames(
       todoInstitution.orgs.map((organisation) => organisation.name),
     );
@@ -217,7 +235,7 @@ export class DataService {
   }
 
   private createContributor(contributorData: GithubUser): Contributor {
-    log(`Creating contributor ${contributorData.login}`);
+    // this.logger.log(`Creating contributor ${contributorData.login}`);
     const contributor: Contributor = {
       login: contributorData.login,
       name: contributorData.name,
@@ -243,7 +261,9 @@ export class DataService {
     currentRepositoryStats: RepositoryStats[],
     aheadByCommits: number,
   ): Promise<RepositoryRevised> {
-    log(`Creating repo info for repo ${repositoryData.repository.name}`);
+    // this.logger.log(
+    //   `Creating repo info for repo ${repositoryData.repository.name}`,
+    // );
     repositoryData.allIssues;
     const repositoryStats: RepositoryStats = {
       num_forks: repositoryData.repository.forks_count,
