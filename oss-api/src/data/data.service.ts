@@ -39,12 +39,19 @@ export class DataService {
     const currentTime = new Date();
     if (!this.dataPath) return;
     const fileNames: string[] = fs.readdirSync(this.dataPath);
-    const filteredFileNames = fileNames.filter((fileName) => {
+    const filteredFileNames = [];
+    for (const fileName of fileNames) {
       const timestamp = fileName
         .split('_')[1]
         .replace('.json', '') as unknown as number;
-      return timestamp < currentTime.getTime();
-    });
+      if (timestamp < currentTime.getTime()) {
+        filteredFileNames.push(fileName);
+      } else {
+        // delete older files
+        this.deleteFile(this.dataPath.concat('/', fileName));
+      }
+    }
+
     const contributorFileNames: string[] = filteredFileNames.filter(
       (fileName) => fileName.includes('user'),
     );
@@ -61,9 +68,18 @@ export class DataService {
     await this.handleOrganisations(organisationFileNames);
     await this.handleInstitutions();
     for (const fileName of filteredFileNames) {
-      fs.unlinkSync(this.dataPath.concat('/', fileName));
+      this.deleteFile(this.dataPath.concat('/', fileName));
     }
     this.logger.log('Data service is finished');
+  }
+
+  private deleteFile(filePath: string) {
+    try {
+      fs.unlinkSync(filePath);
+      console.log(`File ${filePath} has been deleted.`);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   private async handleInstitutions() {
