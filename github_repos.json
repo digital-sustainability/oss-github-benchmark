@@ -53,27 +53,14 @@
         ]
     },
     {
-        "uuid": "c501ce24-184f-49cc-922f-42995084ab51",
-        "sector": "IT",
-        "ts": null,
-        "shortname": "Adobe",
-        "name_de": "Adobe Systems (Schweiz)",
-        "orgs": [
-            {
-                "name": "Adobe, Inc.",
-                "ts": null
-            }
-        ]
-    },
-    {
         "uuid": "496dd242-faf2-4b41-8131-b1fb31e98937",
-        "sector": "Others",
+        "sector": "Media",
         "ts": null,
         "shortname": "APG",
-        "name_de": "APG SGA",
+        "name_de": "APG|SGA Allgemeine Plakatgesellschaft AG",
         "orgs": [
             {
-                "name": "APG|SGA Allgemeine Plakatgesellschaft AG",
+                "name": "APGSGA",
                 "ts": null
             }
         ]
@@ -83,10 +70,10 @@
         "sector": "Others",
         "ts": null,
         "shortname": "Archroma",
-        "name_de": "Archroma Management",
+        "name_de": "Archroma Management GmbH",
         "orgs": [
             {
-                "name": "Archroma Management GmbH",
+                "name": "ArchromaManagementGmbH",
                 "ts": null
             }
         ]
@@ -96,10 +83,10 @@
         "sector": "Others",
         "ts": null,
         "shortname": "Axpo",
-        "name_de": "Axpo Holding",
+        "name_de": "Axpo Group",
         "orgs": [
             {
-                "name": "Axpo Group",
+                "name": "axpogroup",
                 "ts": null
             }
         ]
@@ -109,23 +96,23 @@
         "sector": "Others",
         "ts": null,
         "shortname": "Bertschi",
-        "name_de": "Bertschi",
+        "name_de": "Bertschi AG",
         "orgs": [
             {
-                "name": "Bertschi AG",
+                "name": "BertschiAG",
                 "ts": null
             }
         ]
     },
     {
         "uuid": "7f2ae193-19e2-4403-abd0-a18f56f6a859",
-        "sector": "Others",
+        "sector": "Media",
         "ts": null,
         "shortname": "CH Media",
         "name_de": "CH Media",
         "orgs": [
             {
-                "name": "CH Media",
+                "name": "azmedien",
                 "ts": null
             }
         ]
@@ -177,7 +164,7 @@
         "name_de": "Endress+Hauser",
         "orgs": [
             {
-                "name": "Endress+Hauser SE+Co. KG, \nEndress+Hauser Process Solutions AG",
+                "name": "EndressHauser-ProcessSolutions",
                 "ts": null
             }
         ]
@@ -203,46 +190,20 @@
         "name_de": "Hôpitaux universitaires de Genève",
         "orgs": [
             {
-                "name": "Hôpitaux Universitaires de Genève",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "4c29cad4-0756-4bd4-8e3b-c77f6866b3e9",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Inficon",
-        "name_de": "Inficon Holding",
-        "orgs": [
-            {
-                "name": "INFICON Spot",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "17d4b31b-7bfd-4c5f-9ec3-4c1ffe4a06fe",
-        "sector": "IT",
-        "ts": null,
-        "shortname": "Infosys",
-        "name_de": "Infosys Consulting Holding",
-        "orgs": [
-            {
-                "name": "Infosys Ltd",
+                "name": "DSI-HUG",
                 "ts": null
             }
         ]
     },
     {
         "uuid": "77c19b3f-8ba2-4ca6-8f4d-a3c0c12ea447",
-        "sector": "Others",
+        "sector": "IT",
         "ts": null,
         "shortname": "Kudelski",
-        "name_de": "Kudelski",
+        "name_de": "Kudelski Security",
         "orgs": [
             {
-                "name": "Kudelski Security",
+                "name": "kudelskisecurity",
                 "ts": null
             }
         ]
@@ -255,7 +216,7 @@
         "name_de": "Kühne + Nagel International",
         "orgs": [
             {
-                "name": "Kuehne + Nagel (AG & Co.) KG",
+                "name": "kuehne-nagel",
                 "ts": null
             }
         ]
@@ -265,10 +226,10 @@
         "sector": "IT",
         "ts": null,
         "shortname": "Leonteq",
-        "name_de": "Leonteq",
+        "name_de": "Leonteq Securities AG",
         "orgs": [
             {
-                "name": "Leonteq Securities AG",
+                "name": "leonteq",
                 "ts": null
             }
         ]
@@ -278,10 +239,10 @@
         "sector": "IT",
         "ts": null,
         "shortname": "Logitech",
-        "name_de": "Logitech International",
+        "name_de": "Logitech, Inc.",
         "orgs": [
             {
-                "name": "Logitech, Inc.",
+                "name": "Logitech",
                 "ts": null
             }
         ]
@@ -291,36 +252,23 @@
         "sector": "Others",
         "ts": null,
         "shortname": "Globus",
-        "name_de": "Magazine zum Globus",
+        "name_de": "Magazine zum Globus AG",
         "orgs": [
             {
-                "name": "Magazine zum Globus AG",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "58ff77ad-3952-47f7-b9a5-d4bf8ddd1ca7",
-        "sector": "Others",
-        "ts": null,
-        "shortname": "Mercuria",
-        "name_de": "Mercuria Energy Trading",
-        "orgs": [
-            {
-                "name": "MercuriaApp",
+                "name": "globusdigital",
                 "ts": null
             }
         ]
     },
     {
         "uuid": "4e8efa03-dd42-45aa-ba26-20c318247fc5",
-        "sector": "Others",
+        "sector": "IT",
         "ts": null,
         "shortname": "Microspot",
-        "name_de": "Microspot",
+        "name_de": "Microspot / Interdiscount",
         "orgs": [
             {
-                "name": "Microspot / Interdiscount",
+                "name": "interdiscount",
                 "ts": null
             }
         ]
@@ -334,19 +282,6 @@
         "orgs": [
             {
                 "name": "Migros",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "ce6996e3-cb27-4369-90d5-93cf51a2c9db",
-        "sector": "Pharma",
-        "ts": null,
-        "shortname": "Novartis",
-        "name_de": "Novartis",
-        "orgs": [
-            {
-                "name": "Novartis, NovartisAPI",
                 "ts": null
             }
         ]
@@ -369,23 +304,10 @@
         "sector": "FoodBeverage",
         "ts": null,
         "shortname": "Pistor ",
-        "name_de": "Pistor Holding",
+        "name_de": "Pistor AG",
         "orgs": [
             {
-                "name": "Pistor AG",
-                "ts": null
-            }
-        ]
-    },
-    {
-        "uuid": "2c4ae3d9-b615-4fba-81f0-58ef70bd74f1",
-        "sector": "Gov_Companies",
-        "ts": null,
-        "shortname": "PostLogistics",
-        "name_de": "PostLogistics",
-        "orgs": [
-            {
-                "name": "Swiss Post YellowCube",
+                "name": "pistor",
                 "ts": null
             }
         ]
