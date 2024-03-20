@@ -498,6 +498,13 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
       .toArray() as Promise<UserSummary[]>;
   }
 
+  async createNewTodoInstitution(institution: TodoInstitution) {
+    return await this.client
+      .db(this.database)
+      .collection<TodoInstitution>(Tables.todoInstituions)
+      .replaceOne({ uuid: institution.uuid }, institution, { upsert: true });
+  }
+
   /**
    * Count all users with the given condtions
    * @param conditions The conditions to filter with
