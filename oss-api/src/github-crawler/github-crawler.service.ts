@@ -39,7 +39,7 @@ export class GithubCrawlerService {
   /**
    * Prepare all the institution data
    */
-  @Cron(CronExpression.EVERY_HOUR)
+  @Cron('50 0-23/1 * * *')
   private async prepareInstitutions() {
     this.logger.log(`Prepairing all institutions to be crawled`);
     this.reachedGithubCallLimit = false;
