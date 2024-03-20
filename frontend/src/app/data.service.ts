@@ -22,8 +22,9 @@ export class DataService {
   private institutionData = null;
 
   async createNewTodoInstitution(institution: TodoInstitution) {
+    console.log(institution);
     return await this.http
-      .post<TodoInstitution>(`${environment.api}/institutions`, institution)
+      .post<TodoInstitution>(`${environment.api}institution`, { institution })
       .toPromise();
   }
 
