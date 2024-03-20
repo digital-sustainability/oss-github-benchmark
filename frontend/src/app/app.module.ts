@@ -1,4 +1,3 @@
-import { InputMaskModule } from '@ngneat/input-mask';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -76,7 +75,6 @@ import { InstitutionPopupComponent } from './institution-popup/institution-popup
     MatExpansionModule,
     MatDividerModule,
     // NgChartsModule,
-    InputMaskModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
