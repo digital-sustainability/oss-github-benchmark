@@ -1,3 +1,17 @@
+export interface TodoInstitution {
+  uuid: string;
+  sector: string;
+  ts: Date;
+  shortname: string;
+  name_de: string;
+  orgs: TodoOrganisation[];
+}
+
+export interface TodoOrganisation {
+  name: string;
+  ts: Date;
+}
+
 export type Institution = {
   shortname: string;
   name_de: string;
