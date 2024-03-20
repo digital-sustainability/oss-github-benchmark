@@ -1,0 +1,119 @@
+.container {
+    position: relative;
+    max-width: 700px;
+    width: 100%;
+    background: #fff;
+    padding: 20px 50px;
+    border-radius: 5px;
+    box-shadow: 
+    0px -5px 10px -5px #9e9e9e,
+    5px 0px 10px -5px #9e9e9e,
+    0px 5px 10px -5px #9e9e9e,
+    -5px 0px 10px -5px #9e9e9e;
+  }
+  .container header {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 500;
+    text-align: center;
+  }
+  .container .form {
+    margin-top: 20px;
+  }
+  .form .input-box {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .input-box label {
+    color: #333;
+  }
+  .form :where(.input-box input, .select-box) {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    outline: none;
+    font-size: 1rem;
+    color: #707070;
+    margin-top: 8px;
+    /* border: 1px solid #ddd; */
+    border-radius: 10px;
+    padding: 0 15px;
+  }
+  .input-box input:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+  }
+  .form .column {
+    display: flex;
+    column-gap: 50px;
+  }
+
+  .form .submit-btn {
+    height: 55px;
+    width: 100%;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-top: 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #888;
+  }
+  .form .submit-btn:hover {
+    background: #555;
+  }
+  /*Responsive*/
+  @media screen and (max-width: 500px) {
+    .form .column {
+      flex-wrap: wrap;
+    }
+    .form :where(.gender-option, .gender) {
+      row-gap: 15px;
+    }
+  }
+  
+  .form-shadow{
+    box-shadow: rgba(187, 185, 185, 0.35) 0px 5px 15px;
+  }
+  
+  input.ng-invalid.ng-touched{
+    border: #673ab7 1px solid;
+  }
+  
+  small{
+    color: #673ab7;
+    font-weight: bold;
+  }
+  
+  .btn-add-delete{
+    margin: 10px 0px;
+    padding: 14px 30px;
+    border-radius: 5px;
+    background: #888;
+    border: none;
+    cursor: pointer;
+    color: white;
+    
+  }
+  .form .btn-add-delete:hover {
+    background: #555;
+  }
+  .orgs{
+    padding: 20px 0px;
+  }
+
+  span{
+    padding: 5px 5px;
+    font-weight: bold;
+  }
+  
+  input.ng-invalid.ng-touched{
+    border: #673ab7 1px solid;
+  }
+  .container.VALID{
+    border: green 2px solid;
+  }
+  .container.INVALID{
+    border: #673ab7 1px solid;
+  }

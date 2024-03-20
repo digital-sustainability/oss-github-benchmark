@@ -1,3 +1,4 @@
+import { InputMaskModule } from '@ngneat/input-mask';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -35,7 +36,7 @@ import { RepositoryDetailViewComponent } from './repository-detail-view/reposito
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
-
+import { InstitutionPopupComponent } from './institution-popup/institution-popup.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +47,7 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
     RepositoriesRankingComponent,
     RepositoryDetailViewComponent,
     UserRankingComponent,
+    InstitutionPopupComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -74,6 +76,7 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
     MatExpansionModule,
     MatDividerModule,
     // NgChartsModule,
+    InputMaskModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
