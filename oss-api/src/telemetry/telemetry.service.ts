@@ -34,11 +34,29 @@ export class TelemetryService {
         description: 'The Date of the lastest crawl',
       },
     );
+    const observableokStatus = meter.createObservableCounter(
+      'observable_ok_status',
+      {
+        description: 'The count of ok status',
+      },
+    );
+    const observableErrorStatus = meter.createObservableCounter(
+      'observable_error_status',
+      {
+        description: 'The count of error status',
+      },
+    );
     observableRepoCounter.addCallback((observableResult) => {
       observableResult.observe(this.repoCounter, attributes);
     });
     observableTimestamp.addCallback((observableResult) => {
       observableResult.observe(this.latestCrawl, attributes);
+    });
+    observableokStatus.addCallback((observableResult) => {
+      observableResult.observe(this.okStatus, attributes);
+    });
+    observableErrorStatus.addCallback((observableResult) => {
+      observableResult.observe(this.errorStatus, attributes);
     });
   }
 
