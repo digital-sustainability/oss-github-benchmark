@@ -3664,6 +3664,10 @@
     "name_de": "Universität Bern",
     "orgs": [
       {
+        "name": "Institut für Kommunikations- und Medienwissenschaft, Universität Bern",
+        "ts": null
+    },
+      {
         "name": "id-unibe-ch",
         "ts": null
       },
