@@ -96,11 +96,10 @@ export class ApiController {
     return (await this.mongoDbService.latestUpdate())[0];
   }
 
-  @Post('institution')
-  async addInstitution(@Body('institution') institution: TodoInstitution) {
-    // TODO: add institution from form input
-    return this.mongoDbService.createNewTodoInstitution(institution);
-  }
+  // @Post('institution')
+  // async addInstitution(@Body('institution') institution: TodoInstitution) {
+  //   return this.mongoDbService.createNewTodoInstitution(institution);
+  // }
 
   /***********************************Helper************************************************/
   /**

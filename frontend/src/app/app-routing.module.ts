@@ -7,7 +7,6 @@ import { RepositoryDetailViewComponent } from './repository-detail-view/reposito
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
 import { InstitutionPopupComponent } from './institution-popup/institution-popup.component';
 
-
 const routes: Routes = [
   // {
   //   path: 'explore',
@@ -49,10 +48,10 @@ const routes: Routes = [
     path: 'institution-popup',
     component: InstitutionPopupComponent,
   },
-  {
-    path: 'institution-popup/:institution-popup',
-    component: InstitutionPopupComponent,
-  },
+  // {
+  //   path: 'institution-popup/:institution-popup',
+  //   component: InstitutionPopupComponent,
+  // },
   // {
   //   path: 'explore/item/:itemName',
   //   component: ExploreItemComponent,
