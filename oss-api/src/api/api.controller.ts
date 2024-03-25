@@ -1,6 +1,8 @@
 import {
+  Body,
   Controller,
   Get,
+  Post,
   Query,
   UsePipes,
   ValidationPipe,
@@ -10,14 +12,11 @@ import {
   InstitutionQueryConfig,
   RepositoryQueryConfig,
   UserQueryConfig,
-  ObjectCount,
-  InstitutionSummary,
-  UserSummary,
-  RepositorySummary,
   InstiutionApiResponse,
   SingleInsitutionResponse,
   RepositoryApiResponse,
   UserApiResponse,
+  TodoInstitution,
 } from 'src/interfaces';
 import { MongoDbService } from 'src/mongo-db/mongo-db.service';
 import { UserQueryPipe } from 'src/user-query.pipe';
@@ -96,6 +95,11 @@ export class ApiController {
   async findLatestUpdate() {
     return (await this.mongoDbService.latestUpdate())[0];
   }
+
+  // @Post('institution')
+  // async addInstitution(@Body('institution') institution: TodoInstitution) {
+  //   return this.mongoDbService.createNewTodoInstitution(institution);
+  // }
 
   /***********************************Helper************************************************/
   /**

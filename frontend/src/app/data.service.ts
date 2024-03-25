@@ -1,3 +1,4 @@
+import { TodoInstitution } from './types';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -6,10 +7,8 @@ import {
   Repository,
   User,
 } from './types';
-import * as d3 from 'd3';
-import { shareReplay, switchMap } from 'rxjs/operators';
+import { shareReplay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +20,13 @@ export class DataService {
 
   constructor(private http: HttpClient) {}
   private institutionData = null;
+
+  async createNewTodoInstitution(institution: TodoInstitution) {
+    console.log(institution);
+    return await this.http
+      .post<TodoInstitution>(`${environment.api}institution`, { institution })
+      .toPromise();
+  }
 
   async loadSingleInstitution(config: { name: string }): Promise<Institution> {
     this.institutionData = await this.http

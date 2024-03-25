@@ -35,7 +35,7 @@ import { RepositoryDetailViewComponent } from './repository-detail-view/reposito
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
-
+import { InstitutionPopupComponent } from './institution-popup/institution-popup.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +46,7 @@ import { UserRankingComponent } from './user-ranking/user-ranking.component';
     RepositoriesRankingComponent,
     RepositoryDetailViewComponent,
     UserRankingComponent,
+    InstitutionPopupComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

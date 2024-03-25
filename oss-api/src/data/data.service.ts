@@ -33,6 +33,9 @@ export class DataService {
     this.logger.log('Another minute... still running');
   }
 
+  /**
+   * Runs every hour at minute 0 to be delayed after crawler (running at minute 50)
+   */
   @Cron(CronExpression.EVERY_HOUR)
   async handler(): Promise<void> {
     this.logger.log('Handling all the new data');

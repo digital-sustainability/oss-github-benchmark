@@ -8,9 +8,11 @@ import {
   GithubOrganisationMember,
   GithubOrganisationRepository,
   GithubRepo,
+  Institution,
   Method,
   RawResponse,
   TodoInstitution,
+  TodoOrganisation,
 } from '../interfaces';
 import { GithubService } from '../github/github.service';
 import { OctokitResponse } from '@octokit/types';
@@ -36,20 +38,30 @@ export class GithubCrawlerService {
 
   async onApplicationBootstrap() {}
 
+  private sortAfterDate(
+    a: TodoInstitution | TodoOrganisation,
+    b: TodoInstitution | TodoOrganisation,
+  ) {
+    if (!a.ts && !b.ts) return 0;
+    if (!a.ts) return -1;
+    if (!b.ts) return 1;
+    try {
+      return b.ts.getTime() - a.ts.getTime();
+    } catch (error) {
+      console.error(error);
+      return 0;
+    }
+  }
+
   /**
    * Prepare all the institution data
    */
-  @Cron(CronExpression.EVERY_HOUR)
+  @Cron('50 0-23/1 * * *')
   private async prepareInstitutions() {
     this.logger.log(`Prepairing all institutions to be crawled`);
     this.reachedGithubCallLimit = false;
     const todoInstituitions = await this.mongo.findAllTodoInstitutions();
-    todoInstituitions.sort((a, b) => {
-      if (!a.ts && !b.ts) return 0;
-      if (!a.ts) return -1;
-      if (!b.ts) return 1;
-      return b.ts.getTime() - a.ts.getTime();
-    });
+    todoInstituitions.sort((a, b) => this.sortAfterDate(a, b));
     for (const todoInstituition of todoInstituitions) {
       if (this.reachedGithubCallLimit) break;
       if (
@@ -75,12 +87,7 @@ export class GithubCrawlerService {
    */
   private async handleInstitution(institution: TodoInstitution): Promise<void> {
     // this.logger.log(`Handling institution ${institution.name_de}`);
-    institution.orgs.sort((a, b) => {
-      if (!a.ts && !b.ts) return 0;
-      if (!a.ts) return -1;
-      if (!b.ts) return 1;
-      return b.ts.getTime() - a.ts.getTime();
-    });
+    institution.orgs.sort((a, b) => this.sortAfterDate(a, b));
     for (const [index, organisation] of institution.orgs.entries()) {
       if (this.reachedGithubCallLimit) break;
       if (organisation.ts?.getTime() > Date.now() - this.daysToWait) {
