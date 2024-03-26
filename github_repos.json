@@ -653,8 +653,16 @@
         "name_de": "Fachhochschule Nordwestschweiz",
         "orgs": [
             {
-                "name": "Fachhochschule Nordwestschweiz, FHNW ISE (Post-)Quantum Cryptography, Institut Geomatik, Fachhochschule Nordwestschweiz - Computer Science, \nBiomedical Informatics \nBACnet/IT by IMVS (FHNW) \nFHNW - Institute Geomatics",
+                "name": "Fachhochschule Nordwestschweiz, Institut Geomatik, \nBiomedical Informatics \nBACnet/IT by IMVS (FHNW) \nFHNW - Institute Geomatics",
                 "ts": null
+            },
+            {
+              "name": "FHNW ISE (Post-)Quantum Cryptography",
+              "ts": null
+            },
+            {
+              "name": "Fachhochschule Nordwestschweiz - Computer Science",
+              "ts": null
             }
         ]
     },
