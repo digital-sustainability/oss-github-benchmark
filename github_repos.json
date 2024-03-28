@@ -56,7 +56,7 @@
         "uuid": "496dd242-faf2-4b41-8131-b1fb31e98937",
         "sector": "Media",
         "ts": null,
-        "shortname": "APG",
+        "shortname": "APGSGA",
         "name_de": "APG|SGA Allgemeine Plakatgesellschaft AG",
         "orgs": [
             {
@@ -69,7 +69,7 @@
         "uuid": "65773e97-abd9-4f04-a538-c9b3466fd97f",
         "sector": "Others",
         "ts": null,
-        "shortname": "Archroma",
+        "shortname": "ArchromaManagementGmbH",
         "name_de": "Archroma Management GmbH",
         "orgs": [
             {
@@ -82,7 +82,7 @@
         "uuid": "7513ea3f-30d4-48c1-aae1-137690a51935",
         "sector": "Others",
         "ts": null,
-        "shortname": "Axpo",
+        "shortname": "axpogroup",
         "name_de": "Axpo Group",
         "orgs": [
             {
@@ -95,7 +95,7 @@
         "uuid": "ebd5854d-df63-47f9-aad5-25eb48e7e148",
         "sector": "Others",
         "ts": null,
-        "shortname": "Bertschi",
+        "shortname": "BertschiAG",
         "name_de": "Bertschi AG",
         "orgs": [
             {
@@ -108,7 +108,7 @@
         "uuid": "7f2ae193-19e2-4403-abd0-a18f56f6a859",
         "sector": "Media",
         "ts": null,
-        "shortname": "CH Media",
+        "shortname": "azmedien",
         "name_de": "CH Media",
         "orgs": [
             {
