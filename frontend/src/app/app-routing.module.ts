@@ -52,10 +52,7 @@ const routes: Routes = [
   {
     path: 'institution-popup',
     component: InstitutionPopupComponent,
-  },
-  {
-    path: 'institution-popup/:institution-popup',
-    component: InstitutionPopupComponent,
+    canActivate: [AuthenticationGuard]
   },
   {
     path: 'login',
