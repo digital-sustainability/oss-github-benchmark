@@ -6,6 +6,10 @@ import { RepositoriesRankingComponent } from './repositories-ranking/repositorie
 import { RepositoryDetailViewComponent } from './repository-detail-view/repository-detail-view.component';
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
 import { InstitutionPopupComponent } from './institution-popup/institution-popup.component';
+import { AuthenticationGuard } from './authentication-guard.guard';
+import { LoginComponent } from './login/login.component';
+import { LoginModule } from './login/login.module';
+import { LoginRoutingModule } from './login/login-routing.module';
 
 
 const routes: Routes = [
@@ -53,11 +57,17 @@ const routes: Routes = [
     path: 'institution-popup/:institution-popup',
     component: InstitutionPopupComponent,
   },
+  {
+    path: 'login',
+    component: LoginComponent
+    //     loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
+    // canActivate: [InstitutionPopupComponent]    // Actually quite dumb! Why authenticate for the authenticate page???
+  },
   // {
   //   path: 'explore/item/:itemName',
   //   component: ExploreItemComponent,
   // },
-  { path: '', redirectTo: '/institutions', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 
 @NgModule({
