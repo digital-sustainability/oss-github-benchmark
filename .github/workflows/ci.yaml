@@ -20,3 +20,4 @@ jobs:
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
           containerfiles: Dockerfile
+          build-args: ulimit nofile=65535:65535
