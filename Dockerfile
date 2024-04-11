@@ -6,6 +6,8 @@ COPY oss-api/ ./
 
 WORKDIR /oss-api
 
+RUN npm doctor
+
 RUN npm install
 
 RUN npm run build
