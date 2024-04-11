@@ -21,9 +21,6 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@babel/generator": "7.22.5",
-    "@babel/parser": "7.22.5",
-    "@babel/traverse": "7.22.5",
     "@nestjs/class-validator": "^0.13.1",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",

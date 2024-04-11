@@ -1,9 +1,6 @@
 {
   "name": "oss-github-benchmark",
   "version": "0.0.0",
-  "overrides": {
-    "@babel/traverse": "7.22.6"
-  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host=0.0.0.0",
