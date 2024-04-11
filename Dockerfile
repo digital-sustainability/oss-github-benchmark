@@ -1,4 +1,4 @@
-FROM node:20.6.0-alpine3.17 as backendBuild
+FROM node:20.12.2-alpine3.18 as backendBuild
 LABEL stage=build
 ENV NODE_ENV=PRODUCTION
 
@@ -6,11 +6,13 @@ COPY oss-api/ ./
 
 WORKDIR /oss-api
 
+RUN npm install -g npm@10.5.2
+
 RUN npm install
 
 RUN npm run build
 
-FROM node:20.6.0-alpine3.17 as frontendBuild
+FROM node:20.12.2-alpine3.18 as frontendBuild
 LABEL stage=build
 ENV NODE_ENV=PRODUCTION
 
@@ -20,11 +22,13 @@ RUN cd /frontend/
 
 WORKDIR /frontend/
 
+RUN npm install -g npm@10.5.2
+
 RUN npm install
 
 RUN npm run build:prod
 
-FROM node:20.6.0-alpine3.17 as prod
+FROM node:20.12.2-alpine3.18 as prod
 
 COPY --from=backendBuild dist dist
 
