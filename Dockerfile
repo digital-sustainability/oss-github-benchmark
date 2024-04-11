@@ -6,6 +6,8 @@ COPY oss-api/ ./
 
 WORKDIR /oss-api
 
+RUN npm install -g npm@10.5.2
+
 RUN npm install
 
 RUN npm run build
@@ -19,6 +21,8 @@ COPY frontend/ ./frontend/
 RUN cd /frontend/
 
 WORKDIR /frontend/
+
+RUN npm install -g npm@10.5.2
 
 RUN npm install
 
