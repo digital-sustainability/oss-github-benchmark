@@ -5,21 +5,20 @@ import { PrometheusExporter } from '@opentelemetry/exporter-prometheus';
 
 @Injectable()
 export class TelemetryService {
-  private repoCounter: number = 0;
-  private latestCrawl: number = 0;
-  private okStatus: number = 0;
-  private errorStatus: number = 0;
+  private repoCounter = 0;
+  private latestCrawl = 0;
+  private okStatus = 0;
+  private errorStatus = 0;
 
   constructor() {
     diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
     const { endpoint, port } = PrometheusExporter.DEFAULT_OPTIONS;
-    const exporter = new PrometheusExporter({}, () => {
+    const exporter = new PrometheusExporter({ port: port }, () => {
       console.log(
         `prometheus scrape endpoint: http://localhost:${port}${endpoint}`,
       );
     });
     const meterProvider = new MeterProvider();
-    meterProvider.addMetricReader(exporter);
     const meter = meterProvider.getMeter('prometheus');
     const attributes = { pid: process.pid, environment: 'staging' };
     const observableRepoCounter = meter.createObservableCounter(

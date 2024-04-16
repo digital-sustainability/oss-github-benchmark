@@ -16,7 +16,7 @@ import { Contributor } from '../interfaces';
 import { MongoDbService } from '../mongo-db/mongo-db.service';
 import { v4 as uuidv4 } from 'uuid';
 import { ObjectId } from 'mongodb';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Cron } from '@nestjs/schedule';
 import { RepoData } from '../interfaces';
 
 @Injectable()
@@ -28,15 +28,10 @@ export class DataService {
   private readonly logger = new Logger(DataService.name);
   private dataPath: string;
 
-  @Cron(CronExpression.EVERY_MINUTE)
-  cronTest() {
-    this.logger.log('Another minute... still running');
-  }
-
   /**
    * Runs every hour at minute 0 to be delayed after crawler (running at minute 50)
    */
-  @Cron(CronExpression.EVERY_HOUR)
+  @Cron('50 0-23/1 * * *')
   async handler(): Promise<void> {
     this.logger.log('Handling all the new data');
     const currentTime = new Date();
@@ -47,10 +42,10 @@ export class DataService {
       const timestamp = fileName
         .split('_')[1]
         .replace('.json', '') as unknown as number;
-      if (timestamp < currentTime.getTime()) {
+      if (timestamp > currentTime.getTime() - 18000000) {
         filteredFileNames.push(fileName);
       } else {
-        // delete older files
+        // delete files older than 5 Hours
         this.deleteFile(this.dataPath.concat('/', fileName));
       }
     }

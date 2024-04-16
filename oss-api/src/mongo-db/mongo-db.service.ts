@@ -940,9 +940,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
    * @param uuid The institution uuid
    */
   async updateTodoInstitutionTimestamp(uuid: string): Promise<void> {
-    // this.logger.log(
-    //   `Updating timestamp of the institution with the uuid ${uuid}.`,
-    // );
+    this.logger.log(
+      `Updating timestamp of the institution with the uuid ${uuid}.`,
+    );
     this.client
       .db(this.database)
       .collection<TodoInstitution>('todoInstitutions')
