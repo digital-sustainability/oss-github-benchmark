@@ -56,7 +56,7 @@ export class GithubCrawlerService {
   /**
    * Prepare all the institution data
    */
-  @Cron('50 0-23/1 * * *')
+  @Cron(CronExpression.EVERY_HOUR)
   private async prepareInstitutions() {
     this.logger.log(`Prepairing all institutions to be crawled`);
     this.reachedGithubCallLimit = false;
@@ -1014,12 +1014,12 @@ export class GithubCrawlerService {
 
   private async updateTelemetry() {
     // this.logger.log('Updating Telemetry data');
-    let condition: Object[] = [
+    const condition: Object[] = [
       {
         fork: { $in: [true, false] },
       },
     ];
-    let countedRepos = await this.mongo.countAllRepositoriesWithConditions(
+    const countedRepos = await this.mongo.countAllRepositoriesWithConditions(
       condition,
     );
     const latestUpdate = (await this.mongo.latestUpdate())[0];
