@@ -57,11 +57,17 @@ const routes: Routes = [
     path: 'institution-popup/:institution-popup',
     component: InstitutionPopupComponent,
   },
+  {
+    path: 'login',
+    component: LoginComponent,
+    // canActivate: [AuthenticationGuard]
+  },
   // {
   //   path: 'explore/item/:itemName',
   //   component: ExploreItemComponent,
   // },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/institutions', pathMatch: 'full' },
+  { path: "**", redirectTo: '/institutions', pathMatch: 'full' },
 ];
 
 @NgModule({

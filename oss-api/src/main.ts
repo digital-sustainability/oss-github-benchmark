@@ -9,6 +9,8 @@ async function bootstrap() {
   });
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
+
+  app.setGlobalPrefix('api');
   app.flushLogs();
   await app.listen(process.env.PORT || 3000);
 }

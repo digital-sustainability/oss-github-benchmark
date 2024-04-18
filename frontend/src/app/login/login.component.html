@@ -1,21 +1,22 @@
 <main class="form-signin">
     <form [formGroup]="loginForm">
-        <h1 class="h3 mb-3 fw-normal">Sign In</h1>
-        <div class="form-floating">
-            <input type="email" class="form-control" id="floatingInput" formControlName="username">
+        <h1 class="header">Sign In</h1>
+        <div class="input-box">
             <label for="floatingInput">Username</label>
+            <input type="email" class="form-control" id="floatingInput" formControlName="username">
             <div *ngIf="loginForm.invalid && usernameControl?.touched && usernameControl.errors">
                 <span *ngIf="usernameControl.errors['required']">Username is required</span>
                 <span *ngIf="usernameControl.errors['email']">Username must be an email</span>
             </div>
         </div>
-        <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword"  formControlName="password">
+        
+        <div class="input-box">
             <label for="floatingPassword">Password</label>
+            <input type="password" class="form-control" id="floatingPassword"  formControlName="password">
             <div *ngIf="loginForm.invalid && passwordControl?.touched && passwordControl.errors">
                 <span *ngIf="passwordControl.errors['minlength']">Password must have at least 8 characters</span>
             </div>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="this.loginForm.invalid">Sign in</button>
+        <button type="submit" value="Login" class="submit-btn" (click)="login()" [disabled]="this.loginForm.invalid">Login</button>
     </form>
 </main>
