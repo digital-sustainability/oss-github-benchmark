@@ -22,14 +22,14 @@ import {
   InstitutionSummary,
   UserSummary,
   RepositorySummary,
-  SingleInsitutionResponse,
+  SingleInstitutionResponse,
 } from 'src/interfaces';
 
 enum Tables {
-  instituions = 'institutions',
+  institutions = 'institutions',
   organisations = 'organisation',
   repositories = 'repositoriesNew',
-  todoInstituions = 'todoInstitutions',
+  todoInstitutions = 'todoInstitutions',
   contributors = 'contributors',
 }
 
@@ -46,7 +46,8 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   }
 
   private database: string;
-  private client: MongoClient | undefined;
+  //private client: MongoClient | undefined;
+  private client: MongoClient;
   private readonly logger = new Logger(MongoDbService.name);
 
   private async initializeConnection() {
@@ -81,20 +82,20 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   /**
    * Find a repository with its name and the name of the institution
    * @param repoName The name of the repository
-   * @param instiutitonName The name of the owning institution
+   * @param institutionName The name of the owning institution
    * @returns The found repository
    */
   async findRepository(
     repoName: string,
-    instiutitonName: string,
+    institutionName: string,
   ): Promise<Repository> {
     // this.logger.log(
-    //   `Searching the repository with the name ${repoName} from the institution ${instiutitonName}`,
+    //   `Searching the repository with the name ${repoName} from the institution ${institutionName}`,
     // );
     return this.client
       .db(this.database)
       .collection<Repository>(Tables.repositories)
-      .findOne({ name: repoName, institution: instiutitonName });
+      .findOne({ name: repoName, institution: institutionName });
   }
 
   /**
@@ -106,7 +107,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     const session = await this.client.startSession();
     return this.client
       .db(this.database)
-      .collection<TodoInstitution>(Tables.todoInstituions)
+      .collection<TodoInstitution>(Tables.todoInstitutions)
       .find(
         {},
         {
@@ -139,7 +140,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     // );
     return this.client
       .db(this.database)
-      .collection<InstitutionSummary>(Tables.instituions)
+      .collection<InstitutionSummary>(Tables.institutions)
       .aggregate([
         {
           $match: {
@@ -273,7 +274,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     // );
     return this.client
       .db(this.database)
-      .collection<Institution>(Tables.instituions)
+      .collection<Institution>(Tables.institutions)
       .aggregate([
         {
           $match: {
@@ -501,7 +502,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   async createNewTodoInstitution(institution: TodoInstitution) {
     return await this.client
       .db(this.database)
-      .collection<TodoInstitution>(Tables.todoInstituions)
+      .collection<TodoInstitution>(Tables.todoInstitutions)
       .replaceOne({ uuid: institution.uuid }, institution, { upsert: true });
   }
 
@@ -538,7 +539,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     // this.logger.log('Getting the latest crawl run date');
     return this.client
       .db(this.database)
-      .collection(Tables.instituions)
+      .collection(Tables.institutions)
       .aggregate([
         {
           $project: {
@@ -648,7 +649,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     // this.logger.log('Getting all the institutions');
     return this.client
       .db(this.database)
-      .collection<Institution>(Tables.instituions)
+      .collection<Institution>(Tables.institutions)
       .find({})
       .toArray();
   }
@@ -688,20 +689,20 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   /**
    * Find repositories
    * @param repoName The repository name
-   * @param instiutitonName The insitution name
+   * @param institutionName The institution name
    * @returns The found repository
    */
   async findRepositoryRevised(
     repoName: string,
-    instiutitonName: string,
+    institutionName: string,
   ): Promise<RepositoryRevised> {
     // this.logger.log(
-    //   `Searching the repository with the name ${repoName} from the institution ${instiutitonName}`,
+    //   `Searching the repository with the name ${repoName} from the institution ${institutionName}`,
     // );
     return this.client
       .db(this.database)
       .collection<RepositoryRevised>(Tables.repositories)
-      .findOne({ name: repoName, institution: instiutitonName });
+      .findOne({ name: repoName, institution: institutionName });
   }
 
   /**
@@ -742,127 +743,135 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
 
   /**
    * Get an institution by its shortname
-   * @param institutionShortName The shortname of the insitution
+   * @param institutionShortName The shortname of the institution
    * @returns An array containing the Institution
    */
-  public async findInsitutionWithShortName(
+  public async findInstitutionWithShortName(
     institutionShortName: string,
-  ): Promise<SingleInsitutionResponse[]> {
-    // this.logger.log(
-    //   `Searching for an institution with the shortname: ${institutionShortName}`,
-    // );
+  ): Promise<SingleInstitutionResponse[]> {
+    this.logger.log(
+      `Searching for an institution with the shortname: ${institutionShortName}`,
+    );
+
     return this.client
       .db(this.database)
-      .collection<SingleInsitutionResponse>(Tables.instituions)
-      .aggregate([
-        {
-          $match: {
-            shortname: institutionShortName,
+      .collection<SingleInstitutionResponse>(Tables.institutions)
+      .aggregate(
+        [
+          {
+            $match: {
+              shortname: institutionShortName,
+            },
           },
-        },
-        {
-          $lookup: {
-            from: 'organisation',
-            localField: 'orgs',
-            foreignField: '_id',
-            as: 'orga',
+          {
+            $lookup: {
+              from: 'organisation',
+              localField: 'orgs',
+              foreignField: '_id',
+              as: 'orga',
+            },
           },
-        },
-        {
-          $set: {
-            orgs: '$orga',
+          {
+            $set: {
+              orgs: '$orga',
+            },
           },
-        },
-        { $unwind: { path: '$orga', preserveNullAndEmptyArrays: true } },
-        {
-          $lookup: {
-            from: 'repositoriesNew',
-            localField: 'orga.repos',
-            foreignField: '_id',
-            as: 'repo',
+          { $unwind: { path: '$orga', preserveNullAndEmptyArrays: true } },
+          {
+            $lookup: {
+              from: 'repositoriesNew',
+              localField: 'orga.repos',
+              foreignField: '_id',
+              as: 'repo',
+            },
           },
-        },
-        { $unwind: { path: '$repo', preserveNullAndEmptyArrays: true } },
-        { $sort: { 'orga.created_at': 1 } },
-        {
-          $group: {
-            _id: '$_id',
-            shortname: { $first: '$shortname' },
-            name_de: { $first: '$name_de' },
-            num_repos: { $count: {} },
-            members: { $push: '$repo.contributors' },
-            forks: { $push: '$repo.fork' },
-            avatar: { $first: { $first: '$avatar' } },
-            sector: { $first: '$sector' },
-            repo_names: { $push: '$repo.name' },
-            location: { $first: '$orga.locations' },
-            created_at: { $first: '$orga.created_at' },
-            stats: { $push: { $last: '$repo.stats' } },
-            orgs: { $first: '$orgs' },
+          { $unwind: { path: '$repo', preserveNullAndEmptyArrays: true } },
+          { $sort: { 'orga.created_at': 1 } },
+          {
+            $group: {
+              _id: '$_id',
+              shortname: { $first: '$shortname' },
+              name_de: { $first: '$name_de' },
+              num_repos: { $count: {} },
+              members: { $push: '$repo.contributors' },
+              forks: { $push: '$repo.fork' },
+              avatar: { $first: { $first: '$avatar' } },
+              sector: { $first: '$sector' },
+              repo_names: { $push: '$repo.name' },
+              location: { $first: '$orga.locations' },
+              created_at: { $first: '$orga.created_at' },
+              stats: { $push: { $last: '$repo.stats' } },
+              orgs: { $first: '$orgs' },
+            },
           },
-        },
-        {
-          $set: {
-            total_num_forks_in_repos: {
-              $sum: {
-                $size: {
-                  $filter: {
-                    input: '$forks',
-                    cond: '$$this',
+          {
+            $set: {
+              total_num_forks_in_repos: {
+                $sum: {
+                  $size: {
+                    $filter: {
+                      input: '$forks',
+                      cond: '$$this',
+                    },
                   },
                 },
               },
-            },
-            num_members: {
-              $size: {
-                $setUnion: [
-                  {
-                    $reduce: {
-                      input: '$members',
-                      initialValue: [],
-                      in: { $concatArrays: ['$$value', '$$this'] },
+              num_members: {
+                $size: {
+                  $setUnion: [
+                    {
+                      $reduce: {
+                        input: '$members',
+                        initialValue: [],
+                        in: { $concatArrays: ['$$value', '$$this'] },
+                      },
                     },
-                  },
-                  [],
-                ],
+                    [],
+                  ],
+                },
               },
+              total_num_contributors: { $sum: '$stats.num_contributors' },
+              total_num_commits: { $sum: '$stats.num_commits' },
+              total_pull_requests: { $sum: '$stats.pull_requests_all' },
+              total_issues: { $sum: '$stats.issues_all' },
+              total_num_stars: { $sum: '$stats.num_stars' },
+              total_num_watchers: { $sum: '$stats.num_watchers' },
+              total_pull_requests_closed: {
+                $sum: '$stats.pull_requests_closed',
+              },
+              total_issues_closed: { $sum: '$stats.issues_closed' },
+              total_comments: { $sum: '$stats.comments' },
+              num_orgs: { $size: '$orgs' },
             },
-            total_num_contributors: { $sum: '$stats.num_contributors' },
-            total_num_commits: { $sum: '$stats.num_commits' },
-            total_pull_requests: { $sum: '$stats.pull_requests_all' },
-            total_issues: { $sum: '$stats.issues_all' },
-            total_num_stars: { $sum: '$stats.num_stars' },
-            total_num_watchers: { $sum: '$stats.num_watchers' },
-            total_pull_requests_closed: { $sum: '$stats.pull_requests_closed' },
-            total_issues_closed: { $sum: '$stats.issues_closed' },
-            total_comments: { $sum: '$stats.comments' },
-            num_orgs: { $size: '$orgs' },
           },
-        },
-        {
-          $project: {
-            _id: 0,
-            avatar: 1,
-            sector: 1,
-            shortname: 1,
-            num_repos: 1,
-            num_members: 1,
-            total_num_contributors: 1,
-            total_num_forks_in_repos: 1,
-            total_num_commits: 1,
-            total_pull_requests: 1,
-            total_issues: 1,
-            total_num_stars: 1,
-            total_num_watchers: 1,
-            total_pull_requests_closed: 1,
-            total_issues_closed: 1,
-            total_comments: 1,
-            num_orgs: 1,
-            orgs: 1,
+          {
+            $project: {
+              _id: 0,
+              avatar: 1,
+              sector: 1,
+              shortname: 1,
+              num_repos: 1,
+              num_members: 1,
+              total_num_contributors: 1,
+              total_num_forks_in_repos: 1,
+              total_num_commits: 1,
+              total_pull_requests: 1,
+              total_issues: 1,
+              total_num_stars: 1,
+              total_num_watchers: 1,
+              total_pull_requests_closed: 1,
+              total_issues_closed: 1,
+              total_comments: 1,
+              num_orgs: 1,
+              orgs: 1,
+            },
           },
-        },
-      ])
-      .toArray() as Promise<SingleInsitutionResponse[]>;
+        ],
+        /* {
+          allowDiskUse: true,
+        }, */
+      )
+      .toArray() as Promise<SingleInstitutionResponse[]>;
   }
 
   /***********************************Update************************************************/
@@ -927,7 +936,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     // this.logger.log(`Upserting institution ${instituion.name_de}`);
     this.client
       .db(this.database)
-      .collection<InstitutionRevised>(Tables.instituions)
+      .collection<InstitutionRevised>(Tables.institutions)
       .replaceOne(
         { uuid: instituion.uuid },
         { ...instituion },
@@ -936,7 +945,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   }
 
   /**
-   * Update the timestamp of a todo insitution
+   * Update the timestamp of a todo institution
    * @param uuid The institution uuid
    */
   async updateTodoInstitutionTimestamp(uuid: string): Promise<void> {
@@ -951,7 +960,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
 
   /**
    * Update all org timestamps of a todo institution
-   * @param institution The todo insitution object
+   * @param institution The todo institution object
    */
   async updateOrgTimestamp(institution: TodoInstitution): Promise<void> {
     // this.logger.log(
@@ -968,3 +977,45 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
 
   /***********************************Delete************************************************/
 }
+
+/*Stats
+
+6 DBs
+11 Collections
+
+Hosts
+
+cluster0-shard-00-01.bq03p.mongodb.net:27017
+cluster0-shard-00-02.bq03p.mongodb.net:27017
+cluster0-shard-00-00.bq03p.mongodb.net:27017
+
+Cluster
+
+Replica Set atlas-cqy6i5-shard-0
+3 Nodes
+
+Edition
+
+MongoDB 7.0.8 Atlas
+
+
+
+Stats
+
+4 DBs
+9 Collections
+
+Host
+
+localhost:27017
+
+Cluster
+
+Standalone
+
+Edition
+
+MongoDB 5.0.26 Community
+
+
+*/
