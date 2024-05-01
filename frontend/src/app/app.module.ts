@@ -36,7 +36,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
 import { InstitutionPopupComponent } from './institution-popup/institution-popup.component';
-import { UseInterceptors } from '@nestjs/common';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 @NgModule({
   declarations: [
