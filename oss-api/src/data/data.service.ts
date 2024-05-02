@@ -83,7 +83,7 @@ export class DataService {
   private async handleInstitutions() {
     const todoInstitutions = await this.mongo.findAllTodoInstitutions();
     for (const todoInstitution of todoInstitutions) {
-      const institution = await this.createInsitution(todoInstitution);
+      const institution = await this.createInstitution(todoInstitution);
       await this.mongo.upsertRevisedInstitution(institution);
     }
   }
@@ -213,7 +213,7 @@ export class DataService {
     }
   }
 
-  private async createInsitution(
+  private async createInstitution(
     todoInstitution: TodoInstitution,
   ): Promise<InstitutionRevised> {
     // this.logger.log(`Creating institution ${todoInstitution.shortname}`);
