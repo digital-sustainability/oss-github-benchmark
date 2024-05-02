@@ -867,9 +867,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
             },
           },
         ],
-        /* {
+        {
           allowDiskUse: true,
-        }, */
+        },
       )
       .toArray() as Promise<SingleInstitutionResponse[]>;
   }
