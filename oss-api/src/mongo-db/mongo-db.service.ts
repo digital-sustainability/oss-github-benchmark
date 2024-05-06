@@ -141,123 +141,128 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     return this.client
       .db(this.database)
       .collection<InstitutionSummary>(Tables.institutions)
-      .aggregate([
-        {
-          $match: {
-            $and: conditions,
-          },
-        },
-        {
-          $lookup: {
-            from: 'organisation',
-            localField: 'orgs',
-            foreignField: '_id',
-            as: 'orga',
-          },
-        },
-        { $unwind: { path: '$orga', preserveNullAndEmptyArrays: true } },
-        {
-          $lookup: {
-            from: 'repositoriesNew',
-            localField: 'orga.repos',
-            foreignField: '_id',
-            as: 'repo',
-          },
-        },
-        {
-          $project: {
-            shortname: 1,
-            name_de: 1,
-            avatar: 1,
-            sector: 1,
-            orga: 1,
-            repo: {
-              $cond: [
-                { $eq: [includeForks, true] },
-                '$repo',
-                {
-                  $filter: {
-                    input: '$repo',
-                    as: 'repository',
-                    cond: {
-                      $eq: ['$$repository.fork', false],
-                    },
-                  },
-                },
-              ],
+      .aggregate(
+        [
+          {
+            $match: {
+              $and: conditions,
             },
           },
-        },
-        { $unwind: { path: '$repo', preserveNullAndEmptyArrays: true } },
-        { $sort: { 'orga.created_at': 1 } },
-        {
-          $group: {
-            _id: '$_id',
-            shortname: { $first: '$shortname' },
-            name_de: { $first: '$name_de' },
-            num_repos: { $count: {} },
-            members: { $push: '$repo.contributors' },
-            forks: { $push: '$repo.fork' },
-            avatar: { $first: { $first: '$avatar' } },
-            sector: { $first: '$sector' },
-            repo_names: { $push: '$repo.name' },
-            location: { $first: '$orga.locations' },
-            created_at: { $first: '$orga.created_at' },
-          },
-        },
-        {
-          $set: {
-            total_num_forks_in_repos: {
-              $sum: {
-                $size: {
-                  $filter: {
-                    input: '$forks',
-                    cond: '$$this',
-                  },
-                },
-              },
+          {
+            $lookup: {
+              from: 'organisation',
+              localField: 'orgs',
+              foreignField: '_id',
+              as: 'orga',
             },
-            num_members: {
-              $size: {
-                $setUnion: [
+          },
+          { $unwind: { path: '$orga', preserveNullAndEmptyArrays: true } },
+          {
+            $lookup: {
+              from: 'repositoriesNew',
+              localField: 'orga.repos',
+              foreignField: '_id',
+              as: 'repo',
+            },
+          },
+          {
+            $project: {
+              shortname: 1,
+              name_de: 1,
+              avatar: 1,
+              sector: 1,
+              orga: 1,
+              repo: {
+                $cond: [
+                  { $eq: [includeForks, true] },
+                  '$repo',
                   {
-                    $reduce: {
-                      input: '$members',
-                      initialValue: [],
-                      in: { $concatArrays: ['$$value', '$$this'] },
+                    $filter: {
+                      input: '$repo',
+                      as: 'repository',
+                      cond: {
+                        $eq: ['$$repository.fork', false],
+                      },
                     },
                   },
-                  [],
                 ],
               },
             },
           },
-        },
-        {
-          $project: {
-            _id: 1,
-            shortname: 1,
-            name_de: 1,
-            num_repos: 1,
-            num_members: 1,
-            total_num_forks_in_repos: 1,
-            avatar: 1,
-            sector: 1,
-            repo_names: 1,
-            location: 1,
-            created_at: 1,
+          { $unwind: { path: '$repo', preserveNullAndEmptyArrays: true } },
+          { $sort: { 'orga.created_at': 1 } },
+          {
+            $group: {
+              _id: '$_id',
+              shortname: { $first: '$shortname' },
+              name_de: { $first: '$name_de' },
+              num_repos: { $count: {} },
+              members: { $push: '$repo.contributors' },
+              forks: { $push: '$repo.fork' },
+              avatar: { $first: { $first: '$avatar' } },
+              sector: { $first: '$sector' },
+              repo_names: { $push: '$repo.name' },
+              location: { $first: '$orga.locations' },
+              created_at: { $first: '$orga.created_at' },
+            },
           },
-        },
+          {
+            $set: {
+              total_num_forks_in_repos: {
+                $sum: {
+                  $size: {
+                    $filter: {
+                      input: '$forks',
+                      cond: '$$this',
+                    },
+                  },
+                },
+              },
+              num_members: {
+                $size: {
+                  $setUnion: [
+                    {
+                      $reduce: {
+                        input: '$members',
+                        initialValue: [],
+                        in: { $concatArrays: ['$$value', '$$this'] },
+                      },
+                    },
+                    [],
+                  ],
+                },
+              },
+            },
+          },
+          {
+            $project: {
+              _id: 1,
+              shortname: 1,
+              name_de: 1,
+              num_repos: 1,
+              num_members: 1,
+              total_num_forks_in_repos: 1,
+              avatar: 1,
+              sector: 1,
+              repo_names: 1,
+              location: 1,
+              created_at: 1,
+            },
+          },
+          {
+            $sort: { [sortKey]: direction },
+          },
+          {
+            $skip: limit * page,
+          },
+          {
+            $limit: limit,
+          },
+        ],
         {
-          $sort: { [sortKey]: direction },
+          allowDiskUse: true,
         },
-        {
-          $skip: limit * page,
-        },
-        {
-          $limit: limit,
-        },
-      ])
+      )
       .toArray() as Promise<InstitutionSummary[]>;
   }
 
@@ -313,106 +318,111 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     return this.client
       .db(this.database)
       .collection<RepositorySummary>(Tables.repositories)
-      .aggregate([
-        {
-          $match: {
-            $and: conditions,
+      .aggregate(
+        [
+          {
+            $match: {
+              $and: conditions,
+            },
           },
-        },
-        {
-          $project: {
-            _id: 0,
-            name: 1,
-            uuid: 1,
-            url: 1,
-            institution: 1,
-            organization: 1,
-            description: 1,
-            fork: { $toString: '$fork' },
-            num_forks: {
-              $getField: {
-                field: 'num_forks',
-                input: { $arrayElemAt: ['$stats', -1] },
+          {
+            $project: {
+              _id: 0,
+              name: 1,
+              uuid: 1,
+              url: 1,
+              institution: 1,
+              organization: 1,
+              description: 1,
+              fork: { $toString: '$fork' },
+              num_forks: {
+                $getField: {
+                  field: 'num_forks',
+                  input: { $arrayElemAt: ['$stats', -1] },
+                },
               },
-            },
-            num_contributors: {
-              $getField: {
-                field: 'num_contributors',
-                input: { $arrayElemAt: ['$stats', -1] },
+              num_contributors: {
+                $getField: {
+                  field: 'num_contributors',
+                  input: { $arrayElemAt: ['$stats', -1] },
+                },
               },
-            },
-            num_commits: {
-              $getField: {
-                field: 'num_commits',
-                input: { $arrayElemAt: ['$stats', -1] },
+              num_commits: {
+                $getField: {
+                  field: 'num_commits',
+                  input: { $arrayElemAt: ['$stats', -1] },
+                },
               },
-            },
-            num_stars: {
-              $getField: {
-                field: 'num_stars',
-                input: { $arrayElemAt: ['$stats', -1] },
+              num_stars: {
+                $getField: {
+                  field: 'num_stars',
+                  input: { $arrayElemAt: ['$stats', -1] },
+                },
               },
-            },
-            num_watchers: {
-              $getField: {
-                field: 'num_watchers',
-                input: { $arrayElemAt: ['$stats', -1] },
+              num_watchers: {
+                $getField: {
+                  field: 'num_watchers',
+                  input: { $arrayElemAt: ['$stats', -1] },
+                },
               },
-            },
-            has_own_commits: {
-              $getField: {
-                field: 'has_own_commits',
-                input: { $arrayElemAt: ['$stats', -1] },
+              has_own_commits: {
+                $getField: {
+                  field: 'has_own_commits',
+                  input: { $arrayElemAt: ['$stats', -1] },
+                },
               },
-            },
-            issues_closed: {
-              $getField: {
-                field: 'issues_closed',
-                input: { $arrayElemAt: ['$stats', -1] },
+              issues_closed: {
+                $getField: {
+                  field: 'issues_closed',
+                  input: { $arrayElemAt: ['$stats', -1] },
+                },
               },
-            },
-            issues_all: {
-              $getField: {
-                field: 'issues_all',
-                input: { $arrayElemAt: ['$stats', -1] },
+              issues_all: {
+                $getField: {
+                  field: 'issues_all',
+                  input: { $arrayElemAt: ['$stats', -1] },
+                },
               },
-            },
-            pull_requests_closed: {
-              $getField: {
-                field: 'pull_requests_closed',
-                input: { $arrayElemAt: ['$stats', -1] },
+              pull_requests_closed: {
+                $getField: {
+                  field: 'pull_requests_closed',
+                  input: { $arrayElemAt: ['$stats', -1] },
+                },
               },
-            },
-            pull_requests_all: {
-              $getField: {
-                field: 'pull_requests_all',
-                input: { $arrayElemAt: ['$stats', -1] },
+              pull_requests_all: {
+                $getField: {
+                  field: 'pull_requests_all',
+                  input: { $arrayElemAt: ['$stats', -1] },
+                },
               },
-            },
-            comments: {
-              $getField: {
-                field: 'comments',
-                input: { $arrayElemAt: ['$stats', -1] },
+              comments: {
+                $getField: {
+                  field: 'comments',
+                  input: { $arrayElemAt: ['$stats', -1] },
+                },
               },
+              timestamp: 1,
+              license: 1,
+              created_at: 1,
+              updated_at: 1,
+              logo: 1,
+              archived: 1,
             },
-            timestamp: 1,
-            license: 1,
-            created_at: 1,
-            updated_at: 1,
-            logo: 1,
-            archived: 1,
           },
-        },
+          {
+            $sort: { [key]: direction },
+          },
+          {
+            $skip: limit * page,
+          },
+          {
+            $limit: limit,
+          },
+        ],
         {
-          $sort: { [key]: direction },
+          allowDiskUse: true,
         },
-        {
-          $skip: limit * page,
-        },
-        {
-          $limit: limit,
-        },
-      ])
+      )
       .toArray() as Promise<RepositorySummary[]>;
   }
 
@@ -465,37 +475,42 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     return this.client
       .db(this.database)
       .collection<User>(Tables.contributors)
-      .aggregate([
-        {
-          $match: condition,
-        },
-        {
-          $project: {
-            _id: 0,
-            avatar_url: 1,
-            name: 1,
-            login: 1,
-            company: 1,
-            location: 1,
-            twitter_username: 1,
-            public_repos: 1,
-            public_gists: 1,
-            followers: 1,
-            created_at: 1,
-            updated_at: 1,
-            contributions: 1,
+      .aggregate(
+        [
+          {
+            $match: condition,
           },
-        },
+          {
+            $project: {
+              _id: 0,
+              avatar_url: 1,
+              name: 1,
+              login: 1,
+              company: 1,
+              location: 1,
+              twitter_username: 1,
+              public_repos: 1,
+              public_gists: 1,
+              followers: 1,
+              created_at: 1,
+              updated_at: 1,
+              contributions: 1,
+            },
+          },
+          {
+            $sort: { [key]: direction },
+          },
+          {
+            $skip: limit * page,
+          },
+          {
+            $limit: limit,
+          },
+        ],
         {
-          $sort: { [key]: direction },
+          allowDiskUse: true,
         },
-        {
-          $skip: limit * page,
-        },
-        {
-          $limit: limit,
-        },
-      ])
+      )
       .toArray() as Promise<UserSummary[]>;
   }
 
@@ -540,20 +555,25 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     return this.client
       .db(this.database)
       .collection(Tables.institutions)
-      .aggregate([
-        {
-          $project: {
-            _id: 0,
-            updatedDate: { $max: '$timestamp' },
+      .aggregate(
+        [
+          {
+            $project: {
+              _id: 0,
+              updatedDate: { $max: '$timestamp' },
+            },
           },
-        },
+          {
+            $sort: { updatedDate: -1 },
+          },
+          {
+            $limit: 1,
+          },
+        ],
         {
-          $sort: { updatedDate: -1 },
+          allowDiskUse: true,
         },
-        {
-          $limit: 1,
-        },
-      ])
+      )
       .toArray();
   }
 
@@ -787,6 +807,8 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
           },
           { $unwind: { path: '$repo', preserveNullAndEmptyArrays: true } },
           { $sort: { 'orga.created_at': 1 } },
+          //is that sort really necessary if in the end the list of orgs is
+          //sorted alphabetically in frontend?
           {
             $group: {
               _id: '$_id',
