@@ -806,9 +806,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
             },
           },
           { $unwind: { path: '$repo', preserveNullAndEmptyArrays: true } },
-          { $sort: { 'orga.created_at': 1 } },
-          //is that sort really necessary if in the end the list of orgs is
-          //sorted alphabetically in frontend?
+          //{ $sort: { 'orga.created_at': 1 } },
+          //is that sort really necessary if in the end the list of orgs
+          //is not sorted in the frontend?
           {
             $group: {
               _id: '$_id',
