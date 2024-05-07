@@ -304,11 +304,7 @@ export class InstitutionDetailViewComponent implements OnInit {
   // sorts the array of institution's Organization by name alphabetically
   sortOrgs() {
     this.data.institution.orgs.sort((a: Organization, b: Organization) => {
-      if (a.name.toLowerCase() < b.name.toLowerCase()) {
-        return -1;
-      } else {
-        return 1;
-      }
+      return a.name.localeCompare(b.name);
     });
   }
 
