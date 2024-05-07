@@ -3,11 +3,11 @@ import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { DataService } from '../data.service';
 
 @Component({
-  selector: 'app-institution-popup',
-  templateUrl: './institution-popup.component.html',
-  styleUrls: ['./institution-popup.component.scss'],
+  selector: 'app-add-institution',
+  templateUrl: './add-institution.component.html',
+  styleUrls: ['./add-institution.component.scss'],
 })
-export class InstitutionPopupComponent implements OnInit {
+export class AddInstitutionComponent implements OnInit {
   title = 'template-driven-form';
   formStatus: string = '';
   formdata: any = {};

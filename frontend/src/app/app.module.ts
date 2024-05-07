@@ -35,7 +35,7 @@ import { RepositoryDetailViewComponent } from './repository-detail-view/reposito
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
-import { InstitutionPopupComponent } from './institution-popup/institution-popup.component';
+import { AddInstitutionComponent } from './add-institution/add-institution.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 @NgModule({
   declarations: [
@@ -47,7 +47,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     RepositoriesRankingComponent,
     RepositoryDetailViewComponent,
     UserRankingComponent,
-    InstitutionPopupComponent,
+    AddInstitutionComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
-import { InstitutionPopupModule } from './institution-popup/institution-popup.module';
+import { AddInstitutionModule } from './add-institution/add-institution.module';
 import { AuthController } from './auth.controller';
 
 @Module({
@@ -12,7 +12,7 @@ import { AuthController } from './auth.controller';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '300s' },
     }),
-    InstitutionPopupModule,
+    AddInstitutionModule,
   ],
   providers: [AuthService],
   controllers: [AuthController],

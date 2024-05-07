@@ -6,7 +6,6 @@
             <input type="email" class="form-control" id="floatingInput" formControlName="username">
             <div *ngIf="loginForm.invalid && usernameControl?.touched && usernameControl.errors">
                 <span *ngIf="usernameControl.errors['required']">Username is required</span>
-                <span *ngIf="usernameControl.errors['email']">Username must be an email</span>
             </div>
         </div>
         
