@@ -2121,7 +2121,7 @@ export interface InstiutionApiResponse {
   sectors: { [key: string]: number };
 }
 
-export interface SingleInsitutionResponse {
+export interface SingleInstitutionResponse {
   avatar: string;
   sector: string;
   shortname: string;

@@ -25,12 +25,12 @@ The crawler skips all organisations and institutions which timestamps are younge
 
 **Start:** If there are already some crawled institutions and organisations
 
-The crawler gets the next institution and/or organisation that was never crawled or which timestamps are older than 7 Days.
-It may happen that 7 Days are not enougth to crawl all data, so there may be some re-crawls of allready crawled repos before new ones are crawled.
+The crawler gets the next institution and/or organisation that was never crawled or which timestamps are older than 7 days.
+It may happen that 7 Days are not enougth to crawl all data, so there may be some re-crawls of already crawled repos before new ones are crawled.
 
 ### Full data state
 
-**Start:** All institutions and organisations were allready crawled at least once.
+**Start:** All institutions and organisations were already crawled at least once.
 
 The crawler will just update the data, starting with the oldest timestamp.
 

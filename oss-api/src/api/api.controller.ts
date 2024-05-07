@@ -16,7 +16,7 @@ import {
   RepositoryQueryConfig,
   UserQueryConfig,
   InstiutionApiResponse,
-  SingleInsitutionResponse,
+  SingleInstitutionResponse,
   RepositoryApiResponse,
   UserApiResponse,
   TodoInstitution,
@@ -68,9 +68,9 @@ export class ApiController {
   @Get('singleInstitution')
   async findSingleInstitution(
     @Query() queryDto: SingleInstitutionQueryDTo,
-  ): Promise<SingleInsitutionResponse> {
+  ): Promise<SingleInstitutionResponse> {
     return (
-      await this.mongoDbService.findInsitutionWithShortName(queryDto.name)
+      await this.mongoDbService.findInstitutionWithShortName(queryDto.name)
     )[0];
   }
 
