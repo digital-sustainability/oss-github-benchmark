@@ -36,8 +36,9 @@
           stat.toNiceName
             ? (data.institution[stat.content] | toNiceName)
             : stat.content == "timestamp"
-            ? (data.institution[stat.content] | date: "MMMM d, yyyy 'at' H:mm")
-            : data.institution[stat.content]
+              ? (data.institution[stat.content]
+                | date: "MMMM d, yyyy 'at' H:mm")
+              : data.institution[stat.content]
         }}
       </span>
     </div>

@@ -7,7 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ChartConfiguration, ChartType } from 'chart.js';
 import Chart from 'chart.js/auto';
-import { Institution } from '../types';
+import { Institution, Organization } from '../types';
 @Component({
   selector: 'app-institution-detail-view',
   templateUrl: './institution-detail-view.component.html',
@@ -280,6 +280,7 @@ export class InstitutionDetailViewComponent implements OnInit {
         if (this.item.repos.length > 0) {
           this.dataSource = new MatTableDataSource(this.item.repos);
         }
+        this.sortOrgs();
       });
   }
 
@@ -298,6 +299,17 @@ export class InstitutionDetailViewComponent implements OnInit {
     this.sortDirection = event.direction == 'asc' ? 'ASC' : 'DESC';
     this.resetPaginator();
     this.reloadData();
+  }
+
+  // sorts the array of institution's Organization by name alphabetically
+  sortOrgs() {
+    this.data.institution.orgs.sort((a: Organization, b: Organization) => {
+      if (a.name.toLowerCase() < b.name.toLowerCase()) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
