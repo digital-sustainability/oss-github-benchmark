@@ -20,10 +20,10 @@
       <mat-icon>groups</mat-icon>
       <span>People Ranking</span>
     </button>
-    <!--     <button mat-button routerLink="/institution-popup">
-      <mat-icon>apartment</mat-icon>
+    <button mat-button routerLink="/add-institution" *ngIf="isLoggedIn()">
+      <mat-icon>note_add</mat-icon>
       <span>Add an Institution</span>
-    </button> -->
+    </button>
     <!-- <button mat-button routerLink="/visualization">
       <mat-icon>pie_chart</mat-icon>
       <span>Visualizations</span>
@@ -67,6 +67,18 @@
       <mat-icon>format_align_left</mat-icon>
       <span>Source Code</span>
     </a>
+    <a
+    mat-button (click)="logout()" type="submit" *ngIf="isLoggedIn()"
+  >
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
+  </a>
+  <a
+    mat-button routerLink="/add-institution" type="submit" *ngIf="isLoggedIn()==false"
+  >
+    <mat-icon>login</mat-icon>
+    <span>Login</span>
+  </a>
   </span>
 </mat-toolbar>
 
@@ -94,8 +106,9 @@
     </button>
     <button
       mat-button
-      routerLink="/institution-popup"
+      routerLink="/add-institution"
       (click)="onSidenavClick()"
+      *ngIf="isLoggedIn()"
     >
       <mat-icon>apartment</mat-icon>
       <span>Add an Institution</span>
@@ -145,6 +158,19 @@
       <mat-icon>format_align_left</mat-icon>
       <span>Source Code</span>
     </a>
+    <a
+    mat-button (click)="logout()" type="submit" *ngIf="isLoggedIn()"
+  >
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
+  </a>
+
+  <a
+  mat-button routerLink="/add-institution" type="submit" *ngIf="isLoggedIn()==false"
+>
+  <mat-icon>login</mat-icon>
+  <span>Login</span>
+</a>
   </mat-sidenav>
   <mat-sidenav-content>
     <main>

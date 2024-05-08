@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   login(): void {
     let username = this.loginForm.get('username').value;
     let password = this.loginForm.get('password').value;
-    this.authenticationService.login(username, password).subscribe(() => this.router.navigateByUrl("/"));
+    this.authenticationService.login(username, password).subscribe(() => this.router.navigateByUrl("/add-institution"));
   }
 
 }

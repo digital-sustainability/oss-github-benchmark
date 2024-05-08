@@ -36,6 +36,7 @@ export class GithubCrawlerService {
   private dataPath: string;
   private daysToWait = 7 * 24 * 60 * 60 * 1000; // Days * 24 hours * 60 minutes * 60 seconds * 1000 miliseconds
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   async onApplicationBootstrap() {}
 
   private sortAfterDate(

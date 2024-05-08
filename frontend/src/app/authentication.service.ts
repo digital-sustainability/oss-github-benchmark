@@ -1,33 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { TokenService } from './services/token.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  fakeUsername: string = "username";
-  fakePassword: string = "password";
-
-  constructor() { }
+  constructor(private http: HttpClient, private tokenService: TokenService) { }
 
   login(username: string, password: string): Observable<any> {
-    // Mock a successful call to an API server.
-    if (username == this.fakeUsername && password == this.fakePassword) {
-      localStorage.setItem("token", "my-super-secret-token-from-server");
-      return of(new HttpResponse({ status: 200 }));
-    } else {
-      return of(new HttpResponse({ status: 401 }));
-    }
+    this.http.post(environment.api + "auth/login", {
+      username,
+      password
+    }).subscribe((res: { access_token: string }) => {
+      this.tokenService.setAccessToken(res.access_token)
+    })
+    return of(new HttpResponse({ status: 200 }));
+ 
   }
 
   logout(): void {
-    localStorage.removeItem("token");
+    this.tokenService.removeAccessToken()
+
   }
 
   isUserLoggedIn(): boolean {
-    if (localStorage.getItem("token") != null) {
+    if (this.tokenService.getAccessToken() != null) {
       return true;
     }
     return false;

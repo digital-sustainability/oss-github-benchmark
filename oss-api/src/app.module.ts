@@ -11,6 +11,7 @@ import { TransformerService } from './transformer/transformer.service';
 import { GithubCrawlerService } from './github-crawler/github-crawler.service';
 import { DataService } from './data/data.service';
 import { TelemetryService } from './telemetry/telemetry.service';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -20,6 +21,7 @@ import { TelemetryService } from './telemetry/telemetry.service';
       exclude: ['api'],
       rootPath: join(__dirname, '..', 'client'),
     }),
+    AuthModule,
   ],
   controllers: [ApiController],
   providers: [
@@ -30,5 +32,6 @@ import { TelemetryService } from './telemetry/telemetry.service';
     DataService,
     TelemetryService,
   ],
+  exports: [],
 })
 export class AppModule {}

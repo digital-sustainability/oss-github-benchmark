@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InstitutionDetailViewComponent } from './institution-detail-view/institution-detail-view.component';
@@ -35,7 +35,8 @@ import { RepositoryDetailViewComponent } from './repository-detail-view/reposito
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
-import { InstitutionPopupComponent } from './institution-popup/institution-popup.component';
+import { AddInstitutionComponent } from './add-institution/add-institution.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,7 @@ import { InstitutionPopupComponent } from './institution-popup/institution-popup
     RepositoriesRankingComponent,
     RepositoryDetailViewComponent,
     UserRankingComponent,
-    InstitutionPopupComponent,
+    AddInstitutionComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -76,7 +77,7 @@ import { InstitutionPopupComponent } from './institution-popup/institution-popup
     MatDividerModule,
     // NgChartsModule,
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

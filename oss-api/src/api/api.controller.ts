@@ -1,4 +1,7 @@
 import {
+  HttpCode,
+  HttpStatus,
+  UseGuards,
   Body,
   Controller,
   Get,
@@ -27,10 +30,15 @@ import {
 import { UserQueryDto } from './dto/user-query.dto';
 import { RepositoryQueryDto } from './dto/repository-query.dto';
 import { RepositoryQueryPipe } from 'src/repository-query.pipe';
+import { AuthService } from 'src/auth/auth.service';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('api')
 export class ApiController {
-  constructor(private mongoDbService: MongoDbService) {}
+  constructor(
+    private mongoDbService: MongoDbService,
+    private authService: AuthService,
+  ) {}
   private sectors = [
     'IT',
     'Communities',
@@ -96,10 +104,11 @@ export class ApiController {
     return (await this.mongoDbService.latestUpdate())[0];
   }
 
-  // @Post('institution')
-  // async addInstitution(@Body('institution') institution: TodoInstitution) {
-  //   return this.mongoDbService.createNewTodoInstitution(institution);
-  // }
+  @UseGuards(AuthGuard)
+  @Post('institution')
+  async addInstitution(@Body('institution') institution: TodoInstitution) {
+    return this.mongoDbService.createNewTodoInstitution(institution);
+  }
 
   /***********************************Helper************************************************/
   /**

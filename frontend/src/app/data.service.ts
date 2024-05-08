@@ -24,13 +24,13 @@ export class DataService {
   async createNewTodoInstitution(institution: TodoInstitution) {
     console.log(institution);
     return await this.http
-      .post<TodoInstitution>(`${environment.api}institution`, { institution })
+      .post<TodoInstitution>(`${environment.api}api/institution`, { institution })
       .toPromise();
   }
 
   async loadSingleInstitution(config: { name: string }): Promise<Institution> {
     this.institutionData = await this.http
-      .get<Institution>(`${environment.api}singleInstitution`, {
+      .get<Institution>(`${environment.api}api/singleInstitution`, {
         params: config,
       })
       .toPromise();
@@ -51,7 +51,7 @@ export class DataService {
     sectors: { [key: string]: number };
   }> {
     this.institutionData = await this.http
-      .get<InstitutionSummary[]>(`${environment.api}paginatedInstitutions`, {
+      .get<InstitutionSummary[]>(`${environment.api}api/paginatedInstitutions`, {
         params: config,
       })
       .toPromise();
@@ -60,7 +60,7 @@ export class DataService {
 
   async loadLatestUpdate() {
     let latestUpdate = await this.http
-      .get<{ updatedDate: string }>(`${environment.api}latestUpdate`, {})
+      .get<{ updatedDate: string }>(`${environment.api}api/latestUpdate`, {})
       .toPromise();
     return latestUpdate.updatedDate;
   }
@@ -77,7 +77,7 @@ export class DataService {
       .get<{
         repositories: Repository[];
         total: number;
-      }>(`${environment.api}paginatedRepositories`, {
+      }>(`${environment.api}api/paginatedRepositories`, {
         params: config,
       })
       .toPromise();
@@ -96,7 +96,7 @@ export class DataService {
       .get<{
         repositories: Repository[];
         total: number;
-      }>(`${environment.api}institutionRepositories`, {
+      }>(`${environment.api}api/institutionRepositories`, {
         params: config,
       })
       .toPromise();
@@ -114,7 +114,7 @@ export class DataService {
       .get<{
         users: User[];
         total: number;
-      }>(`${environment.api}paginatedUsers`, {
+      }>(`${environment.api}api/paginatedUsers`, {
         params: config,
       })
       .toPromise();

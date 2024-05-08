@@ -5,7 +5,7 @@ import { RankingComponent } from './ranking/ranking.component';
 import { RepositoriesRankingComponent } from './repositories-ranking/repositories-ranking.component';
 import { RepositoryDetailViewComponent } from './repository-detail-view/repository-detail-view.component';
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
-import { InstitutionPopupComponent } from './institution-popup/institution-popup.component';
+import { AddInstitutionComponent } from './add-institution/add-institution.component';
 import { AuthenticationGuard } from './authentication-guard.guard';
 import { LoginComponent } from './login/login.component';
 import { LoginModule } from './login/login.module';
@@ -49,19 +49,25 @@ const routes: Routes = [
     component: UserRankingComponent,
   },
   {
-    path: 'institution-popup',
-    component: InstitutionPopupComponent,
-    canActivate: [AuthenticationGuard],
+    path: 'add-institution',
+    component: AddInstitutionComponent,
+    canActivate: [AuthenticationGuard]
   },
   {
-    path: 'institution-popup/:institution-popup',
-    component: InstitutionPopupComponent,
+    path: 'add-institution/:add-institution',
+    component: AddInstitutionComponent,
+    canActivate: [AuthenticationGuard]
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
   // {
   //   path: 'explore/item/:itemName',
   //   component: ExploreItemComponent,
   // },
   { path: '', redirectTo: '/institutions', pathMatch: 'full' },
+  { path: "**", redirectTo: '/institutions', pathMatch: 'full' },
 ];
 
 @NgModule({

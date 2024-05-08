@@ -29,7 +29,7 @@ export class AuthenticationGuard implements CanActivate, CanActivateChild, CanLo
     return this.authenticate();
   }
 
-  private authenticate(): boolean {
+  authenticate(): boolean {
     if (!this.authService.isUserLoggedIn()) {
       this.router.navigateByUrl("/login");
       return false;
