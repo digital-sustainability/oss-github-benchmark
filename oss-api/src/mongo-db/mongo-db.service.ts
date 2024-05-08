@@ -190,7 +190,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
             },
           },
           { $unwind: { path: '$repo', preserveNullAndEmptyArrays: true } },
-          { $sort: { 'orga.created_at': 1 } },
+          // { $sort: { 'orga.created_at': 1 } }, // comment out to make "include forks" checkbox work
           {
             $group: {
               _id: '$_id',
