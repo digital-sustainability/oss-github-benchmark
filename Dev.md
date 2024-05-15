@@ -40,10 +40,10 @@ This can be done in 4 easy steps:
 
 ![MongoCompass Connection string](/assets/images/MongoConnection.png)
 
-3. Choose the **production** DB and then todoInstitution collection.
+4. Choose the **production** DB and then todoInstitution collection.
 
 ![Mongo choose DB](/assets/images/MongoDB.png)
 
-4. Press **Add Data -> Import file** and choose github_repos.json. Keep in mind that *Stop on errors* needs to be unchecked. Then just click *Import*. Note that Institutions with an ID already present in the DB are not imported/updated in the DB.
+5. Press **Add Data -> Import file** and choose github_repos.json. Keep in mind that *Stop on errors* needs to be unchecked. Then just click *Import*. Note that Institutions with an ID already present in the DB are not imported/updated in the DB.
 
 ![Add new Data to DB](/assets/images/AddData.png)
