@@ -110,6 +110,12 @@ export class ApiController {
     return this.mongoDbService.createNewTodoInstitution(institution);
   }
 
+  // @UseGuards(AuthGuard)
+  @Get('institution')
+  async findTodoInstitution() {
+    return await this.mongoDbService.findAllTodoInstitutions();
+  }
+
   /***********************************Helper************************************************/
   /**
    * Handle the instiution query with the given conditions

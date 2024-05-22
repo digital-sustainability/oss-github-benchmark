@@ -218,7 +218,7 @@
     "name_de": "Engie Services",
     "orgs": [
       {
-        "name": "engie",
+        "name": "engie-group",
         "ts": null
       }
     ]
@@ -686,7 +686,7 @@
     "name_de": "Schweizer Armee",
     "orgs": [
       {
-        "name": "Zentrum digitale Medien der Armee",
+        "name": "ZEM-Mediamatiker",
         "ts": null
       }
     ]

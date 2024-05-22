@@ -12,10 +12,16 @@ export class AddInstitutionComponent implements OnInit {
   formStatus: string = '';
   formdata: any = {};
   reactiveForm: FormGroup;
+  dataSource: any;
+  displayedColumns: string[] = ['name_de','uuid', 'sector', 'shortname',  'ts','orgs', 'edit'];
 
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
+    this.dataService.LoadTodoInstitutions().then(data => {
+      this.dataSource = data;
+    });
+
     this.reactiveForm = new FormGroup({
       name_de: new FormControl(null, [Validators.required]),
       shortName: new FormControl(null, [
@@ -47,7 +53,7 @@ export class AddInstitutionComponent implements OnInit {
   async OnFormSubmitted() {
     console.log(this.reactiveForm.value);
     this.formdata = this.reactiveForm.value;
-    const response = await this.dataService.createNewTodoInstitution(
+    await this.dataService.createNewTodoInstitution(
       this.formdata,
     );
     this.reactiveForm.reset({
@@ -78,4 +84,33 @@ export class AddInstitutionComponent implements OnInit {
     const controls = <FormArray>this.reactiveForm.get('orgs');
     controls.removeAt(index);
   }
+  editTodoInstitution(institution) {
+
+  
+    // Add additional FormGroups for the organizations if there are more in the institution than in the form
+    const orgsControl = <FormArray>this.reactiveForm.get('orgs');
+    while (orgsControl.length < institution.orgs.length) {
+      this.AddOrg();
+    }
+  
+    // Remove additional FormGroups for the organizations if there are more in the form than in the institution
+    while (orgsControl.length > institution.orgs.length) {
+      this.DeleteOrg(orgsControl.length - 1);
+    }
+// write values from chosen institution to the form
+    this.reactiveForm.patchValue({
+      name_de: institution.name_de,
+      shortName: institution.shortname,
+      uuid: institution.uuid,
+      sector: institution.sector,
+      ts: institution.ts,
+      orgs: institution.orgs.map(org => ({
+        name: org.name,
+        ts_org: org.ts
+      }))
+    });
+  }
+
+
+
 }

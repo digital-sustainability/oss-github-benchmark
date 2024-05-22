@@ -1,4 +1,3 @@
-
 <section class="container" [ngClass]="formStatus">
   <header>Institution Form</header>
 
@@ -6,33 +5,68 @@
     <div class="column">
       <div class="input-box">
         <mat-label>Name</mat-label>
-        <input type="text" placeholder="e.g. Tecan Group" formControlName="name_de" />
-        <small *ngIf="reactiveForm.get('name_de').errors?.['required'] && reactiveForm.get('name_de').touched">
+        <input
+          type="text"
+          placeholder="e.g. Tecan Group"
+          formControlName="name_de"
+        />
+        <small
+          *ngIf="
+            reactiveForm.get('name_de').errors?.['required'] &&
+            reactiveForm.get('name_de').touched
+          "
+        >
           *Name is a required field.
         </small>
-      </div> 
+      </div>
 
       <div class="input-box">
         <mat-label>Abbreviated name (Shortname)</mat-label>
-        <input type="text" placeholder="e.g. Tecan" formControlName="shortName" />
-        <small *ngIf="reactiveForm.get('shortName').invalid && reactiveForm.get('shortName').touched">
+        <input
+          type="text"
+          placeholder="e.g. Tecan"
+          formControlName="shortName"
+        />
+        <small
+          *ngIf="
+            reactiveForm.get('shortName').invalid &&
+            reactiveForm.get('shortName').touched
+          "
+        >
           *shortname is a required field. No Space is allowed for Shortname.
         </small>
       </div>
-    </div>    
+    </div>
 
     <div class="input-box">
       <mat-label>uuid</mat-label>
-      <input type="text" placeholder="e.g. dd2e1e51-9281-4160-a197-216dd1f623d0" formControlName="uuid" />
-      <small *ngIf="reactiveForm.get('uuid').invalid && reactiveForm.get('uuid').touched">
+      <input
+        type="text"
+        placeholder="e.g. dd2e1e51-9281-4160-a197-216dd1f623d0"
+        formControlName="uuid"
+      />
+      <small
+        *ngIf="
+          reactiveForm.get('uuid').invalid && reactiveForm.get('uuid').touched
+        "
+      >
         *uuid is a required field.
       </small>
     </div>
 
     <div class="input-box">
       <mat-label>Sector</mat-label>
-      <input type="text" placeholder="e.g. ResearchAndEducation" formControlName="sector" />
-      <small *ngIf="reactiveForm.get('sector').invalid && reactiveForm.get('sector').touched">
+      <input
+        type="text"
+        placeholder="e.g. ResearchAndEducation"
+        formControlName="sector"
+      />
+      <small
+        *ngIf="
+          reactiveForm.get('sector').invalid &&
+          reactiveForm.get('sector').touched
+        "
+      >
         *Sector is a required field.
       </small>
     </div>
@@ -42,25 +76,100 @@
       <input type="text" placeholder="null" formControlName="ts" />
     </div>
 
-
     <div class="input-box orgs" formArrayName="orgs">
       <h4>Add Organization(s)</h4>
-      <div class="column" *ngFor="let control of reactiveForm.get('orgs')['controls']; let i =index" [formGroupName]="i">
-          <input type="text" placeholder="e.g.Tecan Genomics" formControlName="name"/>
-          <input type="text" placeholder="null" formControlName="ts_org"/>
+      <div
+        class="column"
+        *ngFor="
+          let control of reactiveForm.get('orgs')['controls'];
+          let i = index
+        "
+        [formGroupName]="i"
+      >
+        <input
+          type="text"
+          placeholder="e.g.Tecan Genomics"
+          formControlName="name"
+        />
+        <input type="text" placeholder="null" formControlName="ts_org" />
         <button type="button" class="btn-add-delete" (click)="DeleteOrg(i)">
           Delete
         </button>
       </div>
     </div>
-      <button type="button" class="btn-add-delete" (click)="AddOrg()">
-        Add Organization
-      </button>
+    <button type="button" class="btn-add-delete" (click)="AddOrg()">
+      Add Organization
+    </button>
 
-
-
-    <input type="submit" value="Save Institution" class="submit-btn" [disabled]="!reactiveForm.valid"> 
+    <input
+      type="submit"
+      value="Save Institution"
+      class="submit-btn"
+      [disabled]="!reactiveForm.valid"
+    />
   </form>
 </section>
 
+<div>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+  <!-- Name DE Column -->
+  <ng-container matColumnDef="name_de">
+    <th mat-header-cell *matHeaderCellDef>Name_de</th>
+    <td mat-cell *matCellDef="let institution">{{ institution.name_de }}</td>
+  </ng-container>
+  
+  <!-- UUID Column -->
+  <ng-container matColumnDef="uuid">
+    <th mat-header-cell *matHeaderCellDef>UUID</th>
+    <td mat-cell *matCellDef="let institution">{{ institution.uuid }}</td>
+  </ng-container>
 
+  <!-- Sector Column -->
+  <ng-container matColumnDef="sector">
+    <th mat-header-cell *matHeaderCellDef>Sector</th>
+    <td mat-cell *matCellDef="let institution">{{ institution.sector }}</td>
+  </ng-container>
+
+  <!-- Shortname Column -->
+  <ng-container matColumnDef="shortname">
+    <th mat-header-cell *matHeaderCellDef>Shortname</th>
+    <td mat-cell *matCellDef="let institution">{{ institution.shortname }}</td>
+  </ng-container>
+
+  <!-- Timestamp -->
+  <ng-container matColumnDef="ts">
+    <th mat-header-cell *matHeaderCellDef>Timestamp</th>
+    <td mat-cell *matCellDef="let institution">{{ institution.ts }}</td>
+  </ng-container>
+
+ <!-- Orgs Column -->
+  <ng-container matColumnDef="orgs">
+    <th mat-header-cell *matHeaderCellDef> Orgs </th>
+    <td mat-cell *matCellDef="let institution">
+      <table mat-table [dataSource]="institution.orgs" class="mat-elevation-z8">
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <td mat-cell *matCellDef="let org"> {{org.name}} </td>
+        </ng-container>
+
+        <tr mat-row *matRowDef="let row; columns: ['name'];"></tr>
+      </table>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="edit"
+    ><th mat-header-cell *matHeaderCellDef>Edit</th>
+    <td mat-cell *matCellDef="let institution">
+      <button mat-raised-button (click)="editTodoInstitution(institution)">
+        Edit
+      </button>
+
+    </td></ng-container
+  >
+  
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+</div>

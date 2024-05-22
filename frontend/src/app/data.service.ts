@@ -1,6 +1,6 @@
 import { TodoInstitution } from './types';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   Institution,
   InstitutionSumary as InstitutionSummary,
@@ -9,6 +9,8 @@ import {
 } from './types';
 import { shareReplay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { TokenService } from './services/token.service';
+
 
 @Injectable({
   providedIn: 'root',
@@ -18,14 +20,24 @@ export class DataService {
     .get<Metric[]>('assets/options.json')
     .pipe(shareReplay(1));
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private tokenService: TokenService) {}
   private institutionData = null;
+  private TodoInstitutions = null;
 
   async createNewTodoInstitution(institution: TodoInstitution) {
     console.log(institution);
+    const token = this.tokenService.getAccessToken(); 
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return await this.http
-      .post<TodoInstitution>(`${environment.api}api/institution`, { institution })
+      .post<TodoInstitution>(`${environment.api}api/institution`, institution, { headers })
       .toPromise();
+  }
+
+  async LoadTodoInstitutions() {
+    this.TodoInstitutions = await this.http
+      .get<TodoInstitution>(`${environment.api}api/ginstitution`)
+      .toPromise();
+      return this.TodoInstitutions;
   }
 
   async loadSingleInstitution(config: { name: string }): Promise<Institution> {
