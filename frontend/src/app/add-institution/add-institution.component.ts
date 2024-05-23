@@ -24,7 +24,7 @@ export class AddInstitutionComponent implements OnInit {
 
     this.reactiveForm = new FormGroup({
       name_de: new FormControl(null, [Validators.required]),
-      shortName: new FormControl(null, [
+      shortname: new FormControl(null, [
         Validators.required,
         Validators.pattern(/^(\S*)$/),
       ]),
@@ -56,7 +56,7 @@ export class AddInstitutionComponent implements OnInit {
     );
     this.reactiveForm.reset({
       name_de: null,
-      shortName: null,
+      shortNnme: null,
       uuid: null,
       sector: null,
       ts: null,
@@ -98,7 +98,7 @@ export class AddInstitutionComponent implements OnInit {
 // write values from chosen institution to the form
     this.reactiveForm.patchValue({
       name_de: institution.name_de,
-      shortName: institution.shortname,
+      shortname: institution.shortname,
       uuid: institution.uuid,
       sector: institution.sector,
       ts: institution.ts,

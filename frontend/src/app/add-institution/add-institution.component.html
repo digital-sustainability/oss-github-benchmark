@@ -25,12 +25,12 @@
         <input
           type="text"
           placeholder="e.g. Tecan"
-          formControlName="shortName"
+          formControlName="shortname"
         />
         <small
           *ngIf="
-            reactiveForm.get('shortName').invalid &&
-            reactiveForm.get('shortName').touched
+            reactiveForm.get('shortname').invalid &&
+            reactiveForm.get('shortname').touched
           "
         >
           *shortname is a required field. No Space is allowed for Shortname.
