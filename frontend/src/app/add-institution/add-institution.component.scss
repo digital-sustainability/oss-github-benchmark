@@ -98,8 +98,27 @@
     transition: all 0.2s ease;
     background: #888;
   }
+
   .form .submit-btn:hover {
     background: #555;
+  }
+
+  .form .delete-btn {
+    height: 55px;
+    width: 100%;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-top: 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #d82222;
+  }
+
+  .form .delete-btn:hover {
+    background: #da6565;
   }
   /*Responsive*/
   @media screen and (max-width: 500px) {

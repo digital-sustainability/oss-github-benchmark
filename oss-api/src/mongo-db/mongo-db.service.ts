@@ -521,6 +521,13 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
       .replaceOne({ uuid: institution.uuid }, institution, { upsert: true });
   }
 
+  async deleteTodoInstitution(institution: TodoInstitution) {
+    return await this.client
+      .db(this.database)
+      .collection<TodoInstitution>(Tables.todoInstitutions)
+      .deleteOne({ uuid: institution.uuid });
+  }
+
   /**
    * Count all users with the given condtions
    * @param conditions The conditions to filter with

@@ -105,10 +105,15 @@
 
     <input
       type="submit"
-      value="Save Institution"
+      value="Save/Update Institution"
       class="submit-btn"
       [disabled]="!reactiveForm.valid"
     />
+
+    <button type="button" class="delete-btn" (click)="DeleteInst()">
+      Delete Whole Institution
+    </button>
+
   </form>
 </section>
 

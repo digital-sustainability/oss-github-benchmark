@@ -35,6 +35,22 @@ export class DataService {
       .toPromise();
   }
 
+  async DeleteTodoInstitution(institution) {
+    if (!institution ) {
+      throw new Error('Invalid institution object');
+    }
+    const token = this.tokenService.getAccessToken(); 
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  const options = {
+    headers: headers,
+    body: { institution }
+  };
+  return await this.http
+    .delete<TodoInstitution>(`${environment.api}api/institution`, options)
+    .toPromise();
+
+  }
+
   async LoadTodoInstitutions() {
     this.TodoInstitutions = await this.http
       .get<TodoInstitution>(`${environment.api}api/institution`)

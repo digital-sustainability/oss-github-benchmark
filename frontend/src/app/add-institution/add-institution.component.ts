@@ -13,12 +13,20 @@ export class AddInstitutionComponent implements OnInit {
   formdata: any = {};
   reactiveForm: FormGroup;
   dataSource: any;
-  displayedColumns: string[] = ['name_de','uuid', 'sector', 'shortname',  'ts','orgs', 'edit'];
+  displayedColumns: string[] = [
+    'name_de',
+    'uuid',
+    'sector',
+    'shortname',
+    'ts',
+    'orgs',
+    'edit',
+  ];
 
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    this.dataService.LoadTodoInstitutions().then(data => {
+    this.dataService.LoadTodoInstitutions().then((data) => {
       this.dataSource = data;
     });
 
@@ -51,9 +59,7 @@ export class AddInstitutionComponent implements OnInit {
 
   async OnFormSubmitted() {
     this.formdata = this.reactiveForm.value;
-    await this.dataService.createNewTodoInstitution(
-      this.formdata,
-    );
+    await this.dataService.createNewTodoInstitution(this.formdata);
     this.reactiveForm.reset({
       name_de: null,
       shortNnme: null,
@@ -82,33 +88,47 @@ export class AddInstitutionComponent implements OnInit {
     const controls = <FormArray>this.reactiveForm.get('orgs');
     controls.removeAt(index);
   }
-  editTodoInstitution(institution) {
 
-  
+  editTodoInstitution(institution) {
     // Add additional FormGroups for the organizations if there are more in the institution than in the form
     const orgsControl = <FormArray>this.reactiveForm.get('orgs');
     while (orgsControl.length < institution.orgs.length) {
       this.AddOrg();
     }
-  
+
     // Remove additional FormGroups for the organizations if there are more in the form than in the institution
     while (orgsControl.length > institution.orgs.length) {
       this.DeleteOrg(orgsControl.length - 1);
     }
-// write values from chosen institution to the form
+    // write values from chosen institution to the form
     this.reactiveForm.patchValue({
       name_de: institution.name_de,
       shortname: institution.shortname,
       uuid: institution.uuid,
       sector: institution.sector,
       ts: institution.ts,
-      orgs: institution.orgs.map(org => ({
+      orgs: institution.orgs.map((org) => ({
         name: org.name,
-        ts_org: org.ts
-      }))
+        ts_org: org.ts,
+      })),
     });
   }
 
-
-
+  async DeleteInst() {
+    this.formdata = this.reactiveForm.value;
+    await this.dataService.DeleteTodoInstitution(this.formdata);
+    this.reactiveForm.reset({
+      name_de: null,
+      shortNnme: null,
+      uuid: null,
+      sector: null,
+      ts: null,
+      orgs: [
+        {
+          name: null,
+          ts_org: null,
+        },
+      ],
+    });
+  }
 }
