@@ -4,6 +4,8 @@
   <header>Institution Form</header>
 
   <form class="form" [formGroup]="reactiveForm" (ngSubmit)="OnFormSubmitted()">
+
+    The Documents in the Database are matched using the uuid. This means that if you make changes to the Institution with an existing uuid, the Data from this Institution will be overwritten!  If the uuid is new (there is no Institution with this uuid in the Database), a new Institution will be created and added to the Todointitution Collection.
     <div class="column">
       <div class="input-box">
         <mat-label>Name</mat-label>
