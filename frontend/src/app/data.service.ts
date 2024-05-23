@@ -24,18 +24,20 @@ export class DataService {
   private institutionData = null;
   private TodoInstitutions = null;
 
-  async createNewTodoInstitution(institution: TodoInstitution) {
-    console.log(institution);
+  async createNewTodoInstitution(institution) {
+    if (!institution ) {
+      throw new Error('Invalid institution object');
+    }
     const token = this.tokenService.getAccessToken(); 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return await this.http
-      .post<TodoInstitution>(`${environment.api}api/institution`, institution, { headers })
+      .post<TodoInstitution>(`${environment.api}api/institution`, {institution}, { headers })
       .toPromise();
   }
 
   async LoadTodoInstitutions() {
     this.TodoInstitutions = await this.http
-      .get<TodoInstitution>(`${environment.api}api/ginstitution`)
+      .get<TodoInstitution>(`${environment.api}api/institution`)
       .toPromise();
       return this.TodoInstitutions;
   }

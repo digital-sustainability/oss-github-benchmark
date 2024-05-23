@@ -30,15 +30,11 @@ import {
 import { UserQueryDto } from './dto/user-query.dto';
 import { RepositoryQueryDto } from './dto/repository-query.dto';
 import { RepositoryQueryPipe } from 'src/repository-query.pipe';
-import { AuthService } from 'src/auth/auth.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('api')
 export class ApiController {
-  constructor(
-    private mongoDbService: MongoDbService,
-    private authService: AuthService,
-  ) {}
+  constructor(private mongoDbService: MongoDbService) {}
   private sectors = [
     'IT',
     'Communities',
@@ -110,7 +106,7 @@ export class ApiController {
     return this.mongoDbService.createNewTodoInstitution(institution);
   }
 
-  // @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Get('institution')
   async findTodoInstitution() {
     return await this.mongoDbService.findAllTodoInstitutions();

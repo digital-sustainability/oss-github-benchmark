@@ -45,13 +45,11 @@ export class AddInstitutionComponent implements OnInit {
     });
 
     this.reactiveForm.statusChanges.subscribe((status) => {
-      console.log(status);
       this.formStatus = status;
     });
   }
 
   async OnFormSubmitted() {
-    console.log(this.reactiveForm.value);
     this.formdata = this.reactiveForm.value;
     await this.dataService.createNewTodoInstitution(
       this.formdata,
