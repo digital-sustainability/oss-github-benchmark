@@ -1,3 +1,5 @@
+<div class="wrapper">
+
 <section class="container" [ngClass]="formStatus">
   <header>Institution Form</header>
 
@@ -110,7 +112,7 @@
   </form>
 </section>
 
-<div>
+<div class="table-container">
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   
   <!-- Name DE Column -->
@@ -172,4 +174,5 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
+</div>
 </div>

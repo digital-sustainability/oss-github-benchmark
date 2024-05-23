@@ -1,5 +1,38 @@
 @import "../../styles/colors.scss";
 
+/* Adjust container to be a flex container */
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Adjust the container and table sizes */
+.container {
+  flex: 1 1 45%; /* Adjust the form to be 50% smaller */
+  max-width: 700px; /* Optional, based on your design */
+}
+
+.table-container {
+  flex: 1 1 45%; /* Adjust the table container to fit beside the form */
+}
+
+
+
+/* Responsive adjustments */
+@media screen and (max-width: 1200px) {
+  .container, .table-container {
+    flex: 1 1 100%; /* Stack the form and table vertically on smaller screens */
+  }
+}
+
+/* Define a class for the Name_de column to control its width */
+.mat-column-name_de {
+  width: 300px; /* Set the desired width */
+  max-width: 1000px; /* Ensure it doesn't grow larger */
+  word-wrap: break-word; /* Wrap text if it overflows */
+}
+
 
 .container {
     position: relative;
