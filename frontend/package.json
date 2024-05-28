@@ -43,6 +43,7 @@
     "puppeteer": "^20.9.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
+    "uuid": "^9.0.1",
     "zone.js": "~0.13.1"
   },
   "devDependencies": {
@@ -53,6 +54,7 @@
     "@types/d3": "^6.2.0",
     "@types/express": "^4.17.0",
     "@types/node": "^12.11.1",
+    "@types/uuid": "^9.0.8",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~4.9.5"

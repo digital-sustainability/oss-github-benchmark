@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { DataService } from '../data.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-add-institution',
@@ -8,6 +9,7 @@ import { DataService } from '../data.service';
   styleUrls: ['./add-institution.component.scss'],
 })
 export class AddInstitutionComponent implements OnInit {
+  isEditMode: boolean = false;
   title = 'template-driven-form';
   formStatus: string = '';
   formdata: any = {};
@@ -131,4 +133,21 @@ export class AddInstitutionComponent implements OnInit {
       ],
     });
   }
+
+  generateUUID(): void {
+    if (!this.isEditMode) {
+      const newUUID = uuidv4();
+      this.reactiveForm.patchValue({ uuid: newUUID });
+    }
+  }
+
+  // User should not be able to edit uuid if the institution is already created
+  activateEditMode(): void {
+    this.isEditMode = true;
+  }
+
+  deactivateEditMode(): void {
+    this.isEditMode = false;
+  }
+
 }

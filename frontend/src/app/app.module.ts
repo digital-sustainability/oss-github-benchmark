@@ -1,10 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -29,7 +27,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
 // import { NgChartsModule } from 'ng2-charts';
-
 import { ToNiceNamePipe } from './pipes/toNiceName.pipe';
 import { RepositoriesRankingComponent } from './repositories-ranking/repositories-ranking.component';
 import { RepositoryDetailViewComponent } from './repository-detail-view/repository-detail-view.component';
@@ -38,6 +35,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
 import { AddInstitutionComponent } from './add-institution/add-institution.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+
 @NgModule({
   declarations: [
     AppComponent,
