@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InstitutionDetailViewComponent } from './institution-detail-view/institution-detail-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -51,12 +52,15 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,}),
     AppRoutingModule,
     HttpClientModule,
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
