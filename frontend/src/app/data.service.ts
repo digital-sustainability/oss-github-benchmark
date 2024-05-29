@@ -10,6 +10,9 @@ import {
 import { shareReplay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { TokenService } from './services/token.service';
+import { ToastrService } from 'ngx-toastr';
+import { catchError } from 'rxjs/operators';
+import { NEVER, throwError } from 'rxjs';
 
 
 @Injectable({
@@ -20,7 +23,7 @@ export class DataService {
     .get<Metric[]>('assets/options.json')
     .pipe(shareReplay(1));
 
-  constructor(private http: HttpClient, private tokenService: TokenService) {}
+  constructor(private http: HttpClient, private tokenService: TokenService, private toastr: ToastrService) {}
   private institutionData = null;
   private TodoInstitutions = null;
 
@@ -52,10 +55,17 @@ export class DataService {
   }
 
   async LoadTodoInstitutions() {
-    this.TodoInstitutions = await this.http
+    return this.http
       .get<TodoInstitution>(`${environment.api}api/institution`)
+      .pipe(
+        catchError(error => {
+          if (error.status === 401) {
+            this.toastr.error("Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.", "Login timeout", {disableTimeOut: true});
+          }
+          return throwError(error);
+        })
+      )
       .toPromise();
-      return this.TodoInstitutions;
   }
 
   async loadSingleInstitution(config: { name: string }): Promise<Institution> {
