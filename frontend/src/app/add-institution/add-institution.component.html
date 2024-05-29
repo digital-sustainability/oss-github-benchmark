@@ -2,11 +2,7 @@
   <section class="container" [ngClass]="formStatus">
     <header>Institution Form</header>
 
-    <form
-      class="form"
-      [formGroup]="reactiveForm"
-      (ngSubmit)="OnFormSubmitted()"
-    >
+    <form [formGroup]="reactiveForm">
       The Documents in the Database are matched using the uuid. This means that
       if you make changes to the Institution with an existing uuid, the Data
       from this Institution will be overwritten! If the uuid is new (there is no
@@ -31,7 +27,7 @@
         </div>
 
         <div class="input-box">
-          <mat-label>Abbreviated name (Shortname)</mat-label>
+          <mat-label>Short name</mat-label>
           <input
             type="text"
             placeholder="e.g. Tecan"
@@ -48,44 +44,62 @@
         </div>
       </div>
 
-      <div class="input-box">
+      <div class="input-box button-container">
         <mat-label>UUID</mat-label>
-        <div class="uuid-input-container">
-          <input
-            type="text"
-            placeholder="e.g. dd2e1e51-9281-4160-a197-216dd1f623d0"
-            formControlName="uuid"
-            [readOnly]="isEditMode"
-          />
-        </div>
-        <small
-          *ngIf="
-            reactiveForm.get('uuid').invalid && reactiveForm.get('uuid').touched
-          "
-        >
-          *UUID is a required field.
-        </small>
-        <small *ngIf="isEditMode">
-          Sie befinden sich im Bearbeitungsmodus, die uuid bestehender
-          Institutionen sollte nicht abgeändert werden
-        </small>
+        <input
+          type="text"
+          placeholder="e.g. dd2e1e51-9281-4160-a197-216dd1f623d0"
+          formControlName="uuid"
+          [readOnly]="isEditMode"
+        />
         <button
+          mat-raised-button
           type="button"
-          class="btn-add-delete"
+          class="inside-btn"
           (click)="generateUUID()"
           [disabled]="isEditMode"
         >
           Generate new UUID
         </button>
       </div>
+      <small
+        *ngIf="
+          reactiveForm.get('uuid').invalid && reactiveForm.get('uuid').touched
+        "
+      >
+        *UUID is a required field.
+      </small>
+      <small *ngIf="isEditMode">
+        Sie befinden sich im Bearbeitungsmodus, die uuid bestehender
+        Institutionen sollte nicht abgeändert werden
+      </small>
 
       <div class="input-box">
-        <mat-label>Sector</mat-label>
-        <input
-          type="text"
-          placeholder="e.g. ResearchAndEducation"
-          formControlName="sector"
-        />
+        <mat-form-field>
+          <mat-label>Sector</mat-label>
+          <mat-select formControlName="sector">
+            <mat-option value="IT">IT</mat-option>
+            <mat-option value="Communities">Communities</mat-option>
+            <mat-option value="Insurances">Insurances</mat-option>
+            <mat-option value="Banking">Banking</mat-option>
+            <mat-option value="Media">Media</mat-option>
+            <mat-option value="FoodBeverage">FoodBeverage</mat-option>
+            <mat-option value="Pharma">Pharma</mat-option>
+            <mat-option value="Others">Others</mat-option>
+            <mat-option value="Gov_Companies">Gov_Companies</mat-option>
+            <mat-option value="Gov_Federal">Gov_Federal</mat-option>
+            <mat-option value="Gov_Cantons">Gov_Cantons</mat-option>
+            <mat-option value="Gov_Cities">Gov_Cities</mat-option>
+            <mat-option value="NGOs">NGOs</mat-option>
+            <mat-option value="ResearchAndEducation"
+              >ResearchAndEducation</mat-option
+            >
+            <mat-option value="FoodBeverage/Others"
+              >FoodBeverage/Others</mat-option
+            >
+            <mat-option value="City">City</mat-option>
+          </mat-select>
+        </mat-form-field>
         <small
           *ngIf="
             reactiveForm.get('sector').invalid &&
@@ -96,9 +110,22 @@
         </small>
       </div>
 
-      <div class="input-box">
-        <mat-label>Timestamp</mat-label>
-        <input type="text" placeholder="null" formControlName="ts" />
+      <div class="input-box button-container">
+        <mat-label>Timestamp (Last time Institution was crawled)</mat-label>
+        <input
+          [readOnly]="true"
+          type="text"
+          placeholder="null"
+          formControlName="ts"
+        />
+        <button
+          mat-raised-button
+          type="button"
+          class="inside-btn"
+          (click)="resetTimestamp()"
+        >
+          Reset Timestamp
+        </button>
       </div>
 
       <div class="input-box orgs" formArrayName="orgs">
@@ -116,31 +143,69 @@
             placeholder="e.g.Tecan Genomics"
             formControlName="name"
           />
-          <input type="text" placeholder="null" formControlName="ts_org" />
-          <button type="button" class="btn-add-delete" (click)="DeleteOrg(i)">
-            Delete
+          <small
+            *ngIf="
+              reactiveForm.get('orgs').invalid &&
+              reactiveForm.get('orgs').touched
+            "
+          >
+            *shortname is a required field. No Space is allowed for Shortname.
+          </small>
+          <!-- <input type="text" placeholder="null" formControlName="ts_org" /> -->
+          <button class="btn-add-delete" (click)="DeleteOrg(i)">
+            Remove Organisation
           </button>
         </div>
       </div>
-      <button type="button" class="btn-add-delete" (click)="AddOrg()">
+      <button
+        mat-raised-button
+        color="accent"
+        type="button"
+        class="btn-add-delete"
+        (click)="AddOrg()"
+      >
         Add Organization
       </button>
 
-      <input
-        type="submit"
-        value="Save/Update Institution"
-        class="submit-btn"
-        [disabled]="!reactiveForm.valid"
-      />
+      <div class="column">
+        <button
+          type="submit"
+          mat-raised-button
+          color="accent"
+          [disabled]="!reactiveForm.valid"
+          (click)="OnFormSubmitted()"
+        >
+          Save/Update Institution
+        </button>
 
-      <button type="button" class="delete-btn" (click)="DeleteInst()">
-        Delete Whole Institution
-      </button>
+        <button
+          mat-raised-button
+          color="warn"
+          [disabled]="!reactiveForm.valid"
+          (click)="DeleteInst()"
+        >
+          Delete Whole Institution
+        </button>
+      </div>
     </form>
   </section>
 
   <div class="table-container">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="edit"
+        ><th mat-header-cell *matHeaderCellDef="">Edit</th>
+        <td mat-cell *matCellDef="let institution">
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="editTodoInstitution(institution)"
+            (click)="activateEditMode()"
+          >
+            Edit
+          </button>
+        </td></ng-container
+      >
+
       <!-- Name DE Column -->
       <ng-container matColumnDef="name_de">
         <th mat-header-cell *matHeaderCellDef>Name_de</th>
@@ -194,20 +259,7 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="edit"
-        ><th mat-header-cell *matHeaderCellDef>Edit</th>
-        <td mat-cell *matCellDef="let institution">
-          <button
-            mat-raised-button
-            (click)="editTodoInstitution(institution)"
-            (click)="activateEditMode()"
-          >
-            Edit
-          </button>
-        </td></ng-container
-      >
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </div>

@@ -16,13 +16,13 @@ export class AddInstitutionComponent implements OnInit {
   reactiveForm: FormGroup;
   dataSource: any;
   displayedColumns: string[] = [
+    'edit',
     'name_de',
     'uuid',
     'sector',
     'shortname',
     'ts',
     'orgs',
-    'edit',
   ];
 
   constructor(private dataService: DataService) {}
@@ -48,7 +48,7 @@ export class AddInstitutionComponent implements OnInit {
       ts: new FormControl(null),
       orgs: new FormArray([
         new FormGroup({
-          name: new FormControl(null, [Validators.required]),
+          name: new FormControl(null, [Validators.required, Validators.pattern(/^(\S*)$/)]),
           ts_org: new FormControl(null),
         }),
       ]),
@@ -74,6 +74,10 @@ export class AddInstitutionComponent implements OnInit {
           ts_org: null,
         },
       ],
+    });
+    // reload the data after adding a new institution
+    this.dataService.LoadTodoInstitutions().then((data) => {
+      this.dataSource = data;
     });
   }
 
@@ -132,6 +136,11 @@ export class AddInstitutionComponent implements OnInit {
         },
       ],
     });
+    // reload the data after deleting an institution
+    this.dataService.LoadTodoInstitutions().then((data) => {
+      this.dataSource = data;
+    });
+
   }
 
   generateUUID(): void {
@@ -148,6 +157,15 @@ export class AddInstitutionComponent implements OnInit {
 
   deactivateEditMode(): void {
     this.isEditMode = false;
+  }
+// set the timestamp value to null if reset button is clicked
+  resetTimestamp() {
+    this.reactiveForm.get('ts').setValue(null);
+    const orgsControl = <FormArray>this.reactiveForm.get('orgs');
+    for (let i = 0; i < orgsControl.length; i++) {
+      const orgFormGroup = <FormGroup>orgsControl.at(i);
+      orgFormGroup.get('ts_org').setValue(null);
+    }
   }
 
 }
