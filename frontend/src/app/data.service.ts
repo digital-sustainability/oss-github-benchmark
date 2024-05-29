@@ -1,6 +1,6 @@
 import { TodoInstitution } from './types';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   Institution,
   InstitutionSumary as InstitutionSummary,
@@ -9,6 +9,11 @@ import {
 } from './types';
 import { shareReplay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { TokenService } from './services/token.service';
+import { ToastrService } from 'ngx-toastr';
+import { catchError } from 'rxjs/operators';
+import { NEVER, throwError } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root',
@@ -18,13 +23,48 @@ export class DataService {
     .get<Metric[]>('assets/options.json')
     .pipe(shareReplay(1));
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private tokenService: TokenService, private toastr: ToastrService) {}
   private institutionData = null;
+  private TodoInstitutions = null;
 
-  async createNewTodoInstitution(institution: TodoInstitution) {
-    console.log(institution);
+  async createNewTodoInstitution(institution) {
+    if (!institution ) {
+      throw new Error('Invalid institution object');
+    }
+    const token = this.tokenService.getAccessToken(); 
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return await this.http
-      .post<TodoInstitution>(`${environment.api}api/institution`, { institution })
+      .post<TodoInstitution>(`${environment.api}api/institution`, {institution}, { headers })
+      .toPromise();
+  }
+
+  async DeleteTodoInstitution(institution) {
+    if (!institution ) {
+      throw new Error('Invalid institution object');
+    }
+    const token = this.tokenService.getAccessToken(); 
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  const options = {
+    headers: headers,
+    body: { institution }
+  };
+  return await this.http
+    .delete<TodoInstitution>(`${environment.api}api/institution`, options)
+    .toPromise();
+
+  }
+
+  async LoadTodoInstitutions() {
+    return this.http
+      .get<TodoInstitution>(`${environment.api}api/institution`)
+      .pipe(
+        catchError(error => {
+          if (error.status === 401) {
+            this.toastr.error("Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.", "Login timeout", {disableTimeOut: true});
+          }
+          return throwError(error);
+        })
+      )
       .toPromise();
   }
 

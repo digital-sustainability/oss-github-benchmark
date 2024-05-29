@@ -14,7 +14,7 @@ export class AuthService {
     username: string,
     pass: string,
   ): Promise<{ access_token: string }> {
-    if (this.password !== pass) {
+    if (this.password !== pass || this.Uname !== username) {
       throw new UnauthorizedException();
     }
     const payload = { sub: 1, username: this.Uname };
