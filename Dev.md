@@ -27,8 +27,12 @@ These are the env variables that need to be set-up:
 > - Run **npm i** to install all the necessary packages</br>
 > - Finally you can start the dev server with **npm run start**
 
+# Update Institutions using add-Institution Mask
 
-# Update Institutions
+Use the Login Details from KeePass to access the add-Institution-View (Internal use only so far). It allows you to add new Institutions to the TodoInstitution Collection and thus put them into the cue of Institutions which are Crawled. Please read the Instructions in the Userinterface also.
+
+
+# Update Institutions using the github_repos.json
 
 Once someone has updated the github_repos.json file and the pull request was merged, the new or updated insitution must be added to the database.
 
