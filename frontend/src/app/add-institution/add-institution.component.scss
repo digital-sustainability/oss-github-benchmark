@@ -62,7 +62,7 @@
   color: #707070;
   margin-top: 8px;
   border-radius: 10px;
-  padding: 0 15px;
+  padding: 0 5px;
 }
 
 .input-box input:focus {
@@ -75,8 +75,8 @@
 }
 
 .submit-btn, .delete-btn, .btn-add-delete, .inside-btn {
-  height: 50%;
-  width: 20%;
+  height: 45%;
+  width: 25%;
   color: #fff;
   font-size: small;
   font-weight: 400;
@@ -105,8 +105,8 @@
 }
 
 .btn-add-delete {
-  margin: 10px 0px;
-  padding: 14px 30px;
+  margin-top: 10px;
+  margin-bottom: 30px;
   background: #888;
 }
 
