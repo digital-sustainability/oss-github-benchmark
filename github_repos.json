@@ -3957,5 +3957,18 @@
       { "name": "LausanneCitationStyle", "ts": null },
       { "name": "CHUV-DS", "ts": null }
     ]
+  },
+  {
+    "uuid": "371e0939-4772-422f-aa59-2ce159ca9121",
+    "sector": "IT",
+    "ts": null,
+    "shortname": "8gears",
+    "name_de": "8gears",
+    "orgs": [
+      { "name": "container-registry", "ts": null },
+      { "name": "8gears", "ts": null},
+      { "name": "konik-io", "ts": null }
+      
+    ]
   }
 ]
