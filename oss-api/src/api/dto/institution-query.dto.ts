@@ -11,7 +11,7 @@ export class InstitutionQueryDto implements InstitutionQueryConfig {
   direction: 'DESC' | 'ASC';
   @IsInt()
   @Min(1)
-  @Max(200)
+  @Max(1000)
   count: number;
   @IsInt()
   @Min(0)

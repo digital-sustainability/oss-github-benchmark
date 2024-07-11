@@ -9,6 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { InstitutionDetailViewComponent } from '../institution-detail-view/institution-detail-view.component';
 import { FormsModule } from '@angular/forms';
+import { DataExportService } from '../services/data-export.service';
+import { AuthenticationService } from '../authentication.service';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 
@@ -41,6 +43,7 @@ export class RankingComponent implements OnInit {
   activeSort: string = 'num_repos';
   sortDirection: 'ASC' | 'DESC' = 'DESC';
   latestUdpate: any;
+  exportService: DataExportService = new DataExportService();
 
   searchTermRaw: string = '';
 
@@ -123,6 +126,7 @@ export class RankingComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private location: Location,
+    private authService: AuthenticationService,
   ) {
     this.sectorFilters.forEach(
       (sector: { sector: string; activated: boolean }) => {
@@ -134,7 +138,7 @@ export class RankingComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.initDisplayedColumns();
+        this.initDisplayedColumns();
     await this.reloadData();
     this.route.paramMap.subscribe((map) => {
       const institutionName = map.get('institution');
@@ -192,6 +196,29 @@ export class RankingComponent implements OnInit {
     this.resetPaginator();
     this.reloadData();
   }
+
+  isLoggedIn(): boolean {
+    console.log("anina",this.authService.isUserLoggedIn());
+    return this.authService.isUserLoggedIn();
+  }
+
+  // trigger export of current view
+  async downloadData(): Promise<void>{
+    let institutionData = await this.dataService.loadInstitutionSummaries({
+      search: this.recordFilter,
+      sort: this.activeSort,
+      direction: this.sortDirection,
+      page: this.page.toString(),
+      count: "1000",
+      includeForks: this.includeForks.toString(),
+      sector: this.checkboxes,
+    });
+    this.institutions = institutionData.institutions;
+    console.log("exporting data", this.institutions);
+    this.exportService.exportData(this.institutions, 'InstitutionRanking');
+
+  }
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 }
