@@ -50,7 +50,7 @@ export class AddInstitutionComponent implements OnInit {
       orgs: new FormArray([
         new FormGroup({
           name: new FormControl(null, [Validators.required, Validators.pattern(/^(\S*)$/)]),
-          ts_org: new FormControl(null),
+          ts: new FormControl(null),
         }),
       ]),
     });
@@ -75,7 +75,7 @@ export class AddInstitutionComponent implements OnInit {
       orgs: [
         {
           name: null,
-          ts_org: null,
+          ts: null,
         },
       ],
     });
@@ -90,7 +90,7 @@ export class AddInstitutionComponent implements OnInit {
     (<FormArray>this.reactiveForm.get('orgs')).push(
       new FormGroup({
         name: new FormControl(null, [Validators.required]),
-        ts_org: new FormControl(null),
+        ts: new FormControl(null),
       }),
     );
   }
@@ -123,7 +123,7 @@ export class AddInstitutionComponent implements OnInit {
       ts: institution.ts,
       orgs: institution.orgs.map((org) => ({
         name: org.name,
-        ts_org: org.ts,
+        ts: org.ts,
       })),
     });
   }
@@ -143,7 +143,7 @@ export class AddInstitutionComponent implements OnInit {
       orgs: [
         {
           name: null,
-          ts_org: null,
+          ts: null,
         },
       ],
     });
@@ -171,7 +171,7 @@ export class AddInstitutionComponent implements OnInit {
     const orgsControl = <FormArray>this.reactiveForm.get('orgs');
     for (let i = 0; i < orgsControl.length; i++) {
       const orgFormGroup = <FormGroup>orgsControl.at(i);
-      orgFormGroup.get('ts_org').setValue(null);
+      orgFormGroup.get('ts').setValue(null);
     }
   }
 }
