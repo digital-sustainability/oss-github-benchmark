@@ -16,7 +16,12 @@
     >
       <mat-icon>close</mat-icon>
     </button>
+    
   </mat-form-field>
+  <button mat-button (click)="downloadData()" *ngIf="isLoggedIn()">
+    <mat-icon>cloud_download</mat-icon>
+    <span>Download List</span>
+  </button>
 
   <!-- <p style="color: gray">
   Information on OSS Benchmark updated:

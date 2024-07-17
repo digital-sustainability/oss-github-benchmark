@@ -143,6 +143,16 @@ export class DataService {
     return repoData;
   }
 
+async loadAllUsers() {
+  const userData = await this.http
+    .get<{
+      users: User[];
+      total: number;
+    }>(`${environment.api}api/UserData`, {})
+    .toPromise();
+    return userData;
+  }
+  
   async loadUserData(config: {
     search: string;
     sort: string;

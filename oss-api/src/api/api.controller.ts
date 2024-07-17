@@ -119,6 +119,14 @@ export class ApiController {
     return await this.mongoDbService.findAllTodoInstitutions();
   }
 
+  // protected controller for the Excel Download of All Users Data
+  @UseGuards(AuthGuard)
+  @Get('UserData')
+  async downloadUserData() {
+    const users = await this.mongoDbService.getAllUsers();
+    return { users, total: users.length };
+  }
+
   /***********************************Helper************************************************/
   /**
    * Handle the instiution query with the given conditions

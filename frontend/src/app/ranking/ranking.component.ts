@@ -198,7 +198,6 @@ export class RankingComponent implements OnInit {
   }
 
   isLoggedIn(): boolean {
-    console.log("anina",this.authService.isUserLoggedIn());
     return this.authService.isUserLoggedIn();
   }
 

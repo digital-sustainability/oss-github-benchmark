@@ -150,7 +150,6 @@ export class RepositoriesRankingComponent implements OnInit {
   }
 
   isLoggedIn(): boolean {
-    console.log("anina",this.authService.isUserLoggedIn());
     return this.authService.isUserLoggedIn();
   }
 

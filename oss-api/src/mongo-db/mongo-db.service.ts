@@ -589,10 +589,9 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
    * @returns A array with all the users
    */
   async getAllUsers(): Promise<User[]> {
-    // this.logger.log('Getting all the users');
     return this.client
       .db(this.database)
-      .collection<User>(Tables.contributors)
+      .collection<User>('contributors')
       .find({})
       .toArray();
   }
