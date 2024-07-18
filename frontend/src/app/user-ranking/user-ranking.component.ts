@@ -110,7 +110,7 @@ export class UserRankingComponent implements OnInit {
     this.dataService
     .loadAllUsers()
     .then((userData) => {
-      console.log("Received userData:", userData);  // Add this line to log the response
+      console.log("Received userData"); 
       if (userData && userData.users) {
         console.log("exporting data");
         this.users = userData.users;

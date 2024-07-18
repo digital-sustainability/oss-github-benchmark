@@ -153,21 +153,23 @@ export class RepositoriesRankingComponent implements OnInit {
     return this.authService.isUserLoggedIn();
   }
 
-  // trigger export of current view
+  // trigger export of the complete repository data
   downloadData(){
     this.dataService
-      .loadRepoData({
-        sort: this.activeSort,
-        direction: this.sortDirection,
-        page: "0",
-        count: "10000000",
-        includeForks: this.includeForks.toString(),
-      })
-      .then((repoData) => {
-        this.repositories = repoData.repositories;    
+    .loadAllRepositories()
+    .then((repoData) => {
+      console.log("Received repoData");  
+      if (repoData && repoData.repositories) {
+        console.log("exporting data");
+        this.repositories = repoData.repositories;
         this.exportService.exportData(this.repositories, 'repositories');
+      } else {
+        console.error("Invalid repository data or missing repository property");
       }
-    )
+    })
+    .catch((error) => {
+      console.error("Error loading repositories:", error);
+    });
 
   }
 

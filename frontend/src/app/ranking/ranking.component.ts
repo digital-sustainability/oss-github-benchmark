@@ -35,6 +35,7 @@ export class RankingComponent implements OnInit {
   sectorFilters: sectorFilter[] = [];
   recordFilter = '';
   state: Date;
+  completeInstitutions: Institution[];
   institutions: InstitutionSumary[];
   window: any = window;
   includeForks: boolean = false;
@@ -201,20 +202,40 @@ export class RankingComponent implements OnInit {
     return this.authService.isUserLoggedIn();
   }
 
-  // trigger export of current view
-  async downloadData(): Promise<void>{
-    let institutionData = await this.dataService.loadInstitutionSummaries({
-      search: this.recordFilter,
-      sort: this.activeSort,
-      direction: this.sortDirection,
-      page: this.page.toString(),
-      count: "1000",
-      includeForks: this.includeForks.toString(),
-      sector: this.checkboxes,
+  // trigger export of the complete Institutions and organizations data
+  async downloadData(){
+    this.dataService
+    .loadAllInstitutions()
+    .then((institutionData) => {
+      console.log("Received institutionData"); 
+      if (institutionData && institutionData.institutions) {
+        console.log("exporting data");
+        this.completeInstitutions = institutionData.institutions;
+        this.exportService.exportData(this.completeInstitutions, 'Institutions');
+      } else {
+        console.error("Invalid institution data or missing institutions property:");
+      }
+    })
+    .catch((error) => {
+      console.error("Error loading Institutions:", error);
     });
-    this.institutions = institutionData.institutions;
-    console.log("exporting data", this.institutions);
-    this.exportService.exportData(this.institutions, 'InstitutionRanking');
+
+    this.dataService
+    .loadAllOrganizations()
+    .then((organizationData) => {
+      console.log("Received organizationData"); 
+      if (organizationData && organizationData.organizations) {
+        console.log("exporting data");
+        this.exportService.exportData(organizationData.organizations, 'Organizations');
+      } else {
+        console.error("Invalid organization data or missing organizations property:");
+      }
+    })
+    .catch((error) => {
+      console.error("Error loading organizations:", error);
+    }
+    );
+
 
   }
 

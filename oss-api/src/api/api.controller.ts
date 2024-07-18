@@ -118,13 +118,38 @@ export class ApiController {
   async findTodoInstitution() {
     return await this.mongoDbService.findAllTodoInstitutions();
   }
+  //  protected controller for the Excel Download the entire User, Institution and Repository Data
 
-  // protected controller for the Excel Download of All Users Data
+  // Users Data
   @UseGuards(AuthGuard)
-  @Get('UserData')
-  async downloadUserData() {
+  @Get('completeUserData')
+  async collectUserData() {
     const users = await this.mongoDbService.getAllUsers();
     return { users, total: users.length };
+  }
+
+  // repositories Data
+  @UseGuards(AuthGuard)
+  @Get('completeRepositoryData')
+  async collectRepositoryData() {
+    const repositories = await this.mongoDbService.getAllRepositories();
+    return { repositories, total: repositories.length };
+  }
+
+  // institutions Data
+  @UseGuards(AuthGuard)
+  @Get('completeInstitutionData')
+  async collectInstitutionData() {
+    const institutions = await this.mongoDbService.getAllInstitutions();
+    return { institutions, total: institutions.length };
+  }
+
+  // organizations Data
+  @UseGuards(AuthGuard)
+  @Get('completeOrganizationData')
+  async collectOrganizationData() {
+    const organizations = await this.mongoDbService.getAllOrganisations();
+    return { organizations: organizations, total: organizations.length };
   }
 
   /***********************************Helper************************************************/
