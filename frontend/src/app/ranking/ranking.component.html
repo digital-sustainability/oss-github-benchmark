@@ -58,7 +58,7 @@
     (change)="includeForksChange($event.checked)"
     >Include forks</mat-checkbox
   >
-  <button mat-button (click)="downloadData()" *ngIf="isLoggedIn()">
+  <button mat-button (click)="downloadData()" *ngIf="isLoggedIn()" style="float: right;">
     <mat-icon>cloud_download</mat-icon>
     <span>Download Institution and Organization Data</span>
   </button>
