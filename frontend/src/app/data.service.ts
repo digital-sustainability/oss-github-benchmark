@@ -144,6 +144,9 @@ export class DataService {
     return repoData;
   }
 
+// request to get all users, repositories, institutions and organizations, 
+// these are used to get all the data for excel export and is restricted to logged in users
+// *****************************************************************************************************
 async loadAllUsers() {
   const userData = await this.http
     .get<{
@@ -183,6 +186,8 @@ async loadAllUsers() {
       .toPromise();
       return organizationData;
     }
+
+    // *****************************************************************************************************
 
   async loadUserData(config: {
     search: string;
