@@ -6,6 +6,7 @@ import {
   InstitutionSumary as InstitutionSummary,
   Repository,
   User,
+  Organization,
 } from './types';
 import { shareReplay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -142,6 +143,51 @@ export class DataService {
       .toPromise();
     return repoData;
   }
+
+// request to get all users, repositories, institutions and organizations, 
+// these are used to get all the data for excel export and is restricted to logged in users
+// *****************************************************************************************************
+async loadAllUsers() {
+  const userData = await this.http
+    .get<{
+      users: User[];
+      total: number;
+    }>(`${environment.api}api/completeUserData`, {})
+    .toPromise();
+    return userData;
+  }
+  
+  async loadAllRepositories() {
+    const repoData = await this.http
+      .get<{
+        repositories: Repository[];
+        total: number;
+      }>(`${environment.api}api/completeRepositoryData`, {})
+      .toPromise();
+      return repoData;
+    }
+
+  async loadAllInstitutions() {
+    const institutionData = await this.http
+      .get<{
+        institutions: Institution[];
+        total: number;
+      }>(`${environment.api}api/completeInstitutionData`, {})
+      .toPromise();
+      return institutionData;
+    }
+
+  async loadAllOrganizations() {  
+    const organizationData = await this.http
+      .get<{
+        organizations: Organization[];
+        total: number;
+      }>(`${environment.api}api/completeOrganizationData`, {})
+      .toPromise();
+      return organizationData;
+    }
+
+    // *****************************************************************************************************
 
   async loadUserData(config: {
     search: string;

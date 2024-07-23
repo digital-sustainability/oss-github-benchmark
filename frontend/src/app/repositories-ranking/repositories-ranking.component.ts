@@ -8,7 +8,8 @@ import { RepositoryDetailViewComponent } from '../repository-detail-view/reposit
 import { ActivatedRoute } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-
+import { DataExportService } from '../services/data-export.service';
+import { AuthenticationService } from '../authentication.service';
 @Component({
   selector: 'app-repositories-ranking',
   templateUrl: './repositories-ranking.component.html',
@@ -47,6 +48,8 @@ export class RepositoriesRankingComponent implements OnInit {
   count: number = 30;
   activeSort: string = 'num_commits';
   sortDirection: 'ASC' | 'DESC' = 'DESC';
+  exportService: DataExportService = new DataExportService();
+  
 
   resetPaginator() {
     this.paginator.pageIndex = 0;
@@ -74,6 +77,7 @@ export class RepositoriesRankingComponent implements OnInit {
     public dialog: MatDialog,
     private location: Location,
     private route: ActivatedRoute,
+    private authService: AuthenticationService,
   ) {}
 
   reloadData() {
@@ -143,6 +147,30 @@ export class RepositoriesRankingComponent implements OnInit {
     this.sortDirection = event.direction == 'asc' ? 'ASC' : 'DESC';
     this.resetPaginator();
     this.reloadData();
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isUserLoggedIn();
+  }
+
+  // trigger export of the complete repository data
+  downloadData(){
+    this.dataService
+    .loadAllRepositories()
+    .then((repoData) => {
+      console.log("Received repoData");  
+      if (repoData && repoData.repositories) {
+        console.log("exporting data");
+        this.repositories = repoData.repositories;
+        this.exportService.exportData(this.repositories, 'repositories');
+      } else {
+        console.error("Invalid repository data or missing repository property");
+      }
+    })
+    .catch((error) => {
+      console.error("Error loading repositories:", error);
+    });
+
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

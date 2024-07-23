@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { User } from '../types';
+import { DataExportService } from '../services/data-export.service';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-user-ranking',
@@ -38,6 +40,7 @@ export class UserRankingComponent implements OnInit {
   count: number = 30;
   activeSort: string = 'followers';
   sortDirection: 'ASC' | 'DESC' = 'DESC';
+  exportService: DataExportService = new DataExportService();
 
   resetPaginator() {
     this.paginator.pageIndex = 0;
@@ -75,6 +78,7 @@ export class UserRankingComponent implements OnInit {
     private dataService: DataService,
     private location: Location,
     private route: ActivatedRoute,
+    private authService: AuthenticationService,
   ) {}
 
   ngOnInit(): void {
@@ -96,6 +100,29 @@ export class UserRankingComponent implements OnInit {
     this.sortDirection = event.direction == 'asc' ? 'ASC' : 'DESC';
     this.resetPaginator();
     this.reloadData();
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isUserLoggedIn();
+  }
+
+  downloadData(){
+    this.dataService
+    .loadAllUsers()
+    .then((userData) => {
+      console.log("Received userData"); 
+      if (userData && userData.users) {
+        console.log("exporting data");
+        this.users = userData.users;
+        this.exportService.exportData(this.users, 'users');
+      } else {
+        console.error("Invalid user data or missing users property:", userData);
+      }
+    })
+    .catch((error) => {
+      console.error("Error loading users:", error);
+    });
+
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

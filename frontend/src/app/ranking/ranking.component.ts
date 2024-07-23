@@ -9,6 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { InstitutionDetailViewComponent } from '../institution-detail-view/institution-detail-view.component';
 import { FormsModule } from '@angular/forms';
+import { DataExportService } from '../services/data-export.service';
+import { AuthenticationService } from '../authentication.service';
 
 const sortState: Sort = { active: 'num_repos', direction: 'desc' };
 
@@ -33,6 +35,7 @@ export class RankingComponent implements OnInit {
   sectorFilters: sectorFilter[] = [];
   recordFilter = '';
   state: Date;
+  completeInstitutions: Institution[];
   institutions: InstitutionSumary[];
   window: any = window;
   includeForks: boolean = false;
@@ -41,6 +44,7 @@ export class RankingComponent implements OnInit {
   activeSort: string = 'num_repos';
   sortDirection: 'ASC' | 'DESC' = 'DESC';
   latestUdpate: any;
+  exportService: DataExportService = new DataExportService();
 
   searchTermRaw: string = '';
 
@@ -123,6 +127,7 @@ export class RankingComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private location: Location,
+    private authService: AuthenticationService,
   ) {
     this.sectorFilters.forEach(
       (sector: { sector: string; activated: boolean }) => {
@@ -134,7 +139,7 @@ export class RankingComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.initDisplayedColumns();
+        this.initDisplayedColumns();
     await this.reloadData();
     this.route.paramMap.subscribe((map) => {
       const institutionName = map.get('institution');
@@ -192,6 +197,48 @@ export class RankingComponent implements OnInit {
     this.resetPaginator();
     this.reloadData();
   }
+
+  isLoggedIn(): boolean {
+    return this.authService.isUserLoggedIn();
+  }
+
+  // trigger export of the complete Institutions and organizations data
+  async downloadData(){
+    this.dataService
+    .loadAllInstitutions()
+    .then((institutionData) => {
+      console.log("Received institutionData"); 
+      if (institutionData && institutionData.institutions) {
+        console.log("exporting data");
+        this.completeInstitutions = institutionData.institutions;
+        this.exportService.exportData(this.completeInstitutions, 'Institutions');
+      } else {
+        console.error("Invalid institution data or missing institutions property:");
+      }
+    })
+    .catch((error) => {
+      console.error("Error loading Institutions:", error);
+    });
+
+    this.dataService
+    .loadAllOrganizations()
+    .then((organizationData) => {
+      console.log("Received organizationData"); 
+      if (organizationData && organizationData.organizations) {
+        console.log("exporting data");
+        this.exportService.exportData(organizationData.organizations, 'Organizations');
+      } else {
+        console.error("Invalid organization data or missing organizations property:");
+      }
+    })
+    .catch((error) => {
+      console.error("Error loading organizations:", error);
+    }
+    );
+
+
+  }
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 }
