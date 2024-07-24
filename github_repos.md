@@ -356,3 +356,4 @@
 |                                                                                            | StadtBern                         |                      |
 | Kanton Zug                                                                                 | statzg                            | Gov_Cantons          |
 |                                                                                            | ktzg                              |                      |
+| 8gears                                                                                     | 8gears                            | IT                   |
