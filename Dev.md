@@ -32,22 +32,24 @@ These are the env variables that need to be set-up:
 Use the Login Details from KeePass to access the add-Institution-View (Internal use only so far). It allows you to add new Institutions to the TodoInstitution Collection and thus put them into the cue of Institutions which are Crawled. Please read the Instructions in the Userinterface also.
 
 
-# Update Institutions using the github_repos.json
+### What are ts and why are they set to null
+
+ts are timestamps that are used to check when that organization/institution were crawled.
+
+"null" is the intial value so that the new organization/institution will be crawled with the next crawl run.
+
+After that it will be overwritte in the database.
+
+
+# Update Institutions using the github_repos.md
 
 Once someone has updated the github_repos.json file and the pull request was merged, the new or updated insitution must be added to the database.
 
 This can be done in 4 easy steps:
 
-1. Pull Repository
-2. Enter the connection string, which can be found in Keepass, into the URI field of MongoCompass.
-3. Check if the new repository details are valid: the organisation shortname has to match the name in the url of the GitHub page.
+1. Open the productive Website (or local, Choose the **production** DB and then todoInstitution collection.)
+2. Login. The Credentials can be found in Keepass.
+3. Click **Add/Edit an Institution**.
+4. Check if the new repository details in "github_repos.md" are valid: the organisation shortname has to match the name in the url of the GitHub page.
+5. Add the new Organisation or Edit if nessecary (You can reset the timestamp to cue the institution for crawling).
 
-![MongoCompass Connection string](/assets/images/MongoConnection.png)
-
-4. Choose the **production** DB and then todoInstitution collection.
-
-![Mongo choose DB](/assets/images/MongoDB.png)
-
-5. Press **Add Data -> Import file** and choose github_repos.json. Keep in mind that *Stop on errors* needs to be unchecked. Then just click *Import*. Note that Institutions with an ID already present in the DB are not imported/updated in the DB.
-
-![Add new Data to DB](/assets/images/AddData.png)
