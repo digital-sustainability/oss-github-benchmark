@@ -358,3 +358,4 @@
 |                                                                                            | ktzg                              |                      |
 | 8gears                                                                                     | 8gears                            | IT                   |
 | SIX Group                                                                                  | six-group                         | Banking              |
+| SP Schweiz                                                                                 | spschweiz                         | NGOs                 |
