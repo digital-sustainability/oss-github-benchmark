@@ -339,6 +339,7 @@
 |                                                                                            | FHNW-Geomatik                     |                      |
 | Bundesamt für Informatik und Telekommunikation                                             | admin-ch                          | Gov_Federal          |
 |                                                                                            | estv-admin                        |                      |
+|                                                                                            | trustbroker-swiss                 |                      |
 | Visualize Admin                                                                            | visualize-admin                   | Gov_Federal          |
 | Tecan Group                                                                                | tecangenomics                     | ResearchAndEducation |
 | Richemont                                                                                  | richemont                         | Others               |
