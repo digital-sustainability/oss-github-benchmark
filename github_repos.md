@@ -358,4 +358,5 @@
 |                                                                                            | ktzg                              |                      |
 | 8gears                                                                                     | 8gears                            | IT                   |
 | SIX Group                                                                                  | six-group                         | Banking              |
-| SP Schweiz                                                                                 | spschweiz                         | NGOs                 |
+| ARIS Akademische Raumfahrt Initiative Schweiz	                                             | aris                              | aris-space           |
+| Cevi Schweiz	                              	                                             | cevi                              | cevi                 |
