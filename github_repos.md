@@ -36,6 +36,8 @@
 | Init7                                                                                      | Init7                             | IT                   |
 | VSHN AG                                                                                    | vshn                              | IT                   |
 |                                                                                            | projectsyn                        |                      |
+|                                                                                            | appuio                            |                      |
+|                                                                                            | k8up-io                           |                      |
 | XWare GmbH                                                                                 | xware-gmbh                        | IT                   |
 | Zühlke                                                                                     | Zuehlke                           | IT                   |
 | Ticketpark GmbH                                                                            | TicketPark                        | IT                   |
@@ -81,8 +83,6 @@
 |                                                                                            | DND-IT                            |                      |
 |                                                                                            | tamediadigital                    |                      |
 |                                                                                            | tamedia-ddj                       |                      |
-| k8up                                                                                       | k8up-io                           | Communities          |
-| APPUiO                                                                                     | appuio                            | Communities          |
 | Vaudoise                                                                                   | VaudoiseAssurances                | Insurances           |
 | Lib4RI - Library for the Research Institutes within the ETH Domain: Eawag, Empa, PSI & WSL | Lib4RI                            | Communities          |
 | TEKSI, QGEP, QWAT                                                                          | teksi                             | Communities          |
@@ -337,8 +337,10 @@
 |                                                                                            | fhnw-biomedinf                    |                      |
 |                                                                                            | fhnw-bacnet-it                    |                      |
 |                                                                                            | FHNW-Geomatik                     |                      |
-| Bundesamt für Informatik und Telekommunikation                                             | admin-ch                          | Gov_Federal          |
+| Bundesamt für Informatik und Telekommunikation (BIT)                                       | admin-ch                          | Gov_Federal          |
 |                                                                                            | estv-admin                        |                      |
+|                                                                                            | trustbroker-swiss                 |                      |
+|                                                                                            | oblique-bit                       |                      |
 | Visualize Admin                                                                            | visualize-admin                   | Gov_Federal          |
 | Tecan Group                                                                                | tecangenomics                     | ResearchAndEducation |
 | Richemont                                                                                  | richemont                         | Others               |
@@ -358,5 +360,12 @@
 |                                                                                            | ktzg                              |                      |
 | 8gears                                                                                     | 8gears                            | IT                   |
 | SIX Group                                                                                  | six-group                         | Banking              |
-| ARIS Akademische Raumfahrt Initiative Schweiz	                                             | aris                              | aris-space           |
-| Cevi Schweiz	                              	                                             | cevi                              | cevi                 |
+| ARIS Akademische Raumfahrt Initiative Schweiz	                                             | aris                              | ResearchAndEducation |
+| Cevi Schweiz	                              	                                             | cevi                              | NGOs                 |
+| 72 Services GmbH	                           	                                             | 72services                        | IT                   |
+| SBW Haus des Lernens AG - Neue Medien        	                                             | sbw-neue-medien                   | ResearchAndEducation |
+| Ajila AG	 	                              	                                               | ajilach                           | IT                   |
+| arcade solutions ag	 	                              	                                     | arcadech                          | IT                   |
+| Netgen 	                              	                                                   | netgen                            | IT                   |
+| OpenOlat - infinite learning	 	                              	                           | openolat                          | Communities          |
+| ORCA Services AG	 	                              	                                       | orca-services                     | IT                   |
