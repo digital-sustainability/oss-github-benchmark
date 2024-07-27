@@ -1,14 +1,13 @@
 # How to Contribute to the OSS-Benchmark project
 
-Contributing to this very project is very easy. If you want to add or change an new institution you will need to edit the [github_repos.md](/github_repos.md) file.
+Contributing to this very project is very easy. If you want to add or change an institution you need to edit the [github_repos.md](/github_repos.md) file.
 
-| **Name**                                                                                   | **organisations**                 | **Sector**           |
+| **Institution**                                                                            | **organisations**                 | **Sector**           |
 |--------------------------------------------------------------------------------------------|-----------------------------------|----------------------|
 | Bedag                                                                                      | bedag                             | IT                   |
 | 56K Cloud                                                                                  | 56kcloud                          | IT                   |
 
-Check if you can find the Institution Name of the organisation you would like to add in the List. If not, add it to the List. 
-If the Institution is already there but your is not organisation not, add only the organisation.
+Check if you can find the Institution name on the [github_repos.md](/github_repos.md) list. If not, add it to the list on the bottom of the file. If the Institution is already there but one of its GitHub organizations is missing, only add the organization.
 
 **Important:** The organisation name has to be the same as the name in the url. For example: "https://github.com/bedag" -> organisation Name is "bedag".
 
