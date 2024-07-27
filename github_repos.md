@@ -360,3 +360,4 @@
 | SIX Group                                                                                  | six-group                         | Banking              |
 | ARIS Akademische Raumfahrt Initiative Schweiz	                                             | aris                              | aris-space           |
 | Cevi Schweiz	                              	                                             | cevi                              | cevi                 |
+| 72 Services GmbH                                                                           | 72services                        | IT
