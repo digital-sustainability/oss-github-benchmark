@@ -1,8 +1,12 @@
-# Visit our website!
+# Swiss Open Source Software Benchmark
 
-https://ossbenchmark.com
+The Swiss Open Source Software Benchmark ([ossbenchmark.com](https://ossbenchmark.com)) continuously crawls repositories from Swiss GitHub organizations, aggregates statistics and provides an updated ranking of institutions, repositories and contributors. GitHub organizations are grouped into institutions from government, research, private sector, and NGOs. Additional GitHub organizations can be added by following the [contributing instructions](https://github.com/digital-sustainability/oss-github-benchmark/blob/main/Contributing.md).
 
-## Crawler: How does it work?
+OSS Benchmark is an initiative by the [Institute for Public Sector Transformation](https://bhf.ch/ipst) at [Bern University of Applied Sciences](https://www.bfh.ch). The initiative is managed by [Matthias Stürmer](https://www.bfh.ch/de/matthias-stuermer) and implemented by [Anina Hold](https://www.bfh.ch/de/anina-hold) and [Alexandre Thomas](https://www.bfh.ch/de/alexandre-thomas) from the [Digital Sustainability Lab](https://www.bfh.ch/de/forschung/forschungsbereiche/digital-sustainability-lab/).
+
+Now some technical details about OSS Benchmark:
+
+## The Crawler: How does it work?
 
 We have two different services:
 - The DataService
