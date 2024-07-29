@@ -369,3 +369,4 @@
 | Netgen 	                              	                                                   | netgen                            | IT                   |
 | OpenOlat - infinite learning	 	                              	                           | openolat                          | Communities          |
 | ORCA Services AG	 	                              	                                       | orca-services                     | IT                   |
+| geOps AG	 	                                      	                                       | geops                             | IT                   |
