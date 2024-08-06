@@ -139,7 +139,7 @@ export class RankingComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-        this.initDisplayedColumns();
+    this.initDisplayedColumns();
     await this.reloadData();
     this.route.paramMap.subscribe((map) => {
       const institutionName = map.get('institution');
@@ -198,47 +198,7 @@ export class RankingComponent implements OnInit {
     this.reloadData();
   }
 
-  isLoggedIn(): boolean {
-    return this.authService.isUserLoggedIn();
-  }
-
-  // trigger export of the complete Institutions and organizations data
-  async downloadData(){
-    this.dataService
-    .loadAllInstitutions()
-    .then((institutionData) => {
-      console.log("Received institutionData"); 
-      if (institutionData && institutionData.institutions) {
-        console.log("exporting data");
-        this.completeInstitutions = institutionData.institutions;
-        this.exportService.exportData(this.completeInstitutions, 'Institutions');
-      } else {
-        console.error("Invalid institution data or missing institutions property:");
-      }
-    })
-    .catch((error) => {
-      console.error("Error loading Institutions:", error);
-    });
-
-    this.dataService
-    .loadAllOrganizations()
-    .then((organizationData) => {
-      console.log("Received organizationData"); 
-      if (organizationData && organizationData.organizations) {
-        console.log("exporting data");
-        this.exportService.exportData(organizationData.organizations, 'Organizations');
-      } else {
-        console.error("Invalid organization data or missing organizations property:");
-      }
-    })
-    .catch((error) => {
-      console.error("Error loading organizations:", error);
-    }
-    );
-
-
-  }
-
+  
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 }

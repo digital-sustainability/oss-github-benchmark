@@ -31,7 +31,7 @@
   Information on OSS Benchmark updated:
   {{ state | date: "MMMM d, yyyy 'at' H:mm" }}
 </p> -->
-<button mat-button (click)="downloadData()" *ngIf="isLoggedIn()" style="float: right;">
+<button mat-raised-button  [mtBasicSpinner]="isDownloading" [hideText]="true" (click)="downloadData()" *ngIf="isLoggedIn()" style="float: right;">
   <mat-icon>cloud_download</mat-icon>
   <span>Download Repository Data</span>
 </button>

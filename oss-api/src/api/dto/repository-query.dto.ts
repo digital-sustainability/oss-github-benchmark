@@ -7,7 +7,7 @@ export class RepositoryQueryDto implements RepositoryQueryConfig {
   direction: 'DESC' | 'ASC';
   @IsInt()
   @Min(1)
-  @Max(200)
+  @Max(20000000000)
   count: number;
   @IsInt()
   @Min(0)

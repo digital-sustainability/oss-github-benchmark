@@ -128,30 +128,6 @@ export class ApiController {
     return { users, total: users.length };
   }
 
-  // repositories Data
-  @UseGuards(AuthGuard)
-  @Get('completeRepositoryData')
-  async collectRepositoryData() {
-    const repositories = await this.mongoDbService.getAllRepositories();
-    return { repositories, total: repositories.length };
-  }
-
-  // institutions Data
-  @UseGuards(AuthGuard)
-  @Get('completeInstitutionData')
-  async collectInstitutionData() {
-    const institutions = await this.mongoDbService.getAllInstitutions();
-    return { institutions, total: institutions.length };
-  }
-
-  // organizations Data
-  @UseGuards(AuthGuard)
-  @Get('completeOrganizationData')
-  async collectOrganizationData() {
-    const organizations = await this.mongoDbService.getAllOrganisations();
-    return { organizations: organizations, total: organizations.length };
-  }
-
   /***********************************Helper************************************************/
   /**
    * Handle the instiution query with the given conditions
