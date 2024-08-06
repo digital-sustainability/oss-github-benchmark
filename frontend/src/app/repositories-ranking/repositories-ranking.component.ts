@@ -187,7 +187,6 @@ export class RepositoriesRankingComponent implements OnInit {
     this.repositories = this.repositories.map(repository => this.addInstitutionData(repository, institutionMap));
 
     // Export the final data
-    console.log("testanina, exporteddata:",this.repositories);
     this.exportService.exportData(this.repositories, 'repositories');
     // set the boolean value back to false after the download is finished
     this.isDownloading = false;

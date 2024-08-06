@@ -156,38 +156,7 @@ async loadAllUsers() {
     .toPromise();
     return userData;
   }
-  
-  async loadAllRepositories() {
-    const repoData = await this.http
-      .get<{
-        repositories: Repository[];
-        total: number;
-      }>(`${environment.api}api/completeRepositoryData`, {})
-      .toPromise();
-      return repoData;
-    }
-
-  async loadAllInstitutions() {
-    const institutionData = await this.http
-      .get<{
-        institutions: Institution[];
-        total: number;
-      }>(`${environment.api}api/completeInstitutionData`, {})
-      .toPromise();
-      return institutionData;
-    }
-
-  async loadAllOrganizations() {  
-    const organizationData = await this.http
-      .get<{
-        organizations: Organization[];
-        total: number;
-      }>(`${environment.api}api/completeOrganizationData`, {})
-      .toPromise();
-      return organizationData;
-    }
-
-    // *****************************************************************************************************
+ // *****************************************************************************************************
 
   async loadUserData(config: {
     search: string;

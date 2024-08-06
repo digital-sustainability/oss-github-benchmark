@@ -41,6 +41,7 @@ export class UserRankingComponent implements OnInit {
   activeSort: string = 'followers';
   sortDirection: 'ASC' | 'DESC' = 'DESC';
   exportService: DataExportService = new DataExportService();
+  isDownloading: boolean = false;
 
   resetPaginator() {
     this.paginator.pageIndex = 0;
@@ -107,26 +108,29 @@ export class UserRankingComponent implements OnInit {
   }
 
   async downloadData(): Promise<void> {
-      try {
-        let userData = await this.dataService.loadAllUsers();
-        this.users = userData.users;
-  
-        // Format the date fields
-        this.users = this.users.map(user => {
-          if (user.created_at) {
-            user.created_at = this.exportService.formatDate(user.created_at);
-          }
-          if (user.updated_at) {
-            user.updated_at = this.exportService.formatDate(user.updated_at);
-          }
-          return user;
-        });
-      
-        this.exportService.exportData(this.users, 'InstitutionRanking');
-      } catch (error) {
-        console.error('Error occurred while downloading data:', error);
-      }
+    this.isDownloading = true;
+    try {
+      let userData = await this.dataService.loadAllUsers();
+      this.users = userData.users;
+
+      // Format the date fields
+      this.users = this.users.map((user) => {
+        if (user.created_at) {
+          user.created_at = this.exportService.formatDate(user.created_at);
+        }
+        if (user.updated_at) {
+          user.updated_at = this.exportService.formatDate(user.updated_at);
+        }
+        return user;
+      });
+
+      this.exportService.exportData(this.users, 'InstitutionRanking');
+    } catch (error) {
+      console.error('Error occurred while downloading data:', error);
+    } finally {
+      this.isDownloading = false;
     }
+  }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 }
