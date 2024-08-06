@@ -49,7 +49,7 @@ export class RepositoriesRankingComponent implements OnInit {
   activeSort: string = 'num_commits';
   sortDirection: 'ASC' | 'DESC' = 'DESC';
   exportService: DataExportService = new DataExportService();
-  
+  isDownloading: boolean = false;
 
   resetPaginator() {
     this.paginator.pageIndex = 0;
@@ -153,25 +153,93 @@ export class RepositoriesRankingComponent implements OnInit {
     return this.authService.isUserLoggedIn();
   }
 
-  // trigger export of the complete repository data
-  downloadData(){
-    this.dataService
-    .loadAllRepositories()
-    .then((repoData) => {
-      console.log("Received repoData");  
-      if (repoData && repoData.repositories) {
-        console.log("exporting data");
-        this.repositories = repoData.repositories;
-        this.exportService.exportData(this.repositories, 'repositories');
-      } else {
-        console.error("Invalid repository data or missing repository property");
-      }
-    })
-    .catch((error) => {
-      console.error("Error loading repositories:", error);
+  // trigger export of current view
+  async downloadData(): Promise<void> {
+    // set a boolean value for showing that the donload is in progress
+    this.isDownloading = true;
+    // Load repository data with specified parameters
+    let repositoryData = await this.dataService.loadRepoData({
+        sort: this.activeSort,
+        direction: this.sortDirection,
+        page: '0',
+        count: '10000000',
+        includeForks: this.includeForks.toString(),
     });
 
-  }
+    // Store the loaded repositories
+    this.repositories = repositoryData.repositories;
+
+    // Format the date fields in the repositories
+    this.repositories = this.repositories.map(repository => this.formatRepositoryDates(repository));
+
+    // Load institution data
+    let institutionData = await this.dataService.loadInstitutionSummaries({
+        sort: 'name',
+        direction: 'ASC',
+        page: '0',
+        count: '10000000',
+    });
+
+    // Create a map for quick lookup of institutions by shortname
+    let institutionMap = this.createInstitutionMap(institutionData.institutions);
+
+    // Join repositories with institution data and add institution-related fields
+    this.repositories = this.repositories.map(repository => this.addInstitutionData(repository, institutionMap));
+
+    // Export the final data
+    console.log("testanina, exporteddata:",this.repositories);
+    this.exportService.exportData(this.repositories, 'repositories');
+    // set the boolean value back to false after the download is finished
+    this.isDownloading = false;
+}
+
+/**
+ * Formats the date fields of a repository.
+ * @param repository - The repository object to format dates for.
+ * @returns The repository object with formatted date fields.
+ */
+private formatRepositoryDates(repository: any): any {
+    if (repository.created_at) {
+        repository.created_at = this.exportService.formatDate(repository.created_at);
+    }
+    if (repository.timestamp) {
+        repository.timestamp = this.exportService.formatDate(repository.timestamp);
+    }
+    if (repository.updated_at) {
+        repository.updated_at = this.exportService.formatDate(repository.updated_at);
+    }
+    return repository;
+}
+
+/**
+ * Creates a map of institutions for quick lookup by shortname.
+ * @param institutions - The array of institution objects.
+ * @returns A Map with institution shortnames as keys and institution objects as values.
+ */
+private createInstitutionMap(institutions: any[]): Map<string, any> {
+    let institutionMap = new Map();
+    institutions.forEach(institution => {
+        institutionMap.set(institution.shortname, institution);
+    });
+    return institutionMap;
+}
+
+/**
+ * Adds institution-related fields to a repository if a matching institution is found.
+ * @param repository - The repository object to add institution data to.
+ * @param institutionMap - The map of institutions for lookup.
+ * @returns The repository object with added institution-related fields.
+ */
+private addInstitutionData(repository: any, institutionMap: Map<string, any>): any {
+    let institution = institutionMap.get(repository.institution);
+    if (institution) {
+        repository.institution_num_members = institution.num_members;
+        repository.institution_num_repositories = institution.num_repos;
+        repository.institution_sector = institution.sector;
+    }
+    return repository;
+}
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 }

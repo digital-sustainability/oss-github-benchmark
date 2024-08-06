@@ -106,24 +106,27 @@ export class UserRankingComponent implements OnInit {
     return this.authService.isUserLoggedIn();
   }
 
-  downloadData(){
-    this.dataService
-    .loadAllUsers()
-    .then((userData) => {
-      console.log("Received userData"); 
-      if (userData && userData.users) {
-        console.log("exporting data");
+  async downloadData(): Promise<void> {
+      try {
+        let userData = await this.dataService.loadAllUsers();
         this.users = userData.users;
-        this.exportService.exportData(this.users, 'users');
-      } else {
-        console.error("Invalid user data or missing users property:", userData);
+  
+        // Format the date fields
+        this.users = this.users.map(user => {
+          if (user.created_at) {
+            user.created_at = this.exportService.formatDate(user.created_at);
+          }
+          if (user.updated_at) {
+            user.updated_at = this.exportService.formatDate(user.updated_at);
+          }
+          return user;
+        });
+      
+        this.exportService.exportData(this.users, 'InstitutionRanking');
+      } catch (error) {
+        console.error('Error occurred while downloading data:', error);
       }
-    })
-    .catch((error) => {
-      console.error("Error loading users:", error);
-    });
-
-  }
+    }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 }

@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InstitutionDetailViewComponent } from './institution-detail-view/institution-detail-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -35,7 +35,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { UserRankingComponent } from './user-ranking/user-ranking.component';
 import { AddInstitutionComponent } from './add-institution/add-institution.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-
+import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,8 +78,11 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     MatExpansionModule,
     MatDividerModule,
     // NgChartsModule,
+    DatePipe,
+    NgxLoadingButtonsModule,
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+

@@ -2,12 +2,15 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { DatePipe } from '@angular/common';
 // service allows to export data from current view
 @Injectable({
   providedIn: 'root'
 })
 export class DataExportService {
+
+  datePipe: DatePipe = inject(DatePipe)
 
   constructor() { }
 
@@ -27,4 +30,12 @@ export class DataExportService {
     const data: Blob = new Blob([buffer], { type: this.filetype });
     saveAs(data, fileName + '_export_' + new Date().getTime() + '.' + this.fileExtension);
   }
+
+  // Function to format date 
+  public formatDate(dateString: string): string {
+    return this.datePipe.transform(dateString, 'dd-MM-yyyy');
+  }
+
+
+
 }
