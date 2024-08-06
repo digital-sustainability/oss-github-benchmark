@@ -153,6 +153,14 @@ async loadAllUsers() {
       users: User[];
       total: number;
     }>(`${environment.api}api/completeUserData`, {})
+    .pipe(
+      catchError(error => {
+        if (error.status === 401) {
+          this.toastr.error("Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.", "Login timeout", {disableTimeOut: true});
+        }
+        return throwError(error);
+      })
+    )
     .toPromise();
     return userData;
   }
