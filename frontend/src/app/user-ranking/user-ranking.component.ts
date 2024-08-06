@@ -41,6 +41,7 @@ export class UserRankingComponent implements OnInit {
   activeSort: string = 'followers';
   sortDirection: 'ASC' | 'DESC' = 'DESC';
   exportService: DataExportService = new DataExportService();
+  isDownloading: boolean = false;
 
   resetPaginator() {
     this.paginator.pageIndex = 0;
@@ -107,6 +108,7 @@ export class UserRankingComponent implements OnInit {
   }
 
   async downloadData(): Promise<void> {
+      this.isDownloading = true;
       try {
         let userData = await this.dataService.loadAllUsers();
         this.users = userData.users;
@@ -126,6 +128,7 @@ export class UserRankingComponent implements OnInit {
       } catch (error) {
         console.error('Error occurred while downloading data:', error);
       }
+      this.isDownloading = false;
     }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

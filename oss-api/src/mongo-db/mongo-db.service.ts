@@ -597,19 +597,6 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   }
 
   /**
-   * Get all the repositories from the database
-   * @returns A array with all the repositories
-   */
-  async getAllRepositories(): Promise<Repository[]> {
-    // this.logger.log('Getting all the repositories');
-    return this.client
-      .db(this.database)
-      .collection<Repository>(Tables.repositories)
-      .find({})
-      .toArray();
-  }
-
-  /**
    * Get the revised repository entry with the uuid
    * @param uuid The uuid of the repository
    * @returns The found repository
@@ -639,19 +626,6 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   }
 
   /**
-   * Get all organisations from the database
-   * @returns An array with all the organisations
-   */
-  async getAllOrganisations(): Promise<Organisation[]> {
-    // this.logger.log('Getting all the organisations from the database');
-    return this.client
-      .db(this.database)
-      .collection<Organisation>(Tables.organisations)
-      .find({})
-      .toArray();
-  }
-
-  /**
    * Get all the organisation repositories
    * @param repositoryUuid The repositories uuid
    * @returns All the found repositories
@@ -664,19 +638,6 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
       .db(this.database)
       .collection<RepositoryRevised>(Tables.repositories)
       .find({ uuid: { $in: repositoryUuid } })
-      .toArray();
-  }
-
-  /**
-   * Get all the institutions from the database
-   * @returns An array with all institutions
-   */
-  async getAllInstitutions(): Promise<Institution[]> {
-    // this.logger.log('Getting all the institutions');
-    return this.client
-      .db(this.database)
-      .collection<Institution>(Tables.institutions)
-      .find({})
       .toArray();
   }
 
