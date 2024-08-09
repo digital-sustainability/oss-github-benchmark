@@ -370,5 +370,5 @@
 | OpenOlat - infinite learning	 	                              	                           | openolat                          | Communities          |
 | ORCA Services AG	 	                              	                                       | orca-services                     | IT                   |
 | Kiwix	            	                              	                                       | kiwix                             | Communities          |
-| Kiwix	            	                              	                                       | openzim                           |                      |
-| Kiwix	            	                              	                                       | offspot                           |                      |
+|     	            	                              	                                       | openzim                           |                      |
+|     	            	                              	                                       | offspot                           |                      |
