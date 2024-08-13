@@ -32,6 +32,7 @@
             type="text"
             placeholder="e.g. Tecan"
             formControlName="shortname"
+            [readOnly]="isEditMode"
           />
           <small
             *ngIf="
@@ -41,6 +42,13 @@
           >
             *shortname is a required field. No Space is allowed for Shortname.
           </small>
+          <small
+          *ngIf="
+            isEditMode
+          "
+        >
+          *shortname cannot be changed.
+        </small>
         </div>
       </div>
 
