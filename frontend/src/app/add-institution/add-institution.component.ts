@@ -63,8 +63,13 @@ export class AddInstitutionComponent implements OnInit {
   // Method called when form is submitted (save/update institution button)
   async OnFormSubmitted() {
     this.formdata = this.reactiveForm.value;
+    // If an existing institution is in edit mode, update the institution instead of creating a new one
+    if (this.isEditMode) {
+      await this.dataService.updateTodoInstitution(this.formdata);
+      this.isEditMode = false;
+    }
     // Create new todo institution using data service based on what is in the form
-    await this.dataService.createNewTodoInstitution(this.formdata);
+    else { await this.dataService.createNewTodoInstitution(this.formdata);
     // Reset form values after adding a new institution
     this.reactiveForm.reset({
       name_de: null,
@@ -79,6 +84,7 @@ export class AddInstitutionComponent implements OnInit {
         },
       ],
     });
+  }
     // Reload data after adding a new institution
     this.dataService.LoadTodoInstitutions().then((data) => {
       this.dataSource = data;

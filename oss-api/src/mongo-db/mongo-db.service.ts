@@ -515,10 +515,55 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
   }
 
   async createNewTodoInstitution(institution: TodoInstitution) {
-    return await this.client
+    // check if there is already an institution with the same uuid
+    // check if there is already an institution with the same shortname include also shortnames with different case
+    this.logger.log(`creating institution ${institution.shortname}`);
+
+    const existingInstitution = await this.client
       .db(this.database)
       .collection<TodoInstitution>(Tables.todoInstitutions)
-      .replaceOne({ uuid: institution.uuid }, institution, { upsert: true });
+      .findOne({
+        $or: [
+          { uuid: institution.uuid },
+          {
+            shortname: {
+              $regex: new RegExp(`^${institution.shortname}$`, 'i'),
+            },
+          },
+        ],
+      });
+    if (existingInstitution) {
+      // send feedback that the institution with this shortname already exists
+      this.logger.error(
+        `Institution with shortname ${institution.shortname} or uuid ${institution.uuid} already exists`,
+      );
+      return 'Institution already exists';
+    } else {
+      return await this.client
+        .db(this.database)
+        .collection<TodoInstitution>(Tables.todoInstitutions)
+        .insertOne(institution);
+    }
+  }
+
+  async updateTodoInstitution(institution: TodoInstitution) {
+    // Prevent changes to the uuid and shortname by removing them from the update object
+    const { uuid, shortname, ...updateFields } = institution;
+
+    // Log the changes
+    this.logger.log(`Updating institution ${shortname} with UUID ${uuid}`);
+
+    // Perform the update
+    const result = await this.client
+      .db(this.database)
+      .collection<TodoInstitution>(Tables.todoInstitutions)
+      .updateOne(
+        { uuid: uuid, shortname: shortname }, // filter to find the correct document
+        { $set: updateFields }, // update only the fields other than uuid and shortname
+      );
+
+    // Return the result of the update operation
+    return result;
   }
 
   async deleteTodoInstitution(institution: TodoInstitution) {

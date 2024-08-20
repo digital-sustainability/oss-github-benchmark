@@ -10,6 +10,7 @@ import {
   UsePipes,
   ValidationPipe,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { InstitutionQueryPipe } from 'src/institution-query.pipe';
 import {
@@ -111,6 +112,12 @@ export class ApiController {
   @Delete('institution')
   async deleteInstitution(@Body('institution') institution: TodoInstitution) {
     return this.mongoDbService.deleteTodoInstitution(institution);
+  }
+
+  @UseGuards(AuthGuard)
+  @Put('institution')
+  async updateInstitution(@Body('institution') institution: TodoInstitution) {
+    return this.mongoDbService.updateTodoInstitution(institution);
   }
 
   @UseGuards(AuthGuard)

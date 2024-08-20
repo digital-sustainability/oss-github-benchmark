@@ -24,7 +24,7 @@ export class DataService {
     .get<Metric[]>('assets/options.json')
     .pipe(shareReplay(1));
 
-  constructor(private http: HttpClient, private tokenService: TokenService, private toastr: ToastrService) {}
+  constructor(private http: HttpClient, private tokenService: TokenService, private toastr: ToastrService ) {}
   private institutionData = null;
   private TodoInstitutions = null;
 
@@ -34,10 +34,45 @@ export class DataService {
     }
     const token = this.tokenService.getAccessToken(); 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    try {
     return await this.http
       .post<TodoInstitution>(`${environment.api}api/institution`, {institution}, { headers })
       .toPromise();
+    }
+    catch (error) {
+      if (error.status === 401) {
+        this.toastr.error("Your session expired, please log in again", "Login timeout", {disableTimeOut: true});
+      }
+      if (error.error.text == "Institution already exists") {
+        this.toastr.error(error.error.text);
+      }
+      else  {
+        console.error(error);
+      }
+      return NEVER;}
   }
+
+  async updateTodoInstitution(institution) {
+    if (!institution ) {
+      throw new Error('Invalid institution object');
+    }
+    const token = this.tokenService.getAccessToken(); 
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    try {
+      return await this.http
+        .put<TodoInstitution>(`${environment.api}api/institution`, {institution}, { headers })
+        .toPromise();
+    }
+    catch (error) {
+      if (error.status === 401) {
+        this.toastr.error("Your session expired, please log in again", "Login timeout", {disableTimeOut: true});
+      } else {
+        console.error(error);
+      }
+    }
+      return NEVER;
+    }
+  
 
   async DeleteTodoInstitution(institution) {
     if (!institution ) {
@@ -49,9 +84,18 @@ export class DataService {
     headers: headers,
     body: { institution }
   };
+  try {
   return await this.http
     .delete<TodoInstitution>(`${environment.api}api/institution`, options)
-    .toPromise();
+    .toPromise();}
+  catch (error) {
+      if (error.status === 401) {
+        this.toastr.error("Your session expired, please log in again", "Login timeout",{disableTimeOut: true});
+      }
+      else {
+        console.error(error);
+      }
+    }
 
   }
 
@@ -61,7 +105,7 @@ export class DataService {
       .pipe(
         catchError(error => {
           if (error.status === 401) {
-            this.toastr.error("Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.", "Login timeout", {disableTimeOut: true});
+            this.toastr.error("Your session expired, please log in again", "Login timeout",{disableTimeOut: true});
           }
           return throwError(error);
         })
