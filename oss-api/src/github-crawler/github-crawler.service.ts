@@ -340,6 +340,9 @@ export class GithubCrawlerService {
           parseInt(error.response.headers['x-ratelimit-limit'])
         ) {
           this.reachedGithubCallLimit = true;
+          console.log(
+            'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+          );
         }
         this.logger.error(error);
         this.telemetryService.incrementErrorStatus();
@@ -394,6 +397,9 @@ export class GithubCrawlerService {
           parseInt(error.response.headers['x-ratelimit-limit'])
         ) {
           this.reachedGithubCallLimit = true;
+          console.log(
+            'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+          );
         }
         this.logger.error(error);
         this.telemetryService.incrementErrorStatus();
@@ -454,6 +460,9 @@ export class GithubCrawlerService {
             parseInt(error.response.headers['x-ratelimit-limit'])
           ) {
             this.reachedGithubCallLimit = true;
+            console.log(
+              'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+            );
             return;
           }
           this.logger.error(error);
@@ -518,6 +527,9 @@ export class GithubCrawlerService {
             parseInt(error.response.headers['x-ratelimit-limit'])
           ) {
             this.reachedGithubCallLimit = true;
+            console.log(
+              'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+            );
           }
           this.logger.error(error);
           this.telemetryService.incrementErrorStatus();
@@ -581,6 +593,9 @@ export class GithubCrawlerService {
             parseInt(error.response.headers['x-ratelimit-limit'])
           ) {
             this.reachedGithubCallLimit = true;
+            console.log(
+              'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+            );
           }
           this.logger.error(error);
           this.telemetryService.incrementErrorStatus();
@@ -646,6 +661,9 @@ export class GithubCrawlerService {
             parseInt(error.response.headers['x-ratelimit-limit'])
           ) {
             this.reachedGithubCallLimit = true;
+            console.log(
+              'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+            );
           }
           this.logger.error(error);
           this.telemetryService.incrementErrorStatus();
@@ -709,6 +727,9 @@ export class GithubCrawlerService {
             parseInt(error.response.headers['x-ratelimit-limit'])
           ) {
             this.reachedGithubCallLimit = true;
+            console.log(
+              'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+            );
           }
           this.logger.error(error);
           this.telemetryService.incrementErrorStatus();
@@ -768,6 +789,9 @@ export class GithubCrawlerService {
           parseInt(error.response.headers['x-ratelimit-limit'])
         ) {
           this.reachedGithubCallLimit = true;
+          console.log(
+            'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+          );
         }
         this.logger.error(error);
         this.telemetryService.incrementErrorStatus();
@@ -835,6 +859,9 @@ export class GithubCrawlerService {
           parseInt(error.response.headers['x-ratelimit-limit'])
         ) {
           this.reachedGithubCallLimit = true;
+          console.log(
+            'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+          );
         }
         this.logger.error(error);
         this.telemetryService.incrementErrorStatus();
@@ -885,6 +912,9 @@ export class GithubCrawlerService {
           parseInt(error.response.headers['x-ratelimit-limit'])
         ) {
           this.reachedGithubCallLimit = true;
+          console.log(
+            'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+          );
         }
         this.logger.error(error);
         this.telemetryService.incrementErrorStatus();
@@ -939,6 +969,9 @@ export class GithubCrawlerService {
             parseInt(error.response.headers['x-ratelimit-limit'])
           ) {
             this.reachedGithubCallLimit = true;
+            console.log(
+              'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+            );
           }
           this.logger.error(error);
           this.telemetryService.incrementErrorStatus();
@@ -1000,6 +1033,9 @@ export class GithubCrawlerService {
               parseInt(error.response.headers['x-ratelimit-limit'])
             ) {
               this.reachedGithubCallLimit = true;
+              console.log(
+                'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+              );
             }
             this.logger.error(error);
             this.telemetryService.incrementErrorStatus();
