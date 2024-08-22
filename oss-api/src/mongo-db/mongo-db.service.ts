@@ -843,23 +843,38 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
             },
           },
           {
-            $set: {
-              orgs: '$orga',
+            $addFields: {
+              orgs: {
+                $map: {
+                  input: '$orgs',
+                  as: 'org_id',
+                  in: {
+                    $arrayElemAt: [
+                      {
+                        $filter: {
+                          input: '$orga',
+                          as: 'org',
+                          cond: { $eq: ['$$org._id', '$$org_id'] },
+                        },
+                      },
+                      0,
+                    ],
+                  },
+                },
+              },
             },
           },
-          { $unwind: { path: '$orga', preserveNullAndEmptyArrays: true } },
           {
             $lookup: {
               from: 'repositoriesNew',
-              localField: 'orga.repos',
+              localField: 'orgs.repos',
               foreignField: '_id',
               as: 'repo',
             },
           },
-          { $unwind: { path: '$repo', preserveNullAndEmptyArrays: true } },
-          //{ $sort: { 'orga.created_at': 1 } },
-          //is that sort really necessary if in the end the list of orgs
-          //is not sorted in the frontend?
+          {
+            $unwind: { path: '$repo', preserveNullAndEmptyArrays: true },
+          },
           {
             $group: {
               _id: '$_id',
@@ -874,7 +889,7 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
               location: { $first: '$orga.locations' },
               created_at: { $first: '$orga.created_at' },
               stats: { $push: { $last: '$repo.stats' } },
-              orgs: { $first: '$orgs' },
+              orgs: { $first: '$orgs' }, // Ensure the order of orgs is maintained
             },
           },
           {
