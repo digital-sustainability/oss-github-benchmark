@@ -7,7 +7,6 @@ import { join } from 'path';
 import { GithubService } from './github/github.service';
 import { LoggerModule } from 'nestjs-pino';
 import { ScheduleModule } from '@nestjs/schedule';
-import { TransformerService } from './transformer/transformer.service';
 import { GithubCrawlerService } from './github-crawler/github-crawler.service';
 import { DataService } from './data/data.service';
 import { TelemetryService } from './telemetry/telemetry.service';
@@ -27,7 +26,6 @@ import { AuthModule } from './auth/auth.module';
   providers: [
     MongoDbService,
     GithubService,
-    TransformerService,
     GithubCrawlerService,
     DataService,
     TelemetryService,
