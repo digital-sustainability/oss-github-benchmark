@@ -16,7 +16,7 @@ import { Contributor } from '../interfaces';
 import { MongoDbService } from '../mongo-db/mongo-db.service';
 import { v4 as uuidv4 } from 'uuid';
 import { ObjectId } from 'mongodb';
-import { Cron } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { RepoData } from '../interfaces';
 
 @Injectable()
@@ -220,6 +220,17 @@ export class DataService {
     const organisations = await this.mongo.findOrganisationsWithNames(
       todoInstitution.orgs.map((organisation) => organisation.name),
     );
+    // make sure the order of the organisations is the same as in the todoInstitution
+    organisations.sort((a, b) => {
+      const indexA = todoInstitution.orgs.findIndex(
+        (org) => org.name === a.name,
+      );
+      const indexB = todoInstitution.orgs.findIndex(
+        (org) => org.name === b.name,
+      );
+      return indexA - indexB;
+    });
+
     const institution: InstitutionRevised = {
       uuid: todoInstitution.uuid,
       shortname: todoInstitution.shortname,
