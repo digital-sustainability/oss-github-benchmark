@@ -341,7 +341,7 @@ export class GithubCrawlerService {
         ) {
           this.reachedGithubCallLimit = true;
           console.log(
-            'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+            'Ratelimit is reached. Pause Crawling until Github-Api allows new calls (at xx.00)',
           );
         }
         this.logger.error(error);
