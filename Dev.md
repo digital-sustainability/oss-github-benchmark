@@ -8,10 +8,23 @@
 
 These are the env variables that need to be set-up:
 - MONGO_READ: The connection string. Can be found in Keepass
-- MONGO_DATABASE: Which database to use. production or testingNew
-- GITHUB_TOKEN: The Github token. Can be found in Keepass
+- MONGO_DATABASE: Which database to use. testingNew for development, production for the productive website
+- GITHUB_TOKEN: The Github token. Token used for the productive Website can be found in Keepass. Please create your own token from your gitHub Account for local use.
 - LOG_PATH: The path for the log files to be saved in. Somewhere on your system.
 - DATA_PATH: The path for the data files to be saved in. Somewhere on your system.
+
+### Connection to the Database
+
+To connect to the database on the server you can:
+1. Set up a ssh Tunneling/ Local port forwarding:
+```
+ssh dev1 -L <local machine IP>:<destination e.g 9898>:<server IP>:27017
+```
+
+If you want to change the Data in the mongoDB, you can Install mongoDB Compass. It has a nice, partly intuitive interface for simple changes in the Data.
+1. Install mongoDB Compass (https://www.mongodb.com/docs/compass/current/install/)
+2. In mongoDB Compass: add a new connection
+3. Use the connection string (MONGO_DATABASE) to connect to the dev server database. Make sure the destination number (e.g. 9898) in the connection string is the same as in the command you used for the tunneling.
 
 ### Run Backend
 
@@ -31,7 +44,6 @@ These are the env variables that need to be set-up:
 
 Use the Login Details from KeePass to access the add-Institution-View (Internal use only so far). It allows you to add new Institutions to the TodoInstitution Collection and thus put them into the cue of Institutions which are Crawled. Please read the Instructions in the Userinterface also.
 
-
 ### What are ts and why are they set to null
 
 ts are timestamps that are used to check when that organization/institution were crawled.
@@ -39,7 +51,6 @@ ts are timestamps that are used to check when that organization/institution were
 "null" is the intial value so that the new organization/institution will be crawled with the next crawl run.
 
 After that it will be overwritte in the database.
-
 
 # Update Institutions using the github_repos.md
 
