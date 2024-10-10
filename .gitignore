@@ -20,3 +20,4 @@ client
 .DS_Store
 
 .env
+.dev.md
