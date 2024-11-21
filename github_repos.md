@@ -362,7 +362,7 @@
 | SIX Group                                                                                  | six-group                         | Banking              |
 | ARIS Akademische Raumfahrt Initiative Schweiz	                                             | aris                              | ResearchAndEducation |
 | Cevi Schweiz	                              	                                             | cevi                              | NGOs                 |
-| 72 Services GmbH	                           	                                             | 72services                        | IT                   |
+| Martinelli GmbH	                           	                                             | martinellich                        | IT                   |
 | SBW Haus des Lernens AG - Neue Medien        	                                             | sbw-neue-medien                   | ResearchAndEducation |
 | Ajila AG	 	                              	                                               | ajilach                           | IT                   |
 | arcade solutions ag	 	                              	                                     | arcadech                          | IT                   |
