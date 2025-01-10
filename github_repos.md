@@ -372,3 +372,4 @@
 | Kiwix	            	                              	                                       | kiwix                             | Communities          |
 |     	            	                              	                                       | openzim                           |                      |
 |     	            	                              	                                       | offspot                           |                      |
+| Glue Software Engineering AG                                                                 | Glue-Software-Engineering-AG      | IT                   |
