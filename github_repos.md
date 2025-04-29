@@ -371,4 +371,5 @@
 | ORCA Services AG	 	                              	                                       | orca-services                     | IT                   |
 | Kiwix	            	                              	                                       | kiwix                             | Communities          |
 |     	            	                              	                                       | openzim                           |                      |
-|     	            	                              	                                       | offspot                           |                      |
+|     	            	                              	                                       | offspot                           |                      |  
+| Swiss Armed Forces 	                              	                                       | swiss-armed-forces                | Gov_Federal          |  
