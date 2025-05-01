@@ -36,6 +36,7 @@ export class RankingComponent implements OnInit {
   recordFilter = '';
   state: Date;
   completeInstitutions: Institution[];
+  allInstitutions: InstitutionSumary[] = [];
   institutions: InstitutionSumary[];
   window: any = window;
   includeForks: boolean = false;
@@ -45,6 +46,7 @@ export class RankingComponent implements OnInit {
   sortDirection: 'ASC' | 'DESC' = 'DESC';
   latestUdpate: any;
   exportService: DataExportService = new DataExportService();
+  isDownloading: boolean = false;
 
   searchTermRaw: string = '';
 
@@ -196,6 +198,36 @@ export class RankingComponent implements OnInit {
     this.sortDirection = event.direction == 'asc' ? 'ASC' : 'DESC';
     this.resetPaginator();
     this.reloadData();
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isUserLoggedIn();
+  }
+
+  async downloadData(): Promise<void> {
+    this.isDownloading = true;
+    try {
+      let institutionData = await this.dataService.loadAllInstitutionsSummaries();
+      console.log('institutionData', institutionData);
+      this.allInstitutions = institutionData.institutionsSummaries;
+
+      // Format the date fields
+      this.allInstitutions = this.allInstitutions.map((institution) => {
+        /* if (institution.created_at) {
+          institution.created_at = this.exportService.formatDate(institution.created_at);
+        }
+        if (institution.updated_at) {
+          institution.updated_at = this.exportService.formatDate(institution.updated_at);
+        } */
+        return institution;
+      });
+
+      this.exportService.exportData(this.allInstitutions, 'InstitutionRanking');
+    } catch (error) {
+      console.error('Error occurred while downloading data:', error);
+    } finally {
+      this.isDownloading = false;
+    }
   }
 
   
