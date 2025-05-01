@@ -213,12 +213,9 @@ export class RankingComponent implements OnInit {
 
       // Format the date fields
       this.allInstitutions = this.allInstitutions.map((institution) => {
-        /* if (institution.created_at) {
+        if (institution.created_at) {
           institution.created_at = this.exportService.formatDate(institution.created_at);
         }
-        if (institution.updated_at) {
-          institution.updated_at = this.exportService.formatDate(institution.updated_at);
-        } */
         return institution;
       });
 
