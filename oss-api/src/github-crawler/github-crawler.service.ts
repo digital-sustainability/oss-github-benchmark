@@ -20,6 +20,7 @@ import * as fs from 'fs';
 import { MongoDbService } from '../mongo-db/mongo-db.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { TelemetryService } from '../telemetry/telemetry.service';
+import { ReturnDocument } from 'mongodb';
 
 @Injectable()
 export class GithubCrawlerService {
@@ -33,6 +34,8 @@ export class GithubCrawlerService {
 
   private readonly logger = new Logger(GithubCrawlerService.name);
   private reachedGithubCallLimit: boolean;
+  private crawlerServiceRunning: boolean;
+  private apiCallsSafetyMargin = 10;
   private dataPath: string;
   private daysToWait = 7 * 24 * 60 * 60 * 1000; // Days * 24 hours * 60 minutes * 60 seconds * 1000 miliseconds
 
@@ -55,32 +58,79 @@ export class GithubCrawlerService {
     }
   }
 
+  private async checkRateLimit() {
+    const rateLimitResponse = await this.githubService.get_RateLimit();
+    if (rateLimitResponse.data.rate.remaining <= this.apiCallsSafetyMargin) {
+      this.githubCallLimitReached(new Date(rateLimitResponse.data.rate.reset));
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  private githubCallLimitReached(resetTime?: Date): void {
+    this.reachedGithubCallLimit = true;
+    if (resetTime) {
+      this.logger.log(
+        `Rate limit is reached. Pausing crawling until Github-Api allows new calls (at ${resetTime.toLocaleTimeString()})`,
+      );
+    } else {
+      this.logger.log(
+        'Rate limit is reached. Pausing crawling until Github-Api allows new calls (at xx.00)',
+      );
+    }
+  }
+
   /**
    * Prepare all the institution data
    */
-  @Cron(CronExpression.EVERY_HOUR)
+  //@Cron(CronExpression.EVERY_HOUR)
+  @Cron('0-49/5 * * * *')
+  //@Cron(CronExpression.EVERY_5_MINUTES)
+  private async scheduledCrawling(): Promise<void> {
+    // check if the rate limit is already reached before starting to crawl, if yes, wait until the next scheduled crawling time
+    if (!(await this.checkRateLimit())) {
+      this.logger.log(
+        `Limit reached. Waiting until next scheduled crawling time to crawl new data from Github`,
+      );
+      return;
+    } else if (this.crawlerServiceRunning) {
+      this.logger.log(
+        `Crawler is already running. Waiting until next scheduled crawling time to crawl new data from Github`,
+      );
+      return;
+    } else {
+      //if crawler is not already running and we are allowed to make more API calls, prepare for a new round of crawling
+      this.crawlerServiceRunning = true;
+      await this.prepareInstitutions();
+    }
+  }
+
   private async prepareInstitutions() {
-    this.logger.log(`Prepairing all institutions to be crawled`);
-    this.reachedGithubCallLimit = false;
     const todoInstituitions = await this.mongo.findAllTodoInstitutions();
+    this.logger.log(
+      `Preparing ${todoInstituitions.length} institutions to be crawled`,
+    );
     todoInstituitions.sort((a, b) => this.sortAfterDate(a, b));
     for (const todoInstituition of todoInstituitions) {
-      if (this.reachedGithubCallLimit) break;
+      this.logger.log(`------ institution ${todoInstituition.name_de} ------`);
+      if (!(await this.checkRateLimit())) break;
       if (
         todoInstituition.ts &&
         todoInstituition.ts.getTime() > Date.now() - this.daysToWait
       ) {
         this.logger.log(
-          `The institution ${todoInstituition.name_de} was alredy crawled in the last defined time`,
+          `The institution ${todoInstituition.name_de} was already crawled in the last defined time`,
         );
         continue;
       }
       await this.handleInstitution(todoInstituition);
-      if (this.reachedGithubCallLimit) break;
+      if (!(await this.checkRateLimit())) break;
       await this.mongo.updateTodoInstitutionTimestamp(todoInstituition.uuid);
     }
     this.updateTelemetry();
     this.logger.log('Crawler finished');
+    this.crawlerServiceRunning = false;
   }
 
   /**
@@ -91,15 +141,15 @@ export class GithubCrawlerService {
     // this.logger.log(`Handling institution ${institution.name_de}`);
     institution.orgs.sort((a, b) => this.sortAfterDate(a, b));
     for (const [index, organisation] of institution.orgs.entries()) {
-      if (this.reachedGithubCallLimit) break;
+      if (!(await this.checkRateLimit())) break;
       if (organisation.ts?.getTime() > Date.now() - this.daysToWait) {
         this.logger.log(
-          `The organisation ${organisation.name} was alredy crawled in the last defined time`,
+          `The organisation ${organisation.name} was already crawled in the last defined time`,
         );
         continue;
       }
       await this.handleOrganisation(organisation.name, institution.shortname);
-      if (this.reachedGithubCallLimit) break;
+      if (!(await this.checkRateLimit())) break;
       organisation.ts = new Date();
       institution.orgs[index] = organisation;
       await this.mongo.updateOrgTimestamp(institution);
@@ -125,7 +175,7 @@ export class GithubCrawlerService {
     );
     if (!repositories) return null;
     for (const repository of repositories) {
-      if (this.reachedGithubCallLimit) return;
+      if (!(await this.checkRateLimit())) return;
       await this.handleRepository(repository, institutionName, orgName);
     }
     return;
@@ -226,7 +276,7 @@ export class GithubCrawlerService {
       );
     }
     for (const contributor of contributors) {
-      if (this.reachedGithubCallLimit) return;
+      if (!(await this.checkRateLimit())) return;
       await this.handleContributorData(
         contributor,
         repo.name,
@@ -314,7 +364,7 @@ export class GithubCrawlerService {
       .get_User(userName)
       .then((gitUserResponse) => {
         this.logger.log(
-          `Alredy made ${gitUserResponse.headers['x-ratelimit-used']}/${gitUserResponse.headers['x-ratelimit-limit']} calls.`,
+          `Already made ${gitUserResponse.headers['x-ratelimit-used']}/${gitUserResponse.headers['x-ratelimit-limit']} calls (userdata).`,
         );
         if (gitUserResponse?.status != 200) {
           this.logger.error(
@@ -334,16 +384,16 @@ export class GithubCrawlerService {
       })
       .catch((error) => {
         this.logger.log(
-          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+          `Already made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls (userdata).`,
         );
         if (
           parseInt(error.response.headers['x-ratelimit-used']) >=
           parseInt(error.response.headers['x-ratelimit-limit'])
         ) {
-          this.reachedGithubCallLimit = true;
-          console.log(
-            'Ratelimit is reached. Pause Crawling until Github-Api allows new calls (at xx.00)',
+          const resetTime = new Date(
+            parseInt(error.response.headers['x-ratelimit-reset']),
           );
+          this.githubCallLimitReached(resetTime);
         }
         this.logger.error(error);
         this.telemetryService.incrementErrorStatus();
@@ -368,9 +418,9 @@ export class GithubCrawlerService {
     return this.githubService
       .get_Repository(owner, repoName)
       .then((gitRepoResponse) => {
-        // this.logger.log(
-        //   `Alredy made ${gitRepoResponse.headers['x-ratelimit-used']}/${gitRepoResponse.headers['x-ratelimit-limit']} calls.`,
-        // );
+        this.logger.log(
+          `Already made ${gitRepoResponse.headers['x-ratelimit-used']}/${gitRepoResponse.headers['x-ratelimit-limit']} calls (repository data).`,
+        );
         if (gitRepoResponse?.status != 200) {
           this.logger.error(
             `Error while getting repo data from github from repository ${repoName}. Status is ${gitRepoResponse.status}`,
@@ -390,17 +440,14 @@ export class GithubCrawlerService {
         return gitRepoResponse.data as GithubRepo;
       })
       .catch((error) => {
-        // this.logger.log(
-        //   `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
-        // );
+        this.logger.log(
+          `Already made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls (repository data).`,
+        );
         if (
           parseInt(error.response.headers['x-ratelimit-used']) >=
           parseInt(error.response.headers['x-ratelimit-limit'])
         ) {
-          this.reachedGithubCallLimit = true;
-          console.log(
-            'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
-          );
+          this.githubCallLimitReached();
         }
         this.logger.error(error);
         this.telemetryService.incrementErrorStatus();
@@ -431,9 +478,9 @@ export class GithubCrawlerService {
       const res: null | GithubContributor[] = await this.githubService
         .get_RepoContributors(owner, repoName, page)
         .then((gitRepoContributorsResponse) => {
-          // this.logger.log(
-          //   `Alredy made ${gitRepoContributorsResponse.headers['x-ratelimit-used']}/${gitRepoContributorsResponse.headers['x-ratelimit-limit']} calls.`,
-          // );
+          this.logger.log(
+            `Already made ${gitRepoContributorsResponse.headers['x-ratelimit-used']}/${gitRepoContributorsResponse.headers['x-ratelimit-limit']} calls (contributors data).`,
+          );
           if (gitRepoContributorsResponse?.status != 200) {
             this.logger.error(
               `Error while getting contributors data from github from repository ${repoName}. Status is ${gitRepoContributorsResponse.status}`,
@@ -454,15 +501,15 @@ export class GithubCrawlerService {
         })
         .catch((error) => {
           this.logger.log(
-            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+            `Already made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls (contributors data).`,
           );
           if (
             parseInt(error.response.headers['x-ratelimit-used']) >=
             parseInt(error.response.headers['x-ratelimit-limit'])
           ) {
             this.reachedGithubCallLimit = true;
-            console.log(
-              'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+            this.logger.log(
+              'Ratelimit is reached. Pausing crawling until Github-Api allows new calls (at xx.00)',
             );
             return;
           }
@@ -499,7 +546,7 @@ export class GithubCrawlerService {
         .get_RepoCommits(owner, repoName, page)
         .then((getRepoCommitsReponse) => {
           this.logger.log(
-            `Alredy made ${getRepoCommitsReponse.headers['x-ratelimit-used']}/${getRepoCommitsReponse.headers['x-ratelimit-limit']} calls.`,
+            `Already made ${getRepoCommitsReponse.headers['x-ratelimit-used']}/${getRepoCommitsReponse.headers['x-ratelimit-limit']} calls (commit data).`,
           );
           if (getRepoCommitsReponse?.status != 200) {
             this.logger.error(
@@ -521,15 +568,15 @@ export class GithubCrawlerService {
         })
         .catch((error) => {
           this.logger.log(
-            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+            `Already made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls (commit data).`,
           );
           if (
             parseInt(error.response.headers['x-ratelimit-used']) >=
             parseInt(error.response.headers['x-ratelimit-limit'])
           ) {
             this.reachedGithubCallLimit = true;
-            console.log(
-              'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+            this.logger.log(
+              'Ratelimit is reached. Pausing crawling until Github-Api allows new calls (at xx.00)',
             );
           }
           this.logger.error(error);
@@ -566,7 +613,7 @@ export class GithubCrawlerService {
         .get_RepoPulls(owner, repoName, state, page)
         .then((getRepoPullRequestsResponse) => {
           this.logger.log(
-            `Alredy made ${getRepoPullRequestsResponse.headers['x-ratelimit-used']}/${getRepoPullRequestsResponse.headers['x-ratelimit-limit']} calls.`,
+            `Already made ${getRepoPullRequestsResponse.headers['x-ratelimit-used']}/${getRepoPullRequestsResponse.headers['x-ratelimit-limit']} calls (pull request data).`,
           );
           if (getRepoPullRequestsResponse?.status != 200) {
             this.logger.error(
@@ -587,15 +634,15 @@ export class GithubCrawlerService {
         })
         .catch((error) => {
           this.logger.log(
-            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+            `Already made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls (pull request data).`,
           );
           if (
             parseInt(error.response.headers['x-ratelimit-used']) >=
             parseInt(error.response.headers['x-ratelimit-limit'])
           ) {
             this.reachedGithubCallLimit = true;
-            console.log(
-              'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+            this.logger.log(
+              'Ratelimit is reached. Pausing crawling until Github-Api allows new calls (at xx.00)',
             );
           }
           this.logger.error(error);
@@ -633,7 +680,7 @@ export class GithubCrawlerService {
         .get_RepoIssues(owner, repoName, state, page)
         .then((getRepoIssuesResponse) => {
           this.logger.log(
-            `Alredy made ${getRepoIssuesResponse.headers['x-ratelimit-used']}/${getRepoIssuesResponse.headers['x-ratelimit-limit']} calls.`,
+            `Already made ${getRepoIssuesResponse.headers['x-ratelimit-used']}/${getRepoIssuesResponse.headers['x-ratelimit-limit']} calls (issues data).`,
           );
           if (getRepoIssuesResponse?.status != 200) {
             this.logger.error(
@@ -655,15 +702,15 @@ export class GithubCrawlerService {
         })
         .catch((error) => {
           this.logger.log(
-            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+            `Already made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls (issues data).`,
           );
           if (
             parseInt(error.response.headers['x-ratelimit-used']) >=
             parseInt(error.response.headers['x-ratelimit-limit'])
           ) {
             this.reachedGithubCallLimit = true;
-            console.log(
-              'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+            this.logger.log(
+              'Ratelimit is reached. Pausing crawling until Github-Api allows new calls (at xx.00)',
             );
           }
           this.logger.error(error);
@@ -699,7 +746,7 @@ export class GithubCrawlerService {
         .get_RepoCommitComments(owner, repoName, page)
         .then((getRepoCommitCommentsResult) => {
           this.logger.log(
-            `Alredy made ${getRepoCommitCommentsResult.headers['x-ratelimit-used']}/${getRepoCommitCommentsResult.headers['x-ratelimit-limit']} calls.`,
+            `Already made ${getRepoCommitCommentsResult.headers['x-ratelimit-used']}/${getRepoCommitCommentsResult.headers['x-ratelimit-limit']} calls (commit comments data).`,
           );
           if (getRepoCommitCommentsResult?.status != 200) {
             this.logger.error(
@@ -721,15 +768,15 @@ export class GithubCrawlerService {
         })
         .catch((error) => {
           this.logger.log(
-            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+            `Already made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls (commit comments data).`,
           );
           if (
             parseInt(error.response.headers['x-ratelimit-used']) >=
             parseInt(error.response.headers['x-ratelimit-limit'])
           ) {
             this.reachedGithubCallLimit = true;
-            console.log(
-              'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+            this.logger.log(
+              'Ratelimit is reached. Pausing crawling until Github-Api allows new calls (at xx.00)',
             );
           }
           this.logger.error(error);
@@ -762,11 +809,11 @@ export class GithubCrawlerService {
       .get_RepoLanguages(owner, repoName)
       .then((getRepoLanguagesResult) => {
         this.logger.log(
-          `Alredy made ${getRepoLanguagesResult.headers['x-ratelimit-used']}/${getRepoLanguagesResult.headers['x-ratelimit-limit']} calls.`,
+          `Already made ${getRepoLanguagesResult.headers['x-ratelimit-used']}/${getRepoLanguagesResult.headers['x-ratelimit-limit']} calls (languages data).`,
         );
         if (getRepoLanguagesResult?.status != 200) {
           this.logger.error(
-            `Error while getting commit comments data from github from repository ${repoName}. Status is ${getRepoLanguagesResult.status}`,
+            `Error while getting languages data from github from repository ${repoName}. Status is ${getRepoLanguagesResult.status}`,
           );
           return;
         }
@@ -783,16 +830,13 @@ export class GithubCrawlerService {
       })
       .catch((error) => {
         this.logger.log(
-          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+          `Already made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls (languages data).`,
         );
         if (
           parseInt(error.response.headers['x-ratelimit-used']) >=
           parseInt(error.response.headers['x-ratelimit-limit'])
         ) {
-          this.reachedGithubCallLimit = true;
-          console.log(
-            'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
-          );
+          this.githubCallLimitReached();
         }
         this.logger.error(error);
         this.telemetryService.incrementErrorStatus();
@@ -832,7 +876,7 @@ export class GithubCrawlerService {
       )
       .then((compareTwoCommitsResult) => {
         this.logger.log(
-          `Alredy made ${compareTwoCommitsResult.headers['x-ratelimit-used']}/${compareTwoCommitsResult.headers['x-ratelimit-limit']} calls.`,
+          `Already made ${compareTwoCommitsResult.headers['x-ratelimit-used']}/${compareTwoCommitsResult.headers['x-ratelimit-limit']} calls.`,
         );
         if (compareTwoCommitsResult?.status != 200) {
           this.logger.error(
@@ -853,16 +897,13 @@ export class GithubCrawlerService {
       })
       .catch((error) => {
         this.logger.log(
-          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+          `Already made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
         );
         if (
           parseInt(error.response.headers['x-ratelimit-used']) >=
           parseInt(error.response.headers['x-ratelimit-limit'])
         ) {
-          this.reachedGithubCallLimit = true;
-          console.log(
-            'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
-          );
+          this.githubCallLimitReached();
         }
         this.logger.error(error);
         this.telemetryService.incrementErrorStatus();
@@ -885,7 +926,7 @@ export class GithubCrawlerService {
       .get_Organisation(orgName)
       .then((getOrganisationResult) => {
         this.logger.log(
-          `Alredy made ${getOrganisationResult.headers['x-ratelimit-used']}/${getOrganisationResult.headers['x-ratelimit-limit']} calls.`,
+          `Already made ${getOrganisationResult.headers['x-ratelimit-used']}/${getOrganisationResult.headers['x-ratelimit-limit']} calls (organisation data).`,
         );
         if (getOrganisationResult?.status != 200) {
           this.logger.error(
@@ -906,16 +947,13 @@ export class GithubCrawlerService {
       })
       .catch((error) => {
         this.logger.log(
-          `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+          `Already made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls (organisation data).`,
         );
         if (
           parseInt(error.response.headers['x-ratelimit-used']) >=
           parseInt(error.response.headers['x-ratelimit-limit'])
         ) {
-          this.reachedGithubCallLimit = true;
-          console.log(
-            'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
-          );
+          this.githubCallLimitReached();
         }
         this.logger.error(error);
         this.telemetryService.incrementErrorStatus();
@@ -941,7 +979,7 @@ export class GithubCrawlerService {
         .get_OrganisationMembers(orgName, page)
         .then((getOrganisationMembersResult) => {
           this.logger.log(
-            `Alredy made ${getOrganisationMembersResult.headers['x-ratelimit-used']}/${getOrganisationMembersResult.headers['x-ratelimit-limit']} calls.`,
+            `Already made ${getOrganisationMembersResult.headers['x-ratelimit-used']}/${getOrganisationMembersResult.headers['x-ratelimit-limit']} calls (organisation members data).`,
           );
           if (getOrganisationMembersResult?.status != 200) {
             this.logger.error(
@@ -963,15 +1001,15 @@ export class GithubCrawlerService {
         })
         .catch((error) => {
           this.logger.log(
-            `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+            `Already made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls (organisation members data).`,
           );
           if (
             parseInt(error.response.headers['x-ratelimit-used']) >=
             parseInt(error.response.headers['x-ratelimit-limit'])
           ) {
             this.reachedGithubCallLimit = true;
-            console.log(
-              'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+            this.logger.log(
+              'Ratelimit is reached. Pausing crawling until Github-Api allows new calls (at xx.00)',
             );
           }
           this.logger.error(error);
@@ -1005,7 +1043,7 @@ export class GithubCrawlerService {
           .get_OrganisationRepositories(orgName, page)
           .then((getOrganisationRepositoriesResult) => {
             this.logger.log(
-              `Alredy made ${getOrganisationRepositoriesResult.headers['x-ratelimit-used']}/${getOrganisationRepositoriesResult.headers['x-ratelimit-limit']} calls.`,
+              `Already made ${getOrganisationRepositoriesResult.headers['x-ratelimit-used']}/${getOrganisationRepositoriesResult.headers['x-ratelimit-limit']} calls (organisation repositories data).`,
             );
             if (getOrganisationRepositoriesResult?.status != 200) {
               this.logger.error(
@@ -1027,15 +1065,15 @@ export class GithubCrawlerService {
           })
           .catch((error) => {
             this.logger.log(
-              `Alredy made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls.`,
+              `Already made ${error.response.headers['x-ratelimit-used']}/${error.response.headers['x-ratelimit-limit']} calls (organisation repositories data).`,
             );
             if (
               parseInt(error.response.headers['x-ratelimit-used']) >=
               parseInt(error.response.headers['x-ratelimit-limit'])
             ) {
               this.reachedGithubCallLimit = true;
-              console.log(
-                'Ratelimit is reached. ause Crawling until Github-Api allows new calls (at xx.00)',
+              this.logger.log(
+                'Ratelimit is reached. Pausing crawling until Github-Api allows new calls (at xx.00)',
               );
             }
             this.logger.error(error);
@@ -1052,7 +1090,7 @@ export class GithubCrawlerService {
 
   private async updateTelemetry() {
     // this.logger.log('Updating Telemetry data');
-    const condition: Object[] = [
+    const condition: object[] = [
       {
         fork: { $in: [true, false] },
       },
