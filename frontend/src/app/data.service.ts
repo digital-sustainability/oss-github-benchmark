@@ -188,6 +188,24 @@ export class DataService {
     return repoData;
   }
 
+  async loadAllInstitutionsSummaries() {
+    const institutionData = await this.http
+      .get<{
+        institutionsSummaries: InstitutionSummary[];
+        total: number;
+      }>(`${environment.api}api/completeInstitutionSummaries`, {})
+      .pipe(
+        catchError(error => {
+          if (error.status === 401) {
+            this.toastr.error("Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.", "Login timeout", {disableTimeOut: true});
+          }
+          return throwError(error);
+        })
+      )
+      .toPromise();
+      return institutionData;
+    }
+
 // request to get all users, repositories, institutions and organizations, 
 // these are used to get all the data for excel export and is restricted to logged in users
 // *****************************************************************************************************

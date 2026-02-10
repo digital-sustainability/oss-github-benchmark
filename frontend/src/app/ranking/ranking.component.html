@@ -58,6 +58,11 @@
     (change)="includeForksChange($event.checked)"
     >Include forks</mat-checkbox
   >
+  <button mat-raised-button  [mtBasicSpinner]="isDownloading" [hideText]="true" (click)="downloadData()" *ngIf="isLoggedIn()" style="float: right;">
+    <mat-icon>cloud_download</mat-icon>
+    <span>Download Institutions Data</span>
+  </button>
+
  <p style="color: gray">
     Information on OSS Benchmark updated: {{ latestUdpate | date }}
   </p>
