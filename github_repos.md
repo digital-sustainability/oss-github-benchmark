@@ -372,3 +372,4 @@
 | Kiwix	            	                              	                                       | kiwix                             | Communities          |
 |     	            	                              	                                       | openzim                           |                      |
 |     	            	                              	                                       | offspot                           |                      |
+| Swiss OpenStreetMap Association                                                            | sosm                              | NGOs                 |
