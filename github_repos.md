@@ -43,6 +43,7 @@
 | Ticketpark GmbH                                                                            | TicketPark                        | IT                   |
 | Advanced Concepts AG                                                                       | advancedconcepts                  | IT                   |
 | ELCA                                                                                       | ElcaIT                            | IT                   |
+|                                                                                            | smart-data-lake                   |                      |
 | OpenFlowLabs GmbH                                                                          | OpenFlowLabs                      | IT                   |
 | cloudscale.ch AG                                                                           | cloudscale-ch                     | IT                   |
 | cyon GmbH                                                                                  | cyon                              | IT                   |
