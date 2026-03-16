@@ -372,3 +372,4 @@
 | Kiwix	            	                              	                                       | kiwix                             | Communities          |
 |     	            	                              	                                       | openzim                           |                      |
 |     	            	                              	                                       | offspot                           |                      |
+| GemDat Informatik AG                                                                         | gemdat                            | IT                   |
