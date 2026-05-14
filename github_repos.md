@@ -372,3 +372,4 @@
 | Kiwix	            	                              	                                       | kiwix                             | Communities          |
 |     	            	                              	                                       | openzim                           |                      |
 |     	            	                              	                                       | offspot                           |                      |
+| tirreno                                                                                    | tirrenotechnologies               | IT                   |
