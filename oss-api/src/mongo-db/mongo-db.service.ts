@@ -4,7 +4,7 @@ import {
   OnApplicationShutdown,
   OnModuleInit,
 } from '@nestjs/common';
-import { MongoClient, ConnectOptions, ObjectId } from 'mongodb';
+import { MongoClient, ConnectOptions, ObjectId, Document } from 'mongodb';
 import {
   Institution,
   Repository,
@@ -138,130 +138,132 @@ export class MongoDbService implements OnApplicationShutdown, OnModuleInit {
     // this.logger.log(
     //   `Searching for institutions with these conditions: ${conditions.toString()}`,
     // );
+    const aggregateOptions: Document[] = [
+      {
+        $match: {
+          $and: conditions,
+        },
+      },
+      {
+        $lookup: {
+          from: 'organisation',
+          localField: 'orgs',
+          foreignField: '_id',
+          as: 'orga',
+        },
+      },
+      { $unwind: { path: '$orga', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'repositoriesNew',
+          localField: 'orga.repos',
+          foreignField: '_id',
+          as: 'repo',
+        },
+      },
+      {
+        $project: {
+          shortname: 1,
+          name_de: 1,
+          avatar: 1,
+          sector: 1,
+          orga: 1,
+          repo: {
+            $cond: [
+              { $eq: [includeForks, true] },
+              '$repo',
+              {
+                $filter: {
+                  input: '$repo',
+                  as: 'repository',
+                  cond: {
+                    $eq: ['$$repository.fork', false],
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+      { $unwind: { path: '$repo', preserveNullAndEmptyArrays: true } },
+      // { $sort: { 'orga.created_at': 1 } }, // comment out to make "include forks" checkbox work
+      {
+        $group: {
+          _id: '$_id',
+          shortname: { $first: '$shortname' },
+          name_de: { $first: '$name_de' },
+          num_repos: { $count: {} },
+          members: { $push: '$repo.contributors' },
+          forks: { $push: '$repo.fork' },
+          avatar: { $first: { $first: '$avatar' } },
+          sector: { $first: '$sector' },
+          repo_names: { $push: '$repo.name' },
+          location: { $first: '$orga.locations' },
+          created_at: { $first: '$orga.created_at' },
+        },
+      },
+      {
+        $set: {
+          total_num_forks_in_repos: {
+            $sum: {
+              $size: {
+                $filter: {
+                  input: '$forks',
+                  cond: '$$this',
+                },
+              },
+            },
+          },
+          num_members: {
+            $size: {
+              $setUnion: [
+                {
+                  $reduce: {
+                    input: '$members',
+                    initialValue: [],
+                    in: { $concatArrays: ['$$value', '$$this'] },
+                  },
+                },
+                [],
+              ],
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          shortname: 1,
+          name_de: 1,
+          num_repos: 1,
+          num_members: 1,
+          total_num_forks_in_repos: 1,
+          avatar: 1,
+          sector: 1,
+          repo_names: 1,
+          location: 1,
+          created_at: 1,
+        },
+      },
+      {
+        $sort: { [sortKey]: direction },
+      },
+      {
+        $skip: limit * page,
+      },
+    ];
+
+    if(limit > 0) {
+      aggregateOptions.push({$limit: limit})
+    }
+
     return this.client
       .db(this.database)
       .collection<InstitutionSummary>(Tables.institutions)
-      .aggregate(
-        [
-          {
-            $match: {
-              $and: conditions,
-            },
-          },
-          {
-            $lookup: {
-              from: 'organisation',
-              localField: 'orgs',
-              foreignField: '_id',
-              as: 'orga',
-            },
-          },
-          { $unwind: { path: '$orga', preserveNullAndEmptyArrays: true } },
-          {
-            $lookup: {
-              from: 'repositoriesNew',
-              localField: 'orga.repos',
-              foreignField: '_id',
-              as: 'repo',
-            },
-          },
-          {
-            $project: {
-              shortname: 1,
-              name_de: 1,
-              avatar: 1,
-              sector: 1,
-              orga: 1,
-              repo: {
-                $cond: [
-                  { $eq: [includeForks, true] },
-                  '$repo',
-                  {
-                    $filter: {
-                      input: '$repo',
-                      as: 'repository',
-                      cond: {
-                        $eq: ['$$repository.fork', false],
-                      },
-                    },
-                  },
-                ],
-              },
-            },
-          },
-          { $unwind: { path: '$repo', preserveNullAndEmptyArrays: true } },
-          // { $sort: { 'orga.created_at': 1 } }, // comment out to make "include forks" checkbox work
-          {
-            $group: {
-              _id: '$_id',
-              shortname: { $first: '$shortname' },
-              name_de: { $first: '$name_de' },
-              num_repos: { $count: {} },
-              members: { $push: '$repo.contributors' },
-              forks: { $push: '$repo.fork' },
-              avatar: { $first: { $first: '$avatar' } },
-              sector: { $first: '$sector' },
-              repo_names: { $push: '$repo.name' },
-              location: { $first: '$orga.locations' },
-              created_at: { $first: '$orga.created_at' },
-            },
-          },
-          {
-            $set: {
-              total_num_forks_in_repos: {
-                $sum: {
-                  $size: {
-                    $filter: {
-                      input: '$forks',
-                      cond: '$$this',
-                    },
-                  },
-                },
-              },
-              num_members: {
-                $size: {
-                  $setUnion: [
-                    {
-                      $reduce: {
-                        input: '$members',
-                        initialValue: [],
-                        in: { $concatArrays: ['$$value', '$$this'] },
-                      },
-                    },
-                    [],
-                  ],
-                },
-              },
-            },
-          },
-          {
-            $project: {
-              _id: 1,
-              shortname: 1,
-              name_de: 1,
-              num_repos: 1,
-              num_members: 1,
-              total_num_forks_in_repos: 1,
-              avatar: 1,
-              sector: 1,
-              repo_names: 1,
-              location: 1,
-              created_at: 1,
-            },
-          },
-          {
-            $sort: { [sortKey]: direction },
-          },
-          {
-            $skip: limit * page,
-          },
-          {
-            $limit: limit,
-          },
-        ],
+      .aggregate(aggregateOptions,
         {
           allowDiskUse: true,
-        },
+        }
       )
       .toArray() as Promise<InstitutionSummary[]>;
   }

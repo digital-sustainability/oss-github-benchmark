@@ -1,5 +1,5 @@
 | **Institution**                                                                            | **Organizations**                 | **Sector**           |
-|--------------------------------------------------------------------------------------------|-----------------------------------|----------------------|
+| ------------------------------------------------------------------------------------------ | --------------------------------- | -------------------- |
 | Bedag                                                                                      | bedag                             | IT                   |
 | 56K Cloud                                                                                  | 56kcloud                          | IT                   |
 | cividi                                                                                     | smartuse                          | IT                   |
@@ -373,3 +373,5 @@
 |     	            	                              	                                       | openzim                           |                      |
 |     	            	                              	                                       | offspot                           |                      |  
 | Swiss Armed Forces 	                              	                                       | swiss-armed-forces                | Gov_Federal          |  
+| bespinian                                                                                  | bespinian                         | IT                   |
+| tirreno                                                                                    | tirrenotechnologies               | IT                   |

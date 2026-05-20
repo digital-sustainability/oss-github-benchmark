@@ -47,7 +47,8 @@ export class GithubCrawlerService {
     if (!a.ts) return -1;
     if (!b.ts) return 1;
     try {
-      return b.ts.getTime() - a.ts.getTime();
+      //sort by timestamp in chronological order
+      return a.ts.getTime() - b.ts.getTime();
     } catch (error) {
       console.error(error);
       return 0;
