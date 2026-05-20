@@ -135,6 +135,32 @@ export class ApiController {
     return { users, total: users.length };
   }
 
+  // Institutions Data
+  //@UseGuards(AuthGuard)
+  @Get('completeInstitutionSummaries')
+  async collectInstitutionSummaries() {
+    const queryConfig = {
+      sector: [],
+      search: '',
+      sort: 'num_repos',
+      direction: 'DESC',
+      page: 0,
+      count: -1,
+      sendStats: false,
+      includeForks: false,
+    };
+    const institutionsSummaries =
+    await this.mongoDbService.findInstitutionsWithConditions(
+      queryConfig.sort,
+      queryConfig.direction == 'ASC' ? 1 : -1,
+      queryConfig.count,
+      queryConfig.page,
+      queryConfig.includeForks, 
+      [{}],
+    );
+    return { institutionsSummaries, total: institutionsSummaries.length };
+  }
+
   /***********************************Helper************************************************/
   /**
    * Handle the instiution query with the given conditions
@@ -150,7 +176,7 @@ export class ApiController {
         return queryConfig.sector.includes(sector);
       });
     }
-    let conditions: Object[] = [
+    const conditions: Object[] = [
       {
         sector: { $in: sectorList },
       },
@@ -160,7 +186,7 @@ export class ApiController {
         $text: { $search: queryConfig.search },
       });
     }
-    let institutions = await this.mongoDbService.findInstitutionsWithConditions(
+    const institutions = await this.mongoDbService.findInstitutionsWithConditions(
       queryConfig.sort,
       queryConfig.direction == 'ASC' ? 1 : -1,
       queryConfig.count,
@@ -168,7 +194,7 @@ export class ApiController {
       queryConfig.includeForks,
       conditions,
     );
-    let foundSectors =
+    const foundSectors =
       await this.mongoDbService.countInstitutionsWithConditions(conditions);
     let total = 0;
     const sectorcount = {};

@@ -373,3 +373,4 @@
 |                                                                                            | openzim                           |                      |
 |                                                                                            | offspot                           |                      |
 | bespinian                                                                                  | bespinian                         | IT                   |
+| tirreno                                                                                    | tirrenotechnologies               | IT                   |
