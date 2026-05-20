@@ -360,17 +360,18 @@
 |                                                                                            | ktzg                              |                      |
 | 8gears                                                                                     | 8gears                            | IT                   |
 | SIX Group                                                                                  | six-group                         | Banking              |
-| ARIS Akademische Raumfahrt Initiative Schweiz                                              | aris                              | ResearchAndEducation |
-| Cevi Schweiz                                                                               | cevi                              | NGOs                 |
-| 72 Services GmbH                                                                           | 72services                        | IT                   |
-| SBW Haus des Lernens AG - Neue Medien                                                      | sbw-neue-medien                   | ResearchAndEducation |
-| Ajila AG                                                                                   | ajilach                           | IT                   |
-| arcade solutions ag                                                                        | arcadech                          | IT                   |
-| Netgen                                                                                     | netgen                            | IT                   |
-| OpenOlat - infinite learning                                                               | openolat                          | Communities          |
-| ORCA Services AG                                                                           | orca-services                     | IT                   |
-| Kiwix                                                                                      | kiwix                             | Communities          |
-|                                                                                            | openzim                           |                      |
-|                                                                                            | offspot                           |                      |
+| ARIS Akademische Raumfahrt Initiative Schweiz	                                             | aris                              | ResearchAndEducation |
+| Cevi Schweiz	                              	                                             | cevi                              | NGOs                 |
+| 72 Services GmbH	                           	                                             | 72services                        | IT                   |
+| SBW Haus des Lernens AG - Neue Medien        	                                             | sbw-neue-medien                   | ResearchAndEducation |
+| Ajila AG	 	                              	                                               | ajilach                           | IT                   |
+| arcade solutions ag	 	                              	                                     | arcadech                          | IT                   |
+| Netgen 	                              	                                                   | netgen                            | IT                   |
+| OpenOlat - infinite learning	 	                              	                           | openolat                          | Communities          |
+| ORCA Services AG	 	                              	                                       | orca-services                     | IT                   |
+| Kiwix	            	                              	                                       | kiwix                             | Communities          |
+|     	            	                              	                                       | openzim                           |                      |
+|     	            	                              	                                       | offspot                           |                      |  
+| Swiss Armed Forces 	                              	                                       | swiss-armed-forces                | Gov_Federal          |  
 | bespinian                                                                                  | bespinian                         | IT                   |
 | tirreno                                                                                    | tirrenotechnologies               | IT                   |
