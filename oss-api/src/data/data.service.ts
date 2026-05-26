@@ -29,7 +29,7 @@ export class DataService {
   private dataPath: string;
 
   /**
-   * Runs every hour at minute 0 to be delayed after crawler (running at minute 50)
+   * Runs every hour at minute 50 to be delayed after crawler (running at minute 50)
    */
   @Cron('50 0-23/1 * * *')
   async handler(): Promise<void> {

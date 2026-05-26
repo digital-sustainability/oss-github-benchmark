@@ -35,6 +35,10 @@ export class GithubService
     this.octokit = undefined;
   }
 
+  async get_RateLimit(): Promise<OctokitResponse<any>> {
+    return this.octokit.rest.rateLimit.get();
+  }
+
   /***************************************User Calls**************************************************/
 
   /**
