@@ -340,6 +340,7 @@
 | Bundesamt für Informatik und Telekommunikation (BIT)                                       | admin-ch                          | Gov_Federal          |
 |                                                                                            | estv-admin                        |                      |
 |                                                                                            | jeap-admin-ch                     |                      |
+|                                                                                            | jme-admin-ch                     |                      |
 |                                                                                            | trustbroker-swiss                 |                      |
 |                                                                                            | oblique-bit                       |                      |
 | Visualize Admin                                                                            | visualize-admin                   | Gov_Federal          |
